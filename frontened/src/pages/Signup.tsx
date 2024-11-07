@@ -9,7 +9,7 @@ const Signup:React.FC = () => {
   const [inputPn, setInputPhone] = useState<string>('')
   
   const handleInputLn = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputLastName(event.target.value)
+    setInputLastName(event.target.value) 
   }
   const handleInputFn = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputFirstName(event.target.value)
