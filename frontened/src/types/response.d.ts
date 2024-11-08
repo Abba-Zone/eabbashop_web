@@ -8,7 +8,7 @@
  */
  
  // 본인 서버에서 내려주는 응답 구조
-export interface APIResponse<T> {
+interface APIResponse<T> {
   statusCode: number // 상태코드 (보인 서버상태코드)
   errorCode: number // 에러코드 (본인 서버에러코드)
   message: string // 메시지

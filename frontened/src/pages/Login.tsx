@@ -1,10 +1,11 @@
-import axios from "axios"
-import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom";
+import { useState } from "react"
+import { login_s } from "../Service/member"
 
 const Login:React.FC = () => {
   const [inputId, setInputId] = useState<string>('')
   const [inputPw, setInputPw] = useState<string>('')
-
+  const navigate = useNavigate();
   const handleInputId = (event: React.ChangeEvent<HTMLInputElement>) => {
       setInputId(event.target.value)
   }
@@ -14,7 +15,15 @@ const Login:React.FC = () => {
   }
 
   const onClickLogin = () => {
+    const loginUser = {email : inputId, password : inputPw}
+    const loginResult = login_s(loginUser);
+    if (loginResult){
+      navigate("/");
+    } else {
+      alert('로그인에 실패하였습니다.')
+    }
   }
+
   return (
     <div>
       <h2>Login</h2>
