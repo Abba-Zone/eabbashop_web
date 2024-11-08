@@ -1,6 +1,7 @@
 package com.zon.abba.members.service;
 
 import com.zon.abba.members.client.GoogleClient;
+import com.zon.abba.members.response.UserInfoResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -18,8 +19,17 @@ public class OAuthService {
 
 
     @Transactional
-    public void googleLogin(String code) throws LoginException {
-        logger.info(googleClient.requestGoogleAccessToken(code));
+    public String googleLogin(String code) throws LoginException {
+        String accessToken = googleClient.requestGoogleAccessToken(code);
+        logger.info(accessToken);
+        return accessToken;
+    }
+
+    @Transactional
+    public void getGoogleUserInfo(String accessToken) {
+        UserInfoResponse user = googleClient.requestGoogleUserInfo(accessToken);
+
+        logger.info(user.toString());
     }
 
 }

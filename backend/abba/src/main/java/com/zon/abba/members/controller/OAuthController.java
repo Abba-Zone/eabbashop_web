@@ -22,8 +22,8 @@ public class OAuthController {
         String code = requestBody.get("code");
 
         if (code != null) {
-            logger.info("Received Google OAuth code: " + code);
-            oAuthService.googleLogin(code);
+            logger.info("Received Google OAuth code: {}", code);
+            oAuthService.getGoogleUserInfo(oAuthService.googleLogin(code));
         } else {
             logger.warn("No code found in the request");
             return Map.of("error", "No code provided");

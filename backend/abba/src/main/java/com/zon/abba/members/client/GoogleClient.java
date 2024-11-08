@@ -2,6 +2,7 @@ package com.zon.abba.members.client;
 
 import com.zon.abba.members.request.GoogleAccessTokenRequest;
 import com.zon.abba.members.response.GoogleAccessTokenResponse;
+import com.zon.abba.members.response.UserInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -33,6 +35,8 @@ public class GoogleClient {
     private String grantType;
     @Value("${spring.oauth.google.access-token-url}")
     private String accessTokenUrl;
+    @Value("${spring.oauth.google.user-info-url}")
+    private String userInfoUrl;
 
     private final RestTemplate restTemplate;
 
@@ -48,9 +52,22 @@ public class GoogleClient {
                 accessTokenUrl, HttpMethod.POST, httpEntity, GoogleAccessTokenResponse.class
         ).getBody();
 
-        logger.info(response.toString());
         return Optional.ofNullable(response)
                 .orElseThrow(() -> new LoginException("NOT_FOUND_GOOGLE_ACCESS_TOKEN_RESPONSE"))
                 .getAccessToken();
+    }
+
+
+    public UserInfoResponse requestGoogleUserInfo(String accessToken){
+        final HttpHeaders headers = new HttpHeaders();
+        headers.add("Accept-Charset", "UTF-8");
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+        final HttpEntity<GoogleAccessTokenRequest> httpEntity = new HttpEntity<>(headers);
+        restTemplate.getMessageConverters()
+                .add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
+
+        return restTemplate.exchange(userInfoUrl, HttpMethod.GET, httpEntity, UserInfoResponse.class)
+                .getBody();
     }
 }
