@@ -11,7 +11,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/member/oauth")
 public class OAuthController {
     private static final Logger logger = LoggerFactory.getLogger(OAuthController.class);
     private final OAuthService oAuthService;
@@ -22,7 +22,7 @@ public class OAuthController {
      * @return
      * @throws LoginException
      */
-    @PostMapping("/oauth/google/code")
+    @PostMapping("/google/code")
     public Map<String, String> handleGoogleOAuthCode(@RequestBody Map<String, String> requestBody) throws LoginException {
         String code = requestBody.get("code");
 
@@ -45,7 +45,7 @@ public class OAuthController {
      * @return
      * @throws LoginException
      */
-    @PostMapping("/oauth/kakao/code")
+    @PostMapping("/kakao/code")
     public Map<String, String> handleKakaoOAuthCode(@RequestBody Map<String, String> requestBody) throws LoginException {
         String code = requestBody.get("code");
 
