@@ -1,10 +1,8 @@
 package com.zon.abba.members.client;
 
 import com.zon.abba.members.request.KakaoAccessTokenRequest;
-import com.zon.abba.members.response.GoogleAccessTokenResponse;
 import com.zon.abba.members.response.KakaoAccessTokenResponse;
 import com.zon.abba.members.response.KakaoUserInfoResponse;
-import com.zon.abba.members.response.UserInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

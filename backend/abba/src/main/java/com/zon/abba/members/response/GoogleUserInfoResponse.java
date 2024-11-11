@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class UserInfoResponse {
+public class GoogleUserInfoResponse {
     private String id;
     private String email;
     @JsonProperty("verified_email")

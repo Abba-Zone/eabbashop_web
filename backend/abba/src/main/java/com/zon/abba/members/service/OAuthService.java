@@ -3,7 +3,7 @@ package com.zon.abba.members.service;
 import com.zon.abba.members.client.GoogleClient;
 import com.zon.abba.members.client.KakaoClient;
 import com.zon.abba.members.response.KakaoUserInfoResponse;
-import com.zon.abba.members.response.UserInfoResponse;
+import com.zon.abba.members.response.GoogleUserInfoResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -37,7 +37,7 @@ public class OAuthService {
 
     @Transactional
     public void getGoogleUserInfo(String accessToken) {
-        UserInfoResponse user = googleClient.requestGoogleUserInfo(accessToken);
+        GoogleUserInfoResponse user = googleClient.requestGoogleUserInfo(accessToken);
 
         logger.info(user.toString());
     }
