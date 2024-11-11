@@ -46,7 +46,7 @@ public class OAuthService {
     public void getKakaoUserInfo(String accessToken) {
         KakaoUserInfoResponse user = kakaoClient.requestKakaoUserInfo(accessToken);
 
-        logger.info(user.toString());
+        logger.info(user.getKakaoAccount().getEmail());
     }
 
 }
