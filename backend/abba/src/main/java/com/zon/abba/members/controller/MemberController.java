@@ -5,21 +5,17 @@ import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.security.JwtTokenProvider;
 import com.zon.abba.members.request.LoginRequest;
 import com.zon.abba.members.response.LoginResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,11 +26,6 @@ public class MemberController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
 
-    @Autowired
-    public MemberController(AuthenticationManager authenticationManager, JwtTokenProvider tokenProvider) {
-        this.authenticationManager = authenticationManager;
-        this.tokenProvider = tokenProvider;
-    }
 
     @PostMapping("/login")
     public ResponseEntity<Object> memberLogin(@RequestBody LoginRequest loginRequest){
@@ -58,6 +49,17 @@ public class MemberController {
                 StatusCode.SUCCESS,
                 new LoginResponse(jwt)
 
+        ));
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<Object> test(HttpServletRequest request){
+        String accessToken = request.getHeader("Authorization");
+        logger.info(accessToken);
+        String email = tokenProvider.getEmailFromToken(accessToken.substring(7));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody(
+                StatusCode.SUCCESS,
+                new LoginResponse(email)
         ));
     }
 }
