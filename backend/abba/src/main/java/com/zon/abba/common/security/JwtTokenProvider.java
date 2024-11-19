@@ -47,7 +47,6 @@ public class JwtTokenProvider {
         // 만료 기간
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);
 
-
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(now)
@@ -61,15 +60,15 @@ public class JwtTokenProvider {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true; // 유효한 토큰일 경우 true 반환
-        } catch (SignatureException ex) {
+        } catch (SignatureException ex) { // JWT 서명이 유효하지 않을 때 발생
             logger.error("Invalid JWT signature");
-        } catch (MalformedJwtException ex) {
+        } catch (MalformedJwtException ex) { // JWT 형식이 잘못되었을 때 발생
             logger.error("Invalid JWT token");
-        } catch (ExpiredJwtException ex) {
+        } catch (ExpiredJwtException ex) { // JWT 토큰의 유효 기간이 만료되었을 때 발생
             logger.error("Expired JWT token");
-        } catch (UnsupportedJwtException ex) {
+        } catch (UnsupportedJwtException ex) { // JWT 토큰의 형식이나 알고리즘이 지원되지 않을 때 발생
             logger.error("Unsupported JWT token");
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException ex) { // JWT 토큰이 비어 있거나 잘못된 값으로 제공될 때 발생
             logger.error("JWT claims string is empty.");
         }
         return false; // 유효하지 않은 토큰일 경우 false 반환

@@ -3,15 +3,14 @@ package com.zon.abba.members.response;
 import lombok.*;
 
 @Data
-@Getter
 @Setter
-@NoArgsConstructor
+@Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
-public class LoginResponse {
-    private String accessToken;
-    private String refreshToken;
+public class SignupResponse {
     private String firstName;
     private String lastName;
-    private String role;
+    private String email;
+    private String provider;
 }

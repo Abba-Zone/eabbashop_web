@@ -1,9 +1,12 @@
 package com.zon.abba.members.controller;
 
+import com.zon.abba.members.response.LoginResponse;
 import com.zon.abba.members.service.OAuthService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.security.auth.login.LoginException;
@@ -23,19 +26,19 @@ public class OAuthController {
      * @throws LoginException
      */
     @PostMapping("/google/code")
-    public Map<String, String> handleGoogleOAuthCode(@RequestBody Map<String, String> requestBody) throws LoginException {
+    public ResponseEntity<Object> handleGoogleOAuthCode(@RequestBody Map<String, String> requestBody) throws LoginException {
         String code = requestBody.get("code");
 
         if (code != null) {
             logger.info("Received Google OAuth code: {}", code);
             oAuthService.getGoogleUserInfo(oAuthService.googleLogin(code));
         } else {
-            logger.warn("No code found in the request");
-            return Map.of("error", "No code provided");
+            logger.warn("No google code found in the request");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("no code.");
         }
 
         // 예시 응답으로 성공 메시지를 반환
-        return Map.of("message", "Code received successfully", "code", code);
+        return ResponseEntity.status(HttpStatus.OK).body(new LoginResponse());
     }
 
     /**
@@ -54,7 +57,7 @@ public class OAuthController {
 
             oAuthService.getKakaoUserInfo(oAuthService.kakaoLogin(code));
         } else {
-            logger.warn("No code found in the request");
+            logger.warn("No kakao code found in the request");
             return Map.of("error", "No code provided");
         }
 
