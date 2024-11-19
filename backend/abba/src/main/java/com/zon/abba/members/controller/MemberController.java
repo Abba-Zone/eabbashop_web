@@ -5,6 +5,8 @@ import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.security.JwtTokenProvider;
 import com.zon.abba.members.request.LoginRequest;
 import com.zon.abba.members.response.LoginResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "member API", description = "member management APIs")
 @RequestMapping("/member")
 public class MemberController {
     private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
@@ -28,6 +31,7 @@ public class MemberController {
 
 
     @PostMapping("/login")
+    @Operation(summary = "login", description = "local member login")
     public ResponseEntity<Object> memberLogin(@RequestBody LoginRequest loginRequest){
 
         // 사용자 인증
@@ -47,19 +51,20 @@ public class MemberController {
         // 응답으로 토큰 반환
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody(
                 StatusCode.SUCCESS,
-                new LoginResponse(jwt)
+                new LoginResponse()
 
         ));
     }
 
     @GetMapping("/test")
+    @Operation(summary = "test", description = "local member login test")
     public ResponseEntity<Object> test(HttpServletRequest request){
         String accessToken = request.getHeader("Authorization");
         logger.info(accessToken);
         String email = tokenProvider.getEmailFromToken(accessToken.substring(7));
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody(
                 StatusCode.SUCCESS,
-                new LoginResponse(email)
+                new LoginResponse()
         ));
     }
 }
