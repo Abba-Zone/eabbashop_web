@@ -7,6 +7,9 @@ const NavBar:React.FC = () => {
     const handleGoSignup = () =>{
         navigate("/signup");
     }
+    const handleGoAdmin = () =>{
+        navigate("/admin");
+    }
     return (
         <div>
             <div onClick={handleGoLogin}>
@@ -14,6 +17,9 @@ const NavBar:React.FC = () => {
             </div>
             <div onClick={handleGoSignup}>
                 signup
+            </div>
+            <div onClick={handleGoAdmin}>
+                Admin 페이지
             </div>
         </div>
     );
