@@ -1,6 +1,6 @@
 import axios, { Axios, AxiosRequestConfig } from 'axios' // 추가
-import { handleError } from "../Handler/ErrorHandler"
-import { getNewConfig } from "../Handler/TokenHandler"
+import { handleError } from "../handlers/ErrorHandler"
+import { getNewConfig } from "../handlers/tokenHandler"
 
 // axios 인스턴스 생성
 const client: Axios = axios.create({

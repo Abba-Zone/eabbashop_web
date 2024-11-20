@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserList_s } from "../../Service/member";
+import { getUserList_s } from "../../services/member";
 import MemberList from "../../components/admin/member/MemberList";
 
 const MemberTest:React.FC = () => {
