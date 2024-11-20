@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy build artifact to container
-COPY backend/abba/build/libs/*.jar app.jar
+COPY build/libs/*.jar app.jar
 
 # Expose the application port
 EXPOSE 8080
