@@ -25,18 +25,21 @@ public class JwtTokenProvider {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
     private final String JWT_SECRET;
-    private final Long JWT_EXPIRATION;
+    private final Long JWT_ACCESS_EXPIRATION;
+    private final Long JWT_REFRESH_EXPIRATION;
 
     private final SecretKey key;
     private final CustomUserDetailsService userDetailsService;
 
     public JwtTokenProvider(
             @Value("${spring.jwt.secret}") String JWT_SECRET,
-            @Value("${spring.jwt.expiration}") Long JWT_EXPIRATION,
+            @Value("${spring.jwt.access_expiration}") Long JWT_ACCESS_EXPIRATION,
+            @Value("${spring.jwt.refresh_expiration}") Long JWT_REFRESH_EXPIRATION,
             CustomUserDetailsService userDetailsService
     ) {
         this.JWT_SECRET = JWT_SECRET;
-        this.JWT_EXPIRATION = JWT_EXPIRATION;
+        this.JWT_ACCESS_EXPIRATION = JWT_ACCESS_EXPIRATION;
+        this.JWT_REFRESH_EXPIRATION = JWT_REFRESH_EXPIRATION;
         this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(JWT_SECRET));
         this.userDetailsService = userDetailsService;
     }
@@ -45,7 +48,7 @@ public class JwtTokenProvider {
         String email = authentication.getName();
         Date now = new Date();
         // 만료 기간
-        Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);
+        Date expiryDate = new Date(now.getTime() + JWT_ACCESS_EXPIRATION);
 
         return Jwts.builder()
                 .setSubject(email)
@@ -59,7 +62,7 @@ public class JwtTokenProvider {
         String email = authentication.getName();
         Date now = new Date();
         // 만료 기간
-        Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);
+        Date expiryDate = new Date(now.getTime() + JWT_REFRESH_EXPIRATION);
 
         return Jwts.builder()
                 .setSubject(email)
