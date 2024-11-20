@@ -4,18 +4,18 @@ import { Home, Login, Signup, Cart, Profile,
   Orders, OrderDetail, RegularOrder, Review, Wishlist, 
   FindInfo, Category, Search, Product, Checkout, 
   CompleteCheckout, Post, PostDetail, MemberTest,
-  LoginPage, SignupPage, FindInfoPage, DashboardPage,
-  MemberListPage, MemberDetailPage, WalletHistoryPage,
-  ProductListPage, ProductDetailPage, ProductReviewPage,
-  RegisterProductPage, CataloguePage, OrderListPage,
-  OrderDetailPage, InvoiceListPage, InvoiceDetailPage,
-  ShipmentListPage, ShipmentDetailPage, RegularOrderListPage,
-  RegularOrderDetailPage, ShareLineListPage, ShareLineDetailPage,
-  ShareMoneyListPage, ShareMoneyDetailPage, TransferRequestPage,
-  PaymentRequestPage, TransferCancelPage, TakebackRequestPage,
-  RefundRequestPage, StoreListPage, StoreDetailPage,
-  StoreManagePage, NoticePage, LetterPage, DonationPage,
-  SettingPage } from '../pages';
+  AdminLogin, AdminSignup, AdminFindInfo, AdminDashboard,
+  AdminMemberList, AdminMemberDetail, AdminWalletHistory,
+  AdminProductList, AdminProductDetail, AdminProductReview,
+  AdminRegisterProduct, AdminCatalogue, AdminOrderList,
+  AdminOrderDetail, AdminInvoiceList, AdminInvoiceDetail,
+  AdminShipmentList, AdminShipmentDetail, AdminRegularOrderList,
+  AdminRegularOrderDetail, AdminShareLineList, AdminShareLineDetail,
+  AdminShareMoneyList, AdminShareMoneyDetail, AdminTransferRequest,
+  AdminPaymentRequest, AdminTransferCancel, AdminTakebackRequest,
+  AdminRefundRequest, AdminStoreList, AdminStoreDetail,
+  AdminStoreManage, AdminNotice, AdminLetter, AdminDonation,
+  AdminSetting } from '../pages';
 
 const RoutePath:React.FC = () => {
   return (
@@ -45,58 +45,58 @@ const RoutePath:React.FC = () => {
         <Route path="/postdetail" element={<PostDetail />}/>
         
         {/* Admin Routes */}
-        <Route path="/admin/login" element={<LoginPage />} />
-        <Route path="/admin/signup" element={<SignupPage />} />
-        <Route path="/admin/findinfo" element={<FindInfoPage />} />
-        <Route path="/admin" element={<DashboardPage />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/signup" element={<AdminSignup />} />
+        <Route path="/admin/findinfo" element={<AdminFindInfo />} />
+        <Route path="/admin" element={<AdminDashboard />} />
         
         {/* Customer Management */}
-        <Route path="/admin/member" element={<MemberListPage />} />
-        <Route path="/admin/memberdetail/:id" element={<MemberDetailPage />} />
-        <Route path="/admin/memberdetail/:id/wallet" element={<WalletHistoryPage />} />
+        <Route path="/admin/member" element={<AdminMemberList />} />
+        <Route path="/admin/memberdetail/:id" element={<AdminMemberDetail />} />
+        <Route path="/admin/memberdetail/:id/wallet" element={<AdminWalletHistory />} />
 
         {/* Product Management */}
-        <Route path="/admin/product" element={<ProductListPage />} />
-        <Route path="/admin/productdetail/:id" element={<ProductDetailPage />} />
-        <Route path="/admin/productdetail/:id/review" element={<ProductReviewPage />} />
-        <Route path="/admin/registproduct" element={<RegisterProductPage />} />
-        <Route path="/admin/catalogue" element={<CataloguePage />} />
+        <Route path="/admin/product" element={<AdminProductList />} />
+        <Route path="/admin/productdetail/:id" element={<AdminProductDetail />} />
+        <Route path="/admin/productdetail/:id/review" element={<AdminProductReview />} />
+        <Route path="/admin/registproduct" element={<AdminRegisterProduct />} />
+        <Route path="/admin/catalogue" element={<AdminCatalogue />} />
 
         {/* Sales Management */}
-        <Route path="/admin/order" element={<OrderListPage />} />
-        <Route path="/admin/orderdetail/:id" element={<OrderDetailPage />} />
-        <Route path="/admin/invoice" element={<InvoiceListPage />} />
-        <Route path="/admin/invoicedetail/:id" element={<InvoiceDetailPage />} />
-        <Route path="/admin/shipment" element={<ShipmentListPage />} />
-        <Route path="/admin/shipmentdetail/:id" element={<ShipmentDetailPage />} />
-        <Route path="/admin/regularorder" element={<RegularOrderListPage />} />
-        <Route path="/admin/regularorderdetail/:id" element={<RegularOrderDetailPage />} />
+        <Route path="/admin/order" element={<AdminOrderList />} />
+        <Route path="/admin/orderdetail/:id" element={<AdminOrderDetail />} />
+        <Route path="/admin/invoice" element={<AdminInvoiceList />} />
+        <Route path="/admin/invoicedetail/:id" element={<AdminInvoiceDetail />} />
+        <Route path="/admin/shipment" element={<AdminShipmentList />} />
+        <Route path="/admin/shipmentdetail/:id" element={<AdminShipmentDetail />} />
+        <Route path="/admin/regularorder" element={<AdminRegularOrderList />} />
+        <Route path="/admin/regularorderdetail/:id" element={<AdminRegularOrderDetail />} />
 
         {/* Share Management */}
-        <Route path="/admin/share" element={<ShareLineListPage />} />
-        <Route path="/admin/sharedetail/:id" element={<ShareLineDetailPage />} />
-        <Route path="/admin/sharemoney" element={<ShareMoneyListPage />} />
-        <Route path="/admin/sharemoneydetail/:id" element={<ShareMoneyDetailPage />} />
+        <Route path="/admin/share" element={<AdminShareLineList />} />
+        <Route path="/admin/sharedetail/:id" element={<AdminShareLineDetail />} />
+        <Route path="/admin/sharemoney" element={<AdminShareMoneyList />} />
+        <Route path="/admin/sharemoneydetail/:id" element={<AdminShareMoneyDetail />} />
 
         {/* Request Management */}
-        <Route path="/admin/transfer" element={<TransferRequestPage />} />
-        <Route path="/admin/payment" element={<PaymentRequestPage />} />
-        <Route path="/admin/transfercancel" element={<TransferCancelPage />} />
-        <Route path="/admin/takeback" element={<TakebackRequestPage />} />
-        <Route path="/admin/refund" element={<RefundRequestPage />} />
+        <Route path="/admin/transfer" element={<AdminTransferRequest />} />
+        <Route path="/admin/payment" element={<AdminPaymentRequest />} />
+        <Route path="/admin/transfercancel" element={<AdminTransferCancel />} />
+        <Route path="/admin/takeback" element={<AdminTakebackRequest />} />
+        <Route path="/admin/refund" element={<AdminRefundRequest />} />
 
         {/* Store Management */}
-        <Route path="/admin/store" element={<StoreListPage />} />
-        <Route path="/admin/storedetail/:id" element={<StoreDetailPage />} />
-        <Route path="/admin/storemanage" element={<StoreManagePage />} />
+        <Route path="/admin/store" element={<AdminStoreList />} />
+        <Route path="/admin/storedetail/:id" element={<AdminStoreDetail />} />
+        <Route path="/admin/storemanage" element={<AdminStoreManage />} />
 
         {/* Board Management */}
-        <Route path="/admin/board/post" element={<NoticePage />} />
-        <Route path="/admin/board/letter" element={<LetterPage />} />
-        <Route path="/admin/board/donation" element={<DonationPage />} />
+        <Route path="/admin/board/post" element={<AdminNotice />} />
+        <Route path="/admin/board/letter" element={<AdminLetter />} />
+        <Route path="/admin/board/donation" element={<AdminDonation />} />
 
         {/* Settings */}
-        <Route path="/admin/setting" element={<SettingPage />} />
+        <Route path="/admin/setting" element={<AdminSetting />} />
     </Routes>
   );
 }
