@@ -22,3 +22,4 @@ export { default as ToMasterCard } from "./eabbashop/ToMasterCard";
 export { default as MemberModify } from "./eabbashop/MemberModify";
 export { default as Wallet } from "./eabbashop/Wallet";
 export { default as Wishlist } from "./eabbashop/Wishlist";
+export { default as MemberTest } from "./admin/MemberTest";

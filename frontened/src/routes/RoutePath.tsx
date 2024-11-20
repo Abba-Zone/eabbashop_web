@@ -3,7 +3,7 @@ import { Home, Login, Signup, Cart, Profile,
   Wallet, ToMasterCard, Account, MemberModify, Address, 
   Orders, OrderDetail, RegularOrder, Review, Wishlist, 
   FindInfo, Category, Search, Product, Checkout, 
-  CompleteCheckout, Post, PostDetail } from '../pages';
+  CompleteCheckout, Post, PostDetail, MemberTest } from '../pages';
 
 const RoutePath:React.FC = () => {
   return (
@@ -29,8 +29,9 @@ const RoutePath:React.FC = () => {
         <Route path="/product" element={<Product />}/>        
         <Route path="/checkout" element={<Checkout />}/>        
         <Route path="/completecheckout" element={<CompleteCheckout />}/>        
-        <Route path="/post" element={<Post />}/>        
+        <Route path="/post" element={<Post />}/>
         <Route path="/postdetail" element={<PostDetail />}/>
+        <Route path="/admin/member" element={<MemberTest />}/>
     </Routes>
   );
 }

@@ -1,4 +1,4 @@
-import { getData, postData} from './MainApi'
+import { getData, postData, getTestData} from './MainApi'
 import { updateAccessTokenAxios } from "../Handler/TokenHandler"
 /* 데이터 불러오기*/
 export const login = (loginUser:emailAndPassword):boolean => {
@@ -86,6 +86,11 @@ export const withdraw = () => {
 //     postData('/download?' + url).then(() => {});
 //     return 1;
 // }
+
+export const getUserList = async (): Promise<testuser[]> => {
+    const data: APIResponse<testuser[]> = await getTestData();
+    return data.result; // 비동기 결과를 반환
+  };
 
 const filterToUrl = (memberListPage : memberListPage):String => {
     const url = 'pageNo=' + memberListPage.pageNo + 
