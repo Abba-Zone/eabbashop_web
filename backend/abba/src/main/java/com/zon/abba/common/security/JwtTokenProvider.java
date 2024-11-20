@@ -33,8 +33,8 @@ public class JwtTokenProvider {
 
     public JwtTokenProvider(
             @Value("${spring.jwt.secret}") String JWT_SECRET,
-            @Value("${spring.jwt.access_expiration}") Long JWT_ACCESS_EXPIRATION,
-            @Value("${spring.jwt.refresh_expiration}") Long JWT_REFRESH_EXPIRATION,
+            @Value("${spring.jwt.access-expiration}") Long JWT_ACCESS_EXPIRATION,
+            @Value("${spring.jwt.refresh-expiration}") Long JWT_REFRESH_EXPIRATION,
             CustomUserDetailsService userDetailsService
     ) {
         this.JWT_SECRET = JWT_SECRET;
