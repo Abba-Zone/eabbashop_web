@@ -57,7 +57,7 @@ public class MemberController {
     }
 
     @GetMapping("/test")
-    @Operation(summary = "test", description = "local member login testtest")
+    @Operation(summary = "test", description = "local member login test")
     public ResponseEntity<Object> test(HttpServletRequest request){
         String accessToken = request.getHeader("Authorization");
         logger.info(accessToken);
