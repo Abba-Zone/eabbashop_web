@@ -1,5 +1,5 @@
 import { BrowserRouter as Router} from "react-router-dom";
-import './App.css';
+import './app.css';
 import RoutePath from './routes/RoutePath';
 import { Header, NavBar, Footer } from './components';
 

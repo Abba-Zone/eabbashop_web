@@ -1,5 +1,5 @@
-import { getData, postData, getTestData} from './MainApi'
-import { updateAccessTokenAxios } from "../Handler/TokenHandler"
+import { getData, postData, getTestData} from './mainApi'
+import { updateAccessTokenAxios } from "../handlers/tokenHandler"
 /* 데이터 불러오기*/
 export const login = (loginUser:emailAndPassword):boolean => {
     postData<loginSuccess>('/login', loginUser)

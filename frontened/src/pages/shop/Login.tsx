@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react"
-import { login_s } from "../../Service/member"
+import { login_s } from "../../services/member"
 
 const Login:React.FC = () => {
   const [inputId, setInputId] = useState<string>('')
