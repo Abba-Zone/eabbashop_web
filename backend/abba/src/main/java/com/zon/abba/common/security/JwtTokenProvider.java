@@ -55,6 +55,20 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    public String createRefreshToken(Authentication authentication){
+        String email = authentication.getName();
+        Date now = new Date();
+        // 만료 기간
+        Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);
+
+        return Jwts.builder()
+                .setSubject(email)
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(key)
+                .compact();
+    }
+
     // JWT 토큰의 유효성 검증
     public boolean validateToken(String token) {
         try {

@@ -1,7 +1,7 @@
 package com.zon.abba.members.controller;
 
 import com.zon.abba.members.response.LoginResponse;
-import com.zon.abba.members.service.OAuthService;
+import com.zon.abba.members.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ import java.util.Map;
 @RequestMapping("/member/oauth")
 public class OAuthController {
     private static final Logger logger = LoggerFactory.getLogger(OAuthController.class);
-    private final OAuthService oAuthService;
+    private final LoginService oAuthService;
 
     /**
      * 임시 구글 코드
