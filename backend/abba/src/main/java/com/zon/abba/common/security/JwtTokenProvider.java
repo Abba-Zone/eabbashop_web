@@ -1,24 +1,21 @@
 package com.zon.abba.common.security;
 
-import com.zon.abba.members.controller.MemberController;
 import com.zon.abba.members.service.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.util.Base64;
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class JwtTokenProvider {
@@ -45,13 +42,13 @@ public class JwtTokenProvider {
     }
 
     public String createAccessToken(Authentication authentication){
-        String email = authentication.getName();
+        UUID memberId = UUID.fromString(authentication.getName());
         Date now = new Date();
         // 만료 기간
         Date expiryDate = new Date(now.getTime() + JWT_ACCESS_EXPIRATION);
 
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(String.valueOf(memberId))
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(key)
@@ -59,13 +56,13 @@ public class JwtTokenProvider {
     }
 
     public String createRefreshToken(Authentication authentication){
-        String email = authentication.getName();
+        String memberId = authentication.getName();
         Date now = new Date();
         // 만료 기간
         Date expiryDate = new Date(now.getTime() + JWT_REFRESH_EXPIRATION);
 
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(memberId)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(key)
@@ -94,17 +91,17 @@ public class JwtTokenProvider {
     // JWT에서 Authentication 객체 생성
     public Authentication getAuthentication(String token) {
         // 토큰에서 사용자 이름 추출
-        String username = getEmailFromToken(token);
+        UUID memberId = UUID.fromString(getMemberIdFromToken(token));
 
         // 사용자 이름을 이용해 UserDetails 객체를 가져옴
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
 
         // UserDetails 객체를 기반으로 Authentication 객체 생성
         return new UsernamePasswordAuthenticationToken(userDetails, token, userDetails.getAuthorities());
     }
 
     // JWT에서 사용자 정보 추출
-    public String getEmailFromToken(String token) {
+    public String getMemberIdFromToken(String token) {
 
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key)
