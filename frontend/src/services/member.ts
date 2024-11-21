@@ -1,4 +1,4 @@
-import { login, getUserList } from '../api/memberApi'
+import { login, getUserList } from '../apis/memberApi'
 
 /*데이터 가공 */
 export const login_s = (loginUser:emailAndPassword):boolean => {
