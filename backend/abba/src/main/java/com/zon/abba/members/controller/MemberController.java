@@ -5,6 +5,7 @@ import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.security.JwtTokenProvider;
 import com.zon.abba.members.request.LoginRequest;
 import com.zon.abba.members.response.LoginResponse;
+import com.zon.abba.members.service.LoginService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,9 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,32 +26,18 @@ public class MemberController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
+    private final LoginService loginService;
 
 
     @PostMapping("/login")
     @Operation(summary = "login", description = "local member login")
     public ResponseEntity<Object> memberLogin(@RequestBody LoginRequest loginRequest){
 
-        // 사용자 인증
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()
-                )
-        );
-
-        // 인증 정보 설정
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        // JWT 토큰 생성
-        String jwt = tokenProvider.createAccessToken(authentication);
+        logger.info("email : {}",loginRequest.getEmail());
+        LoginResponse loginResponse = loginService.login(loginRequest);
 
         // 응답으로 토큰 반환
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody(
-                StatusCode.SUCCESS,
-                new LoginResponse()
-
-        ));
+        return ResponseEntity.status(HttpStatus.OK).body(loginResponse);
     }
 
     @GetMapping("/test")

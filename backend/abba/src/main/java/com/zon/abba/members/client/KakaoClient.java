@@ -2,7 +2,7 @@ package com.zon.abba.members.client;
 
 import com.zon.abba.members.request.KakaoAccessTokenRequest;
 import com.zon.abba.members.response.KakaoAccessTokenResponse;
-import com.zon.abba.members.response.KakaoUserInfoResponse;
+import com.zon.abba.members.response.KakaoMemberInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,7 +68,7 @@ public class KakaoClient {
     }
 
 
-    public KakaoUserInfoResponse requestKakaoUserInfo(String accessToken){
+    public KakaoMemberInfoResponse requestKakaoUserInfo(String accessToken){
         final HttpHeaders headers = new HttpHeaders();
         headers.add("Accept-Charset", "UTF-8");
         headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -77,7 +77,7 @@ public class KakaoClient {
         restTemplate.getMessageConverters()
                 .add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
 
-        return restTemplate.exchange(userInfoUrl, HttpMethod.GET, httpEntity, KakaoUserInfoResponse.class)
+        return restTemplate.exchange(userInfoUrl, HttpMethod.GET, httpEntity, KakaoMemberInfoResponse.class)
                 .getBody();
     }
 }

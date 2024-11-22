@@ -13,7 +13,7 @@ import java.util.HashMap;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class KakaoUserInfoResponse {
+public class KakaoMemberInfoResponse {
     //회원 번호
     @JsonProperty("id")
     public Long id;
