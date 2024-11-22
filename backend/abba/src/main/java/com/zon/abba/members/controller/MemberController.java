@@ -33,6 +33,7 @@ public class MemberController {
     @Operation(summary = "login", description = "local member login")
     public ResponseEntity<Object> memberLogin(@RequestBody LoginRequest loginRequest){
 
+        logger.info("email : {}",loginRequest.getEmail());
         LoginResponse loginResponse = loginService.login(loginRequest);
 
         // 응답으로 토큰 반환
@@ -44,7 +45,7 @@ public class MemberController {
     public ResponseEntity<Object> test(HttpServletRequest request){
         String accessToken = request.getHeader("Authorization");
         logger.info(accessToken);
-        String email = tokenProvider.getMemberIdFromToken(accessToken.substring(7));
+        String email = tokenProvider.getEmailFromToken(accessToken.substring(7));
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody(
                 StatusCode.SUCCESS,
                 new LoginResponse()

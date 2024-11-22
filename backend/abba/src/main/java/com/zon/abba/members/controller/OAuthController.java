@@ -17,51 +17,34 @@ import java.util.Map;
 @RequestMapping("/member/oauth")
 public class OAuthController {
     private static final Logger logger = LoggerFactory.getLogger(OAuthController.class);
-    private final LoginService oAuthService;
+    private final LoginService loginService;
 
     /**
      * 임시 구글 코드
-     * @param requestBody
-     * @return
-     * @throws LoginException
-     */
-    @PostMapping("/google/code")
-    public ResponseEntity<Object> handleGoogleOAuthCode(@RequestBody Map<String, String> requestBody) throws LoginException {
-        String code = requestBody.get("code");
-
-        if (code != null) {
-            logger.info("Received Google OAuth code: {}", code);
-            oAuthService.getGoogleUserInfo(oAuthService.googleLogin(code));
-        } else {
-            logger.warn("No google code found in the request");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("no code.");
-        }
-
-        // 예시 응답으로 성공 메시지를 반환
-        return ResponseEntity.status(HttpStatus.OK).body(new LoginResponse());
-    }
-
-    /**
-     * 임시 카카오 소셜 로그인
      *
      * @param requestBody
      * @return
      * @throws LoginException
      */
-    @PostMapping("/kakao/code")
-    public Map<String, String> handleKakaoOAuthCode(@RequestBody Map<String, String> requestBody) throws LoginException {
+    @PostMapping("/{provider}/code")
+    public ResponseEntity<Object> handleOAuthCode(
+            @PathVariable String provider,
+            @RequestBody Map<String, String> requestBody) throws LoginException {
         String code = requestBody.get("code");
 
         if (code != null) {
-            logger.info("Received Kakao OAuth code: {}", code);
-
-            oAuthService.getKakaoUserInfo(oAuthService.kakaoLogin(code));
+            logger.info("Received {} OAuth code: {}", provider, code);
+            LoginResponse loginResponse = null;
+            if (provider.equals("google")) {
+                loginResponse = loginService.googleLogin(code);
+            } else if (provider.equals("kakao")) {
+                loginResponse = loginService.kakaoLogin(code);
+            }
+            // 예시 응답으로 성공 메시지를 반환
+            return ResponseEntity.status(HttpStatus.OK).body(loginResponse);
         } else {
-            logger.warn("No kakao code found in the request");
-            return Map.of("error", "No code provided");
+            logger.warn("No google code found in the request");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("no code.");
         }
-
-        // 예시 응답으로 성공 메시지를 반환
-        return Map.of("message", "Code received successfully", "code", code);
     }
 }

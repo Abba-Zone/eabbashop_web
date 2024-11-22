@@ -2,7 +2,7 @@ package com.zon.abba.members.client;
 
 import com.zon.abba.members.request.GoogleAccessTokenRequest;
 import com.zon.abba.members.response.GoogleAccessTokenResponse;
-import com.zon.abba.members.response.GoogleUserInfoResponse;
+import com.zon.abba.members.response.GoogleMemberInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +58,7 @@ public class GoogleClient {
     }
 
 
-    public GoogleUserInfoResponse requestGoogleUserInfo(String accessToken){
+    public GoogleMemberInfoResponse requestGoogleUserInfo(String accessToken){
         final HttpHeaders headers = new HttpHeaders();
         headers.add("Accept-Charset", "UTF-8");
         headers.add("Content-Type", "application/json;charset=UTF-8");
@@ -67,7 +67,7 @@ public class GoogleClient {
         restTemplate.getMessageConverters()
                 .add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
 
-        return restTemplate.exchange(userInfoUrl, HttpMethod.GET, httpEntity, GoogleUserInfoResponse.class)
+        return restTemplate.exchange(userInfoUrl, HttpMethod.GET, httpEntity, GoogleMemberInfoResponse.class)
                 .getBody();
     }
 }

@@ -14,20 +14,21 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class CustomUserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService{
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public UserDetails loadUserByUsername(UUID username) throws UsernameNotFoundException {
-        Optional<Member> member = memberRepository.findByMemberId(username);
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<Member> member = memberRepository.findByEmail(username);
         if(member.isPresent()){
-            return org.springframework.security.core.userdetails.User.withUsername(member.get().getEmail())
+            return org.springframework.security.core.userdetails.User.withUsername(username)
                     .password(passwordEncoder.encode(member.get().getPassword()))
                     .roles(member.get().getRole())
                     .build();
         }
 
-        throw new UsernameNotFoundException("User not found with memberId: " + username);
+        throw new UsernameNotFoundException("User not found with email: " + username);
     }
 }
