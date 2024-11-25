@@ -21,6 +21,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        String requestURI = request.getRequestURI();
+
+        // 인증이 필요 없는 경로는 필터를 통과
+        if (requestURI.startsWith("/member/") || requestURI.startsWith("/swagger-ui/") || requestURI.startsWith("/v3/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String jwt = getJwtFromRequest(request);
 
         if(jwt != null && tokenProvider.validateToken(jwt)){
