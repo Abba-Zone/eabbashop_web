@@ -1,14 +1,16 @@
 package com.zon.abba.members.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "members")
 public class Member {
@@ -92,6 +94,8 @@ public class Member {
         if(this.activeYn == null) this.activeYn = "Y";
         if(this.createdId == null) this.createdId = UUID.randomUUID().toString();
         if(this.modifiedId == null) this.modifiedId = UUID.randomUUID().toString();
+        if(this.grade == null) this.grade = "A";
+        if(this.role == null) this.role = "A";
     }
 
 }

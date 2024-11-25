@@ -33,7 +33,7 @@ public class OAuthController {
         String code = requestBody.get("code");
 
         if (code != null) {
-            logger.info("Received {} OAuth code: {}", provider, code);
+            logger.info("{} OAuth code를 받았습니다.: {}", provider, code);
             LoginResponse loginResponse = null;
             if (provider.equals("google")) {
                 loginResponse = loginService.googleLogin(code);
@@ -43,7 +43,7 @@ public class OAuthController {
             // 예시 응답으로 성공 메시지를 반환
             return ResponseEntity.status(HttpStatus.OK).body(loginResponse);
         } else {
-            logger.warn("No google code found in the request");
+            logger.warn("No {} code가 없습니다.", provider);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("no code.");
         }
     }

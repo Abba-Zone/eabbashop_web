@@ -4,8 +4,10 @@ import com.zon.abba.common.code.StatusCode;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.security.JwtTokenProvider;
 import com.zon.abba.members.request.LoginRequest;
+import com.zon.abba.members.request.SignupRequest;
 import com.zon.abba.members.response.LoginResponse;
 import com.zon.abba.members.service.LoginService;
+import com.zon.abba.members.service.SignupService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,9 +26,9 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
-    private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
     private final LoginService loginService;
+    private final SignupService signupService;
 
 
     @PostMapping("/login")
@@ -35,7 +37,17 @@ public class MemberController {
 
         logger.info("email : {}",loginRequest.getEmail());
         LoginResponse loginResponse = loginService.login(loginRequest);
+        logger.info("access token : {}",loginResponse.getAccessToken());
+        // 응답으로 토큰 반환
+        return ResponseEntity.status(HttpStatus.OK).body(loginResponse);
+    }
 
+    @PostMapping("/signup")
+    @Operation(summary = "signup", description = "member signup")
+    public ResponseEntity<Object> memberSignup(@RequestBody SignupRequest signupRequest){
+        logger.info("{} {} 님의 회원가입 요청입니다.", signupRequest.getLastName(), signupRequest.getFirstName());
+        LoginResponse loginResponse = signupService.signup(signupRequest);
+        logger.info("회원가입 완료!");
         // 응답으로 토큰 반환
         return ResponseEntity.status(HttpStatus.OK).body(loginResponse);
     }

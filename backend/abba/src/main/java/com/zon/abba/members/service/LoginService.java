@@ -44,10 +44,9 @@ public class LoginService {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         memberDto.getEmail(),
-                        String.valueOf(memberDto.getMemberId())
+                        memberDto.getPassword()
                 )
         );
-
         // 인증 정보 설정
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -56,7 +55,6 @@ public class LoginService {
         String refreshToken = tokenProvider.createRefreshToken(authentication);
 
         // 레디스에 리프레쉬 토큰 저장 과정 추가 예정
-
         return new LoginResponse(
                 accessToken,
                 refreshToken,
@@ -79,7 +77,6 @@ public class LoginService {
                 .map(MemberDto::new)
                         .orElseThrow(()-> new NoMemberException("없는 회원입니다."));
 
-
         return makeToken(memberDto);
     }
 
@@ -95,7 +92,11 @@ public class LoginService {
         MemberDto memberDto = memberOptional
                 .map(MemberDto::new)
                 .orElseThrow(()-> new SignupException("회원 가입 해주세요.", new SignupResponse(
-                    member.getGivenName(), member.getFamilyName(), member.getEmail(), "google"
+                    member.getGivenName(),
+                    member.getFamilyName(),
+                    member.getEmail(),
+                    member.getId(),
+                    "google"
                 )));
 
         return makeToken(memberDto);
@@ -117,6 +118,7 @@ public class LoginService {
                         member.getKakaoAccount().getProfile().getNickName(),
                         member.getKakaoAccount().getProfile().getNickName(),
                         member.getKakaoAccount().getEmail(),
+                        String.valueOf(member.getId()),
                         "kakao"
                 )));
 
