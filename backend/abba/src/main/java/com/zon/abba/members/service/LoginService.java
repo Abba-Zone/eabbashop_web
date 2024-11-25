@@ -2,7 +2,7 @@ package com.zon.abba.members.service;
 
 import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.exception.SignupException;
-import com.zon.abba.common.exception.response.SignupErrorResponse;
+import com.zon.abba.common.redis.RedisService;
 import com.zon.abba.common.security.JwtTokenProvider;
 import com.zon.abba.members.client.GoogleClient;
 import com.zon.abba.members.client.KakaoClient;
@@ -36,6 +36,7 @@ public class LoginService {
     private final KakaoClient kakaoClient;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
+    private final RedisService redisService;
     private final MemberRepository memberRepository;
 
 
@@ -55,6 +56,8 @@ public class LoginService {
         String refreshToken = tokenProvider.createRefreshToken(authentication);
 
         // 레디스에 리프레쉬 토큰 저장 과정 추가 예정
+        redisService.save(refreshToken, memberDto.getEmail());
+
         return new LoginResponse(
                 accessToken,
                 refreshToken,
@@ -124,5 +127,4 @@ public class LoginService {
 
         return makeToken(memberDto);
     }
-
 }

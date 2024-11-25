@@ -1,7 +1,5 @@
-package com.zon.abba.common.config;
+package com.zon.abba.common.security;
 
-import com.zon.abba.common.security.JwtAuthenticationFilter;
-import com.zon.abba.common.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
