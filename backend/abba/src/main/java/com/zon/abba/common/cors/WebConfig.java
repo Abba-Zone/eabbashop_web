@@ -1,4 +1,4 @@
-package com.zon.abba.common.config;
+package com.zon.abba.common.cors;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

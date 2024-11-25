@@ -1,7 +1,5 @@
-package com.zon.abba.common.config;
+package com.zon.abba.common.security;
 
-import com.zon.abba.common.security.JwtAuthenticationFilter;
-import com.zon.abba.common.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +26,7 @@ public class SecurityConfig {
 
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/member/login", "/member/oauth/**").permitAll() // 누구나 접근 가능한 루트
+                        .requestMatchers("/member/**").permitAll() // 누구나 접근 가능한 루트
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/**").permitAll()
                         .anyRequest().authenticated() // 허용이 필요한 루트

@@ -1,4 +1,4 @@
-package com.zon.abba.common.config;
+package com.zon.abba.common.swagger;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

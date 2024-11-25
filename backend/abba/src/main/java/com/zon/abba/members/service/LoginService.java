@@ -2,7 +2,7 @@ package com.zon.abba.members.service;
 
 import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.exception.SignupException;
-import com.zon.abba.common.exception.response.SignupErrorResponse;
+import com.zon.abba.common.redis.RedisService;
 import com.zon.abba.common.security.JwtTokenProvider;
 import com.zon.abba.members.client.GoogleClient;
 import com.zon.abba.members.client.KakaoClient;
@@ -36,6 +36,7 @@ public class LoginService {
     private final KakaoClient kakaoClient;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
+    private final RedisService redisService;
     private final MemberRepository memberRepository;
 
 
@@ -44,10 +45,9 @@ public class LoginService {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         memberDto.getEmail(),
-                        String.valueOf(memberDto.getMemberId())
+                        memberDto.getPassword()
                 )
         );
-
         // 인증 정보 설정
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -56,6 +56,7 @@ public class LoginService {
         String refreshToken = tokenProvider.createRefreshToken(authentication);
 
         // 레디스에 리프레쉬 토큰 저장 과정 추가 예정
+        redisService.save(refreshToken, memberDto.getEmail());
 
         return new LoginResponse(
                 accessToken,
@@ -79,7 +80,6 @@ public class LoginService {
                 .map(MemberDto::new)
                         .orElseThrow(()-> new NoMemberException("없는 회원입니다."));
 
-
         return makeToken(memberDto);
     }
 
@@ -95,7 +95,11 @@ public class LoginService {
         MemberDto memberDto = memberOptional
                 .map(MemberDto::new)
                 .orElseThrow(()-> new SignupException("회원 가입 해주세요.", new SignupResponse(
-                    member.getGivenName(), member.getFamilyName(), member.getEmail(), "google"
+                    member.getGivenName(),
+                    member.getFamilyName(),
+                    member.getEmail(),
+                    member.getId(),
+                    "google"
                 )));
 
         return makeToken(memberDto);
@@ -117,10 +121,10 @@ public class LoginService {
                         member.getKakaoAccount().getProfile().getNickName(),
                         member.getKakaoAccount().getProfile().getNickName(),
                         member.getKakaoAccount().getEmail(),
+                        String.valueOf(member.getId()),
                         "kakao"
                 )));
 
         return makeToken(memberDto);
     }
-
 }
