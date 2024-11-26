@@ -136,7 +136,7 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
-    /** access token 재발급 체크 */
+    // refresh token 재발급 체크
     public String checkRefreshToken(String refreshToken) throws LogoutException {
 
         String token = resolveToken(refreshToken);
