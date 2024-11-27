@@ -21,4 +21,8 @@ EXPOSE 8080
 
 # Command to run the application
 # ENTRYPOINT ["java", "-jar", "app.jar"]
-ENTRYPOINT ["ping", "redis"]
+CMD sh -c " \
+    echo 'Checking MySQL connection...' && \
+    mysql -hmysql -P3306 -uchcadmin -pabbazone!@@ -e 'SELECT 1;' && \
+    echo 'Checking Redis connection...' && \
+    ping -c 3 redis"
