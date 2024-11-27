@@ -4,8 +4,17 @@ FROM openjdk:17-jdk-slim
 # Set working directory
 WORKDIR /app
 
-# Copy build artifact to container
-COPY build/libs/*.jar app.jar
+# Copy Gradle wrapper and project files
+COPY . .
+
+# Grant execution permission for Gradle wrapper
+RUN chmod +x gradlew
+
+# Build the application
+RUN ./gradlew clean build -x test
+
+# Copy the built artifact to the container
+RUN cp build/libs/*.jar app.jar
 
 # Expose the application port
 EXPOSE 8080
