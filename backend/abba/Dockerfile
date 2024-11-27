@@ -26,8 +26,8 @@ EXPOSE 8080
 # ENTRYPOINT ["java", "-jar", "app.jar"]
 CMD sh -c " \
     echo 'Checking MySQL connection...' && \
-        mysql -hmysql -P3306 -uchcadmin -pabbazone!@@ -e 'SELECT 1;' && \
+        mysql -habba-mysql -P3306 -uchcadmin -pabbazone!@@ -e 'SELECT 1;' && \
         echo 'Checking Redis connection...' && \
-        ping -c 3 redis && \
+        ping -c 3 abba-redis && \
         echo 'Starting Java application...' && \
         java -jar app.jar"
