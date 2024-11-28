@@ -17,7 +17,7 @@ RUN chmod +x gradlew
 RUN ./gradlew clean build -x test
 
 # Copy the built artifact to the container
-COPY build/libs/*.jar app.jar
+COPY build/libs/*SNAPSHOT.jar app.jar
 
 # Expose the application port
 EXPOSE 8080
