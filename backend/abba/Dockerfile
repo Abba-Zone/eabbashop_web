@@ -16,6 +16,8 @@ RUN chmod +x gradlew
 # Build the application
 RUN ./gradlew clean build -x test
 
+RUN ls
+
 # Copy the built artifact to the container
 COPY build/libs/*SNAPSHOT.jar app.jar
 
