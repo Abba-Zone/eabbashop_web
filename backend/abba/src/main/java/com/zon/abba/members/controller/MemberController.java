@@ -32,6 +32,7 @@ public class MemberController {
     private final SignupService signupService;
     private final ReissueService reissueService;
     private final LogoutService logoutService;
+    private final RedisService redisService;
 
     @Value("${spring.jwt.access-token}")
     private String ACCESSTOKEN;
@@ -83,12 +84,27 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @GetMapping("/test")
-    @Operation(summary = "test", description = "local member test")
-    public ResponseEntity<Object> test(HttpServletRequest request){
-//        redisService.save("123141515", "rudgns9334@gmail.com");
+    @GetMapping("/redis_test/save")
+    public ResponseEntity<Object> saveTest(HttpServletRequest request){
+        redisService.save("123141515", "rudgns9334@gmail.com");
 //        logger.info(redisService.get("123141515").toString());
 //        redisService.delete("123141515");
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody("good"));
+    }
+
+    @GetMapping("/redis_test/get")
+    public ResponseEntity<Object> getTest(HttpServletRequest request){
+//        redisService.save("123141515", "rudgns9334@gmail.com");
+        logger.info(redisService.get("123141515").toString());
+//        redisService.delete("123141515");
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody("good"));
+    }
+
+    @GetMapping("/redis_test/delete")
+    public ResponseEntity<Object> deleteTest(HttpServletRequest request){
+//        redisService.save("123141515", "rudgns9334@gmail.com");
+//        logger.info(redisService.get("123141515").toString());
+        redisService.delete("123141515");
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody("good"));
     }
 }
