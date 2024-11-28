@@ -18,6 +18,10 @@ RUN ./gradlew clean build -x test
 
 RUN ls
 
+RUN cd build
+
+RUN ls
+
 # Copy the built artifact to the container
 COPY build/libs/*SNAPSHOT.jar app.jar
 
