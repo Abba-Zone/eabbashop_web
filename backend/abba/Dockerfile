@@ -11,7 +11,7 @@ WORKDIR /app
 COPY . .
 
 # Copy application.yml
-COPY config/backend/ src/main/resources/
+# COPY config/backend/ src/main/resources/
 
 # Grant execution permission for Gradle wrapper
 RUN chmod +x gradlew
