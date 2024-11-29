@@ -12,6 +12,18 @@ const AdminMemberList: React.FC = () => {
   const [filterValue, setFilterValue] = useState<string>("");
   const [sort, setSort] = useState<string>("CreatedDateTime");
   const [sortValue, setSortValue] = useState<string>("DESC");
+  const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
+  [
+    {selectName:'이름', select:'name', selectType:'text', itemList:[]},
+    {selectName:'이메일', select:'email', selectType:'text', itemList:[]},
+    {selectName:'전화번호', select:'phone', selectType:'text', itemList:[]},
+    {selectName:'추천인', select:'recommend', selectType:'text', itemList:[]},
+    {selectName:'등급', select:'grade', selectType:'select', itemList:['Diamond', 'Gold', 'Platinum', 'Silver', 'Bronze']},
+    {selectName:'역할', select:'role', selectType:'select', itemList:['협력사', '지점', '대리점', '판매점']},
+    {selectName:'최초가입지', select:'signupPage', selectType:'text', itemList:[]},
+    {selectName:'가입일', select:'CreatedDateTime', selectType:'date', itemList:[]},
+  ];
+  
   const getUserList = async () => {
       try {
         const total_and_memberList : memberList = await getMemberList_s(pageNo, pageSize, filter, filterValue);
@@ -39,7 +51,6 @@ const AdminMemberList: React.FC = () => {
         setPageNo(parseInt(move));
         break;
     }
-    console.log('pageNo=' + pageNo + ', lastPage=' + lastPage + ', move=' + move);
   }
   const changeSort = (sortName:string) => {
     if (sortName === sort){
@@ -52,14 +63,19 @@ const AdminMemberList: React.FC = () => {
       setSortValue('ASC');
     }
   }
-  
+  const changeFilter = (key:number, value:string) =>{
+    setFilter(key);
+    setFilterValue(value);
+  }
+
   useEffect(() => {
       getUserList(); // 비동기 함수 호출
     }, [pageNo, filter, filterValue, sort, sortValue]);
+
   return (
     <div>
       <h2>고객 관리</h2>
-      <SearchSet></SearchSet>
+      <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <MemberList members={members} changeSort={changeSort}></MemberList>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
     </div>

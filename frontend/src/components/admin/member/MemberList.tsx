@@ -9,7 +9,7 @@ const MemberList:React.FC<Props> = ({members, changeSort}) => {
     const rendering = (): JSX.Element[] => {
         const result = [];
         for(let i = 0 ; i < members.length; i++){
-          result.push(<ListCard member={members[i]} ></ListCard>);
+          result.push(<ListCard key={i} member={members[i]} ></ListCard>);
         }
         return result;
     }
@@ -31,8 +31,12 @@ const MemberList:React.FC<Props> = ({members, changeSort}) => {
     return (
       <div>
         <table>
-          {makeheader()}
-          {members==null? <></>: rendering()}
+          <thead>
+            {makeheader()}
+          </thead>
+          <tbody>
+            {members==null? <tr></tr>: rendering()}
+          </tbody>
         </table>
       </div>
     );
