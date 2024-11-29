@@ -1,11 +1,19 @@
 interface Props{
-    user:testuser;
+  member:memberInfo;
   }
-  const MemberListCard:React.FC<Props> = (props) => {
+  const MemberListCard:React.FC<Props> = ({member}) => {
       return (
-        <p>
-          {props.user.lastName} | {props.user.firstName} | {props.user.email} | {props.user.phone}
-        </p>
+        <tr>
+          <td>선택</td>
+          <td>{member.name}</td>
+          <td>{member.email}</td>
+          <td>{member.phone}</td>
+          <td>{member.recommend}</td>
+          <td>{member.grade}</td>
+          <td>{member.role}</td>
+          <td>{member.signupPage}</td>
+          <td>{member.CreatedDateTime}</td>
+        </tr>
       );
 }
     
