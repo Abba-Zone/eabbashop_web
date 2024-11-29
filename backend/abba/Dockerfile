@@ -10,6 +10,9 @@ WORKDIR /app
 # Copy Gradle wrapper and project files
 COPY . .
 
+# Copy application.yml
+COPY ./config/backend/application-dev.yml ./src/main/resources/application.yml
+
 # Grant execution permission for Gradle wrapper
 RUN chmod +x gradlew
 
