@@ -33,4 +33,4 @@ CMD sh -c " \
         echo 'Checking Redis connection...' && \
         ping -c 3 abba-redis && \
         echo 'Starting Java application...' && \
-        java -jar app.jar"
+        java -jar -Dspring.profiles.active=dev app.jar"
