@@ -1,5 +1,8 @@
 package com.zon.abba.common.redis;
 
+import com.zon.abba.members.controller.MemberController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +16,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class RedisConfig {
 
+    private static final Logger logger = LoggerFactory.getLogger(RedisConfig.class);
+
     @Value("${spring.redis.host}")
     private String host;
 
@@ -25,6 +30,10 @@ public class RedisConfig {
     public RedisConnectionFactory redisConnectionFactory()
     {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+
+        logger.info("host : {}", host);
+        logger.info("port : {}", port);
+        logger.info("password : {}", password);
         redisStandaloneConfiguration.setHostName(host);
         redisStandaloneConfiguration.setPort(port);
         redisStandaloneConfiguration.setPassword(password);
