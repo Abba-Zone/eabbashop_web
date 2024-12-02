@@ -39,12 +39,8 @@ interface memberInfo{
 	grade : string,
 	recommend : string,
 	phone : string,
+	signupPage : string,
 	CreatedDateTime : string,
-	AK : float,
-	AP : float,
-	SP : float,
-	AW : float,
-	ABZ : float
 }
 interface memberList{
 	totalMember  : number,
