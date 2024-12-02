@@ -50,13 +50,27 @@ export const logout = () =>{
     );
 }
 
-export const getlist = (memberListPage:memberListPage):memberList => {
-    const url = filterToUrl(memberListPage);
-    getData<memberList>('/list?' + url)
-        .then((data:APIResponse<memberList>) => {
-            return data.result;
-        }
-    );
+export const getlist = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):memberList => {
+    /* real code*/
+    // getData<memberList>('/list?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
+    //     .then((data:APIResponse<memberList>) => {
+    //         return data.result;
+    //     }
+    // );
+
+    /* make for test*/
+    var result :memberList = {
+        totalMember : 10003,
+        info:[
+            {MemberID: '1sasfdgsdfgs', name:'전 현태1', email:'jht043@naver.com1', phone:'010-9416-7342-1', role:'대리점', grade:'silver', recommend:'ych526@naver.com', signupPage:'net', CreatedDateTime:'2023-11-28 15:12:44'},
+            {MemberID: '2sasfdgsdfgs', name:'전 현태2', email:'jht043@naver.com2', phone:'010-9416-7342-2', role:'대리점', grade:'silver', recommend:'ych526@naver.com', signupPage:'net', CreatedDateTime:'2023-11-28 15:12:44'},
+            {MemberID: '3sasfdgsdfgs', name:'전 현태3', email:'jht043@naver.com3', phone:'010-9416-7342-3', role:'대리점', grade:'silver', recommend:'ych526@naver.com', signupPage:'net', CreatedDateTime:'2023-11-28 15:12:44'},
+            {MemberID: '4sasfdgsdfgs', name:'전 현태4', email:'jht043@naver.com4', phone:'010-9416-7342-4', role:'대리점', grade:'silver', recommend:'ych526@naver.com', signupPage:'zon', CreatedDateTime:'2023-11-28 15:12:44'},
+            {MemberID: '5sasfdgsdfgs', name:'전 현태5', email:'jht043@naver.com5', phone:'010-9416-7342-5', role:'대리점', grade:'silver', recommend:'ych526@naver.com', signupPage:'zon', CreatedDateTime:'2023-11-28 15:12:44'},
+        ]
+    };
+    return result;
+
     return null as unknown as memberList;
 }
 
@@ -104,11 +118,6 @@ const filterToUrl = (memberListPage : memberListPage):String => {
                 '&filter.grade=' + memberListPage.filter.grade +
                 '&filter.recommend=' + memberListPage.filter.recommend +
                 '&filter.phone=' + memberListPage.filter.phone +
-                '&filter.CreatedDateTime=' + memberListPage.filter.CreatedDateTime +
-                '&filter.AK=' + memberListPage.filter.AK +
-                '&filter.AP=' + memberListPage.filter.AP +
-                '&filter.SP=' + memberListPage.filter.SP +
-                '&filter.AW=' + memberListPage.filter.AW +
-                '&filter.ABZ=' + memberListPage.filter.ABZ;
+                '&filter.CreatedDateTime=' + memberListPage.filter.CreatedDateTime;
     return url;
 }

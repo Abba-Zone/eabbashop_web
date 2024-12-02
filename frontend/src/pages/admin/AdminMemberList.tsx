@@ -26,7 +26,7 @@ const AdminMemberList: React.FC = () => {
   
   const getUserList = async () => {
       try {
-        const total_and_memberList : memberList = await getMemberList_s(pageNo, pageSize, filter, filterValue);
+        const total_and_memberList : memberList = await getMemberList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
         setMembers(total_and_memberList.info);
         setLastPage(total_and_memberList.totalMember === 0? 1:Math.floor((total_and_memberList.totalMember - 1)/pageSize) + 1);
       } catch (error) {
@@ -70,7 +70,7 @@ const AdminMemberList: React.FC = () => {
 
   useEffect(() => {
       getUserList(); // 비동기 함수 호출
-    }, [pageNo, filter, filterValue, sort, sortValue]);
+    }, [pageNo, pageSize, filter, filterValue, sort, sortValue]);
 
   return (
     <div>
