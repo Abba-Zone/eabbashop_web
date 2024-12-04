@@ -108,7 +108,7 @@ const Menu:React.FC = () => {
         return result;
     }
     return (
-        <div>
+        <div className="admin-sidebar">
             {rendering()}
         </div>
     );
