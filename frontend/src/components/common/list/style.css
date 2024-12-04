@@ -1,0 +1,19 @@
+.bottom-button-set{
+    display: flex;
+}
+.bottom-button-set > *{
+    margin: 10px;
+}
+.page-move-button-first-page,.page-move-button-last-page{
+    color: gray;
+}
+.select-page-number-button{
+    border-width:1px;
+    border-style:solid;
+    border-color:gray;
+}
+.none-select-page-number-button{
+    border-width:1px;
+    border-style:solid;
+    border-color:transparent;
+}
