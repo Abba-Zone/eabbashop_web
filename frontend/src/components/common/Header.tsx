@@ -11,9 +11,9 @@ const Header:React.FC = () => {
         return result
       default:
         if(pathname.pathname.substring(0,6) === "/admin")
-          result.push(<AdminHaeder/>); //어드민 헤더
+          result.push(<AdminHaeder key={"admin"}/>); //어드민 헤더
         else
-          result.push(<ShopHeader/>); //샵 헤더
+          result.push(<ShopHeader key={"shop"}/>); //샵 헤더
     }
     return result;
   }
