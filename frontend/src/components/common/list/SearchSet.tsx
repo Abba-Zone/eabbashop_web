@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./style.css";
 
 interface Props{
   selectList:{
@@ -61,8 +62,8 @@ const SearchSet:React.FC<Props> = ({selectList, searchClick}) => {
     }
   }
   return (
-    <div>
-        <div onClick={pushSearchButtin}>{searchItemName}</div>
+    <div className="search-set">
+        <div className="search-set-category" onClick={pushSearchButtin}>{searchItemName}</div>
         {visible?rendering():<></>}
         {searchingTool()}
         {visible2?rendering2():<></>}
