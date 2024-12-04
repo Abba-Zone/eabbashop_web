@@ -1,16 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./style.css";
 
 interface Props {
   menu: menu; // menu 타입도 정의 필요
 }
 
-type style = {
-  display: string;
-}
-
 const MenuCard2: React.FC<Props> = (props) => {
-  const [style, setStyle] = useState<style>({ display: 'none' });
   const [visible, setVisible] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -18,6 +14,7 @@ const MenuCard2: React.FC<Props> = (props) => {
   const renderMenuItems = () => {
     return props.menu.items.map((item, index) => (
       <div 
+        className="sidebar-menu-item"
         key={`menu-item-${item.name}-${index}`} // 더 고유한 key 생성
         onClick={() => navigate(item.url)}
       >
@@ -27,24 +24,19 @@ const MenuCard2: React.FC<Props> = (props) => {
   };
 
   const openMenu = () => {
-    setStyle({ display: visible ? 'none' : 'block' });
     setVisible(!visible);
   };
 
   return (
     <div>
-      <div onClick={openMenu}>
-        <div>
+      <div className="sidebar-menu-category" onClick={openMenu}>
           <div>{props.menu.icon}</div>
           <div>{props.menu.headerName}</div>
-        </div>
-        <div>
+          <div>
           {visible ? "close icon" : "open icon"}
-        </div>
+          </div>
       </div>
-      <div style={style}>
-        {renderMenuItems()}
-      </div>
+      {visible? renderMenuItems():<></>}
     </div>
   );
 };

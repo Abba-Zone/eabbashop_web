@@ -1,0 +1,10 @@
+.sidebar-menu-category{
+    display: flex;
+}
+.sidebar-menu-category > *{
+    margin: 10px;
+}
+.sidebar-menu-item{
+    display: flex;
+    margin: 10px;
+}
