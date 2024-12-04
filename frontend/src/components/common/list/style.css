@@ -17,3 +17,14 @@
     border-style:solid;
     border-color:transparent;
 }
+.search-set{
+    display: flex;
+}
+.search-set > *{
+    margin: 10px;
+}
+.search-set-category{
+    border-width:1px;
+    border-style:solid;
+    border-color:transparent;
+}
