@@ -16,7 +16,7 @@ export const login = (loginUser:emailAndPassword):boolean => {
 };
 
 export const signup = (signupUser:signupUser):boolean => {
-    const postResult = postData<loginSuccess>('/signup', signupUser)
+    postData<loginSuccess>('/signup', signupUser)
         .then((data:APIResponse<loginSuccess>) => {
             if(data == null) //회운가입 실패
                 return false;
@@ -57,6 +57,7 @@ export const getlist = (pageNo:number, pageSize:number, filter:number, filterVal
     //         return data.result;
     //     }
     // );
+    // return null as unknown as memberList;
 
     /* make for test*/
     var result :memberList = {
@@ -71,16 +72,73 @@ export const getlist = (pageNo:number, pageSize:number, filter:number, filterVal
     };
     return result;
 
-    return null as unknown as memberList;
 }
 
-export const getintfo = (MemberID:string):memberDetail => {
-    getData<memberDetail>('/info?MemberID='+ MemberID)
-        .then((data:APIResponse<memberDetail>) => {
-            return data.result;
+export const getintfo = (memberID:string):memberDetailInfo => {
+    // getData<memberDetailInfo>('/info?MemberID='+ memberID)
+    //     .then((data:APIResponse<memberDetailInfo>) => {
+    //         return data.result;
+    //     }
+    // );
+    // return null as unknown as memberDetailInfo;
+    
+    var result:memberDetailInfo= {
+        memberInfo:{
+          MemberID : "1q2w3er4t5t",
+          email : "rudgns9334",
+          name : "정경훈",
+          role : "판매점",
+          recommend : "ych526@naver.com",
+          phone : "010-9334-1487",
+          grade : "VVVVVVVVVVVVVVS",
+          CreatedDateTime : "2024-11-15 16:30:22",
+          country : "KOR",
+          lastLoginTime:"2024-11-15 16:30:22",
+          signupPage:"zone",
+        },
+        wallet :{
+          AK : 1.0,
+          AP : 1.0,
+          SP : 1.0,
+          AW : 1.0,
+          ABZ : 1.0,
+        },
+        address : [
+            {
+                country : "KOR",
+                zipCode : "11111",
+                baseAddress : "부산시 기장군",
+                detailAddress : "파란하늘집",
+                isMain : true,
+                isBill : true,
+                host : "정경훈",
+                phone : "010-1234-5678",
+                name : "우리집",
+                comment : "문앞에두지말고경비원옆에두지말고널판"
+           },
+           {
+                country : "KOR5",
+                zipCode : "111115",
+                baseAddress : "부산시 기장군5",
+                detailAddress : "파란하늘집5",
+                isMain : false,
+                isBill : false,
+                host : "정경훈5",
+                phone : "010-1234-56785",
+                name : "우리집5",
+                comment : "문앞에두지말고경비원옆에두지말고널판5"
+          }
+        ],
+        // seller:null as unknown as seller
+        seller:{
+          name : "가게이름?",
+          zipCode : "11111",
+          baseAddress : "부산시 기장군",
+          detailAddress : "파란하늘집",
+          phone : "02-123-1234",
         }
-    );
-    return null as unknown as memberDetail;
+    };
+    return result;
 }
 
 export const updateInfo = (updateInfo:updateInfo) => {
