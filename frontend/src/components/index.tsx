@@ -4,3 +4,7 @@ export {default as Footer} from "./common/Footer";
 export {default as BottomButton} from "./common/list/BottomButton";
 export {default as SearchSet} from "./common/list/SearchSet";
 export {default as MemberList} from "./admin/member/MemberList";
+export {default as MemberAdminInfo} from "./admin/memberDetail/MemberAdminInfo";
+export {default as MemberAdminWallet} from "./admin/memberDetail/MemberAdminWallet";
+export {default as MemberAdminAddress} from "./admin/memberDetail/MemberAdminAddress";
+export {default as MemberAdminSeller} from "./admin/memberDetail/MemberAdminSeller";
