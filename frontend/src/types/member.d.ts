@@ -5,6 +5,7 @@ interface loginSuccess {
 	firstName : string,
 	lastName : string,
 }
+
 interface emailAndPassword {
 	email : string,
 	password : string,
@@ -19,10 +20,12 @@ interface signupUser {
 	password : string,
 	recommend : string
 }
+
 interface memberidAndRole{
-	MemberID : string,
+	memberID : string,
 	role : string,
 }
+
 interface memberListPage{
 	pageNo : number,
 	size : number,
@@ -31,6 +34,7 @@ interface memberListPage{
 	isFiltered : boolean, 
 	filter : memberInfo,
 }
+
 interface memberInfo{
 	MemberID : string,
 	email : string,
@@ -42,12 +46,21 @@ interface memberInfo{
 	signupPage : string,
 	CreatedDateTime : string,
 }
+interface memberDetail extends memberInfo{
+	lastLoginTime : string,
+	country : string,
+}
+
 interface memberList{
 	totalMember  : number,
 	info  : memberInfo[]
 }
-interface memberDetail extends memberInfo{
-	address :address[]
+
+interface memberDetailInfo{
+	memberInfo : memberDetail,
+	wallet : wallet,
+	address : addressAllInfo[],
+	seller : seller,
 }
 
 interface updateInfo{
@@ -56,6 +69,23 @@ interface updateInfo{
 	phone : string,
 	password : string
 }
+
+interface wallet{
+	AK : number,
+	AP : number,
+	ABZ : number,
+	AW : number,
+	SP : number,
+}
+
+interface seller{
+	name : string,
+	zipCode : string,
+	baseAddress : string,
+	detailAddress : string,
+	phone : string
+}
+
 interface testuser {
 	firstName : string,
 	lastName : string,
