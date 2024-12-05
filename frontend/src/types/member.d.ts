@@ -21,7 +21,7 @@ interface signupUser {
 	recommend : string
 }
 
-interface memberidAndRole{
+interface memberIDAndRole{
 	memberID : string,
 	role : string,
 }
@@ -36,15 +36,15 @@ interface memberListPage{
 }
 
 interface memberInfo{
-	MemberID : string,
+	memberID : string,
 	email : string,
 	name : string,
 	role : string,
 	grade : string,
 	recommend : string,
 	phone : string,
-	signupPage : string,
-	CreatedDateTime : string,
+	platform : string,
+	createdDateTime : string,
 }
 interface memberDetail extends memberInfo{
 	lastLoginTime : string,
@@ -53,7 +53,7 @@ interface memberDetail extends memberInfo{
 
 interface memberList{
 	totalMember  : number,
-	info  : memberInfo[]
+	members  : memberInfo[]
 }
 
 interface memberDetailInfo{

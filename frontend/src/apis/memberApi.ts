@@ -38,7 +38,7 @@ export const checkEmail = (email:string):number => {
     return 1;
 }
 
-export const changeRole = (memberidAndRole:memberidAndRole) => {
+export const changeRole = (memberidAndRole:memberIDAndRole) => {
     postData('/role/update', memberidAndRole).then(() => {});
 }
 
@@ -62,16 +62,15 @@ export const getlist = (pageNo:number, pageSize:number, filter:number, filterVal
     /* make for test*/
     var result :memberList = {
         totalMember : 10003,
-        info:[
-            {MemberID: '1sasfdgsdfgs', name:'전 현태1', email:'jht043@naver.com1', phone:'010-9416-7342-1', role:'대리점', grade:'silver', recommend:'ych526@naver.com', signupPage:'net', CreatedDateTime:'2023-11-28 15:12:44'},
-            {MemberID: '2sasfdgsdfgs', name:'전 현태2', email:'jht043@naver.com2', phone:'010-9416-7342-2', role:'대리점', grade:'silver', recommend:'ych526@naver.com', signupPage:'net', CreatedDateTime:'2023-11-28 15:12:44'},
-            {MemberID: '3sasfdgsdfgs', name:'전 현태3', email:'jht043@naver.com3', phone:'010-9416-7342-3', role:'대리점', grade:'silver', recommend:'ych526@naver.com', signupPage:'net', CreatedDateTime:'2023-11-28 15:12:44'},
-            {MemberID: '4sasfdgsdfgs', name:'전 현태4', email:'jht043@naver.com4', phone:'010-9416-7342-4', role:'대리점', grade:'silver', recommend:'ych526@naver.com', signupPage:'zon', CreatedDateTime:'2023-11-28 15:12:44'},
-            {MemberID: '5sasfdgsdfgs', name:'전 현태5', email:'jht043@naver.com5', phone:'010-9416-7342-5', role:'대리점', grade:'silver', recommend:'ych526@naver.com', signupPage:'zon', CreatedDateTime:'2023-11-28 15:12:44'},
+        members:[
+            {memberID: '1sasfdgsdfgs', name:'전 현태1', email:'jht043@naver.com1', phone:'010-9416-7342-1', role:'대리점', grade:'silver', recommend:'ych526@naver.com', platform:'net', createdDateTime:'2023-11-28 15:12:44'},
+            {memberID: '2sasfdgsdfgs', name:'전 현태2', email:'jht043@naver.com2', phone:'010-9416-7342-2', role:'대리점', grade:'silver', recommend:'ych526@naver.com', platform:'net', createdDateTime:'2023-11-28 15:12:44'},
+            {memberID: '3sasfdgsdfgs', name:'전 현태3', email:'jht043@naver.com3', phone:'010-9416-7342-3', role:'대리점', grade:'silver', recommend:'ych526@naver.com', platform:'net', createdDateTime:'2023-11-28 15:12:44'},
+            {memberID: '4sasfdgsdfgs', name:'전 현태4', email:'jht043@naver.com4', phone:'010-9416-7342-4', role:'대리점', grade:'silver', recommend:'ych526@naver.com', platform:'zon', createdDateTime:'2023-11-28 15:12:44'},
+            {memberID: '5sasfdgsdfgs', name:'전 현태5', email:'jht043@naver.com5', phone:'010-9416-7342-5', role:'대리점', grade:'silver', recommend:'ych526@naver.com', platform:'zon', createdDateTime:'2023-11-28 15:12:44'},
         ]
     };
     return result;
-
 }
 
 export const getintfo = (memberID:string):memberDetailInfo => {
@@ -84,17 +83,17 @@ export const getintfo = (memberID:string):memberDetailInfo => {
     
     var result:memberDetailInfo= {
         memberInfo:{
-          MemberID : "1q2w3er4t5t",
+          memberID : "1q2w3er4t5t",
           email : "rudgns9334",
           name : "정경훈",
           role : "판매점",
           recommend : "ych526@naver.com",
           phone : "010-9334-1487",
           grade : "VVVVVVVVVVVVVVS",
-          CreatedDateTime : "2024-11-15 16:30:22",
+          createdDateTime : "2024-11-15 16:30:22",
           country : "KOR",
           lastLoginTime:"2024-11-15 16:30:22",
-          signupPage:"zone",
+          platform:"zone",
         },
         wallet :{
           AK : 1.0,
@@ -170,12 +169,12 @@ const filterToUrl = (memberListPage : memberListPage):String => {
                 '&sort=' + memberListPage.sort +
                 '&orderby=' + memberListPage.orderby +
                 '&isFiltered=' + memberListPage.isFiltered +
-                '&filter.MemberID=' + memberListPage.filter.MemberID +
+                '&filter.MemberID=' + memberListPage.filter.memberID +
                 '&filter.email=' + memberListPage.filter.email +
                 '&filter.name=' + memberListPage.filter.name +
                 '&filter.grade=' + memberListPage.filter.grade +
                 '&filter.recommend=' + memberListPage.filter.recommend +
                 '&filter.phone=' + memberListPage.filter.phone +
-                '&filter.CreatedDateTime=' + memberListPage.filter.CreatedDateTime;
+                '&filter.CreatedDateTime=' + memberListPage.filter.createdDateTime;
     return url;
 }

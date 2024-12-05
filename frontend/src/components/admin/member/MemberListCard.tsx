@@ -6,7 +6,7 @@ interface Props{
   const MemberListCard:React.FC<Props> = ({member}) => {
       const navigate = useNavigate();
       return (
-        <tr onClick={()=>{navigate(`/admin/memberdetail/${member.MemberID}`)}}>
+        <tr onClick={()=>{navigate(`/admin/memberdetail/${member.memberID}`)}}>
           <td>선택</td>
           <td>{member.name}</td>
           <td>{member.email}</td>
@@ -14,8 +14,8 @@ interface Props{
           <td>{member.recommend}</td>
           <td>{member.grade}</td>
           <td>{member.role}</td>
-          <td>{member.signupPage}</td>
-          <td>{member.CreatedDateTime}</td>
+          <td>{member.platform}</td>
+          <td>{member.createdDateTime}</td>
         </tr>
       );
 }

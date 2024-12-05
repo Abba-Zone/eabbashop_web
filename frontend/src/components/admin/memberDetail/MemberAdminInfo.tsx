@@ -11,9 +11,9 @@ const MemberAdminInfo:React.FC<Props> = ({memberInfo}) => {
         <div><div>역할</div><div>{memberInfo.role}</div></div>
         <div><div>국가</div><div>{memberInfo.country}</div></div>
         <div><div>추천인</div><div>{memberInfo.recommend}</div></div>
-        <div><div>플랫폼</div><div>{memberInfo.signupPage}</div></div>
+        <div><div>플랫폼</div><div>{memberInfo.platform}</div></div>
         <div><div>마지막 로그인</div><div>{memberInfo.lastLoginTime}</div></div>
-        <div><div>최소 생성일</div><div>{memberInfo.CreatedDateTime}</div></div>
+        <div><div>최소 생성일</div><div>{memberInfo.createdDateTime}</div></div>
       </div>
     );
 }
