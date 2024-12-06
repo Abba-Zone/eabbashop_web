@@ -1,0 +1,49 @@
+{
+  "Menu01": {
+    "Title": "ダッシュボード"
+  },
+  "Menu02": {
+    "Title": "顧客",
+    "SubMenu01": "顧客管理",
+    "SubMenu02": "顧客問い合わせ"
+  },
+  "Menu03": {
+    "Title": "商品",
+    "SubMenu01": "商品管理",
+    "SubMenu02": "カテゴリー"
+  },
+  "Menu04": {
+    "Title": "販売",
+    "SubMenu01": "注文",
+    "SubMenu02": "請求書",
+    "SubMenu03": "出荷",
+    "SubMenu04": "定期注文"
+  },
+  "Menu05": {
+    "Title": "報酬",
+    "SubMenu01": "報酬ライン",
+    "SubMenu02": "報酬分配"
+  },
+  "Menu06": {
+    "Title": "リクエスト",
+    "SubMenu01": "振替",
+    "SubMenu02": "支払い",
+    "SubMenu03": "振替キャンセル",
+    "SubMenu04": "返品",
+    "SubMenu05": "返金リクエスト"
+  },
+  "Menu07": {
+    "Title": "店舗",
+    "SubMenu01": "店舗管理",
+    "SubMenu02": "店舗サポート"
+  },
+  "Menu08": {
+    "Title": "掲示板",
+    "SubMenu01": "お知らせ",
+    "SubMenu02": "父の手紙",
+    "SubMenu03": "寄付履歴"
+  },
+  "Menu09": {
+    "Title": "その他"
+  }
+}
