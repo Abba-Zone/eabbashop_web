@@ -13,13 +13,13 @@ const NavBar:React.FC = () => {
     return (
         <div>
             <div onClick={handleGoLogin}>
-                login
+                로그인
             </div>
             <div onClick={handleGoSignup}>
-                signup
+                회원가입
             </div>
             <div onClick={handleGoAdmin}>
-                Admin 페이지
+                어드민페이지
             </div>
         </div>
     );
