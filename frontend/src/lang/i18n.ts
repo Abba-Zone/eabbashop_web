@@ -10,15 +10,19 @@ import AdminManagerMember_en from './en/AdminManagerMember.json';
 import AdminManagerMember_ko from './ko/AdminManagerMember.json';
 import AdminManagerMember_ja from './ja/AdminManagerMember.json';
 import AdminManagerMember_zh from './zh/AdminManagerMember.json';
+import AdminInquiry_ko from './ko/AdminInquiry.json';
+import AdminInquiry_en from './ko/AdminInquiry.json';
 
 const resources = {
   ko: {
     AdminMenu: AdminMenu_ko,
     AdminManagerMember: AdminManagerMember_ko,
+    AdminInquiry: AdminInquiry_ko,
   },
   en: {
     AdminMenu: AdminMenu_en,
     AdminManagerMember: AdminManagerMember_en,
+    AdminInquiry: AdminInquiry_en,
   },
   ja: {
     AdminMenu: AdminMenu_ja,

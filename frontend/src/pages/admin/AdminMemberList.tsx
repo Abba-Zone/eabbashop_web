@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useEffect, useState } from "react";
 import { BottomButton, MemberList, SearchSet } from '../../components';
 import { getMemberList_s } from '../../services/member';
@@ -19,38 +19,22 @@ const AdminMemberList: React.FC = () => {
     {selectName:'전화번호', select:'phone', selectType:'text', itemList:[]},
     {selectName:'추천인', select:'recommend', selectType:'text', itemList:[]},
     {selectName:'등급', select:'grade', selectType:'select', itemList:['Diamond', 'Gold', 'Platinum', 'Silver', 'Bronze']},
-    {selectName:'역할', select:'role', selectType:'select', itemList:['협력사', '지점', '대리점', '판매점']},
-    {selectName:'최초가입지', select:'signupPage', selectType:'text', itemList:[]},
-    {selectName:'가입일', select:'CreatedDateTime', selectType:'date', itemList:[]},
+    {selectName:'역할', select:'role', selectType:'select', itemList:['협력사', '지점', '대리점', '판매점, 고객']},
+    {selectName:'최초가입지', select:'platform', selectType:'text', itemList:[]},
+    {selectName:'가입일', select:'createdDateTime', selectType:'date', itemList:[]},
   ];
-  
-  const getUserList = async () => {
+  const getUserList = useCallback( async () => {
       try {
         const total_and_memberList : memberList = await getMemberList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
-        setMembers(total_and_memberList.info);
+        setMembers(total_and_memberList.members);
         setLastPage(total_and_memberList.totalMember === 0? 1:Math.floor((total_and_memberList.totalMember - 1)/pageSize) + 1);
       } catch (error) {
         console.error('Error fetching user list:', error);
       }
-  };
-  const changePage = (move:string) =>{
-    switch (move) {
-      case "next":
-        setPageNo(pageNo + 1);
-        break;
-      case "pre":
-        setPageNo(pageNo - 1);
-        break;
-      case "last":
-        setPageNo(lastPage);
-        break;
-      case "first":
-        setPageNo(1);
-        break;
-      default:
-        setPageNo(parseInt(move));
-        break;
-    }
+  },[pageNo, pageSize, filter, filterValue, sort, sortValue]);
+
+  const changePage = (move:number) =>{
+        setPageNo(move);
   }
   const changeSort = (sortName:string) => {
     if (sortName === sort){
@@ -70,7 +54,7 @@ const AdminMemberList: React.FC = () => {
 
   useEffect(() => {
       getUserList(); // 비동기 함수 호출
-    }, [pageNo, pageSize, filter, filterValue, sort, sortValue]);
+    }, [getUserList]);
 
   return (
     <div>
