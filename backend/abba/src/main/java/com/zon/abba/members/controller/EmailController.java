@@ -1,9 +1,8 @@
-package com.zon.abba.email.controller;
+package com.zon.abba.members.controller;
 
-import com.zon.abba.email.request.EmailRequest;
-import com.zon.abba.email.response.EmailResponse;
-import com.zon.abba.email.service.EmailService;
-import com.zon.abba.members.controller.MemberController;
+import com.zon.abba.members.request.EmailRequest;
+import com.zon.abba.members.response.EmailResponse;
+import com.zon.abba.members.service.EmailService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/email")
+@RequestMapping("/member/email")
 @RestController
 @RequiredArgsConstructor
 public class EmailController {

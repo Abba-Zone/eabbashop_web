@@ -1,4 +1,4 @@
-package com.zon.abba.email.request;
+package com.zon.abba.members.request;
 
 import lombok.Getter;
 

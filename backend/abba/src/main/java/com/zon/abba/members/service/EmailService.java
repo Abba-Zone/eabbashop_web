@@ -1,9 +1,8 @@
-package com.zon.abba.email.service;
+package com.zon.abba.members.service;
 
-import com.zon.abba.email.entity.Email;
-import com.zon.abba.email.request.EmailRequest;
-import com.zon.abba.email.response.EmailResponse;
-import com.zon.abba.members.controller.MemberController;
+import com.zon.abba.common.code.MailTitleCode;
+import com.zon.abba.members.request.EmailRequest;
+import com.zon.abba.members.response.EmailResponse;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -31,11 +30,13 @@ public class EmailService {
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
+        MailTitleCode mailTitleCode = MailTitleCode.EMAIL;
+
         try {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
             mimeMessageHelper.setTo(emailRequest.getEmail()); // 메일 수신자
-            mimeMessageHelper.setSubject("test"); // 메일 제목
-            mimeMessageHelper.setText(setContext(code), true); // 메일 본문 내용, HTML 여부
+            mimeMessageHelper.setSubject(mailTitleCode.getMessage()); // 메일 제목
+            mimeMessageHelper.setText(setContext(code, mailTitleCode), true); // 메일 본문 내용, HTML 여부
             javaMailSender.send(mimeMessage);
 
             logger.info("Success");
@@ -63,10 +64,10 @@ public class EmailService {
         return key.toString();
     }
 
-    public String setContext(String code) {
+    public String setContext(String code, MailTitleCode mailTitleCode) {
         Context context = new Context();
         context.setVariable("code", code);
-        return templateEngine.process("email", context);
+        return templateEngine.process(mailTitleCode.getCode(), context);
     }
 
 }

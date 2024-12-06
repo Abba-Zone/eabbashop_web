@@ -1,4 +1,4 @@
-package com.zon.abba.email.response;
+package com.zon.abba.members.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
