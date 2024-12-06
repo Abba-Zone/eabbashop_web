@@ -1,0 +1,49 @@
+{
+  "Menu01": {
+    "Title": "대시보드"
+  },
+  "Menu02": {
+    "Title": "고객",
+    "SubMenu01": "고객 관리",
+    "SubMenu02": "고객 문의"
+  },
+  "Menu03": {
+    "Title": "상품",
+    "SubMenu01": "상품 관리",
+    "SubMenu02": "카테고리"
+  },
+  "Menu04": {
+    "Title": "판매",
+    "SubMenu01": "주문",
+    "SubMenu02": "송장",
+    "SubMenu03": "출하",
+    "SubMenu04": "정기 주문"
+  },
+  "Menu05": {
+    "Title": "수당",
+    "SubMenu01": "수당 라인",
+    "SubMenu02": "수당 분배"
+  },
+  "Menu06": {
+    "Title": "요청",
+    "SubMenu01": "이체",
+    "SubMenu02": "결제",
+    "SubMenu03": "이체 취소",
+    "SubMenu04": "반품",
+    "SubMenu05": "환불 요청"
+  },
+  "Menu07": {
+    "Title": "매장",
+    "SubMenu01": "매장 관리",
+    "SubMenu02": "매장 지원"
+  },
+  "Menu08": {
+    "Title": "게시판",
+    "SubMenu01": "공지사항",
+    "SubMenu02": "아빠의 편지",
+    "SubMenu03": "기부내역"
+  },
+  "Menu09": {
+    "Title": "기타"
+  }
+}
