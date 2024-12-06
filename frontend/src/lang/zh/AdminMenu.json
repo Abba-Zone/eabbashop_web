@@ -1,0 +1,49 @@
+{
+  "Menu01": {
+    "Title": "仪表板"
+  },
+  "Menu02": {
+    "Title": "客户",
+    "SubMenu01": "客户管理",
+    "SubMenu02": "客户咨询"
+  },
+  "Menu03": {
+    "Title": "产品",
+    "SubMenu01": "产品管理",
+    "SubMenu02": "类别"
+  },
+  "Menu04": {
+    "Title": "销售",
+    "SubMenu01": "订单",
+    "SubMenu02": "发票",
+    "SubMenu03": "发货",
+    "SubMenu04": "定期订单"
+  },
+  "Menu05": {
+    "Title": "报酬",
+    "SubMenu01": "报酬线",
+    "SubMenu02": "报酬分配"
+  },
+  "Menu06": {
+    "Title": "请求",
+    "SubMenu01": "转账",
+    "SubMenu02": "支付",
+    "SubMenu03": "转账取消",
+    "SubMenu04": "退货",
+    "SubMenu05": "退款请求"
+  },
+  "Menu07": {
+    "Title": "商店",
+    "SubMenu01": "商店管理",
+    "SubMenu02": "商店支持"
+  },
+  "Menu08": {
+    "Title": "公告板",
+    "SubMenu01": "通知",
+    "SubMenu02": "父亲的信",
+    "SubMenu03": "捐赠记录"
+  },
+  "Menu09": {
+    "Title": "其他"
+  }
+}
