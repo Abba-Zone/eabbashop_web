@@ -1,0 +1,20 @@
+{
+    "List": {
+        "Title": "Customer Management",
+        "Filter01": "Name",
+        "Filter02": "Email",
+        "Filter03": "Phone Number",
+        "Filter04": "Referrer",
+        "Filter05": "Grade",
+        "Filter06": "Role",
+        "Filter07": "First Registration Location",
+        "Filter08": "Registration Date"
+    },
+    "Detail": {
+        "Item01": {
+            "Title": "Customer Information",
+            "Attribute01": "Email",
+            "Attribute02": "Phone Number"
+        }
+    }
+}

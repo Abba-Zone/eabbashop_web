@@ -1,0 +1,20 @@
+{
+    "List": {
+        "Title": "고객 관리",
+        "Filter01" : "이름",
+        "Filter02" : "이메일",
+        "Filter03" : "전화번호",
+        "Filter04" : "추천인",
+        "Filter05" : "등급",
+        "Filter06" : "역할",
+        "Filter07" : "최초가입지",
+        "Filter08" : "가입일"
+    },
+    "Detail": {
+        "Item01" : {
+            "Title" : "고객 정보",
+            "Attribute01" : "이메일",
+            "Attribute02" : "전화번호"
+        }
+    }
+}
