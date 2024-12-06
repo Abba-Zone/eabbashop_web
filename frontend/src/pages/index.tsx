@@ -59,3 +59,4 @@ export { default as AdminNotice } from "./admin/AdminNotice";
 export { default as AdminLetter } from "./admin/AdminLetter";
 export { default as AdminDonation } from "./admin/AdminDonation";
 export { default as AdminSetting } from "./admin/AdminSetting";
+export { default as AdminInquiryList } from "./admin/AdminInquiryList";

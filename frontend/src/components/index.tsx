@@ -8,3 +8,4 @@ export {default as MemberAdminInfo} from "./admin/memberDetail/MemberAdminInfo";
 export {default as MemberAdminWallet} from "./admin/memberDetail/MemberAdminWallet";
 export {default as MemberAdminAddress} from "./admin/memberDetail/MemberAdminAddress";
 export {default as MemberAdminSeller} from "./admin/memberDetail/MemberAdminSeller";
+export {default as InquiryList} from "./admin/inquiryList/InquiryList";
