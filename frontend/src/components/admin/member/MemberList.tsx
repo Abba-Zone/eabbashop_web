@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import ListCard from "./MemberListCard";
+import { useTranslation } from "react-i18next";
 interface Props{
     members:memberInfo[],
     changeSort(sortName:string):void,
 }
 
 const MemberList:React.FC<Props> = ({members, changeSort}) => {
+    const { t } = useTranslation();
     const rendering = (): JSX.Element[] => {
         const result = [];
         for(let i = 0 ; i < members.length; i++){
@@ -17,14 +19,14 @@ const MemberList:React.FC<Props> = ({members, changeSort}) => {
       const result = 
       <tr>
         <th>선택</th>
-        <th onClick={()=>{changeSort('name')}}>이름</th>
-        <th onClick={()=>{changeSort('email')}}>이메일</th>
-        <th onClick={()=>{changeSort('phone')}}>전화번호</th>
-        <th onClick={()=>{changeSort('recommend')}}>추천인</th>
-        <th onClick={()=>{changeSort('grade')}}>등급</th>
-        <th onClick={()=>{changeSort('role')}}>역할</th>
-        <th onClick={()=>{changeSort('signupPage')}}>최초가입지</th>
-        <th onClick={()=>{changeSort('CreatedDateTime')}}>가입일</th>
+        <th onClick={()=>{changeSort('name')}}>{t("AdminManagerMember:List.Filter01")}</th>
+        <th onClick={()=>{changeSort('email')}}>{t("AdminManagerMember:List.Filter02")}</th>
+        <th onClick={()=>{changeSort('phone')}}>{t("AdminManagerMember:List.Filter03")}</th>
+        <th onClick={()=>{changeSort('recommend')}}>{t("AdminManagerMember:List.Filter04")}</th>
+        <th onClick={()=>{changeSort('grade')}}>{t("AdminManagerMember:List.Filter05")}</th>
+        <th onClick={()=>{changeSort('role')}}>{t("AdminManagerMember:List.Filter06")}</th>
+        <th onClick={()=>{changeSort('signupPage')}}>{t("AdminManagerMember:List.Filter07")}</th>
+        <th onClick={()=>{changeSort('CreatedDateTime')}}>{t("AdminManagerMember:List.Filter08")}</th>
       </tr>;
       return result;
   }
