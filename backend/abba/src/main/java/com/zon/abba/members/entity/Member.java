@@ -34,10 +34,10 @@ public class Member {
     @Column(name = "Password", length = 200)
     private String password;
 
-    @Column(name = "Phone", length = 20, nullable = false)
+    @Column(name = "Phone", length = 50, nullable = false)
     private String phone;
 
-    @Column(name = "PinNumber", length = 6)
+    @Column(name = "PinNumber", length = 6, columnDefinition = "CHAR(6)")
     private String pinNumber;
 
     @Column(name = "FailCount", columnDefinition = "INT DEFAULT 0", nullable = false)
@@ -46,22 +46,22 @@ public class Member {
     @Column(name = "Provider", length = 10, columnDefinition = "VARCHAR(10) DEFAULT 'local'", nullable = false)
     private String provider;
 
-    @Column(name = "Country", length = 3)
+    @Column(name = "Country", length = 3, columnDefinition = "CHAR(3)")
     private String country;
 
-    @Column(name = "Grade", length = 1, nullable = false)
+    @Column(name = "Grade", length = 1, nullable = false, columnDefinition = "CHAR(1)")
     private String grade;
 
-    @Column(name = "Role", length = 1, nullable = false)
+    @Column(name = "Role", length = 1, nullable = false, columnDefinition = "CHAR(1)")
     private String role;
 
-    @Column(name = "Platform", length = 4, nullable = false)
+    @Column(name = "Platform", length = 4, nullable = false, columnDefinition = "CHAR(4)")
     private String platform;
 
     @Column(name = "LastLoginTime", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", nullable = false)
     private LocalDateTime lastLoginTime;
 
-    @Column(name = "ReceiveConsentYN", length = 1, nullable = false)
+    @Column(name = "ReceiveConsentYN", length = 1, nullable = false, columnDefinition = "CHAR(1)")
     private String receiveConsentYN;
 
     @Column(name = "CreatedID", columnDefinition = "CHAR(36)", updatable = false, nullable = false)
