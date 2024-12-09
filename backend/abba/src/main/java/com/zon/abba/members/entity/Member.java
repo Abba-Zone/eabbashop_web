@@ -41,45 +41,45 @@ public class Member {
     @Column(name = "FailCount", columnDefinition = "INT DEFAULT 0", nullable = false)
     private int failCount;
 
-    @Column(name = "Provider", length = 10, columnDefinition = "VARCHAR(10) DEFAULT 'local'")
+    @Column(name = "Provider", length = 10, columnDefinition = "VARCHAR(10) DEFAULT 'local'", nullable = false)
     private String provider;
 
     @Column(name = "Country", length = 3)
     private String country;
 
-    @Column(name = "Grade", length = 1)
+    @Column(name = "Grade", length = 1, nullable = false)
     private String grade;
 
-    @Column(name = "Role", length = 1)
+    @Column(name = "Role", length = 1, nullable = false)
     private String role;
 
-    @Column(name = "Platform", length = 1)
+    @Column(name = "Platform", length = 1, nullable = false)
     private String platform;
 
-    @Column(name = "LastLoginTime", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "LastLoginTime", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", nullable = false)
     private LocalDateTime lastLoginTime;
 
-    @Column(name = "ReceiveConsentYN", length = 1)
+    @Column(name = "ReceiveConsentYN", length = 1, nullable = false)
     private String receiveConsentYN;
 
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "CreatedID", columnDefinition = "CHAR(36)", updatable = false)
+    @Column(name = "CreatedID", columnDefinition = "CHAR(36)", updatable = false, nullable = false)
     private UUID createdId;
 
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "ModifiedID", columnDefinition = "CHAR(36)")
+    @Column(name = "ModifiedID", columnDefinition = "CHAR(36)", nullable = false)
     private UUID modifiedId;
 
-    @Column(name = "CreatedDateTime", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", updatable = false)
+    @Column(name = "CreatedDateTime", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", updatable = false, nullable = false)
     private LocalDateTime createdDateTime;
 
-    @Column(name = "ModifiedDateTime", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "ModifiedDateTime", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", nullable = false)
     private LocalDateTime modifiedDateTime;
 
-    @Column(name = "DeleteYN", length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
+    @Column(name = "DeleteYN", length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'", nullable = false)
     private String deleteYN;
 
-    @Column(name = "ActiveYN", length = 1, columnDefinition = "CHAR(1) DEFAULT 'Y'")
+    @Column(name = "ActiveYN", length = 1, columnDefinition = "CHAR(1) DEFAULT 'Y'", nullable = false)
     private String activeYN;
 
 

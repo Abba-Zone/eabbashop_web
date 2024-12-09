@@ -14,14 +14,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(LoginException.class)
     public ResponseEntity<String> handleLoginException(LoginException ex) {
         return ResponseEntity
-                .status(411) // 411 로그인
+                .status(411) // 411 로그인에서 에러남
                 .body(ex.getMessage()); // 에러 메시지 반환
     }
 
     @ExceptionHandler(LogoutException.class)
     public ResponseEntity<String> handleLogoutException(LogoutException ex) {
         return ResponseEntity
-                .status(412) // 401 Unauthorized
+                .status(412) // 412 로그아웃에서 에러남
                 .body(ex.getMessage()); // 에러 메시지 반환
     }
 
@@ -29,6 +29,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleExpiredTokenException(ExpiredTokenException ex) {
         return ResponseEntity
                 .status(413) // 413 토큰만료됨.
+                .body(ex.getMessage()); // 에러 메시지 반환
+    }
+
+    @ExceptionHandler(ExpiredTokenException.class)
+    public ResponseEntity<String> handleFailPasswordException(FailPasswordException ex) {
+        return ResponseEntity
+                .status(414) // 414 비밀번호 틀림
                 .body(ex.getMessage()); // 에러 메시지 반환
     }
 

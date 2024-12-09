@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +19,7 @@ public class SignupService {
     private static final Logger logger = LoggerFactory.getLogger(SignupService.class);
     private final MemberRepository memberRepository;
     private final LoginService loginService;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public LoginResponse signup(SignupRequest signupRequest){
@@ -28,7 +30,7 @@ public class SignupService {
                 .email(signupRequest.getEmail())
                 .provider(signupRequest.getProvider())
                 .phone(signupRequest.getPhone())
-                .password(signupRequest.getPassword())
+                .password(passwordEncoder.encode(signupRequest.getPassword()))
                 .country(signupRequest.getCountry())
                 .build();
 
