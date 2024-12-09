@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
                 .body(ex.getMessage()); // 에러 메시지 반환
     }
 
-    @ExceptionHandler(ExpiredTokenException.class)
+    @ExceptionHandler(FailPasswordException.class)
     public ResponseEntity<String> handleFailPasswordException(FailPasswordException ex) {
         return ResponseEntity
                 .status(414) // 414 비밀번호 틀림

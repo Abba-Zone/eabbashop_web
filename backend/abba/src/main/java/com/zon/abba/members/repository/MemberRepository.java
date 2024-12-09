@@ -8,11 +8,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member, UUID> {
+public interface MemberRepository extends JpaRepository<Member, String> {
 
     // 이메일로 member 조회
     Optional<Member> findByEmail(String email);
 
     // id로 member 조회
-    Optional<Member> findByMemberId(UUID memberId);
+    Optional<Member> findByMemberId(String memberId);
 }

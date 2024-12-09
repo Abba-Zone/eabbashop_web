@@ -44,7 +44,7 @@ public class LoginService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    private LoginResponse makeToken(MemberDto memberDto){
+    public LoginResponse makeToken(MemberDto memberDto){
         // 사용자 인증
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -54,6 +54,7 @@ public class LoginService {
         );
         // 인증 정보 설정
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
 
         // JWT 토큰 생성
         String accessToken = tokenProvider.createAccessToken(authentication);
@@ -73,19 +74,21 @@ public class LoginService {
 
     @Transactional
     public LoginResponse login(LoginRequest loginRequest){
+        logger.info("로그인 시도중");
         // 1. 유저 정보를 받아온다.
         Member member = memberRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
 
         // 2. 비밀번호 검증
-        if (!passwordEncoder.matches(loginRequest.getPassword(), member.getPassword())) {
+//        if (!passwordEncoder.matches(loginRequest.getPassword(), member.getPassword())) {
+        if(!loginRequest.getPassword().equals(member.getPassword())) {
             // 비밀번호가 틀리면 failCount를 증가시키고 저장
             member.setFailCount(member.getFailCount() + 1);
             memberRepository.save(member);
             throw new FailPasswordException("비밀번호가 틀렸습니다.");
         }
 
-        // 3. 비밀번호 검증 성공 시 failCount 초기화 및 lastLoginTime 업데이트
+//         3. 비밀번호 검증 성공 시 failCount 초기화 및 lastLoginTime 업데이트
         member.setFailCount(0); // 실패 횟수 초기화
         member.setLastLoginTime(LocalDateTime.now()); // 마지막 로그인 시간 갱신
         memberRepository.save(member);

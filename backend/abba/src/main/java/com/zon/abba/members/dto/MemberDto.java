@@ -13,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @ToString
 public class MemberDto {
-    private UUID memberId;             // id
+    private String memberId;             // id
     private String firstName;          // First name
     private String lastName;           // Last name
     private String email;              // Email
@@ -28,8 +28,8 @@ public class MemberDto {
     private String role;               // Role of the member (e.g. USER, ADMIN)
     private String platform;           // Platform of the member (e.g. zone, net, all)
     private LocalDateTime lastLoginTime; // Last login timestamp
-    private UUID createdId;          // ID of the user who created this member
-    private UUID modifiedId;         // ID of the user who last modified this member
+    private String createdId;          // ID of the user who created this member
+    private String modifiedId;         // ID of the user who last modified this member
     private LocalDateTime createdDateTime; // Creation timestamp
     private LocalDateTime modifiedDateTime; // Last modification timestamp
     private String deleteYn;           // Deleted flag (Y/N)

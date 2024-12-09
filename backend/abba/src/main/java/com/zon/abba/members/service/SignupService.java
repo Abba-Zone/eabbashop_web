@@ -1,5 +1,6 @@
 package com.zon.abba.members.service;
 
+import com.zon.abba.members.dto.MemberDto;
 import com.zon.abba.members.entity.Member;
 import com.zon.abba.members.repository.MemberRepository;
 import com.zon.abba.members.request.LoginRequest;
@@ -19,7 +20,6 @@ public class SignupService {
     private static final Logger logger = LoggerFactory.getLogger(SignupService.class);
     private final MemberRepository memberRepository;
     private final LoginService loginService;
-    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public LoginResponse signup(SignupRequest signupRequest){
@@ -30,18 +30,18 @@ public class SignupService {
                 .email(signupRequest.getEmail())
                 .provider(signupRequest.getProvider())
                 .phone(signupRequest.getPhone())
-                .password(passwordEncoder.encode(signupRequest.getPassword()))
+                .password(signupRequest.getPassword())
+                .platform(signupRequest.getPlatform())
                 .country(signupRequest.getCountry())
                 .build();
 
-        member.perPersist();
-        memberRepository.save(member);
+//        member.perPersist();
+        member = memberRepository.save(member);
 
+        logger.info("회원 정보 저장 완료");
         // 로그인 정보를 담아서 로그인 신호를 보낸다.
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail(signupRequest.getEmail());
-        loginRequest.setPassword(signupRequest.getPassword());
+        MemberDto memberDto = new MemberDto(member);
+        return loginService.makeToken(memberDto);
 
-        return loginService.login(loginRequest);
     }
 }

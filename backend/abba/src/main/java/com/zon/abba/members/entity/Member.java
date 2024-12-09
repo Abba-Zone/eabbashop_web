@@ -2,6 +2,7 @@ package com.zon.abba.members.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
@@ -13,12 +14,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Entity
+@DynamicInsert
 @Table(name = "Members")
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "MemberID", columnDefinition = "CHAR(36)", updatable = false, nullable = false)
-    private UUID memberId;
+    private String memberId;
 
     @Column(name = "FirstName", length = 50, nullable = false)
     private String firstName;
@@ -35,11 +37,11 @@ public class Member {
     @Column(name = "Phone", length = 20, nullable = false)
     private String phone;
 
-    @Column(name = "PinNumber", length = 6, nullable = false)
+    @Column(name = "PinNumber", length = 6)
     private String pinNumber;
 
     @Column(name = "FailCount", columnDefinition = "INT DEFAULT 0", nullable = false)
-    private int failCount;
+    private Integer failCount;
 
     @Column(name = "Provider", length = 10, columnDefinition = "VARCHAR(10) DEFAULT 'local'", nullable = false)
     private String provider;
@@ -53,7 +55,7 @@ public class Member {
     @Column(name = "Role", length = 1, nullable = false)
     private String role;
 
-    @Column(name = "Platform", length = 1, nullable = false)
+    @Column(name = "Platform", length = 4, nullable = false)
     private String platform;
 
     @Column(name = "LastLoginTime", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", nullable = false)
@@ -62,13 +64,11 @@ public class Member {
     @Column(name = "ReceiveConsentYN", length = 1, nullable = false)
     private String receiveConsentYN;
 
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "CreatedID", columnDefinition = "CHAR(36)", updatable = false, nullable = false)
-    private UUID createdId;
+    private String createdId;
 
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "ModifiedID", columnDefinition = "CHAR(36)", nullable = false)
-    private UUID modifiedId;
+    private String modifiedId;
 
     @Column(name = "CreatedDateTime", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", updatable = false, nullable = false)
     private LocalDateTime createdDateTime;
@@ -87,10 +87,15 @@ public class Member {
     public void perPersist(){
         if(this.lastLoginTime == null) this.lastLoginTime = LocalDateTime.now();
         if(this.receiveConsentYN == null) this.receiveConsentYN = "Y";
+        if (this.createdId == null) this.createdId = UUID.randomUUID().toString();
+        if (this.modifiedId == null) this.modifiedId = UUID.randomUUID().toString();
+        if (this.failCount == null) this.failCount = 0;
         if(this.createdDateTime == null) this.createdDateTime = LocalDateTime.now();
         if(this.modifiedDateTime == null) this.modifiedDateTime = LocalDateTime.now();
         if(this.grade == null) this.grade = "A";
         if(this.role == null) this.role = "A";
+        if(this.deleteYN == null) this.deleteYN = "N";
+        if(this.activeYN == null) this.activeYN = "Y";
     }
 
 }
