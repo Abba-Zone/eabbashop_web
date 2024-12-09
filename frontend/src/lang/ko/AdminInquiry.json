@@ -2,9 +2,25 @@
     "List": {
         "Title": "고객 문의",
         "Filter01" : "제목",
-        "Filter02" : "유형",
+        "Filter02" : "문의유형",
         "Filter03" : "작성자",
         "Filter04" : "상태",
         "Filter05" : "작성일"
+    },
+    "Detail":{
+        "Item01" :{
+            "Title" : "문의 정보",
+            "Attribute01": "작성자",
+            "Attribute02": "문의유형",
+            "Attribute03": "상세내용",
+            "Attribute04": "상태",
+            "Attribute05": "작성일"
+        },
+        "Item02" :{
+            "Title" : "문의 답변",
+            "Attribute01": "답변 작성자",
+            "Attribute02": "답변 내용",
+            "Attribute03": "작성일"
+        }
     }
 }

@@ -73,7 +73,7 @@ export const getlist = (pageNo:number, pageSize:number, filter:number, filterVal
     return result;
 }
 
-export const getintfo = (memberID:string):memberDetailInfo => {
+export const getInfo = (memberID:string):memberDetailInfo => {
     // getData<memberDetailInfo>('/info?MemberID='+ memberID)
     //     .then((data:APIResponse<memberDetailInfo>) => {
     //         return data.result;

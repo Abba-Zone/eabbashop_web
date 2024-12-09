@@ -15,7 +15,7 @@ import { Home, Login, Signup, Cart, Profile,
   AdminPaymentRequest, AdminTransferCancel, AdminTakebackRequest,
   AdminRefundRequest, AdminStoreList, AdminStoreDetail,
   AdminStoreManage, AdminNotice, AdminLetter, AdminDonation,
-  AdminSetting, AdminInquiryList } from '../pages';
+  AdminSetting, AdminInquiryList, AdminInquiryDetail } from '../pages';
 
 const RoutePath:React.FC = () => {
   return (
@@ -55,6 +55,8 @@ const RoutePath:React.FC = () => {
         <Route path="/admin/memberdetail/:id" element={<AdminMemberDetail />} />
         <Route path="/admin/memberdetail/:id/wallet" element={<AdminWalletHistory />} />
         <Route path="/admin/customer-inquiry" element={<AdminInquiryList />} />
+        <Route path="/admin/customer-inquiry/:id" element={<AdminInquiryDetail />} />
+        
 
         {/* Product Management */}
         <Route path="/admin/product" element={<AdminProductList />} />
