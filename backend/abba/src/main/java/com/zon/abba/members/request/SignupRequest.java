@@ -31,4 +31,7 @@ public class SignupRequest {
 
     @JsonProperty("recommend")
     private String recommend;
+
+    @JsonProperty("country")
+    private String country;
 }

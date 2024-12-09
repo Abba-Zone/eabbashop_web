@@ -2,6 +2,7 @@ package com.zon.abba.members.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -12,88 +13,82 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "members")
+@Table(name = "Members")
 public class Member {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO) // UUID 자동 생성
-    @Column(name = "member_id", nullable = false, updatable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "MemberID", columnDefinition = "CHAR(36)", updatable = false, nullable = false)
     private UUID memberId;
 
-    @Column(name = "first_name", length = 50, nullable = false)
+    @Column(name = "FirstName", length = 50, nullable = false)
     private String firstName;
 
-    @Column(name = "last_name", length = 50, nullable = false)
+    @Column(name = "LastName", length = 50, nullable = false)
     private String lastName;
 
-    @Column(name = "email", length = 100, nullable = false)
+    @Column(name = "Email", length = 100, nullable = false)
     private String email;
 
-    @Column(name = "password", length = 200, nullable = false)
+    @Column(name = "Password", length = 200)
     private String password;
 
-    @Column(name = "recommend_id", length = 20)
-    private String recommendId;
-
-    @Column(name = "phone", length = 50, nullable = false)
+    @Column(name = "Phone", length = 20, nullable = false)
     private String phone;
 
-    @Column(name = "fail_count", nullable = false)
-    private Integer failCount;
+    @Column(name = "PinNumber", length = 6, nullable = false)
+    private String pinNumber;
 
-    @Column(name = "provider", length = 10, nullable = false)
+    @Column(name = "FailCount", columnDefinition = "INT DEFAULT 0", nullable = false)
+    private int failCount;
+
+    @Column(name = "Provider", length = 10, columnDefinition = "VARCHAR(10) DEFAULT 'local'")
     private String provider;
 
-    @Column(name = "country", length = 3)
+    @Column(name = "Country", length = 3)
     private String country;
 
-    @Column(name = "grade", length = 1, nullable = false)
+    @Column(name = "Grade", length = 1)
     private String grade;
 
-    @Column(name = "role", length = 1, nullable = false)
+    @Column(name = "Role", length = 1)
     private String role;
 
-    @Column(name = "last_login_time", nullable = false)
+    @Column(name = "Platform", length = 1)
+    private String platform;
+
+    @Column(name = "LastLoginTime", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime lastLoginTime;
 
-    @Column(name = "created_id", length = 36, nullable = false)
-    private String createdId;
+    @Column(name = "ReceiveConsentYN", length = 1)
+    private String receiveConsentYN;
 
-    @Column(name = "modified_id", length = 36, nullable = false)
-    private String modifiedId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "CreatedID", columnDefinition = "CHAR(36)", updatable = false)
+    private UUID createdId;
 
-    @Column(name = "created_date_time", nullable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "ModifiedID", columnDefinition = "CHAR(36)")
+    private UUID modifiedId;
+
+    @Column(name = "CreatedDateTime", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", updatable = false)
     private LocalDateTime createdDateTime;
 
-    @Column(name = "modified_date_time", nullable = true)
+    @Column(name = "ModifiedDateTime", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime modifiedDateTime;
 
-    @Column(name = "delete_yn", length = 1, nullable = false)
-    private String deleteYn;
+    @Column(name = "DeleteYN", length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
+    private String deleteYN;
 
-    @Column(name = "active_yn", length = 1, nullable = false)
-    private String activeYn;
+    @Column(name = "ActiveYN", length = 1, columnDefinition = "CHAR(1) DEFAULT 'Y'")
+    private String activeYN;
 
-    @Column(name = "mac_address", length = 100, nullable = true)
-    private String macAddress;
-
-    @Column(name = "receive_consent_yn", length = 1, nullable = false)
-    private String receiveConsentYn;
-
-    @Column(name = "push_consent_yn", length = 1, nullable = false)
-    private String pushConsentYn;
 
     @PrePersist
     public void perPersist(){
-        if(this.failCount == null) this.failCount = 0;
         if(this.lastLoginTime == null) this.lastLoginTime = LocalDateTime.now();
-        if(this.receiveConsentYn == null) this.receiveConsentYn = "N";
-        if(this.pushConsentYn == null) this.pushConsentYn = "N";
+        if(this.receiveConsentYN == null) this.receiveConsentYN = "Y";
         if(this.createdDateTime == null) this.createdDateTime = LocalDateTime.now();
         if(this.modifiedDateTime == null) this.modifiedDateTime = LocalDateTime.now();
-        if(this.deleteYn == null) this.deleteYn = "N";
-        if(this.activeYn == null) this.activeYn = "Y";
-        if(this.createdId == null) this.createdId = UUID.randomUUID().toString();
-        if(this.modifiedId == null) this.modifiedId = UUID.randomUUID().toString();
         if(this.grade == null) this.grade = "A";
         if(this.role == null) this.role = "A";
     }

@@ -29,8 +29,7 @@ public class SignupService {
                 .provider(signupRequest.getProvider())
                 .phone(signupRequest.getPhone())
                 .password(signupRequest.getPassword())
-                .recommendId(signupRequest.getRecommend())
-                .country("KOR")
+                .country(signupRequest.getCountry())
                 .build();
 
         member.perPersist();
