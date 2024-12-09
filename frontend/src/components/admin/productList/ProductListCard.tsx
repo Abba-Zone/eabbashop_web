@@ -6,7 +6,7 @@ interface Props{
   const ProductListCard:React.FC<Props> = ({product}) => {
       const navigate = useNavigate();
       return (
-        <tr onClick={()=>{navigate(`/admin/customer-inquiry/${product.productID}`)}}>
+        <tr onClick={()=>{navigate(`/admin/productdetail/${product.productID}`)}}>
           <td>선택</td>
           <td>{product.name}</td>
           <td>{product.seller}</td>
