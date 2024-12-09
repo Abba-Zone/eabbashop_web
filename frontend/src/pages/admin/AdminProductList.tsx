@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { BottomButton, SearchSet } from '../../components';
+import { BottomButton, ProductList, SearchSet } from '../../components';
 import { getProductList_s } from '../../services/product';
 
 const AdminProductList: React.FC = () => {
@@ -44,7 +44,12 @@ const AdminProductList: React.FC = () => {
   }
   const changeFilter = (key:number, value:string) =>{
     setFilter(key);
-    setFilterValue(value);
+    if (key === 3 && value === "활성화")
+      setFilterValue("true");
+    else if (key === 3 && value === "비활성화")
+      setFilterValue("false");
+    else
+      setFilterValue(value);
   }
 
   useEffect(() => {
@@ -54,6 +59,7 @@ const AdminProductList: React.FC = () => {
     <div>
       <h1>AdminProductList</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
+      <ProductList products={products} changeSort={changeSort}/>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
     </div>
   );
