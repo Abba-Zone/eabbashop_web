@@ -6,5 +6,21 @@
         "Filter03": "Author",
         "Filter04": "Status",
         "Filter05": "Registration Date"
+    },
+    "Detail": {
+        "Item01": {
+            "Title": "Inquiry Information",
+            "Attribute01": "Author",
+            "Attribute02": "Inquiry Type",
+            "Attribute03": "Details",
+            "Attribute04": "Status",
+            "Attribute05": "Created Date"
+        },
+        "Item02": {
+            "Title": "Inquiry Response",
+            "Attribute01": "Responder",
+            "Attribute02": "Response Content",
+            "Attribute03": "Created Date"
+        }
     }
 }
