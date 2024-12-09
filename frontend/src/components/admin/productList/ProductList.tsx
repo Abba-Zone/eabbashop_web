@@ -18,10 +18,10 @@ const ProductList:React.FC<Props> = ({products, changeSort}) => {
     const result = 
     <tr>
       <th>선택</th>
-      <th onClick={()=>{changeSort('name')}}>상품명</th>
-      <th onClick={()=>{changeSort('seller')}}>판매자</th>
-      <th onClick={()=>{changeSort('stock')}}>재고</th>
-      <th onClick={()=>{changeSort('activeYN')}}>활성화</th>
+      <th onClick={()=>{changeSort('name')}}>{t("AdminProduct:List.Filter01")}</th>
+      <th onClick={()=>{changeSort('seller')}}>{t("AdminProduct:List.Filter02")}</th>
+      <th onClick={()=>{changeSort('stock')}}>{t("AdminProduct:List.Filter03")}</th>
+      <th onClick={()=>{changeSort('activeYN')}}>{t("AdminProduct:List.Filter04")}</th>
     </tr>;
     return result;
   }

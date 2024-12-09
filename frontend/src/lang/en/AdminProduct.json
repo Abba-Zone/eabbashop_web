@@ -1,0 +1,10 @@
+{
+    "List": {
+        "Title": "Product List",
+        "Filter01": "Product Name",
+        "Filter02": "Seller",
+        "Filter03": "Stock",
+        "Filter04": "Active",
+        "Filter05": "Inactive"
+    }
+}

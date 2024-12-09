@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { BottomButton, ProductList, SearchSet } from '../../components';
 import { getProductList_s } from '../../services/product';
+import { useTranslation } from 'react-i18next';
 
 const AdminProductList: React.FC = () => {
+  const { t } = useTranslation();
   const [products, setProducts] = useState<product[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -57,7 +59,7 @@ const AdminProductList: React.FC = () => {
     }, [getUserList]);
   return (
     <div>
-      <h1>AdminProductList</h1>
+      <h1>{t("AdminInquiry:List.Title")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <ProductList products={products} changeSort={changeSort}/>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
