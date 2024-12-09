@@ -13,6 +13,7 @@ interface inquiryList{
 }
 
 interface inquiryDetail extends inquiry{
+    content : string,
     responseContent : string,
     responseDateTime : string,
     responseMember : string
