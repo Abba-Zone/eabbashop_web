@@ -31,9 +31,6 @@ public class RedisConfig {
     {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
 
-        logger.info("host : {}", host);
-        logger.info("port : {}", port);
-        logger.info("password : {}", password);
         redisStandaloneConfiguration.setHostName(host);
         redisStandaloneConfiguration.setPort(port);
         redisStandaloneConfiguration.setPassword(password);
