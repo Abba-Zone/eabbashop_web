@@ -17,18 +17,23 @@ import AdminInquiry_en from './en/AdminInquiry.json';
 import AdminProduct_ko from './ko/AdminProduct.json';
 import AdminProduct_en from './en/AdminProduct.json';
 
+import AdminOrder_ko from './ko/AdminOrder.json';
+import AdminOrder_en from './en/AdminOrder.json';
+
 const resources = {
   ko: {
     AdminMenu: AdminMenu_ko,
     AdminManagerMember: AdminManagerMember_ko,
     AdminInquiry: AdminInquiry_ko,
     AdminProduct: AdminProduct_ko,
+    AdminOrder: AdminOrder_ko
   },
   en: {
     AdminMenu: AdminMenu_en,
     AdminManagerMember: AdminManagerMember_en,
     AdminInquiry: AdminInquiry_en,
     AdminProduct: AdminProduct_en,
+    AdminOrder: AdminOrder_en
   },
   ja: {
     AdminMenu: AdminMenu_ja,

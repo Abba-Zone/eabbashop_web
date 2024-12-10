@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AdminOrderListComponent, BottomButton, SearchSet } from '../../components';
 import { getOrderList_s } from '../../services/sale';
+import { useTranslation } from 'react-i18next';
 
 const AdminOrderList: React.FC = () => {
+  const { t } = useTranslation();
   const [orders, setOrders] = useState<order[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -13,10 +15,10 @@ const AdminOrderList: React.FC = () => {
   const [sortValue, setSortValue] = useState<string>("DESC");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:'상품명', select:'name', selectType:'text', itemList:[]},
-    {selectName:'주문자', select:'email', selectType:'text', itemList:[]},
-    {selectName:'상태', select:'phone', selectType:'select', itemList:['처리중', '배송중', '완료']},
-    {selectName:'작성일', select:'createdDateTime', selectType:'date', itemList:[]},
+    {selectName:t("AdminOrder:List.Filter01"), select:'name', selectType:'text', itemList:[]},
+    {selectName:t("AdminOrder:List.Filter02"), select:'email', selectType:'text', itemList:[]},
+    {selectName:t("AdminOrder:List.Filter03"), select:'phone', selectType:'select', itemList:['처리중', '배송중', '완료']},
+    {selectName:t("AdminOrder:List.Filter04"), select:'createdDateTime', selectType:'date', itemList:[]},
   ];
 
   const getOrderList = useCallback (async () => {
@@ -54,7 +56,7 @@ const AdminOrderList: React.FC = () => {
 
   return (
     <div>
-      <h1>AdminOrderList</h1>
+      <h1>{t("AdminOrder:List.Title")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <AdminOrderListComponent orders={orders} changeSort={changeSort}></AdminOrderListComponent>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
