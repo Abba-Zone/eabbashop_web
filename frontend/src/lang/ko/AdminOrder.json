@@ -5,5 +5,54 @@
         "Filter02" : "주문자",
         "Filter03" : "상태",
         "Filter04" : "주문일"
+    },
+    "Detail": {
+        "Item01" : {
+            "Title" : "주문 정보",
+            "Attribute01" : "상품명",
+            "Attribute02" : "개수",
+            "Attribute03" : "배송상태",
+            "Attribute04" : "결제방식",
+            "Attribute05" : "주문일시"
+        },
+        "Item02" : {
+            "Title" : "주소 정보",
+            "Attribute01" : "받는사람",
+            "Attribute02" : "전화번호",
+            "Attribute03" : {
+                "Title" : "배송지",
+                "SubAttribute01" : "우편번호",
+                "SubAttribute02" : "기본주소",
+                "SubAttribute03" : "상세주소",
+                "SubAttribute04" : "요청사항"
+            },
+            "Attribute04" : {
+                "Title" : "청구주소",
+                "SubAttribute01" : "우편번호",
+                "SubAttribute02" : "기본주소",
+                "SubAttribute03" : "상세주소"
+            }
+        },
+        "Item03" : {
+            "Title" : "상품정보",
+            "Attribute01" : "상품명",
+            "Attribute02" : "실제가격",
+            "Attribute03" : "세금제외가격",
+            "Attribute04" : "SP금액",
+            "Attribute05" : "허용국가",
+            "Attribute06" : "모바일/웹"
+        },
+        "Item04":{
+            "Title":"주문자정보",
+            "Attribute01":"이름",
+            "Attribute02":"이메일",
+            "Attribute03":"역할",
+            "Attribute04":"등급"
+        },
+        "Item05":{
+            "Attribute01":"모바일",
+            "Attribute02":"웹",
+            "Attribute03" : "모바일/웹"
+        }
     }
 }

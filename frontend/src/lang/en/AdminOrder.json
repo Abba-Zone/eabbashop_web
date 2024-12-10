@@ -5,5 +5,54 @@
         "Filter02": "Customer",
         "Filter03": "Status",
         "Filter04": "Order Date"
+    },
+    "Detail": {
+        "Item01": {
+            "Title": "Order Information",
+            "Attribute01": "Product Name",
+            "Attribute02": "Quantity",
+            "Attribute03": "Shipping Status",
+            "Attribute04": "Payment Method",
+            "Attribute05": "Order Date and Time"
+        },
+        "Item02": {
+            "Title": "Address Information",
+            "Attribute01": "Recipient",
+            "Attribute02": "Phone Number",
+            "Attribute03": {
+                "Title": "Shipping Address",
+                "SubAttribute01": "Postal Code",
+                "SubAttribute02": "Basic Address",
+                "SubAttribute03": "Detailed Address",
+                "SubAttribute04": "Special Requests"
+            },
+            "Attribute04": {
+                "Title": "Billing Address",
+                "SubAttribute01": "Postal Code",
+                "SubAttribute02": "Basic Address",
+                "SubAttribute03": "Detailed Address"
+            }
+        },
+        "Item03": {
+            "Title": "Product Information",
+            "Attribute01": "Product Name",
+            "Attribute02": "Actual Price",
+            "Attribute03": "Price Excluding Tax",
+            "Attribute04": "SP Amount",
+            "Attribute05": "Allowed Countries",
+            "Attribute06": "Mobile/Web"
+        },
+        "Item04": {
+            "Title": "Customer Information",
+            "Attribute01": "Name",
+            "Attribute02": "Email",
+            "Attribute03": "Role",
+            "Attribute04": "Grade"
+        },
+        "Item05": {
+            "Attribute01": "Mobile",
+            "Attribute02": "Web",
+            "Attribute03": "Mobile/Web"
+        }
     }
 }

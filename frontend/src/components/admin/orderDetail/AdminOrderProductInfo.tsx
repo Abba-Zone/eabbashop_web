@@ -1,7 +1,10 @@
+import { useTranslation } from "react-i18next";
+
 interface Props{
     product:orderProduct,
   }
   const AdminOrderProductInfo:React.FC<Props> = ({product}) => {
+    const { t } = useTranslation();
     const showAllowNation = (): JSX.Element[] => {
         const result = [];
         for(let i = 0 ; i < product.allowNation.length; i++){
@@ -19,14 +22,14 @@ interface Props{
     }
       return (
         <div>
-          <h3>AdminOrderProductInfo</h3>
+          <h3>{t("AdminOrder:Detail.Item03.Title")}</h3>
           <img src={product.thumbnail}/>
-          <div><div>상품명</div><div>{product.productName}</div></div>
-          <div><div>실제가격</div><div>{product.realPrice}</div></div>
-          <div><div>세금제외가격</div><div>{product.taxFreePrice}</div></div>
-          <div><div>SP금액</div><div>{product.SPPrice}</div></div>
-          <div><div>허용국가</div><div>{showAllowNation()}</div></div>
-          <div><div>모바일/웹</div><div>{showViewSite()}</div></div>
+          <div><div>{t("AdminOrder:Detail.Item03.Attribute01")}</div><div>{product.productName}</div></div>
+          <div><div>{t("AdminOrder:Detail.Item03.Attribute02")}</div><div>{product.realPrice}</div></div>
+          <div><div>{t("AdminOrder:Detail.Item03.Attribute03")}</div><div>{product.taxFreePrice}</div></div>
+          <div><div>{t("AdminOrder:Detail.Item03.Attribute04")}</div><div>{product.SPPrice}</div></div>
+          <div><div>{t("AdminOrder:Detail.Item03.Attribute05")}</div><div>{showAllowNation()}</div></div>
+          <div><div>{t("AdminOrder:Detail.Item03.Attribute06")}</div><div>{showViewSite()}</div></div>
         </div>
       );
   }

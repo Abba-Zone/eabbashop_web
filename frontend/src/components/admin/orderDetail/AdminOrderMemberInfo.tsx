@@ -1,14 +1,17 @@
+import { useTranslation } from "react-i18next";
+
 interface Props{
     member:orderMember,
   }
   const AdminOrderMemberInfo:React.FC<Props> = ({member}) => {
+    const { t } = useTranslation();
       return (
         <div>
-          <h3>AdminOrderMemberInfo</h3>
-          <div><div>이름</div><div>{member.name}</div></div>
-          <div><div>이메일</div><div>{member.email}</div></div>
-          <div><div>역할</div><div>{member.role}</div></div>
-          <div><div>등급</div><div>{member.grade}</div></div>
+          <h3>{t("AdminOrder:Detail.Item04.Title")}</h3>
+          <div><div>{t("AdminOrder:Detail.Item04.Attribute01")}</div><div>{member.name}</div></div>
+          <div><div>{t("AdminOrder:Detail.Item04.Attribute02")}</div><div>{member.email}</div></div>
+          <div><div>{t("AdminOrder:Detail.Item04.Attribute03")}</div><div>{member.role}</div></div>
+          <div><div>{t("AdminOrder:Detail.Item04.Attribute04")}</div><div>{member.grade}</div></div>
         </div>
       );
   }
