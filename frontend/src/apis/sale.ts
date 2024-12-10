@@ -1,5 +1,6 @@
 import { getData, postData, getTestData} from './mainApi'
 
+/* ORder */
 export const getOrderList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):orderList => {
     /* real code*/
     // getData<orderList>('/list/admin?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
@@ -64,6 +65,30 @@ export const getOrderDetail = (orderID:string):orderDetail => {
 		allowNation : ["KOR"],
 		viewSite : "A",
        }
+    };
+    return result;
+}
+
+/* Invoice */
+export const getInvoiceList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):invoiceList => {
+    /* real code*/
+    // getData<invoiceList>('/list/admin?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
+    //     .then((data:APIResponse<invoiceList>) => {
+    //         return data.result;
+    //     }
+    // );
+    // return null as unknown as invoiceList;
+
+    /* make for test*/
+    var result :invoiceList = {
+        totalInvoice: 123412414,
+        invoices : [
+            {invoiceID : "1x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55",	invoiceNo : "123456364575467", status: "결제", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},
+            {invoiceID : "2x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55",	invoiceNo : "123456364575467", status: "결제", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},
+            {invoiceID : "3x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55",	invoiceNo : "123456364575467", status: "결제", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},
+            {invoiceID : "4x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55",	invoiceNo : "123456364575467", status: "결제", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},
+            {invoiceID : "5x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55",	invoiceNo : "123456364575467", status: "결제", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},
+        ]
     };
     return result;
 }
