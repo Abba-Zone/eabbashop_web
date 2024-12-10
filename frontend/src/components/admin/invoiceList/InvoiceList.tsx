@@ -18,7 +18,7 @@ const InvoiceList:React.FC<Props> = ({invoices, changeSort}) => {
       <th>선택</th>
       <th onClick={()=>{changeSort('orderDetailID')}}>주문아이디</th>
       <th onClick={()=>{changeSort('invoiceNo')}}>송장번호</th>
-      <th onClick={()=>{changeSort('name')}}>받는 사람</th>
+      <th onClick={()=>{changeSort('name')}}>받는사람</th>
       <th onClick={()=>{changeSort('status')}}>상태</th>
       <th onClick={()=>{changeSort('createdDateTime')}}>송장발급일</th>
     </tr>;
