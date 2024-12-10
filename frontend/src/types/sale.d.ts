@@ -29,7 +29,7 @@ interface orderProduct{
 }
 interface orderOrder{
     productName : string,
-    quantity : 12,
+    quantity : number,
     status : string,
     결제방식: string,
     createdDateTime : string
@@ -65,3 +65,35 @@ interface invoiceList{
     totalInvoice : number,
     invoices : invoice[]
 }
+
+interface invoiceDetail{
+    invoiceNo : string,
+    order : invoiceOrder,
+    member : invoiceMember,
+    billAddress : invoiceAddress,
+    shippingAddress : invoiceAddress,
+    product : invoiceProduct
+}
+
+interface invoiceOrder{
+    orderedDateTime : string,
+    status : string,
+    IP : string
+}
+
+interface invoiceMember{
+    name : string,
+    email : string,
+    role : string,
+    grade : string,
+    phone : string
+}
+
+interface invoiceAddress{
+    phone : string,
+    zipCode: string,
+    baseAddress: string,
+    detailAddress: string,
+}
+
+interface invoiceProduct extends orderProduct{}

@@ -92,3 +92,49 @@ export const getInvoiceList = (pageNo:number, pageSize:number, filter:number, fi
     };
     return result;
 }
+
+export const getInvoiceDetail = (invoiceID:string):invoiceDetail => {
+    // getData<invoiceDetail>('/info?invoiceID='+ invoiceID)
+    //     .then((data:APIResponse<invoiceDetail>) => {
+    //         return data.result;
+    //     }
+    // );
+    // return null as unknown as invoiceDetail;
+    var result:invoiceDetail= {
+       invoiceNo : "123456364575467",
+        order : {
+            orderedDateTime : "2024-11-14 22:23:11",
+            status : "결제",
+            IP : "111.222.333.444"
+        },
+        member : {
+            name : "정경훈",
+            email:"",
+            role : "",
+            grade : "",
+            phone : ""
+        },
+        billAddress :{
+            zipCode: "213-12",
+            baseAddress: "부산시 기장군",
+            detailAddress: "아바로",
+            phone : "010-1234-5678"
+        },
+        shippingAddress :{
+            zipCode: "213-12",
+            baseAddress: "부산시 기장군",
+            detailAddress: "아바로",
+            phone : "010-1234-5678"
+        },
+        product:{
+            thumbnail : "https://abbazon.us",
+            productName : "물병",
+            taxFreePrice : 2.0,
+            SPPrice : 8.0,
+            realPrice : 10.0,
+            allowNation : ["KOR"],
+            viewSite : "A",
+        }
+    };
+    return result;
+}
