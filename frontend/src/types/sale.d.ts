@@ -5,3 +5,8 @@ interface order{
     createdDateTime : string,
     status : string
 }
+
+interface orderList{
+    totalOrder : number,
+    orders : order[]
+}
