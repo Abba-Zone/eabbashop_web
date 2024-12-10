@@ -6,5 +6,49 @@
         "Filter03" : "재고",
         "Filter04" : "활성화",
         "Filter05" : "비활성화"
+    },
+    "Detail": {
+        "Item01" : {
+            "Title" : "상품 정보",
+            "Attribute01" : "썸네일",
+            "Attribute02" : "재고",
+            "Attribute03" : "가격",
+            "Attribute04" : "설명",
+            "Attribute05" : "요약",
+            "Attribute06" : "페이백",
+            "Attribute07" : "카테고리",
+            "Attribute08" : "허용국가",
+            "Attribute09" : "모바일/웹",
+            "Attribute10" : "보여주기",
+            "Attribute11" : "활동"
+        },
+        "Item02" : {
+            "Title" : "판매자 정보",
+            "Attribute01" : "가게이름",
+            "Attribute02" : "우편번호",
+            "Attribute03" : "기본주소",
+            "Attribute04" : "상세주소",
+            "Attribute05" : "호스트",
+            "Attribute06" : "이메일",
+            "Attribute07" : "전화번호"
+        },
+        "Item03" : {
+            "Title" : "상품평",
+            "Attribute01" : "작성자",
+            "Attribute02" : "상품평가점수",
+            "Attribute03" : "리뷰내용",
+            "Attribute04" : "작성일",
+            "Attribute05" : "싫어요수",
+            "Attribute06" : "좋아요수"
+        },
+        "Item04":{
+            "Attribute01":"활성화",
+            "Attribute02":"비활성화",
+            "Attribute03":"모바일",
+            "Attribute04":"웹",
+            "Attribute05":"모바일/웹",
+            "Attribute06":"베스트 순",
+            "Attribute07":"최신 순"
+        }
     }
 }

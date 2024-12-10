@@ -6,5 +6,49 @@
         "Filter03": "Stock",
         "Filter04": "Active",
         "Filter05": "Inactive"
+    },
+    "Detail": {
+        "Item01": {
+            "Title": "Product Information",
+            "Attribute01": "Thumbnail",
+            "Attribute02": "Stock",
+            "Attribute03": "Price",
+            "Attribute04": "Description",
+            "Attribute05": "Summary",
+            "Attribute06": "Payback",
+            "Attribute07": "Category",
+            "Attribute08": "Allowed Countries",
+            "Attribute09": "Mobile/Web",
+            "Attribute10": "Display",
+            "Attribute11": "Active"
+        },
+        "Item02": {
+            "Title": "Seller Information",
+            "Attribute01": "Store Name",
+            "Attribute02": "Postal Code",
+            "Attribute03": "Basic Address",
+            "Attribute04": "Detailed Address",
+            "Attribute05": "Host",
+            "Attribute06": "Email",
+            "Attribute07": "Phone Number"
+        },
+        "Item03": {
+            "Title": "Reviews",
+            "Attribute01": "Author",
+            "Attribute02": "Rating Score",
+            "Attribute03": "Review Content",
+            "Attribute04": "Date",
+            "Attribute05": "Dislikes",
+            "Attribute06": "Likes"
+        },
+        "Item04": {
+            "Attribute01": "Active",
+            "Attribute02": "Inactive",
+            "Attribute03": "Mobile",
+            "Attribute04": "Web",
+            "Attribute05": "Mobile/Web",
+            "Attribute06": "Best Order",
+            "Attribute07": "Latest Order"
+        }
     }
 }

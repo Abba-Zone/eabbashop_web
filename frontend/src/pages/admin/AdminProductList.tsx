@@ -59,7 +59,7 @@ const AdminProductList: React.FC = () => {
     }, [getUserList]);
   return (
     <div>
-      <h1>{t("AdminInquiry:List.Title")}</h1>
+      <h1>{t("AdminProduct:List.Title")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <ProductList products={products} changeSort={changeSort}/>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
