@@ -23,3 +23,5 @@ export {default as AdminProductInfo} from "./admin/productDetail/AdminProductInf
 export {default as AdminProductSellerInfo} from "./admin/productDetail/AdminProductSellerInfo";
 export {default as AdminProductReviewList} from "./admin/productDetail/AdminProductReviewList";
 export {default as AdminProductReviewListComponent} from "./admin/productDetail/AdminProductReviewListComponent";
+/* Order List */
+export {default as AdminOrderListComponent} from "./admin/orderList/AdminOrderListComponent";
