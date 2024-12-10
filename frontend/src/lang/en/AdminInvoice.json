@@ -1,0 +1,13 @@
+{
+    "List": {
+        "Title": "Invoice Management",
+        "Filter01": "Order ID",
+        "Filter02": "Invoice Number",
+        "Filter03": "Recipient",
+        "Filter04": "Status",
+        "Filter05": "Invoice Issuance Date"
+    },
+    "Detail":{
+        
+    }
+}

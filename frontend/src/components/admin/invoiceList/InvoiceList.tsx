@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import ListCard from "./InvoiceistCard";
 interface Props{
     invoices:invoice[],
@@ -5,6 +6,7 @@ interface Props{
 }
 
 const InvoiceList:React.FC<Props> = ({invoices, changeSort}) => {
+  const { t } = useTranslation();
   const rendering = (): JSX.Element[] => {
       const result = [];
       for(let i = 0 ; i < invoices.length; i++){
@@ -16,11 +18,11 @@ const InvoiceList:React.FC<Props> = ({invoices, changeSort}) => {
     const result = 
     <tr>
       <th>선택</th>
-      <th onClick={()=>{changeSort('orderDetailID')}}>주문아이디</th>
-      <th onClick={()=>{changeSort('invoiceNo')}}>송장번호</th>
-      <th onClick={()=>{changeSort('name')}}>받는사람</th>
-      <th onClick={()=>{changeSort('status')}}>상태</th>
-      <th onClick={()=>{changeSort('createdDateTime')}}>송장발급일</th>
+      <th onClick={()=>{changeSort('orderDetailID')}}>{t("AdminInvoice:List.Filter01")}</th>
+      <th onClick={()=>{changeSort('invoiceNo')}}>{t("AdminInvoice:List.Filter02")}</th>
+      <th onClick={()=>{changeSort('name')}}>{t("AdminInvoice:List.Filter03")}</th>
+      <th onClick={()=>{changeSort('status')}}>{t("AdminInvoice:List.Filter04")}</th>
+      <th onClick={()=>{changeSort('createdDateTime')}}>{t("AdminInvoice:List.Filter05")}</th>
     </tr>;
     return result;
   }
