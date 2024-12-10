@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { BottomButton, InvoiceList, SearchSet } from '../../components';
 import { getInvoiceList_s } from '../../services/sale';
+import { useTranslation } from 'react-i18next';
 
 const AdminInvoiceList: React.FC = () => {
+  const { t } = useTranslation();
   const [invoices, setInvoices] = useState<invoice[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -55,7 +57,7 @@ const AdminInvoiceList: React.FC = () => {
 
   return (
     <div>
-      <h1>AdminInvoiceList</h1>
+      <h1>{t("AdminInvoice:List.Title")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <InvoiceList invoices={invoices} changeSort={changeSort}></InvoiceList>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
