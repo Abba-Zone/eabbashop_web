@@ -1,7 +1,10 @@
+import { useTranslation } from "react-i18next";
+
 interface Props{
     product:invoiceProduct,
 }
 const AdminInvoiceProductInfo:React.FC<Props> = ({product}) => {
+    const { t } = useTranslation();
     const showAllowNation = (): JSX.Element[] => {
         const result = [];
         for(let i = 0 ; i < product.allowNation.length; i++){
@@ -11,22 +14,22 @@ const AdminInvoiceProductInfo:React.FC<Props> = ({product}) => {
     }
     const showViewSite = (): JSX.Element => {
         if(product.viewSite === "M")
-            return <div>모바일</div>;
+            return <div>{t("AdminInvoice:Detail.Option.Attribute01")}</div>;
         else if (product.viewSite === "W")
-            return <div>웹</div>;
+            return <div>{t("AdminInvoice:Detail.Option.Attribute02")}</div>;
         else
-            return <div>모바일/웹</div>;
+            return <div>{t("AdminInvoice:Detail.Option.Attribute03")}</div>;
     }
     return (
         <div>
-            <h3>상품정보</h3>
+            <h3>{t("AdminInvoice:Detail.Item01.Title")}</h3>
             <img src={product.thumbnail}/>
-            <div><div> 상품명 </div><div>{product.productName}</div></div>
-            <div><div> 실제가격 </div><div>{product.realPrice}</div></div>
-            <div><div> 세금제외가격 </div><div>{product.taxFreePrice}</div></div>
-            <div><div> SP가격 </div><div>{product.SPPrice}</div></div>
-            <div><div> 허용국가 </div><div>{showAllowNation()}</div></div>
-            <div><div> 모바일/웹 </div><div>{showViewSite()}</div></div>
+            <div><div> {t("AdminInvoice:Detail.Item01.Attribute01")} </div><div>{product.productName}</div></div>
+            <div><div> {t("AdminInvoice:Detail.Item01.Attribute02")} </div><div>{product.realPrice}</div></div>
+            <div><div> {t("AdminInvoice:Detail.Item01.Attribute03")} </div><div>{product.taxFreePrice}</div></div>
+            <div><div> {t("AdminInvoice:Detail.Item01.Attribute04")} </div><div>{product.SPPrice}</div></div>
+            <div><div> {t("AdminInvoice:Detail.Item01.Attribute05")} </div><div>{showAllowNation()}</div></div>
+            <div><div> {t("AdminInvoice:Detail.Item01.Attribute06")} </div><div>{showViewSite()}</div></div>
         </div>
     );
 }

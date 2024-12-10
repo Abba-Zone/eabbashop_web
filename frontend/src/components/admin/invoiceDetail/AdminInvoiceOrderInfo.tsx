@@ -1,13 +1,17 @@
+import { useTranslation } from "react-i18next";
+
 interface Props{
     order:invoiceOrder,
 }
 const AdminInvoiceOrderInfo:React.FC<Props> = ({order}) => {
+    const { t } = useTranslation();
     return (
         <div>
-            <h3>주문정보</h3>
-            <div><div>주문날짜</div><div>{order.orderedDateTime}</div></div>
-            <div><div>주문상태</div><div>{order.status}</div></div>
-            <div><div>구매IP</div><div>{order.status}</div></div>
+            
+            <h3>{t("AdminInvoice:Detail.Item02.Title")}</h3>
+            <div><div>{t("AdminInvoice:Detail.Item02.Attribute01")}</div><div>{order.orderedDateTime}</div></div>
+            <div><div>{t("AdminInvoice:Detail.Item02.Attribute02")}</div><div>{order.status}</div></div>
+            <div><div>{t("AdminInvoice:Detail.Item02.Attribute03")}</div><div>{order.status}</div></div>
         </div>
     );
 }

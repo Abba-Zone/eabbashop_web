@@ -2,8 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AdminInvoiceAddressInfo, AdminInvoiceBillAddressInfo, AdminInvoiceMemberInfo, AdminInvoiceOrderInfo, AdminInvoiceProductInfo } from '../../components';
 import { getInvoiceDetail_s } from '../../services/sale';
+import { useTranslation } from 'react-i18next';
 
 const AdminInvoiceDetail: React.FC = () => {
+  const { t } = useTranslation();
   const [invoiceNo, setInvoiceNo] = useState<string | undefined>(undefined);
   const [billAddress, setBillAddress] = useState<invoiceAddress | undefined>(undefined);
   const [shippingAddress, setShippingAddress] = useState<invoiceAddress | undefined>(undefined);
@@ -34,18 +36,18 @@ const AdminInvoiceDetail: React.FC = () => {
   if (!member || !billAddress || !order || !product || !shippingAddress) {
     return (
       <div>
-        <h1>송장 정보가 없습니다.</h1>
+        <h1>{t("AdminInvoice:Detail.Option.Attribute00")}</h1>
       </div>
     );
   }
   return (
     <div>
-      <h1>송장({invoiceNo})</h1>
+      <h1>{t("AdminInvoice:Detail.Title")}({invoiceNo})</h1>
+      <AdminInvoiceProductInfo product={product}></AdminInvoiceProductInfo>
+      <AdminInvoiceOrderInfo order={order}></AdminInvoiceOrderInfo>
       <AdminInvoiceAddressInfo address={shippingAddress}></AdminInvoiceAddressInfo>
       <AdminInvoiceBillAddressInfo address={billAddress}></AdminInvoiceBillAddressInfo>
       <AdminInvoiceMemberInfo member={member}></AdminInvoiceMemberInfo>
-      <AdminInvoiceOrderInfo order={order}></AdminInvoiceOrderInfo>
-      <AdminInvoiceProductInfo product={product}></AdminInvoiceProductInfo>
     </div>
   );
 };
