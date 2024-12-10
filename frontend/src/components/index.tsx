@@ -16,5 +16,10 @@ export {default as InquiryList} from "./admin/inquiryList/InquiryList";
 /* Inqruiry Detail */
 export {default as InquriryInfo} from "./admin/inquiryDetail/InquriryInfo";
 export {default as InquriryResponse} from "./admin/inquiryDetail/InquriryResponse";
-/* Inqruiry List */
+/* Product List */
 export {default as ProductList} from "./admin/productList/ProductList";
+/* Product Detail */
+export {default as AdminProductInfo} from "./admin/productDetail/AdminProductInfo";
+export {default as AdminProductSellerInfo} from "./admin/productDetail/AdminProductSellerInfo";
+export {default as AdminProductReviewList} from "./admin/productDetail/AdminProductReviewList";
+export {default as AdminProductReviewListComponent} from "./admin/productDetail/AdminProductReviewListComponent";
