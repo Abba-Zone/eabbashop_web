@@ -1,3 +1,4 @@
+/* Order  Types*/
 interface order{
     orderID : string,
     memberName : string,
@@ -49,4 +50,18 @@ interface orderMember{
     email : string,
     role : string,
     grade : string
+}
+
+/* Invoice  Types*/
+interface invoice{
+    invoiceID : string,
+    orderDetailID : string,
+    status : string,
+    name : string,
+    invoiceNo : string,
+    createdDateTime : string
+}
+interface invoiceList{
+    totalInvoice : number,
+    invoices : invoice[]
 }
