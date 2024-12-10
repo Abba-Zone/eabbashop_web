@@ -32,3 +32,9 @@ export {default as AdminOrderMemberInfo} from "./admin/orderDetail/AdminOrderMem
 export {default as AdminOrderProductInfo} from "./admin/orderDetail/AdminOrderProductInfo";
 /* Invoice List */
 export {default as InvoiceList} from "./admin/invoiceList/InvoiceList";
+/* Invoice Detail */
+export {default as AdminInvoiceAddressInfo} from "./admin/invoiceDetail/AdminInvoiceAddressInfo";
+export {default as AdminInvoiceBillAddressInfo} from "./admin/invoiceDetail/AdminInvoiceBillAddressInfo";
+export {default as AdminInvoiceMemberInfo} from "./admin/invoiceDetail/AdminInvoiceMemberInfo";
+export {default as AdminInvoiceOrderInfo} from "./admin/invoiceDetail/AdminInvoiceOrderInfo";
+export {default as AdminInvoiceProductInfo} from "./admin/invoiceDetail/AdminInvoiceProductInfo";
