@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { getBoardList_s } from '../../services/board';
 import { AdminBoardList, BottomButton, SearchSet } from '../../components';
+import { useTranslation } from 'react-i18next';
 
 const AdminLetter: React.FC = () => {
+  const { t } = useTranslation();
   const [letters, setLetters] = useState<board[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -13,11 +15,11 @@ const AdminLetter: React.FC = () => {
   const [sortValue, setSortValue] = useState<string>("DESC");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:"제목", select:'title', selectType:'text', itemList:[]},
-    {selectName:"이름", select:'name', selectType:'text', itemList:[]},
-    {selectName:"상단고정", select:'topYN', selectType:'select', itemList:['ON', 'OFF']},
-    {selectName:"활성화", select:'showYN', selectType:'select', itemList:['ON', 'OFF']},
-    {selectName:"작성일", select:'createdDateTime', selectType:'date', itemList:[]},
+    {selectName:t("AdminBoard:List.Filter01"), select:'title', selectType:'text', itemList:[]},
+    {selectName:t("AdminBoard:List.Filter02"), select:'name', selectType:'text', itemList:[]},
+    {selectName:t("AdminBoard:List.Filter03"), select:'topYN', selectType:'select', itemList:['ON', 'OFF']},
+    {selectName:t("AdminBoard:List.Filter04"), select:'showYN', selectType:'select', itemList:['ON', 'OFF']},
+    {selectName:t("AdminBoard:List.Filter05"), select:'createdDateTime', selectType:'date', itemList:[]},
   ];
 
   const getNoticeList = useCallback (async () => {
@@ -55,7 +57,7 @@ const AdminLetter: React.FC = () => {
 
   return (
     <div>
-      <h1>아빠의편지</h1>
+      <h1>{t("AdminBoard:List.LetterTitle")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <AdminBoardList boards={letters}  changeSort={changeSort}></AdminBoardList>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>

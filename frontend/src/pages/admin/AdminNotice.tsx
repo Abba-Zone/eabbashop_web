@@ -15,11 +15,11 @@ const AdminNotice: React.FC = () => {
   const [sortValue, setSortValue] = useState<string>("DESC");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:t("AdminBoard:NoticeList.Filter01"), select:'title', selectType:'text', itemList:[]},
-    {selectName:t("AdminBoard:NoticeList.Filter02"), select:'name', selectType:'text', itemList:[]},
-    {selectName:t("AdminBoard:NoticeList.Filter03"), select:'topYN', selectType:'select', itemList:['ON', 'OFF']},
-    {selectName:t("AdminBoard:NoticeList.Filter04"), select:'showYN', selectType:'select', itemList:['ON', 'OFF']},
-    {selectName:t("AdminBoard:NoticeList.Filter05"), select:'createdDateTime', selectType:'date', itemList:[]},
+    {selectName:t("AdminBoard:List.Filter01"), select:'title', selectType:'text', itemList:[]},
+    {selectName:t("AdminBoard:List.Filter02"), select:'name', selectType:'text', itemList:[]},
+    {selectName:t("AdminBoard:List.Filter03"), select:'topYN', selectType:'select', itemList:['ON', 'OFF']},
+    {selectName:t("AdminBoard:List.Filter04"), select:'showYN', selectType:'select', itemList:['ON', 'OFF']},
+    {selectName:t("AdminBoard:List.Filter05"), select:'createdDateTime', selectType:'date', itemList:[]},
   ];
 
   const getNoticeList = useCallback (async () => {
@@ -57,7 +57,7 @@ const AdminNotice: React.FC = () => {
 
   return (
     <div>
-      <h1>{t("AdminBoard:NoticeList.Title")}</h1>
+      <h1>{t("AdminBoard:List.NoticeTitle")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <AdminBoardList boards={notices}  changeSort={changeSort}></AdminBoardList>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>

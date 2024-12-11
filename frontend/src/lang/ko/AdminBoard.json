@@ -1,6 +1,7 @@
 {
-    "NoticeList": {
-        "Title": "공지사항",
+    "List": {
+        "NoticeTitle": "공지사항",
+        "LetterTitle": "아빠의 편지",
         "Filter01" : "제목",
         "Filter02" : "작성자",
         "Filter03" : "상단고정",
