@@ -5,14 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member, String> {
+public interface RecommendedMembersAlterLogRepository extends JpaRepository<Member, Long> {
 
     // 이메일로 member 조회
     Optional<Member> findByEmail(String email);
 
-    // 이메일로 memberID 조회
-    Optional<String> findMemberIDByEmail(String email);
+    // id로 member 조회
+    Optional<Member> findByMemberId(String memberId);
 }

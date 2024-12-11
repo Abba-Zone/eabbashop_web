@@ -27,4 +27,12 @@ public class RecommendController {
         if(recommendService.checkMember(emailRequest)) return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody("성공했습니다."));
         else throw new NoMemberException("없는 회원 정보입니다.");
     }
+
+    @PostMapping("/request")
+    @Operation(summary = "추천인 변경 요청", description = "내 상위 추천인을 변경하고 싶을 때")
+    public ResponseEntity<Object> recommendRequest(@RequestBody EmailRequest emailRequest){
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody("성공했습니다."));
+    }
 }

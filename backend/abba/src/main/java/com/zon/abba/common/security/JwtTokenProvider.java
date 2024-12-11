@@ -186,8 +186,7 @@ public class JwtTokenProvider {
         }
 
         String email = null;
-        if (authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
+        if (authentication.getPrincipal() instanceof UserDetails springSecurityUser) {
             email = springSecurityUser.getUsername();
         } else if (authentication.getPrincipal() instanceof String) {
             email = (String) authentication.getPrincipal();
