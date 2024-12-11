@@ -1,0 +1,13 @@
+{
+    "NoticeList": {
+        "Title": "Notice Board",
+        "Filter01": "Title",
+        "Filter02": "Author",
+        "Filter03": "Pinned",
+        "Filter04": "Active",
+        "Filter05": "Creation Date"
+    },
+    "Detail":{
+        
+    }
+}

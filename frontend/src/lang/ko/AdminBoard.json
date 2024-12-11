@@ -1,0 +1,13 @@
+{
+    "NoticeList": {
+        "Title": "공지사항",
+        "Filter01" : "제목",
+        "Filter02" : "작성자",
+        "Filter03" : "상단고정",
+        "Filter04" : "활성화",
+        "Filter05" : "작성일"
+    },
+    "Detail":{
+        
+    }
+}

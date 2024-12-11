@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AdminBoardList, BottomButton, SearchSet } from '../../components';
 import { getBoardList_s } from '../../services/board';
+import { useTranslation } from 'react-i18next';
 
 const AdminNotice: React.FC = () => {
+  const { t } = useTranslation();
   const [notices, setNotices] = useState<board[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -13,11 +15,11 @@ const AdminNotice: React.FC = () => {
   const [sortValue, setSortValue] = useState<string>("DESC");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:"제목", select:'title', selectType:'text', itemList:[]},
-    {selectName:"작성자", select:'name', selectType:'text', itemList:[]},
-    {selectName:"상단고정", select:'topYN', selectType:'select', itemList:['활성화', '비활성화']},
-    {selectName:"활성화", select:'showYN', selectType:'select', itemList:['활성화', '비활성화']},
-    {selectName:"작성일", select:'createdDateTime', selectType:'date', itemList:[]},
+    {selectName:t("AdminBoard:NoticeList.Filter01"), select:'title', selectType:'text', itemList:[]},
+    {selectName:t("AdminBoard:NoticeList.Filter02"), select:'name', selectType:'text', itemList:[]},
+    {selectName:t("AdminBoard:NoticeList.Filter03"), select:'topYN', selectType:'select', itemList:['ON', 'OFF']},
+    {selectName:t("AdminBoard:NoticeList.Filter04"), select:'showYN', selectType:'select', itemList:['ON', 'OFF']},
+    {selectName:t("AdminBoard:NoticeList.Filter05"), select:'createdDateTime', selectType:'date', itemList:[]},
   ];
 
   const getNoticeList = useCallback (async () => {
@@ -55,7 +57,7 @@ const AdminNotice: React.FC = () => {
 
   return (
     <div>
-      <h1>공지사항</h1>
+      <h1>{t("AdminBoard:NoticeList.Title")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <AdminBoardList boards={notices}  changeSort={changeSort}></AdminBoardList>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
