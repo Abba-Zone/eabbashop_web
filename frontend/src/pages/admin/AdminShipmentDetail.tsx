@@ -2,8 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AdminShipmentAddressInfo, AdminShipmentBillAddressInfo, AdminShipmentInfo, AdminShipmentMemberInfo, AdminShipmentOrderInfo } from '../../components';
 import { getShipmentDetail_s } from '../../services/sale';
+import { useTranslation } from 'react-i18next';
 
 const AdminShipmentDetail: React.FC = () => {
+  const { t } = useTranslation();
   const [shipmentInfo, setShipmentInfo] = useState<shipmentInfo | undefined>(undefined);
   const [billAddress, setBillAddress] = useState<shipmentAddress | undefined>(undefined);
   const [shippingAddress, setShippingAddress] = useState<shipmentAddress | undefined>(undefined);
@@ -32,13 +34,13 @@ const AdminShipmentDetail: React.FC = () => {
   if (!member || !billAddress || !order || !shipmentInfo || !shippingAddress) {
     return (
       <div>
-        <h1>출하 정보가 없습니다.</h1>
+        <h1>{t("AdminShipment:Detail.Option.Attribute00")}</h1>
       </div>
     );
   }
   return (
     <div>
-      <h1>AdminShipmentDetail</h1>
+      <h1>{t("AdminShipment:Detail.Title")}</h1>
       <AdminShipmentInfo info={shipmentInfo}></AdminShipmentInfo>
       <AdminShipmentOrderInfo order={order}></AdminShipmentOrderInfo>
       <AdminShipmentAddressInfo address={shippingAddress}></AdminShipmentAddressInfo>

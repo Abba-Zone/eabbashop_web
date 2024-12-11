@@ -6,7 +6,46 @@
         "Filter03": "Invoice Number",
         "Filter04": "Shipment Date"
     },
-    "Detail":{
-        
+    "Detail": {
+        "Title": "Shipment",
+        "Option": {
+            "Attribute00": "No shipment information available."
+        },
+        "Item01": {
+            "Title": "Shipment Information",
+            "Attribute01": "Tracking Number",
+            "Attribute02": "Orderer",
+            "Attribute03": "Additional Notes",
+            "Attribute04": "Scheduled Shipment Time",
+            "Attribute05": "Shipment Completion Time"
+        },
+        "Item02": {
+            "Title": "Order Information",
+            "Attribute01": "Order Date",
+            "Attribute02": "Order Status",
+            "Attribute03": "Purchase IP"
+        },
+        "Item03": {
+            "Title": "Shipping Address",
+            "Attribute01": "Postal Code",
+            "Attribute02": "Base Address",
+            "Attribute03": "Detail Address",
+            "Attribute04": "Phone Number"
+        },
+        "Item04": {
+            "Title": "Billing Address",
+            "Attribute01": "Postal Code",
+            "Attribute02": "Base Address",
+            "Attribute03": "Detail Address",
+            "Attribute04": "Phone Number"
+        },
+        "Item05": {
+            "Title": "Customer Information",
+            "Attribute01": "Name",
+            "Attribute02": "Email",
+            "Attribute03": "Role",
+            "Attribute04": "Grade",
+            "Attribute05": "Phone Number"
+        }
     }
 }

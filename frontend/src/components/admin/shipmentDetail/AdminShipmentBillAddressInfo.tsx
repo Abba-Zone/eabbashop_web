@@ -1,14 +1,17 @@
+import { useTranslation } from "react-i18next";
+
 interface Props{
     address:shipmentAddress,
 }
 const AdminShipmentBillAddressInfo:React.FC<Props> = ({address}) => {
+    const { t } = useTranslation();
     return (
         <div>
             <h3>청구서 주소</h3>
-            <div><div>우편번호</div><div>{address.zipCode}</div></div>
-            <div><div>기본주소</div><div>{address.baseAddress}</div></div>
-            <div><div>상세주소</div><div>{address.detailAddress}</div></div>
-            <div><div>전화번호</div><div>{address.phone}</div></div>
+            <div><div>{t("AdminShipment:Detail.Item04.Attribute01")}</div><div>{address.zipCode}</div></div>
+            <div><div>{t("AdminShipment:Detail.Item04.Attribute02")}</div><div>{address.baseAddress}</div></div>
+            <div><div>{t("AdminShipment:Detail.Item04.Attribute03")}</div><div>{address.detailAddress}</div></div>
+            <div><div>{t("AdminShipment:Detail.Item04.Attribute04")}</div><div>{address.phone}</div></div>
         </div>
     );
 }
