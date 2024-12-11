@@ -46,3 +46,6 @@ export {default as AdminShipmentBillAddressInfo} from "./admin/shipmentDetail/Ad
 export {default as AdminShipmentInfo} from "./admin/shipmentDetail/AdminShipmentInfo";
 export {default as AdminShipmentMemberInfo} from "./admin/shipmentDetail/AdminShipmentMemberInfo";
 export {default as AdminShipmentOrderInfo} from "./admin/shipmentDetail/AdminShipmentOrderInfo";
+/* Board List */
+export {default as AdminBoardList} from "./admin/boardList/AdminBoardList";
+
