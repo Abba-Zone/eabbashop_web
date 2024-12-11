@@ -8,7 +8,7 @@ interface board{
 }
 
 interface boardList{
-    totaBoard : number,
+    totalBoard : number,
     boards : board[],
 }
 
