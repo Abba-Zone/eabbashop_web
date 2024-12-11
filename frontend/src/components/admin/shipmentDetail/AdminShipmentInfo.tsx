@@ -1,7 +1,7 @@
 interface Props{
     info:shipmentInfo,
 }
-const AdminShipmentAddressInfo:React.FC<Props> = ({info}) => {
+const AdminShipmentInfo:React.FC<Props> = ({info}) => {
     return (
         <div>
             <h3>출하정보</h3>
@@ -14,4 +14,4 @@ const AdminShipmentAddressInfo:React.FC<Props> = ({info}) => {
     );
 }
   
-export default AdminShipmentAddressInfo;
+export default AdminShipmentInfo;
