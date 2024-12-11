@@ -48,4 +48,7 @@ export {default as AdminShipmentMemberInfo} from "./admin/shipmentDetail/AdminSh
 export {default as AdminShipmentOrderInfo} from "./admin/shipmentDetail/AdminShipmentOrderInfo";
 /* Board List */
 export {default as AdminBoardList} from "./admin/boardList/AdminBoardList";
+/* Board Detail */
+export {default as AdminBoardInfo} from "./admin/boardDetail/AdminBoardInfo";
+
 
