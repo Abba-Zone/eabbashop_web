@@ -12,7 +12,7 @@ const AdminBoardDetail: React.FC = () => {
         setBoard(boardDetail);
       }
     } catch (error) {
-      console.error('Error fetching memberDetail:', error);
+      console.error('Error fetching boardDetail:', error);
     }
   }, [params.id]); ;
   useEffect(() => {
