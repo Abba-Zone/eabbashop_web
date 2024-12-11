@@ -162,3 +162,49 @@ export const getShipmentList = (pageNo:number, pageSize:number, filter:number, f
     };
     return result;
 }
+
+export const getShipmentDetail = (shipmentID:string):shipmentDetail => {
+    // getData<shipmentDetail>('/info?shipmentID='+ shipmentID)
+    //     .then((data:APIResponse<shipmentDetail>) => {
+    //         return data.result;
+    //     }
+    // );
+    // return null as unknown as shipmentDetail;
+    var result:shipmentDetail= {
+        info:{
+            invoiceNo : "123456364575467",
+            shipmentID : "1x2c33xq445wq6rew6578",
+            orderDetailID : "1232wew3r34t55",
+            name : "정경훈",
+            createdDateTime : "2024-11-15 17:13:22",
+            scheduledTime : "2024-11-15 18:13:22",
+            completionTime : "2024-11-15 18:13:22",
+            reference : "개꿀입니다.",
+        },
+        order : {
+            orderedDateTime : "2024-11-14 22:23:11",
+            status : "결제",
+            IP : "111.222.333.444"
+        },
+        member : {
+            name : "정경훈",
+            email:"",
+            role : "",
+            grade : "",
+            phone : ""
+        },
+        billAddress :{
+            zipCode: "213-12",
+            baseAddress: "부산시 기장군",
+            detailAddress: "아바로",
+            phone : "010-1234-5678"
+        },
+        shippingAddress :{
+            zipCode: "213-12",
+            baseAddress: "부산시 기장군",
+            detailAddress: "아바로",
+            phone : "010-1234-5678"
+        },
+    };
+    return result;
+}

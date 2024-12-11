@@ -1,4 +1,4 @@
-import { getOrderList, getOrderDetail, getInvoiceList, getInvoiceDetail, getShipmentList } from '../apis/sale'
+import { getOrderList, getOrderDetail, getInvoiceList, getInvoiceDetail, getShipmentList, getShipmentDetail } from '../apis/sale'
 
 
 /* Order */
@@ -24,6 +24,6 @@ export const getShipmentList_s = async (pageNo:number, pageSize:number, filter:n
     return await getShipmentList(pageNo, pageSize, filter, filterValue, sort, sortValue);
 };
 
-// export const getShipmentDetail_s = async (shipmentID:string): Promise<shipmentDetail> => {
-//     return await getShipmentDetail(shipmentID);
-// };
+export const getShipmentDetail_s = async (shipmentID:string): Promise<shipmentDetail> => {
+    return await getShipmentDetail(shipmentID);
+};
