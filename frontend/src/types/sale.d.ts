@@ -119,23 +119,14 @@ interface shipmentDetail{
     shippingAddress : shipmentAddress,
 }
 
-interface shipmentOrder{
-    orderedDateTime : string,
-    status : string,
-    IP : string
+interface shipmentInfo extends shipment{
+    scheduledTime : string,
+    completionTime : string,
+    reference : string
 }
 
-interface shipmentMember{
-    name : string,
-    email : string,
-    role : string,
-    grade : string,
-    phone : string
-}
+interface shipmentOrder extends invoiceOrder{}
 
-interface shipmentAddress{
-    phone : string,
-    zipCode: string,
-    baseAddress: string,
-    detailAddress: string,
-}
+interface shipmentMember extends invoiceMember{}
+
+interface shipmentAddress extends invoiceAddress{}

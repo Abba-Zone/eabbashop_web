@@ -11,7 +11,7 @@ const AdminInvoiceOrderInfo:React.FC<Props> = ({order}) => {
             <h3>{t("AdminInvoice:Detail.Item02.Title")}</h3>
             <div><div>{t("AdminInvoice:Detail.Item02.Attribute01")}</div><div>{order.orderedDateTime}</div></div>
             <div><div>{t("AdminInvoice:Detail.Item02.Attribute02")}</div><div>{order.status}</div></div>
-            <div><div>{t("AdminInvoice:Detail.Item02.Attribute03")}</div><div>{order.status}</div></div>
+            <div><div>{t("AdminInvoice:Detail.Item02.Attribute03")}</div><div>{order.IP}</div></div>
         </div>
     );
 }
