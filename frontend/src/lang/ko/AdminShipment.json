@@ -7,6 +7,45 @@
         "Filter04" : "출하일자"
     },
     "Detail":{
-        
+        "Title" : "출하",
+        "Option":{
+            "Attribute00":"출하 정보가 없습니다."
+        },
+        "Item01" : {
+            "Title" : "출하정보",
+            "Attribute01" : "송장번호",
+            "Attribute02" : "주문자",
+            "Attribute03" : "추가설명",
+            "Attribute04" : "출하예정시간",
+            "Attribute05" : "출하완료시간"
+        },
+        "Item02" : {
+            "Title" : "주문 정보",
+            "Attribute01" : "주문날짜",
+            "Attribute02" : "주문상태",
+            "Attribute03" : "구매IP"
+        },
+        "Item03" : {
+            "Title" : "배송지 주소",
+            "Attribute01" : "우편번호",
+            "Attribute02" : "기본주소",
+            "Attribute03" : "상세주소",
+            "Attribute04" : "전화번호"
+        },
+        "Item04" : {
+            "Title" : "청구서 주소",
+            "Attribute01" : "우편번호",
+            "Attribute02" : "기본주소",
+            "Attribute03" : "상세주소",
+            "Attribute04" : "전화번호"
+        },
+        "Item05" : {
+            "Title" : "고객 정보",
+            "Attribute01" : "이름",
+            "Attribute02" : "이메일",
+            "Attribute03" : "역할",
+            "Attribute04" : "등급",
+            "Attribute05" : "전화번호"
+        }
     }
 }

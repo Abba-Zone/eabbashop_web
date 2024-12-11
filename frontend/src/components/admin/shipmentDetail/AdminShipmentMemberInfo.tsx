@@ -1,15 +1,18 @@
+import { useTranslation } from "react-i18next";
+
 interface Props{
     member:shipmentMember,
 }
 const AdminShipmentMemberInfo:React.FC<Props> = ({member}) => {
+    const { t } = useTranslation();
     return (
         <div>
-            <h3>고객정보</h3>
-            <div><div>이름</div><div>{member.name}</div></div>
-            <div><div>이메일</div><div>{member.email}</div></div>
-            <div><div>역할</div><div>{member.role}</div></div>
-            <div><div>등급</div><div>{member.grade}</div></div>
-            <div><div>전화번호</div><div>{member.phone}</div></div>
+            <h3>{t("AdminShipment:Detail.Title")}</h3>
+            <div><div>{t("AdminShipment:Detail.Item05.Attribute01")}</div><div>{member.name}</div></div>
+            <div><div>{t("AdminShipment:Detail.Item05.Attribute02")}</div><div>{member.email}</div></div>
+            <div><div>{t("AdminShipment:Detail.Item05.Attribute03")}</div><div>{member.role}</div></div>
+            <div><div>{t("AdminShipment:Detail.Item05.Attribute04")}</div><div>{member.grade}</div></div>
+            <div><div>{t("AdminShipment:Detail.Item05.Attribute05")}</div><div>{member.phone}</div></div>
         </div>
     );
 }
