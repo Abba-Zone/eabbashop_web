@@ -1,6 +1,7 @@
 {
-    "NoticeList": {
-        "Title": "Notice Board",
+    "List": {
+        "NoticeTitle": "Notice Board",
+        "LetterTitle": "Father's Letter",
         "Filter01": "Title",
         "Filter02": "Author",
         "Filter03": "Pinned",
