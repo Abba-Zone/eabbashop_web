@@ -97,3 +97,45 @@ interface invoiceAddress{
 }
 
 interface invoiceProduct extends orderProduct{}
+
+/* Shioment  Types*/
+interface shipment{
+    shipmentID : string,
+    orderDetailID : string,
+    name : string,
+    invoiceNo : string,
+    createdDateTime : string
+}
+interface shipmentList{
+    totalShipment : number,
+    shipments : shipment[]
+}
+
+interface shipmentDetail{
+    info : shipment,
+    order : shipmentOrder,
+    member : shipmentMember,
+    billAddress : shipmentAddress,
+    shippingAddress : shipmentAddress,
+}
+
+interface shipmentOrder{
+    orderedDateTime : string,
+    status : string,
+    IP : string
+}
+
+interface shipmentMember{
+    name : string,
+    email : string,
+    role : string,
+    grade : string,
+    phone : string
+}
+
+interface shipmentAddress{
+    phone : string,
+    zipCode: string,
+    baseAddress: string,
+    detailAddress: string,
+}
