@@ -40,3 +40,9 @@ export {default as AdminInvoiceOrderInfo} from "./admin/invoiceDetail/AdminInvoi
 export {default as AdminInvoiceProductInfo} from "./admin/invoiceDetail/AdminInvoiceProductInfo";
 /* Shipment List */
 export {default as ShipmentList} from "./admin/shipmentList/ShipmentList";
+/* Shipment Detail */
+export {default as AdminShipmentAddressInfo} from "./admin/shipmentDetail/AdminShipmentAddressInfo";
+export {default as AdminShipmentBillAddressInfo} from "./admin/shipmentDetail/AdminShipmentBillAddressInfo";
+export {default as AdminShipmentInfo} from "./admin/shipmentDetail/AdminShipmentInfo";
+export {default as AdminShipmentMemberInfo} from "./admin/shipmentDetail/AdminShipmentMemberInfo";
+export {default as AdminShipmentOrderInfo} from "./admin/shipmentDetail/AdminShipmentOrderInfo";
