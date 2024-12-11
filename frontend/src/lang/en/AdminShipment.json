@@ -1,0 +1,12 @@
+{
+    "List": {
+        "Title": "Shipment Management",
+        "Filter01": "Order ID",
+        "Filter02": "Recipient",
+        "Filter03": "Invoice Number",
+        "Filter04": "Shipment Date"
+    },
+    "Detail":{
+        
+    }
+}
