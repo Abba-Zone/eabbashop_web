@@ -112,7 +112,7 @@ interface shipmentList{
 }
 
 interface shipmentDetail{
-    info : shipment,
+    info : shipmentInfo,
     order : shipmentOrder,
     member : shipmentMember,
     billAddress : shipmentAddress,
