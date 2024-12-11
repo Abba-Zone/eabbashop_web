@@ -13,5 +13,6 @@ interface boardList{
 }
 
 interface boardDetail extends board{
-
+    type : number,
+    contents : string
 }

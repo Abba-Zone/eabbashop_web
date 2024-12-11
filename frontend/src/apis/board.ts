@@ -22,3 +22,24 @@ export const getlist = (pageNo:number, pageSize:number, filter:number, filterVal
     };
     return result;
 }
+
+export const getInfo = (boardID:string):boardDetail => {
+    // getData<boardDetail>('/info?inquiryID='+ inquiryID)
+    //     .then((data:APIResponse<boardDetail>) => {
+    //         return data.result;
+    //     }
+    // );
+    // return null as unknown as boardDetail;
+    
+    var result:boardDetail= {
+        boardID : "123123141d2ewww",
+        name : "정경훈",
+        type : 100 ,
+        title : "테스트제목입니다.",
+        contents : "d아~~ 청춘이여~",
+        showYN : true,
+        topYN : false,
+        createdDateTime : "2024-11-15 17:13:22"
+    };
+    return result;
+}
