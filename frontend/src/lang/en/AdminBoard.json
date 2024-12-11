@@ -9,6 +9,17 @@
         "Filter05": "Creation Date"
     },
     "Detail":{
-        
+        "Option": {
+            "Attribute00": "No posts available."
+        },
+        "Item01": {
+            "Attribute01": "Post Type",
+            "Attribute02": "Author",
+            "Attribute03": "Creation Date",
+            "Attribute04": "Details",
+            "Attribute05": "Pinned",
+            "Attribute06": "Active"
+        }
     }
+    
 }

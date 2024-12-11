@@ -9,6 +9,16 @@
         "Filter05" : "작성일"
     },
     "Detail":{
-        
+        "Option":{
+            "Attribute00":"게시글이 없습니다."
+        },
+        "Item01" : {
+            "Attribute01" : "게시글유형",
+            "Attribute02" : "작성자",
+            "Attribute03" : "작성일",
+            "Attribute04" : "상세내용",
+            "Attribute05" : "상단고정",
+            "Attribute06" : "활성화"
+        }
     }
 }
