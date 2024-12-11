@@ -27,7 +27,7 @@ const AdminOrderList: React.FC = () => {
       setOrders(totalAndOrderList.orders);
       setLastPage(totalAndOrderList.totalOrder === 0? 1:Math.floor((totalAndOrderList.totalOrder - 1)/pageSize) + 1);
     } catch (error) {
-      console.error('Error fetching inquiry list:', error);
+      console.error('Error fetching order list:', error);
     }
 },[pageNo, pageSize, filter, filterValue, sort, sortValue]);
 
