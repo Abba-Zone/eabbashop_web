@@ -1,6 +1,6 @@
 import { getData, postData, getTestData} from './mainApi'
 
-/* ORder */
+/* Order */
 export const getOrderList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):orderList => {
     /* real code*/
     // getData<orderList>('/list/admin?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
@@ -135,6 +135,30 @@ export const getInvoiceDetail = (invoiceID:string):invoiceDetail => {
             allowNation : ["KOR"],
             viewSite : "A",
         }
+    };
+    return result;
+}
+
+/* Shipment */
+export const getShipmentList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):shipmentList => {
+    /* real code*/
+    // getData<shipmentList>('/list/admin?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
+    //     .then((data:APIResponse<shipmentList>) => {
+    //         return data.result;
+    //     }
+    // );
+    // return null as unknown as shipmentList;
+
+    /* make for test*/
+    var result :shipmentList = {
+        totalShipment: 123412414,
+        shipments : [
+            {shipmentID : "1x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55", invoiceNo: "123456364575467", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},
+            {shipmentID : "2x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55", invoiceNo: "123456364575467", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},
+            {shipmentID : "3x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55", invoiceNo: "123456364575467", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},
+            {shipmentID : "4x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55", invoiceNo: "123456364575467", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},
+            {shipmentID : "5x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55", invoiceNo: "123456364575467", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},
+        ]
     };
     return result;
 }
