@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AdminStoreListComponent, BottomButton, SearchSet } from '../../components';
 import { getStoreList_s } from '../../services/store';
+import { useTranslation } from 'react-i18next';
 
 const AdminStoreList: React.FC = () => {
+  const { t } = useTranslation();
   const [stores, setStores] = useState<store[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -13,10 +15,10 @@ const AdminStoreList: React.FC = () => {
   const [sortValue, setSortValue] = useState<string>("DESC");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:"매장명", select:'name', selectType:'text', itemList:[]},
-    {selectName:"점주", select:'host', selectType:'text', itemList:[]},
-    {selectName:"전화번호", select:'phone', selectType:'text', itemList:[]},
-    {selectName:"매장생성일", select:'createdDateTime', selectType:'date', itemList:[]},
+    {selectName:t("AdminStore:List.Filter01"), select:'name', selectType:'text', itemList:[]},
+    {selectName:t("AdminStore:List.Filter02"), select:'host', selectType:'text', itemList:[]},
+    {selectName:t("AdminStore:List.Filter03"), select:'phone', selectType:'text', itemList:[]},
+    {selectName:t("AdminStore:List.Filter04"), select:'createdDateTime', selectType:'date', itemList:[]},
   ];
 
   const getStoreList = useCallback (async () => {
@@ -54,7 +56,7 @@ const AdminStoreList: React.FC = () => {
 
   return (
     <div>
-      <h1>매장</h1>
+      <h1>{t("AdminStore:List.Title")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <AdminStoreListComponent stores={stores}  changeSort={changeSort}></AdminStoreListComponent>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>

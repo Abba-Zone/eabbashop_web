@@ -1,0 +1,9 @@
+{
+    "List": {
+        "Title": "Store",
+        "Filter01": "Store Name",
+        "Filter02": "Owner",
+        "Filter03": "Phone Number",
+        "Filter04": "Store Creation Date"
+    }
+}

@@ -32,6 +32,9 @@ import AdminBoard_en from './en/AdminBoard.json';
 import AdminDonation_ko from './ko/AdminDonation.json';
 import AdminDonation_en from './en/AdminDonation.json';
 
+import AdminStore_ko from './ko/AdminStore.json';
+import AdminStore_en from './en/AdminStore.json';
+
 const resources = {
   ko: {
     AdminMenu: AdminMenu_ko,
@@ -42,7 +45,8 @@ const resources = {
     AdminInvoice: AdminInvoice_ko,
     AdminShipment: AdminShipment_ko,
     AdminBoard: AdminBoard_ko,
-    AdminDonation: AdminDonation_ko
+    AdminDonation: AdminDonation_ko,
+    AdminStore: AdminStore_ko
   },
   en: {
     AdminMenu: AdminMenu_en,
@@ -53,7 +57,8 @@ const resources = {
     AdminInvoice: AdminInvoice_en,
     AdminShipment: AdminShipment_en,
     AdminBoard: AdminBoard_en,
-    AdminDonation: AdminDonation_en
+    AdminDonation: AdminDonation_en,
+    AdminStore: AdminStore_en
   },
   ja: {
     AdminMenu: AdminMenu_ja,
