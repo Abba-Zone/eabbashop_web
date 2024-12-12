@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Members, String> {
+public interface MembersRepository extends JpaRepository<Members, String> {
 
     // 이메일로 member 조회
     Optional<Members> findByEmail(String email);

@@ -1,7 +1,7 @@
 package com.zon.abba.members.service;
 
 import com.zon.abba.members.entity.Members;
-import com.zon.abba.members.repository.MemberRepository;
+import com.zon.abba.members.repository.MembersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,12 +15,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService{
 
-    private final MemberRepository memberRepository;
+    private final MembersRepository membersRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Members> member = memberRepository.findByEmail(username);
+        Optional<Members> member = membersRepository.findByEmail(username);
         if(member.isPresent()){
             return org.springframework.security.core.userdetails.User.withUsername(username)
                     .password(passwordEncoder.encode(member.get().getPassword()))
