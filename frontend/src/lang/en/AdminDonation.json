@@ -1,0 +1,10 @@
+{
+    "List": {
+        "Title": "Notice",
+        "Filter01": "Donor",
+        "Filter02": "Donation Amount",
+        "Filter03": "Donation Type",
+        "Filter04": "Total Donations",
+        "Filter05": "Donation Date"
+    }
+}

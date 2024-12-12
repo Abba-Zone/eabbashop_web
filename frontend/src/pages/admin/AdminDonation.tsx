@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AdminDonationList, BottomButton, SearchSet } from '../../components';
 import { getDonationList_s } from '../../services/donation';
+import { useTranslation } from 'react-i18next';
 
 const AdminDonation: React.FC = () => {
+  const { t } = useTranslation();
   const [donations, setDonations] = useState<donation[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -13,11 +15,11 @@ const AdminDonation: React.FC = () => {
   const [sortValue, setSortValue] = useState<string>("DESC");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:"기부자", select:'name', selectType:'text', itemList:[]},
-    {selectName:"기부금", select:'money', selectType:'text', itemList:[]},
-    {selectName:"기부금유형", select:'type', selectType:'text', itemList:[]},
-    {selectName:"기부누적금", select:'accumulation', selectType:'text', itemList:[]},
-    {selectName:"기부일자", select:'createdDateTime', selectType:'date', itemList:[]},
+    {selectName:t("AdminDonation:List.Filter01"), select:'name', selectType:'text', itemList:[]},
+    {selectName:t("AdminDonation:List.Filter02"), select:'money', selectType:'text', itemList:[]},
+    {selectName:t("AdminDonation:List.Filter03"), select:'type', selectType:'text', itemList:[]},
+    {selectName:t("AdminDonation:List.Filter04"), select:'accumulation', selectType:'text', itemList:[]},
+    {selectName:t("AdminDonation:List.Filter05"), select:'createdDateTime', selectType:'date', itemList:[]},
   ];
 
   const getDonationList = useCallback (async () => {
@@ -26,7 +28,7 @@ const AdminDonation: React.FC = () => {
       setDonations(totalAndDonationList.donation);
       setLastPage(totalAndDonationList.totalDonation === 0? 1:Math.floor((totalAndDonationList.totalDonation - 1)/pageSize) + 1);
     } catch (error) {
-      console.error('Error fetching notice list:', error);
+      console.error('Error fetching donation list:', error);
     }
   },[pageNo, pageSize, filter, filterValue, sort, sortValue]);
 
@@ -55,7 +57,7 @@ const AdminDonation: React.FC = () => {
 
   return (
     <div>
-      <h1>기부내역</h1>
+      <h1>{t("AdminDonation:List.Title")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <AdminDonationList donations={donations} changeSort={changeSort}></AdminDonationList>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import ListCard from "./AdminDonationListCard";
 interface Props{
   donations:donation[],
@@ -5,6 +6,7 @@ interface Props{
 }
 
 const AdminDonationList:React.FC<Props> = ({donations, changeSort}) => {
+  const { t } = useTranslation();
   const rendering = (): JSX.Element[] => {
       const result = [];
       for(let i = 0 ; i < donations.length; i++){
@@ -16,11 +18,11 @@ const AdminDonationList:React.FC<Props> = ({donations, changeSort}) => {
     const result = 
     <tr>
       <th>선택</th>
-      <th onClick={()=>{changeSort('name')}}>기부자</th>
-      <th onClick={()=>{changeSort('money')}}>기부금</th>
-      <th onClick={()=>{changeSort('type')}}>기부금 유형</th>
-      <th onClick={()=>{changeSort('accumulation')}}>기부누적금</th>
-      <th onClick={()=>{changeSort('createdDateTime')}}>기부일자</th>
+      <th onClick={()=>{changeSort('name')}}>{t("AdminDonation:List.Filter01")}</th>
+      <th onClick={()=>{changeSort('money')}}>{t("AdminDonation:List.Filter02")}</th>
+      <th onClick={()=>{changeSort('type')}}>{t("AdminDonation:List.Filter03")}</th>
+      <th onClick={()=>{changeSort('accumulation')}}>{t("AdminDonation:List.Filter04")}</th>
+      <th onClick={()=>{changeSort('createdDateTime')}}>{t("AdminDonation:List.Filter05")}</th>
     </tr>;
     return result;
   }
