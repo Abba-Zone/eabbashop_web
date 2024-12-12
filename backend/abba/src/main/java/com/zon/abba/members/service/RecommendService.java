@@ -6,8 +6,8 @@ import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.members.dto.RecommendDto;
 import com.zon.abba.members.entity.Member;
 import com.zon.abba.members.entity.RecommendedMember;
-import com.zon.abba.members.repository.MembersRepository;
-import com.zon.abba.members.repository.RecommendedMembersRepository;
+import com.zon.abba.members.repository.MemberRepository;
+import com.zon.abba.members.repository.RecommendedMemberRepository;
 import com.zon.abba.members.request.AlterRecommendRequest;
 import com.zon.abba.members.request.EmailRequest;
 import com.zon.abba.members.request.ListRecommendRequest;
@@ -24,14 +24,14 @@ import java.util.Optional;
 public class RecommendService {
 
     private static final Logger logger = LoggerFactory.getLogger(RecommendService.class);
-    private final MembersRepository membersRepository;
-    private final RecommendedMembersRepository recommendedMembersRepository;
+    private final MemberRepository memberRepository;
+    private final RecommendedMemberRepository recommendedMemberRepository;
 
 
     @Transactional
     public ResponseBody checkMember(EmailRequest emailRequest){
         // 유저 이메일을 바탕으로 member 체크
-        Optional<Member> memberOptional = membersRepository.findByEmail(emailRequest.getEmail());
+        Optional<Member> memberOptional = memberRepository.findByEmail(emailRequest.getEmail());
 
         if(memberOptional.isEmpty()) throw new NoMemberException("없는 회원 정보입니다.");
         else return new ResponseBody("성공했습니다.");
@@ -47,7 +47,7 @@ public class RecommendService {
                 .referId(recommendDto.getReferId())
                 .build();
 
-        recommendedMembersRepository.save(recommendedMember);
+        recommendedMemberRepository.save(recommendedMember);
         logger.info("추천인 등록을 완료합니다.");
     }
 
