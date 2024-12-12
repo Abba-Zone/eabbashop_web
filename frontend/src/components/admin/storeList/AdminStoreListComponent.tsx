@@ -6,6 +6,7 @@ interface Props{
 }
 
 const AdminStoreListComponent:React.FC<Props> = ({stores, changeSort}) => {
+  const { t } = useTranslation();
   const rendering = (): JSX.Element[] => {
       const result = [];
       for(let i = 0 ; i < stores.length; i++){
@@ -17,10 +18,10 @@ const AdminStoreListComponent:React.FC<Props> = ({stores, changeSort}) => {
     const result = 
     <tr>
       <th>선택</th>
-      <th onClick={()=>{changeSort('storeID')}}>매장명</th>
-      <th onClick={()=>{changeSort('name')}}>점주</th>
-      <th onClick={()=>{changeSort('phone')}}>전화번호</th>
-      <th onClick={()=>{changeSort('createdDateTime')}}>매장생성일</th>
+      <th onClick={()=>{changeSort('storeID')}}>{t("AdminStore:List.Filter01")}</th>
+      <th onClick={()=>{changeSort('name')}}>{t("AdminStore:List.Filter02")}</th>
+      <th onClick={()=>{changeSort('phone')}}>{t("AdminStore:List.Filter03")}</th>
+      <th onClick={()=>{changeSort('createdDateTime')}}>{t("AdminStore:List.Filter04")}</th>
     </tr>;
     return result;
   }
