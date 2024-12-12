@@ -1,9 +1,9 @@
 package com.zon.abba.members.repository;
 
-import com.zon.abba.members.entity.RecommendedMembers;
+import com.zon.abba.members.entity.RecommendedMember;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RecommendedMembersRepository extends JpaRepository<RecommendedMembers, String> {
+public interface RecommendedMembersRepository extends JpaRepository<RecommendedMember, String> {
 }

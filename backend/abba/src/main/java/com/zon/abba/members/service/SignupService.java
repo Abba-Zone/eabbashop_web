@@ -3,7 +3,7 @@ package com.zon.abba.members.service;
 import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.members.dto.MemberDto;
 import com.zon.abba.members.dto.RecommendDto;
-import com.zon.abba.members.entity.Members;
+import com.zon.abba.members.entity.Member;
 import com.zon.abba.members.repository.MembersRepository;
 import com.zon.abba.members.request.SignupRequest;
 import com.zon.abba.members.response.LoginResponse;
@@ -26,7 +26,7 @@ public class SignupService {
     public LoginResponse signup(SignupRequest signupRequest){
 
         // 1. 받아온 유저 정보를 입력한다.
-        Members members = Members.builder()
+        Member member = Member.builder()
                 .firstName(signupRequest.getFirstName())
                 .lastName(signupRequest.getLastName())
                 .email(signupRequest.getEmail())
@@ -38,20 +38,20 @@ public class SignupService {
                 .build();
 
 //        member.perPersist();
-        members = membersRepository.save(members);
+        member = membersRepository.save(member);
 
         // 추천인 등록
         // 추천인 email에 맞는 refered를 찾는다.
         String referredId = membersRepository.findMemberIDByEmail(signupRequest.getRecommend())
                 .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
         // 현재 토큰에서 유저 정보를 가져온다.
-        String referId = members.getMemberId();
+        String referId = member.getMemberId();
 
         recommendService.registRecommend(new RecommendDto(referredId, referId));
 
         logger.info("회원 정보 저장 완료");
         // 로그인 정보를 담아서 로그인 신호를 보낸다.
-        MemberDto memberDto = new MemberDto(members);
+        MemberDto memberDto = new MemberDto(member);
         return loginService.makeToken(memberDto);
 
     }

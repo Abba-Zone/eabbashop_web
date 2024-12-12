@@ -12,7 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RecommendedMembers {
+public class RecommendedMember {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

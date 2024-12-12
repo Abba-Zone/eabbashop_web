@@ -1,6 +1,6 @@
 package com.zon.abba.members.service;
 
-import com.zon.abba.members.entity.Members;
+import com.zon.abba.members.entity.Member;
 import com.zon.abba.members.repository.MembersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Members> member = membersRepository.findByEmail(username);
+        Optional<Member> member = membersRepository.findByEmail(username);
         if(member.isPresent()){
             return org.springframework.security.core.userdetails.User.withUsername(username)
                     .password(passwordEncoder.encode(member.get().getPassword()))

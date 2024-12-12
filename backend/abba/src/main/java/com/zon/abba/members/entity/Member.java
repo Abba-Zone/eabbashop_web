@@ -15,7 +15,7 @@ import java.util.UUID;
 @Entity
 @DynamicInsert
 @Table(name = "Members")
-public class Members {
+public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "MemberID", columnDefinition = "CHAR(36)", updatable = false, nullable = false)

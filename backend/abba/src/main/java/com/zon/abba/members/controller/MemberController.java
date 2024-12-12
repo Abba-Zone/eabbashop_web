@@ -4,6 +4,7 @@ import com.zon.abba.common.redis.RedisService;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.members.dto.TokenDto;
 import com.zon.abba.members.request.LoginRequest;
+import com.zon.abba.members.request.MemberInfoRequest;
 import com.zon.abba.members.request.SignupRequest;
 import com.zon.abba.members.response.LoginResponse;
 import com.zon.abba.members.service.LoginService;
@@ -84,27 +85,34 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @GetMapping("/redis_test/save")
-    public ResponseEntity<Object> saveTest(HttpServletRequest request){
-        redisService.save("123141515", "rudgns9334@gmail.com");
-//        logger.info(redisService.get("123141515").toString());
-//        redisService.delete("123141515");
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody("good"));
+    @PostMapping("/update")
+    @Operation(summary = "회원 정보 수정", description = "이름, 전화번호, 비밀번호 수정 가능")
+    public ResponseEntity<Object> updateMemberInfo(@RequestBody MemberInfoRequest memberInfoRequest){
+
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
-    @GetMapping("/redis_test/get")
-    public ResponseEntity<Object> getTest(HttpServletRequest request){
+//    @GetMapping("/redis_test/save")
+//    public ResponseEntity<Object> saveTest(HttpServletRequest request){
 //        redisService.save("123141515", "rudgns9334@gmail.com");
-        logger.info(redisService.get("123141515").toString());
-//        redisService.delete("123141515");
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody("good"));
-    }
-
-    @GetMapping("/redis_test/delete")
-    public ResponseEntity<Object> deleteTest(HttpServletRequest request){
-//        redisService.save("123141515", "rudgns9334@gmail.com");
+////        logger.info(redisService.get("123141515").toString());
+////        redisService.delete("123141515");
+//        return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody("good"));
+//    }
+//
+//    @GetMapping("/redis_test/get")
+//    public ResponseEntity<Object> getTest(HttpServletRequest request){
+////        redisService.save("123141515", "rudgns9334@gmail.com");
 //        logger.info(redisService.get("123141515").toString());
-        redisService.delete("123141515");
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody("good"));
-    }
+////        redisService.delete("123141515");
+//        return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody("good"));
+//    }
+//
+//    @GetMapping("/redis_test/delete")
+//    public ResponseEntity<Object> deleteTest(HttpServletRequest request){
+////        redisService.save("123141515", "rudgns9334@gmail.com");
+////        logger.info(redisService.get("123141515").toString());
+//        redisService.delete("123141515");
+//        return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody("good"));
+//    }
 }
