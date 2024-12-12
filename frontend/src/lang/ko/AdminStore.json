@@ -4,6 +4,25 @@
         "Filter01" : "매장명",
         "Filter02" : "점주",
         "Filter03" : "전화번호",
-        "Filter04" : "매장생성일"
+        "Filter04" : "매장개업일"
+    },
+    "Detail":{
+        "Option":{
+            "Attribute00":"매장 정보가 없습니다."
+        },
+        "Item01" : {
+            "Attribute01" : "점주",
+            "Attribute02" : "전화번호",
+            "Attribute03" : "매장개업일",
+            "Attribute04" : "우편번호",
+            "Attribute05" : "기본주소",
+            "Attribute06" : "상세주소"
+        },
+        "Item02" : {
+            "Title" : "상품리스트",
+            "Attribute01" : "상품명",
+            "Attribute02" : "재고",
+            "Attribute03" : "활성화"
+        }
     }
 }

@@ -4,6 +4,25 @@
         "Filter01": "Store Name",
         "Filter02": "Owner",
         "Filter03": "Phone Number",
-        "Filter04": "Store Creation Date"
+        "Filter04": "Opening Date"
+    },
+    "Detail": {
+        "Option": {
+            "Attribute00": "Store information is not available."
+        },
+        "Item01": {
+            "Attribute01": "Owner",
+            "Attribute02": "Phone Number",
+            "Attribute03": "Opening Date",
+            "Attribute04": "Postal Code",
+            "Attribute05": "Address",
+            "Attribute06": "Detailed Address"
+        },
+        "Item02": {
+            "Title": "Product List",
+            "Attribute01": "Product Name",
+            "Attribute02": "Stock",
+            "Attribute03": "Active"
+        }
     }
 }

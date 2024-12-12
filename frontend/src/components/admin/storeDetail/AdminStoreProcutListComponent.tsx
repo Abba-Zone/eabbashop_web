@@ -4,8 +4,10 @@ import BottomButton from "../../common/list/BottomButton";
 import StoreProductList from "./StoreProductList";
 import { useParams } from "react-router-dom";
 import { getStoreProductList_s } from "../../../services/store";
+import { useTranslation } from "react-i18next";
 
 const AdminStoreProcutListComponent: React.FC = () => {
+  const { t } = useTranslation();
   const [products, setProducts] = useState<product[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);

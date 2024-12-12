@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import ListCard from "./StoreProductListCard";
 interface Props{
     products:product[],
@@ -5,6 +6,7 @@ interface Props{
 }
 
 const StoreProductList:React.FC<Props> = ({products, changeSort}) => {
+  const { t } = useTranslation();
   const rendering = (): JSX.Element[] => {
       const result = [];
       for(let i = 0 ; i < products.length; i++){
@@ -16,9 +18,9 @@ const StoreProductList:React.FC<Props> = ({products, changeSort}) => {
     const result = 
     <tr>
       <th>선택</th>
-      <th onClick={()=>{changeSort('name')}}>상품명</th>
-      <th onClick={()=>{changeSort('stock')}}>재고</th>
-      <th onClick={()=>{changeSort('activeYN')}}>활성화</th>
+      <th onClick={()=>{changeSort('name')}}>{t("AdminStore:Detail.Item02.Attribute01")}</th>
+      <th onClick={()=>{changeSort('stock')}}>{t("AdminStore:Detail.Item02.Attribute02")}</th>
+      <th onClick={()=>{changeSort('activeYN')}}>{t("AdminStore:Detail.Item02.Attribute03")}</th>
     </tr>;
     return result;
   }
