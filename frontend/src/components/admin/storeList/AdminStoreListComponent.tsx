@@ -5,7 +5,7 @@ interface Props{
     changeSort(sortName:string):void,
 }
 
-const StoreList:React.FC<Props> = ({stores, changeSort}) => {
+const AdminStoreListComponent:React.FC<Props> = ({stores, changeSort}) => {
   const rendering = (): JSX.Element[] => {
       const result = [];
       for(let i = 0 ; i < stores.length; i++){
@@ -38,4 +38,4 @@ const StoreList:React.FC<Props> = ({stores, changeSort}) => {
     );
 }
   
-export default StoreList;
+export default AdminStoreListComponent;

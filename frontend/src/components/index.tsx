@@ -50,6 +50,8 @@ export {default as AdminShipmentOrderInfo} from "./admin/shipmentDetail/AdminShi
 export {default as AdminBoardList} from "./admin/boardList/AdminBoardList";
 /* Board Detail */
 export {default as AdminBoardInfo} from "./admin/boardDetail/AdminBoardInfo";
-/* Board List */
+/* Donation List */
 export {default as AdminDonationList} from "./admin/donation/AdminDonationList";
+/* Store List */
+export {default as AdminStoreListComponent} from "./admin/storeList/AdminStoreListComponent";
 
