@@ -8,7 +8,7 @@ import com.zon.abba.common.security.JwtTokenProvider;
 import com.zon.abba.members.client.GoogleClient;
 import com.zon.abba.members.client.KakaoClient;
 import com.zon.abba.members.dto.MemberDto;
-import com.zon.abba.members.entity.Member;
+import com.zon.abba.members.entity.Members;
 import com.zon.abba.members.repository.MemberRepository;
 import com.zon.abba.members.request.LoginRequest;
 import com.zon.abba.members.response.KakaoMemberInfoResponse;
@@ -76,25 +76,25 @@ public class LoginService {
     public LoginResponse login(LoginRequest loginRequest){
         logger.info("로그인 시도중");
         // 1. 유저 정보를 받아온다.
-        Member member = memberRepository.findByEmail(loginRequest.getEmail())
+        Members members = memberRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
 
         // 2. 비밀번호 검증
 //        if (!passwordEncoder.matches(loginRequest.getPassword(), member.getPassword())) {
-        if(!loginRequest.getPassword().equals(member.getPassword())) {
+        if(!loginRequest.getPassword().equals(members.getPassword())) {
             // 비밀번호가 틀리면 failCount를 증가시키고 저장
-            member.setFailCount(member.getFailCount() + 1);
-            memberRepository.save(member);
+            members.setFailCount(members.getFailCount() + 1);
+            memberRepository.save(members);
             throw new FailPasswordException("비밀번호가 틀렸습니다.");
         }
 
 //         3. 비밀번호 검증 성공 시 failCount 초기화 및 lastLoginTime 업데이트
-        member.setFailCount(0); // 실패 횟수 초기화
-        member.setLastLoginTime(LocalDateTime.now()); // 마지막 로그인 시간 갱신
-        memberRepository.save(member);
+        members.setFailCount(0); // 실패 횟수 초기화
+        members.setLastLoginTime(LocalDateTime.now()); // 마지막 로그인 시간 갱신
+        memberRepository.save(members);
 
         // 4. DTO 변환 및 토큰 생성
-        MemberDto memberDto = new MemberDto(member);
+        MemberDto memberDto = new MemberDto(members);
         return makeToken(memberDto);
     }
 
@@ -104,7 +104,7 @@ public class LoginService {
         GoogleMemberInfoResponse member = googleClient.requestGoogleUserInfo(googleAccessToken);
         logger.info(googleAccessToken);
         // 유저 정보를 토대로 토큰 정보 확인
-        Optional<Member> memberOptional = memberRepository.findByEmail(member.getEmail());
+        Optional<Members> memberOptional = memberRepository.findByEmail(member.getEmail());
 
         // memberOptional이 비어있으면 예외 던지기 SignupException
         MemberDto memberDto = memberOptional
@@ -127,7 +127,7 @@ public class LoginService {
         KakaoMemberInfoResponse member = kakaoClient.requestKakaoUserInfo(kakaoAccessToken);
 
         // 유저 정보를 토대로 토큰 정보 확인
-        Optional<Member> memberOptional = memberRepository.findByEmail(member.getKakaoAccount().getEmail());
+        Optional<Members> memberOptional = memberRepository.findByEmail(member.getKakaoAccount().getEmail());
 
         // memberOptional이 비어있으면 예외 던지기 SignupException
         MemberDto memberDto = memberOptional

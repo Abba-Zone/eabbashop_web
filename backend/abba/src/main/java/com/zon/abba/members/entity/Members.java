@@ -3,7 +3,6 @@ package com.zon.abba.members.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -16,7 +15,7 @@ import java.util.UUID;
 @Entity
 @DynamicInsert
 @Table(name = "Members")
-public class Member {
+public class Members {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "MemberID", columnDefinition = "CHAR(36)", updatable = false, nullable = false)

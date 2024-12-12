@@ -4,7 +4,7 @@ import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.members.dto.RecommendDto;
-import com.zon.abba.members.entity.Member;
+import com.zon.abba.members.entity.Members;
 import com.zon.abba.members.entity.RecommendedMembers;
 import com.zon.abba.members.repository.MemberRepository;
 import com.zon.abba.members.repository.RecommendedMembersRepository;
@@ -31,7 +31,7 @@ public class RecommendService {
     @Transactional
     public ResponseBody checkMember(EmailRequest emailRequest){
         // 유저 이메일을 바탕으로 member 체크
-        Optional<Member> memberOptional = memberRepository.findByEmail(emailRequest.getEmail());
+        Optional<Members> memberOptional = memberRepository.findByEmail(emailRequest.getEmail());
 
         if(memberOptional.isEmpty()) throw new NoMemberException("없는 회원 정보입니다.");
         else return new ResponseBody("성공했습니다.");

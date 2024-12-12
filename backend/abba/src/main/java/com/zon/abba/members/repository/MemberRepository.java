@@ -1,19 +1,18 @@
 package com.zon.abba.members.repository;
 
-import com.zon.abba.members.entity.Member;
+import com.zon.abba.members.entity.Members;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member, String> {
+public interface MemberRepository extends JpaRepository<Members, String> {
 
     // 이메일로 member 조회
-    Optional<Member> findByEmail(String email);
+    Optional<Members> findByEmail(String email);
 
     // 이메일로 memberID 조회
     @Query(value = "SELECT MemberID FROM members WHERE Email = :email", nativeQuery = true)
