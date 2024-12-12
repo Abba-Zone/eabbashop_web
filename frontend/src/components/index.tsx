@@ -54,4 +54,6 @@ export {default as AdminBoardInfo} from "./admin/boardDetail/AdminBoardInfo";
 export {default as AdminDonationList} from "./admin/donation/AdminDonationList";
 /* Store List */
 export {default as AdminStoreListComponent} from "./admin/storeList/AdminStoreListComponent";
-
+/* Store Detail */
+export {default as AdminStoreInfo} from "./admin/storeDetail/AdminStoreInfo";
+export {default as AdminStoreProcutListComponent} from "./admin/storeDetail/AdminStoreProcutListComponent";
