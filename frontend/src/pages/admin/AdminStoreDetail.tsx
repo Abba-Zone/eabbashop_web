@@ -2,8 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getStoreDetail_s } from '../../services/store';
 import { AdminStoreInfo, AdminStoreProcutListComponent } from '../../components';
+import { useTranslation } from 'react-i18next';
 
 const AdminStoreDetail: React.FC = () => {
+  const { t } = useTranslation();
   const [storeInfo, setStoreInfo] = useState<storeInfo | undefined>(undefined);
   const params = useParams<{id:string}>();
   const getStoreDetail = useCallback (async () => {
@@ -22,7 +24,7 @@ const AdminStoreDetail: React.FC = () => {
   if (!storeInfo) {
     return (
       <div>
-        <h1>매장 정보가 없습니다.</h1>
+        <h1>{t("AdminStore:Detail.Option.Attribute00")}</h1>
       </div>
     );
   }

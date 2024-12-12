@@ -16,13 +16,3 @@ interface storeInfo extends store{
     baseAddress : string,
     detailAddress : string
 }
-
-interface storeProduct{
-    totalStore : number,
-    store : store[]
-}
-
-interface storeProductList{
-    totalStore : number,
-    stores : storeProduct[]
-}
