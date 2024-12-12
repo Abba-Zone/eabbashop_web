@@ -2,13 +2,15 @@ package com.zon.abba.members.service;
 
 import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.response.ResponseBody;
-import com.zon.abba.common.security.JwtTokenProvider;
+import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.members.dto.RecommendDto;
 import com.zon.abba.members.entity.Member;
 import com.zon.abba.members.entity.RecommendedMembers;
 import com.zon.abba.members.repository.MemberRepository;
 import com.zon.abba.members.repository.RecommendedMembersRepository;
+import com.zon.abba.members.request.AlterRecommendRequest;
 import com.zon.abba.members.request.EmailRequest;
+import com.zon.abba.members.request.ListRecommendRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -22,16 +24,17 @@ import java.util.Optional;
 public class RecommendService {
 
     private static final Logger logger = LoggerFactory.getLogger(RecommendService.class);
-    private MemberRepository memberRepository;
-    private RecommendedMembersRepository recommendedMembersRepository;
-    private JwtTokenProvider jwtTokenProvider;
+    private final MemberRepository memberRepository;
+    private final RecommendedMembersRepository recommendedMembersRepository;
 
 
     @Transactional
-    public boolean checkMember(EmailRequest emailRequest){
+    public ResponseBody checkMember(EmailRequest emailRequest){
         // 유저 이메일을 바탕으로 member 체크
         Optional<Member> memberOptional = memberRepository.findByEmail(emailRequest.getEmail());
-        return memberOptional.isPresent();
+
+        if(memberOptional.isEmpty()) throw new NoMemberException("없는 회원 정보입니다.");
+        else return new ResponseBody("성공했습니다.");
     }
 
 
@@ -50,6 +53,21 @@ public class RecommendService {
 
 
     public ResponseBody requestAlterRecommend(EmailRequest emailRequest){
+        // 테이블 추가시 변경 예정
+
+        return new ResponseBody("성공했습니다.");
+    }
+
+    public ResponseBody alterRecommend(AlterRecommendRequest alterRecommendRequest){
+        // 테이블 추가시 작성 예정
+
+        // 로그 추가 예정
+        return new ResponseBody("성공했습니다.");
+    }
+
+    public ResponseListBody listRecommend(ListRecommendRequest listRecommendRequest){
+
+        // 테이블 추가시 작성 예정
         return null;
     }
 }
