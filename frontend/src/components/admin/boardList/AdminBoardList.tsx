@@ -20,8 +20,8 @@ const AdminBoardList:React.FC<Props> = ({boards, changeSort}) => {
       <th>선택</th>
       <th onClick={()=>{changeSort('title')}}>{t("AdminBoard:List.Filter01")}</th>
       <th onClick={()=>{changeSort('name')}}>{t("AdminBoard:List.Filter02")}</th>
-      <th onClick={()=>{changeSort('TopYN')}}>{t("AdminBoard:List.Filter03")}</th>
-      <th onClick={()=>{changeSort('ShowYN')}}>{t("AdminBoard:List.Filter04")}</th>
+      <th onClick={()=>{changeSort('topYN')}}>{t("AdminBoard:List.Filter03")}</th>
+      <th onClick={()=>{changeSort('showYN')}}>{t("AdminBoard:List.Filter04")}</th>
       <th onClick={()=>{changeSort('createdDateTime')}}>{t("AdminBoard:List.Filter05")}</th>
     </tr>;
     return result;
