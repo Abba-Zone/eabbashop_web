@@ -32,6 +32,10 @@ interface transferCancel{
     status : string,
     createdDateTime : string
 }
+interface transferCancelList{
+    totalCount : number,
+    list : transferCancel[]
+}
 
 /* Refund */
 interface refund{

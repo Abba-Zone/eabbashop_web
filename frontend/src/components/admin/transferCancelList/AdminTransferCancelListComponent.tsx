@@ -19,7 +19,7 @@ const AdminTransferCancelListComponent:React.FC<Props> = ({transferCancels, chan
       <th onClick={()=>{changeSort('senderName')}}>보낸사람</th>
       <th onClick={()=>{changeSort('receiverName')}}>받는사람</th>
       <th onClick={()=>{changeSort('money')}}>이체금액</th>
-      <th onClick={()=>{changeSort('moneyType')}}>이체유형</th>
+      <th onClick={()=>{changeSort('moneyType')}}>금액유형</th>
       <th onClick={()=>{changeSort('createdDateTime')}}>이체일</th>
       <th onClick={()=>{changeSort('status')}}>상태</th>
       <th></th>
