@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AdminShareMoneyListComponent, BottomButton, SearchSet } from '../../components';
+import { getShareMoneyList_s } from '../../services/share';
 
 const AdminShareMoneyList: React.FC = () => {
   const [shareMoneys, setShareMoneys] = useState<shareMoney[]>([]);
@@ -13,15 +14,17 @@ const AdminShareMoneyList: React.FC = () => {
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
     {selectName:'이름', select:'name', selectType:'text', itemList:[]},
-    {selectName:'이메일', select:'seller', selectType:'text', itemList:[]},
-    {selectName:'재고', select:'stock', selectType:'text', itemList:[]},
-    {selectName:'활성화', select:'activeYN', selectType:'select', itemList:['활성화', '비활성화']},
+    {selectName:'이메일', select:'email', selectType:'text', itemList:[]},
+    {selectName:'등급', select:'grade', selectType:'select', itemList:['Gold', 'Silver']},
+    {selectName:'net수당금', select:'netAK', selectType:'text', itemList:[]},
+    {selectName:'역할', select:'role', selectType:'select', itemList:['대리점', '협력사', '지점']},
+    {selectName:'zon수당금', select:'zonAK', selectType:'text', itemList:[]},
   ];
   const getShareMoneyList = useCallback( async () => {
       try {
-        // const total_and_productList : productList = await getProductList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
-        // setProducts(total_and_productList.products);
-        // setLastPage(total_and_productList.totalProduct === 0? 1:Math.floor((total_and_productList.totalProduct - 1)/pageSize) + 1);
+        const totalAndShareMoneyList : shareMoneyList = await getShareMoneyList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
+        setShareMoneys(totalAndShareMoneyList.list);
+        setLastPage(totalAndShareMoneyList.totalCount === 0? 1:Math.floor((totalAndShareMoneyList.totalCount - 1)/pageSize) + 1);
       } catch (error) {
         console.error('Error fetching shareMoney list:', error);
       }
