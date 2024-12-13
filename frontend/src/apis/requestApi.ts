@@ -24,6 +24,30 @@ export const getPaymentList = (pageNo:number, pageSize:number, filter:number, fi
     return result;
 }
 
+/* TransferCancel */
+export const getTransferCancelList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):transferCancelList => {
+    /* real code*/
+    // getData<boardList>('/list?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
+    //     .then((data:APIResponse<boardList>) => {
+    //         return data.result;
+    //     }
+    // );
+    // return null as unknown as boardList;
+
+    /* make for test*/
+    var result :transferCancelList = {
+        totalCount : 10003,
+        list:[
+            { accountHistroyID : "1q2w3er4t5t", createdDateTime : "2024-11-15 16:30:22", money : 100000, moneyType : "komoney", receiverName : "전 현태A", senderName : "전 현태B", status : "보류" },
+            { accountHistroyID : "1q2w3er4t5t", createdDateTime : "2024-11-15 16:30:22", money : 100000, moneyType : "komoney", receiverName : "전 현태A", senderName : "전 현태B", status : "완료" },
+            { accountHistroyID : "1q2w3er4t5t", createdDateTime : "2024-11-15 16:30:22", money : 100000, moneyType : "komoney", receiverName : "전 현태A", senderName : "전 현태B", status : "보류" },
+            { accountHistroyID : "1q2w3er4t5t", createdDateTime : "2024-11-15 16:30:22", money : 100000, moneyType : "komoney", receiverName : "전 현태A", senderName : "전 현태B", status : "완료" },
+            { accountHistroyID : "1q2w3er4t5t", createdDateTime : "2024-11-15 16:30:22", money : 100000, moneyType : "komoney", receiverName : "전 현태A", senderName : "전 현태B", status : "보류" }
+        ]
+    };
+    return result;
+}
+
 /* Refund */
 export const getRefundList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string, type:number):refundList => {
     /* real code*/
