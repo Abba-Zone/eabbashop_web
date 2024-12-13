@@ -85,7 +85,7 @@ const RoutePath:React.FC = () => {
         {/* Request Management */}
         <Route path="/admin/transfer" element={<AdminTransferRequest />} />
         <Route path="/admin/payment" element={<AdminPaymentRequest />} />
-        <Route path="/admin/transfercancel" element={<AdminTransferCancel />} />
+        <Route path="/admin/transfer-cancel" element={<AdminTransferCancel />} />
         <Route path="/admin/takeback" element={<AdminTakebackRequest />} />
         <Route path="/admin/refund" element={<AdminRefundRequest />} />
         <Route path="/admin/refundDetail/:id" element={<AdminRefundDetail />} />
