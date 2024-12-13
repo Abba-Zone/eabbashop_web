@@ -80,7 +80,7 @@ const RoutePath:React.FC = () => {
         <Route path="/admin/share-line" element={<AdminShareLineList />} />
         <Route path="/admin/sharedetail/:id" element={<AdminShareLineDetail />} />
         <Route path="/admin/share-distribution" element={<AdminShareMoneyList />} />
-        <Route path="/admin/sharemoneydetail/:id" element={<AdminShareMoneyDetail />} />
+        <Route path="/admin/shareMoneyDetail/:id" element={<AdminShareMoneyDetail />} />
 
         {/* Request Management */}
         <Route path="/admin/transfer" element={<AdminTransferRequest />} />

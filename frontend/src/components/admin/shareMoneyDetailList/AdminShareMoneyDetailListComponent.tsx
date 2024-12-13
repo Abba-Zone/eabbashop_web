@@ -16,12 +16,12 @@ const AdminShareMoneyDetailListComponent:React.FC<Props> = ({shareMoneyDetails, 
     const result = 
     <tr>
       <th>선택</th>
-      <th onClick={()=>{changeSort('name')}}>net/zon</th>
-      <th onClick={()=>{changeSort('email')}}>비율</th>
-      <th onClick={()=>{changeSort('grade')}}>가격</th>
-      <th onClick={()=>{changeSort('netAK')}}>누적수당</th>
-      <th onClick={()=>{changeSort('role')}}>상태</th>
-      <th onClick={()=>{changeSort('zonAK')}}>날짜</th>
+      <th onClick={()=>{changeSort('platform')}}>net/zon</th>
+      <th onClick={()=>{changeSort('rate')}}>비율</th>
+      <th onClick={()=>{changeSort('money')}}>가격</th>
+      <th onClick={()=>{changeSort('accumulation')}}>누적수당</th>
+      <th onClick={()=>{changeSort('status')}}>상태</th>
+      <th onClick={()=>{changeSort('createdDateTime')}}>날짜</th>
     </tr>;
     return result;
   }

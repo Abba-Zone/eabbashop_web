@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AdminShareMoneyDetailListComponent, BottomButton, SearchSet } from '../../components';
 import { useParams } from 'react-router-dom';
+import { getShareMoneyDetailList_s } from '../../services/share';
 
 const AdminShareMoneyDetail: React.FC = () => {
   const [shareMoneyDetails, setShareMoneyDetails] = useState<shareMoneyDetail[]>([]);
-  const [memberInfo, setMemberInfo] = useState<memberInfo | undefined>(undefined);
+  const [memberInfo, setMemberInfo] = useState<{name:string, email:string} | undefined>(undefined);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
   const [lastPage, setLastPage] = useState<number>(1);
@@ -15,16 +16,20 @@ const AdminShareMoneyDetail: React.FC = () => {
   const params = useParams<{id:string}>();
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:'이름', select:'name', selectType:'text', itemList:[]},
-    {selectName:'이메일', select:'seller', selectType:'text', itemList:[]},
-    {selectName:'재고', select:'stock', selectType:'text', itemList:[]},
-    {selectName:'활성화', select:'activeYN', selectType:'select', itemList:['활성화', '비활성화']},
+    {selectName:'net/zon', select:'platform', selectType:'select', itemList:['net', 'zon']},
+    {selectName:'비율', select:'rate', selectType:'text', itemList:[]},
+    {selectName:'가격', select:'money', selectType:'text', itemList:[]},
+    {selectName:'누적수당', select:'accumulation', selectType:'text', itemList:[]},
+    {selectName:'상태', select:'status', selectType:'select', itemList:['canceled', 'pass', 'complete']},
+    {selectName:'날짜', select:'createdDateTime', selectType:'date', itemList:[]},
+  
   ];
   const getShareMoneyDetailList = useCallback( async () => {
       try {
-        // const total_and_productList : productList = await getProductList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
-        // setProducts(total_and_productList.products);
-        // setLastPage(total_and_productList.totalProduct === 0? 1:Math.floor((total_and_productList.totalProduct - 1)/pageSize) + 1);
+        const totalAndShareMoneyDetailList : shareMoneyDetailList = await getShareMoneyDetailList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
+        setShareMoneyDetails(totalAndShareMoneyDetailList.list);
+        setMemberInfo({name:totalAndShareMoneyDetailList.name, email:totalAndShareMoneyDetailList.email});
+        setLastPage(totalAndShareMoneyDetailList.totalCount === 0? 1:Math.floor((totalAndShareMoneyDetailList.totalCount - 1)/pageSize) + 1);
       } catch (error) {
         console.error('Error fetching shareMoneyDetail list:', error);
       }
