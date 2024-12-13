@@ -79,7 +79,7 @@ const RoutePath:React.FC = () => {
         {/* Share Management */}
         <Route path="/admin/share-line" element={<AdminShareLineList />} />
         <Route path="/admin/sharedetail/:id" element={<AdminShareLineDetail />} />
-        <Route path="/admin/sharemoney" element={<AdminShareMoneyList />} />
+        <Route path="/admin/share-distribution" element={<AdminShareMoneyList />} />
         <Route path="/admin/sharemoneydetail/:id" element={<AdminShareMoneyDetail />} />
 
         {/* Request Management */}
