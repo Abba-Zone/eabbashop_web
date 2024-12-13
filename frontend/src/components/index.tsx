@@ -63,3 +63,6 @@ export {default as AdminShareLineListComponent} from "./admin/shareLineList/Admi
 export {default as AdminShareMoneyListComponent} from "./admin/shareMoneyList/AdminShareMoneyListComponent";
 /* ShareMoney Detail */
 export {default as AdminShareMoneyDetailListComponent} from "./admin/shareMoneyDetailList/AdminShareMoneyDetailListComponent";
+/* ShareMoney List */
+export {default as AdminTransferListComponent} from "./admin/transferList/AdminTransferListComponent";
+
