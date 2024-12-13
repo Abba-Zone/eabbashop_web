@@ -1,6 +1,6 @@
 import { getData, postData, getTestData} from './mainApi'
 
-export const getlist = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):donationList => {
+export const getDonationList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):donationList => {
     /* real code*/
     // getData<boardList>('/list?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
     //     .then((data:APIResponse<boardList>) => {
