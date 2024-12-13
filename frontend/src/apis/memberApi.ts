@@ -50,7 +50,7 @@ export const logout = () =>{
     );
 }
 
-export const getlist = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):memberList => {
+export const getMemberList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):memberList => {
     /* real code*/
     // getData<memberList>('/list?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
     //     .then((data:APIResponse<memberList>) => {
@@ -73,7 +73,7 @@ export const getlist = (pageNo:number, pageSize:number, filter:number, filterVal
     return result;
 }
 
-export const getInfo = (memberID:string):memberDetailInfo => {
+export const getMemberDetail = (memberID:string):memberDetailInfo => {
     // getData<memberDetailInfo>('/info?MemberID='+ memberID)
     //     .then((data:APIResponse<memberDetailInfo>) => {
     //         return data.result;

@@ -1,4 +1,4 @@
-import { login, getUserList, getlist, getInfo } from '../apis/memberApi'
+import { login, getUserList, getMemberList, getMemberDetail } from '../apis/memberApi'
 
 /*데이터 가공 */
 export const login_s = (loginUser:emailAndPassword):boolean => {
@@ -7,11 +7,11 @@ export const login_s = (loginUser:emailAndPassword):boolean => {
 };
 
 export const getMemberList_s = async (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string): Promise<memberList> => {
-    return await getlist(pageNo, pageSize, filter, filterValue, sort, sortValue);
+    return await getMemberList(pageNo, pageSize, filter, filterValue, sort, sortValue);
 };
 
 export const getMemberDetail_s = async (memberId:string): Promise<memberDetailInfo> => {
-    return await getInfo(memberId);
+    return await getMemberDetail(memberId);
 };
 
 export const getUserList_s = async (): Promise<testuser[]> => {
