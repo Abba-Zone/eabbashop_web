@@ -16,7 +16,7 @@ import { Home, Login, Signup, Cart, Profile,
   AdminRefundRequest, AdminStoreList, AdminStoreDetail,
   AdminStoreManage, AdminNotice, AdminLetter, AdminDonation,
   AdminSetting, AdminInquiryList, AdminInquiryDetail, 
-  AdminBoardDetail} from '../pages';
+  AdminBoardDetail, AdminRefundDetail} from '../pages';
 
 const RoutePath:React.FC = () => {
   return (
@@ -77,7 +77,7 @@ const RoutePath:React.FC = () => {
         <Route path="/admin/regularorderdetail/:id" element={<AdminRegularOrderDetail />} />
 
         {/* Share Management */}
-        <Route path="/admin/share" element={<AdminShareLineList />} />
+        <Route path="/admin/share-line" element={<AdminShareLineList />} />
         <Route path="/admin/sharedetail/:id" element={<AdminShareLineDetail />} />
         <Route path="/admin/sharemoney" element={<AdminShareMoneyList />} />
         <Route path="/admin/sharemoneydetail/:id" element={<AdminShareMoneyDetail />} />
@@ -88,6 +88,7 @@ const RoutePath:React.FC = () => {
         <Route path="/admin/transfercancel" element={<AdminTransferCancel />} />
         <Route path="/admin/takeback" element={<AdminTakebackRequest />} />
         <Route path="/admin/refund" element={<AdminRefundRequest />} />
+        <Route path="/admin/refundDetail/:id" element={<AdminRefundDetail />} />
 
         {/* Store Management */}
         <Route path="/admin/store-management" element={<AdminStoreList />} />

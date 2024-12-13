@@ -62,3 +62,4 @@ export { default as AdminSetting } from "./admin/AdminSetting";
 export { default as AdminInquiryList } from "./admin/AdminInquiryList";
 export { default as AdminInquiryDetail } from "./admin/AdminInquiryDetail";
 export { default as AdminBoardDetail } from "./admin/AdminBoardDetail";
+export { default as AdminRefundDetail } from "./admin/AdminRefundDetail";
