@@ -27,8 +27,8 @@ const AdminStoreProcutListComponent: React.FC = () => {
       try {
         if (params.id !== undefined){
             const totalAndProductList : productList = await getStoreProductList_s(params.id, pageNo, pageSize, filter, filterValue, sort, sortValue);
-            setProducts(totalAndProductList.products);
-            setLastPage(totalAndProductList.totalProduct === 0? 1:Math.floor((totalAndProductList.totalProduct - 1)/pageSize) + 1);
+            setProducts(totalAndProductList.list);
+            setLastPage(totalAndProductList.totalCount === 0? 1:Math.floor((totalAndProductList.totalCount - 1)/pageSize) + 1);
         }
       } catch (error) {
         console.error('Error fetching storeProduct list:', error);

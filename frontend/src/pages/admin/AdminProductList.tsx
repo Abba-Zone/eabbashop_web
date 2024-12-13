@@ -11,7 +11,7 @@ const AdminProductList: React.FC = () => {
   const [lastPage, setLastPage] = useState<number>(1);
   const [filter, setFilter] = useState<number>(1);
   const [filterValue, setFilterValue] = useState<string>("");
-  const [sort, setSort] = useState<string>("CreatedDateTime");
+  const [sort, setSort] = useState<string>("createdDateTime");
   const [sortValue, setSortValue] = useState<string>("DESC");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
@@ -20,13 +20,13 @@ const AdminProductList: React.FC = () => {
     {selectName:'재고', select:'stock', selectType:'text', itemList:[]},
     {selectName:'활성화', select:'activeYN', selectType:'select', itemList:['활성화', '비활성화']},
   ];
-  const getUserList = useCallback( async () => {
+  const getProductList = useCallback( async () => {
       try {
-        const total_and_productList : productList = await getProductList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
-        setProducts(total_and_productList.products);
-        setLastPage(total_and_productList.totalProduct === 0? 1:Math.floor((total_and_productList.totalProduct - 1)/pageSize) + 1);
+        const totalAndProductList : productList = await getProductList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
+        setProducts(totalAndProductList.list);
+        setLastPage(totalAndProductList.totalCount === 0? 1:Math.floor((totalAndProductList.totalCount - 1)/pageSize) + 1);
       } catch (error) {
-        console.error('Error fetching user list:', error);
+        console.error('Error fetching product list:', error);
       }
   },[pageNo, pageSize, filter, filterValue, sort, sortValue]);
 
@@ -55,8 +55,8 @@ const AdminProductList: React.FC = () => {
   }
 
   useEffect(() => {
-      getUserList(); // 비동기 함수 호출
-    }, [getUserList]);
+    getProductList(); // 비동기 함수 호출
+    }, [getProductList]);
   return (
     <div>
       <h1>{t("AdminProduct:List.Title")}</h1>
