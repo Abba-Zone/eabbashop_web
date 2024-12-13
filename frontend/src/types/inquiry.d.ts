@@ -8,8 +8,8 @@ interface inquiry{
 }
 
 interface inquiryList{
-    totalInquiy : number,
-    inquirys : inquiry[],
+    totalCount : number,
+    list : inquiry[],
 }
 
 interface inquiryDetail extends inquiry{

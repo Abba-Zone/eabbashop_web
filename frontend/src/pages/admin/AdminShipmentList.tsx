@@ -23,8 +23,8 @@ const AdminShipmentList: React.FC = () => {
   const getShipmentList = useCallback (async () => {
     try {
       const totalAndShipmentList : shipmentList = await getShipmentList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
-      setShipments(totalAndShipmentList.shipments);
-      setLastPage(totalAndShipmentList.totalShipment === 0? 1:Math.floor((totalAndShipmentList.totalShipment - 1)/pageSize) + 1);
+      setShipments(totalAndShipmentList.list);
+      setLastPage(totalAndShipmentList.totalCount === 0? 1:Math.floor((totalAndShipmentList.totalCount - 1)/pageSize) + 1);
     } catch (error) {
       console.error('Error fetching shipment list:', error);
     }

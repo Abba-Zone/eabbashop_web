@@ -24,8 +24,8 @@ const AdminStoreList: React.FC = () => {
   const getStoreList = useCallback (async () => {
     try {
       const totalAndStoreList : storeList = await getStoreList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
-      setStores(totalAndStoreList.stores);
-      setLastPage(totalAndStoreList.totalStore === 0? 1:Math.floor((totalAndStoreList.totalStore - 1)/pageSize) + 1);
+      setStores(totalAndStoreList.list);
+      setLastPage(totalAndStoreList.totalCount === 0? 1:Math.floor((totalAndStoreList.totalCount - 1)/pageSize) + 1);
     } catch (error) {
       console.error('Error fetching store list:', error);
     }

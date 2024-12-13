@@ -10,8 +10,8 @@ export const getStoreList = (pageNo:number, pageSize:number, filter:number, filt
 
     /* make for test*/
     var result :storeList = {
-        totalStore : 10003,
-        stores:[
+        totalCount : 10003,
+        list:[
             {storeID : "1asbebxcvbxcvbcb", name : "매장명예시입니다", host : "전 현태A", phone : "010-1234-5678", createdDateTime : "2024-11-21 11:53:11"},
             {storeID : "2asbebxcvbxcvbcb", name : "매장명예시입니다", host : "전 현태A", phone : "010-1234-5678", createdDateTime : "2024-11-21 11:53:11"},
             {storeID : "3asbebxcvbxcvbcb", name : "매장명예시입니다", host : "전 현태A", phone : "010-1234-5678", createdDateTime : "2024-11-21 11:53:11"},

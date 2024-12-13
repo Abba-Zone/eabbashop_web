@@ -61,8 +61,8 @@ export const getMemberList = (pageNo:number, pageSize:number, filter:number, fil
 
     /* make for test*/
     var result :memberList = {
-        totalMember : 10003,
-        members:[
+        totalCount : 10003,
+        list:[
             {memberID: '1sasfdgsdfgs', name:'전 현태1', email:'jht043@naver.com1', phone:'010-9416-7342-1', role:'대리점', grade:'silver', recommend:'ych526@naver.com', platform:'net', createdDateTime:'2023-11-28 15:12:44'},
             {memberID: '2sasfdgsdfgs', name:'전 현태2', email:'jht043@naver.com2', phone:'010-9416-7342-2', role:'대리점', grade:'silver', recommend:'ych526@naver.com', platform:'net', createdDateTime:'2023-11-28 15:12:44'},
             {memberID: '3sasfdgsdfgs', name:'전 현태3', email:'jht043@naver.com3', phone:'010-9416-7342-3', role:'대리점', grade:'silver', recommend:'ych526@naver.com', platform:'net', createdDateTime:'2023-11-28 15:12:44'},

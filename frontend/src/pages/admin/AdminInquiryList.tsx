@@ -23,8 +23,8 @@ const AdminInquiryList: React.FC = () => {
   const getInquiryList = useCallback (async () => {
     try {
       const totalAndInquiryList : inquiryList = await getInquiryList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
-      setInquirys(totalAndInquiryList.inquirys);
-      setLastPage(totalAndInquiryList.totalInquiy === 0? 1:Math.floor((totalAndInquiryList.totalInquiy - 1)/pageSize) + 1);
+      setInquirys(totalAndInquiryList.list);
+      setLastPage(totalAndInquiryList.totalCount === 0? 1:Math.floor((totalAndInquiryList.totalCount - 1)/pageSize) + 1);
     } catch (error) {
       console.error('Error fetching inquiry list:', error);
     }

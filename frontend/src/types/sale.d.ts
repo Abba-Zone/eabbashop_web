@@ -8,8 +8,8 @@ interface order{
 }
 
 interface orderList{
-    totalOrder : number,
-    orders : order[]
+    totalCount : number,
+    list : order[]
 }
 
 interface orderDetail{
@@ -62,8 +62,8 @@ interface invoice{
     createdDateTime : string
 }
 interface invoiceList{
-    totalInvoice : number,
-    invoices : invoice[]
+    totalCount : number,
+    list : invoice[]
 }
 
 interface invoiceDetail{
@@ -107,8 +107,8 @@ interface shipment{
     createdDateTime : string
 }
 interface shipmentList{
-    totalShipment : number,
-    shipments : shipment[]
+    totalCount : number,
+    list : shipment[]
 }
 
 interface shipmentDetail{

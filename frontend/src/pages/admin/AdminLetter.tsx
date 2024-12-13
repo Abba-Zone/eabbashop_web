@@ -25,8 +25,8 @@ const AdminLetter: React.FC = () => {
   const getLetterList = useCallback (async () => {
     try {
       const totalAndBoardList : boardList = await getBoardList_s(pageNo, pageSize, filter, filterValue, sort, sortValue, 200);
-      setLetters(totalAndBoardList.boards);
-      setLastPage(totalAndBoardList.totalBoard === 0? 1:Math.floor((totalAndBoardList.totalBoard - 1)/pageSize) + 1);
+      setLetters(totalAndBoardList.list);
+      setLastPage(totalAndBoardList.totalCount === 0? 1:Math.floor((totalAndBoardList.totalCount - 1)/pageSize) + 1);
     } catch (error) {
       console.error('Error fetching notice list:', error);
     }

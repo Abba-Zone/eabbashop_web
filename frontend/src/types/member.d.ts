@@ -52,8 +52,8 @@ interface memberDetail extends memberInfo{
 }
 
 interface memberList{
-	totalMember  : number,
-	members  : memberInfo[]
+	totalCount  : number,
+	list  : memberInfo[]
 }
 
 interface memberDetailInfo{

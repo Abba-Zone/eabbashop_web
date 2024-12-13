@@ -7,8 +7,8 @@ interface store{
 }
 
 interface storeList{
-    totalStore : number,
-    stores : store[]
+    totalCount : number,
+    list : store[]
 }
 
 interface storeInfo extends store{
