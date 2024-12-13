@@ -12,8 +12,8 @@ export const getOrderList = (pageNo:number, pageSize:number, filter:number, filt
 
     /* make for test*/
     var result :orderList = {
-        totalOrder: 123412414,
-        orders : [
+        totalCount: 123412414,
+        list : [
             {orderID: "1dvxb32c45s7d87b49lkfdvb", productName : "물병",memberName : "전 현태",	status : "배송중", createdDateTime : "2024-11-15 16:30:22",},
             {orderID: "2dvxb32c45s7d87b49lkfdvb", productName : "물병",memberName : "전 현태",	status : "처리중", createdDateTime : "2024-11-15 16:30:22",},
             {orderID: "3dvxb32c45s7d87b49lkfdvb", productName : "물병",memberName : "전 현태",	status : "배송완료", createdDateTime : "2024-11-15 16:30:22",},
@@ -81,8 +81,8 @@ export const getInvoiceList = (pageNo:number, pageSize:number, filter:number, fi
 
     /* make for test*/
     var result :invoiceList = {
-        totalInvoice: 123412414,
-        invoices : [
+        totalCount: 123412414,
+        list : [
             {invoiceID : "1x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55",	invoiceNo : "123456364575467", status: "결제", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},
             {invoiceID : "2x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55",	invoiceNo : "123456364575467", status: "결제", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},
             {invoiceID : "3x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55",	invoiceNo : "123456364575467", status: "결제", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},
@@ -151,8 +151,8 @@ export const getShipmentList = (pageNo:number, pageSize:number, filter:number, f
 
     /* make for test*/
     var result :shipmentList = {
-        totalShipment: 123412414,
-        shipments : [
+        totalCount: 123412414,
+        list : [
             {shipmentID : "1x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55", invoiceNo: "123456364575467", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},
             {shipmentID : "2x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55", invoiceNo: "123456364575467", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},
             {shipmentID : "3x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55", invoiceNo: "123456364575467", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},

@@ -25,8 +25,8 @@ const AdminInvoiceList: React.FC = () => {
   const getInvoiceList = useCallback (async () => {
     try {
       const totalAndInvoiceList : invoiceList = await getInvoiceList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
-      setInvoices(totalAndInvoiceList.invoices);
-      setLastPage(totalAndInvoiceList.totalInvoice === 0? 1:Math.floor((totalAndInvoiceList.totalInvoice - 1)/pageSize) + 1);
+      setInvoices(totalAndInvoiceList.list);
+      setLastPage(totalAndInvoiceList.totalCount === 0? 1:Math.floor((totalAndInvoiceList.totalCount - 1)/pageSize) + 1);
     } catch (error) {
       console.error('Error fetching invoice list:', error);
     }

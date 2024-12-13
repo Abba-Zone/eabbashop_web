@@ -25,9 +25,9 @@ const AdminMemberList: React.FC = () => {
   ];
   const getMemberList = useCallback( async () => {
       try {
-        const total_and_memberList : memberList = await getMemberList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
-        setMembers(total_and_memberList.members);
-        setLastPage(total_and_memberList.totalMember === 0? 1:Math.floor((total_and_memberList.totalMember - 1)/pageSize) + 1);
+        const totalAndMemberList : memberList = await getMemberList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
+        setMembers(totalAndMemberList.list);
+        setLastPage(totalAndMemberList.totalCount === 0? 1:Math.floor((totalAndMemberList.totalCount - 1)/pageSize) + 1);
       } catch (error) {
         console.error('Error fetching memberlist:', error);
       }

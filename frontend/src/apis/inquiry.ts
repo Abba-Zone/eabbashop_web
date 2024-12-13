@@ -11,8 +11,8 @@ export const getInquiryList = (pageNo:number, pageSize:number, filter:number, fi
 
     /* make for test*/
     var result :inquiryList = {
-        totalInquiy : 10003,
-        inquirys:[
+        totalCount : 10003,
+        list:[
             {inquiryID: '1q23q3e2311tt43y3423', name:'전 현태1', status:'완료', title : "정경훈",type:"불편사항", createdDateTime:'2023-11-28 15:12:44'},
             {inquiryID: '2q23q3e2311tt43y3423', name:'전 현태2', status:'완료', title : "정경훈",type:"불편사항", createdDateTime:'2023-11-28 15:12:44'},
             {inquiryID: '3q23q3e2311tt43y3423', name:'전 현태3', status:'완료', title : "정경훈",type:"불편사항", createdDateTime:'2023-11-28 15:12:44'},

@@ -8,8 +8,8 @@ interface board{
 }
 
 interface boardList{
-    totalBoard : number,
-    boards : board[],
+    totalCount : number,
+    list : board[],
 }
 
 interface boardDetail extends board{

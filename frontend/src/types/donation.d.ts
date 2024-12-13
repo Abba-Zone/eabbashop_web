@@ -8,6 +8,6 @@ interface donation{
 }
 
 interface donationList{
-    totalDonation : number,
-    donation : donation[],
+    totalCount : number,
+    list : donation[],
 }

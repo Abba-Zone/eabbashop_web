@@ -11,8 +11,8 @@ export const getDonationList = (pageNo:number, pageSize:number, filter:number, f
 
     /* make for test*/
     var result :donationList = {
-        totalDonation : 10003,
-        donation:[
+        totalCount : 10003,
+        list:[
             {donationID : "23w13ww4r4t5t", name : "전 현태", money : 20.0, type : "kmoney", accumulation : 1000000.0, createdDateTime : "2024-11-12 17:38:22"},
             {donationID : "23w13ww4r4t5t", name : "전 현태", money : 20.0, type : "kmoney", accumulation : 1000000.0, createdDateTime : "2024-11-12 17:38:22"},
             {donationID : "23w13ww4r4t5t", name : "전 현태", money : 20.0, type : "kmoney", accumulation : 1000000.0, createdDateTime : "2024-11-12 17:38:22"},

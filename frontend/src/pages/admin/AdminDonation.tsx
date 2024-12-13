@@ -25,8 +25,8 @@ const AdminDonation: React.FC = () => {
   const getDonationList = useCallback (async () => {
     try {
       const totalAndDonationList : donationList = await getDonationList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
-      setDonations(totalAndDonationList.donation);
-      setLastPage(totalAndDonationList.totalDonation === 0? 1:Math.floor((totalAndDonationList.totalDonation - 1)/pageSize) + 1);
+      setDonations(totalAndDonationList.list);
+      setLastPage(totalAndDonationList.totalCount === 0? 1:Math.floor((totalAndDonationList.totalCount - 1)/pageSize) + 1);
     } catch (error) {
       console.error('Error fetching donation list:', error);
     }
