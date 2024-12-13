@@ -1,3 +1,4 @@
+/* ShareLine */
 interface shareLine{
     memberID : string,
     name: string,
@@ -12,6 +13,7 @@ interface shareLineList{
     list : shareLine[]
 }
 
+/* ShareMoney */
 interface shareMoney{
     memberID : string,
     name: string,
@@ -22,6 +24,12 @@ interface shareMoney{
     zonAK: number,
 }
 
+interface shareMoneyList{
+    totalCount : number,
+    list : shareMoney[]
+}
+
+/* ShareMoneyDetail */
 interface shareMoneyDetail{
     platform: string,
     rate: string,
@@ -29,4 +37,11 @@ interface shareMoneyDetail{
     accumulation : number,
     status: string,
     createdDateTime : string
+}
+
+interface shareMoneyDetailList{
+    name : string,
+    email : string,
+    totalCount : number,
+    list : shareMoneyDetail[]
 }
