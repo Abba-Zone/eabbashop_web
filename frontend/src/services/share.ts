@@ -8,6 +8,6 @@ export const getShareMoneyList_s = async (pageNo:number, pageSize:number, filter
     return await getShareMoneyList(pageNo, pageSize, filter, filterValue, sort, sortValue);
 };
 /* ShareMoneyDetail */
-export const getShareMoneyDetailList_s = async (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string): Promise<shareMoneyDetailList> => {
-    return await getShareMoneyDetailList(pageNo, pageSize, filter, filterValue, sort, sortValue);
+export const getShareMoneyDetailList_s = async (memberID:string, pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string): Promise<shareMoneyDetailList> => {
+    return await getShareMoneyDetailList(memberID, pageNo, pageSize, filter, filterValue, sort, sortValue);
 };
