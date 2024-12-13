@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getinquiryDetail_s } from '../../services/inquiry';
+import { getInquiryDetail_s } from '../../services/inquiry';
 import { InquriryInfo, InquriryResponse } from '../../components';
 
 const AdminInquiryDetail: React.FC = () => {
@@ -9,7 +9,7 @@ const AdminInquiryDetail: React.FC = () => {
   const getinquiryDetail = useCallback (async () => {
     try {
       if (params.id !== undefined){
-        const inquiryDetail : inquiryDetail = await getinquiryDetail_s(params.id);
+        const inquiryDetail : inquiryDetail = await getInquiryDetail_s(params.id);
         setInquiry(inquiryDetail)
       }
     } catch (error) {

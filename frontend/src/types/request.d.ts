@@ -8,6 +8,10 @@ interface transfer{
     status : string,
     createdDateTime : string
 }
+interface transferList{
+    totalCount : number,
+    list : transfer[]
+}
 
 /* Payment */
 interface payment{
