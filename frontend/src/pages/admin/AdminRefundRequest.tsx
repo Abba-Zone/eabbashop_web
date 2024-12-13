@@ -26,7 +26,7 @@ const AdminRefundRequest: React.FC = () => {
       setRefunds(totalAndRefundList.list);
       setLastPage(totalAndRefundList.totalCount === 0? 1:Math.floor((totalAndRefundList.totalCount - 1)/pageSize) + 1);
     } catch (error) {
-      console.error('Error fetching transfer list:', error);
+      console.error('Error fetching refund list:', error);
     }
 },[pageNo, pageSize, filter, filterValue, sort, sortValue]);
 
