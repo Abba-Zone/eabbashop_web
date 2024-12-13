@@ -42,3 +42,7 @@ interface refund{
     createdDateTime : string,
     status : string
 }
+interface refundList{
+    totalCount : number,
+    list : refund[]
+}

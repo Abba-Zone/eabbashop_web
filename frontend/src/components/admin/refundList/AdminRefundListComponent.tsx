@@ -20,7 +20,7 @@ const AdminRefundListComponent:React.FC<Props> = ({refunds, changeSort}) => {
       <th onClick={()=>{changeSort('phone')}}>전화번호</th>
       <th onClick={()=>{changeSort('orderID')}}>주문번호</th>
       <th onClick={()=>{changeSort('createdDateTime')}}>신청일</th>
-      <th onClick={()=>{changeSort('status')}}>상태태</th>
+      <th onClick={()=>{changeSort('status')}}>상태</th>
     </tr>;
     return result;
   }
