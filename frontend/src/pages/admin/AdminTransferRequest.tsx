@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AdminTransferListComponent, BottomButton, SearchSet } from '../../components';
+import { getTransferList_s } from '../../services/customRequest';
 
 const AdminTransferRequest: React.FC = () => {
   const [transfers, setTransfers] = useState<transfer[]>([]);
@@ -12,17 +13,19 @@ const AdminTransferRequest: React.FC = () => {
   const [sortValue, setSortValue] = useState<string>("DESC");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:"", select:'name', selectType:'text', itemList:[]},
-    {selectName:"", select:'host', selectType:'text', itemList:[]},
-    {selectName:"", select:'phone', selectType:'text', itemList:[]},
-    {selectName:"", select:'createdDateTime', selectType:'date', itemList:[]},
+    {selectName:"보낸사람", select:'senderName', selectType:'text', itemList:[]},
+    {selectName:"받는사람", select:'receiverName', selectType:'text', itemList:[]},
+    {selectName:"이체금액", select:'money', selectType:'text', itemList:[]},
+    {selectName:"이체유형", select:'moneyType', selectType:'text', itemList:[]},
+    {selectName:"이체일", select:'createdDateTime', selectType:'date', itemList:[]},
+    {selectName:"상태", select:'status', selectType:'select', itemList:["보류", "완료"]},
   ];
 
   const getTransferList = useCallback (async () => {
     try {
-      // const totalAndStoreList : storeList = await getStoreList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
-      // setStores(totalAndStoreList.stores);
-      // setLastPage(totalAndStoreList.totalStore === 0? 1:Math.floor((totalAndStoreList.totalStore - 1)/pageSize) + 1);
+      const totalAndTransferList : transferList = await getTransferList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
+      setTransfers(totalAndTransferList.list);
+      setLastPage(totalAndTransferList.totalCount === 0? 1:Math.floor((totalAndTransferList.totalCount - 1)/pageSize) + 1);
     } catch (error) {
       console.error('Error fetching transfer list:', error);
     }

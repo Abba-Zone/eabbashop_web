@@ -1,6 +1,25 @@
 import { getData, postData, getTestData} from './mainApi'
 
 /* Payment */
+export const getTransferList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):transferList => {
+    /* real code*/
+    // getData<boardList>('/list?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
+    //     .then((data:APIResponse<boardList>) => {
+    //         return data.result;
+    //     }
+    // );
+    // return null as unknown as boardList;
+
+    /* make for test*/
+    var result :transferList = {
+        totalCount : 10003,
+        list:[
+        ]
+    };
+    return result;
+}
+
+/* Payment */
 export const getPaymentList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):paymentList => {
     /* real code*/
     // getData<boardList>('/list?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)

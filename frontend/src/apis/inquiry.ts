@@ -23,7 +23,7 @@ export const getInquiryList = (pageNo:number, pageSize:number, filter:number, fi
     return result;
 }
 
-export const getinquiryDetail = (inquiryID:string):inquiryDetail => {
+export const getInquiryDetail = (inquiryID:string):inquiryDetail => {
     // getData<inquiryDetail>('/info?inquiryID='+ inquiryID)
     //     .then((data:APIResponse<inquiryDetail>) => {
     //         return data.result;
