@@ -1,6 +1,6 @@
 import { getData, postData, getTestData} from './mainApi'
 
-export const getlist = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):inquiryList => {
+export const getInquiryList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):inquiryList => {
     /* real code*/
     // getData<inquiryList>('/list?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
     //     .then((data:APIResponse<inquiryList>) => {
@@ -23,7 +23,7 @@ export const getlist = (pageNo:number, pageSize:number, filter:number, filterVal
     return result;
 }
 
-export const getInfo = (inquiryID:string):inquiryDetail => {
+export const getinquiryDetail = (inquiryID:string):inquiryDetail => {
     // getData<inquiryDetail>('/info?inquiryID='+ inquiryID)
     //     .then((data:APIResponse<inquiryDetail>) => {
     //         return data.result;
