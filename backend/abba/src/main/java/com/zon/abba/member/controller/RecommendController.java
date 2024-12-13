@@ -17,13 +17,6 @@ public class RecommendController {
 
     private final RecommendService recommendService;
 
-    @PostMapping("/auth")
-    @Operation(summary = "추천인 인증", description = "실제 존재하는 유저인지 판별")
-    public ResponseEntity<Object> authRecommend(@RequestBody EmailRequest emailRequest){
-
-        return ResponseEntity.status(HttpStatus.OK).body(recommendService.checkMember(emailRequest));
-    }
-
     @PostMapping("/request")
     @Operation(summary = "추천인 변경 요청", description = "내 상위 추천인을 변경하고 싶을 때")
     public ResponseEntity<Object> requestRecommend(@RequestBody EmailRequest emailRequest){

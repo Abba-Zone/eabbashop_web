@@ -1,10 +1,15 @@
 package com.zon.abba.member.service;
 
 import com.zon.abba.common.code.MailTitleCode;
+import com.zon.abba.common.exception.NoMemberException;
+import com.zon.abba.common.response.ResponseBody;
+import com.zon.abba.member.entity.Member;
+import com.zon.abba.member.repository.MemberRepository;
 import com.zon.abba.member.request.EmailRequest;
 import com.zon.abba.member.response.EmailResponse;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -23,6 +29,16 @@ public class EmailService {
 
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
+    private final MemberRepository memberRepository;
+
+    @Transactional
+    public ResponseBody checkEmail(EmailRequest emailRequest){
+        // 유저 이메일을 바탕으로 member 체크
+        Optional<Member> memberOptional = memberRepository.findByEmail(emailRequest.getEmail());
+
+        if(memberOptional.isEmpty()) throw new NoMemberException("없는 회원 정보입니다.");
+        else return new ResponseBody("성공했습니다.");
+    }
 
     public EmailResponse sendMail(EmailRequest emailRequest){
         String code = createCode();

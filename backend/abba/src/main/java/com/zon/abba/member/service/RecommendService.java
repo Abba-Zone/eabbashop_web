@@ -27,17 +27,6 @@ public class RecommendService {
     private final MemberRepository memberRepository;
     private final RecommendedMemberRepository recommendedMemberRepository;
 
-
-    @Transactional
-    public ResponseBody checkMember(EmailRequest emailRequest){
-        // 유저 이메일을 바탕으로 member 체크
-        Optional<Member> memberOptional = memberRepository.findByEmail(emailRequest.getEmail());
-
-        if(memberOptional.isEmpty()) throw new NoMemberException("없는 회원 정보입니다.");
-        else return new ResponseBody("성공했습니다.");
-    }
-
-
     @Transactional
     public void registRecommend(RecommendDto recommendDto){
         logger.info("추천인 등록을 시작합니다.");
