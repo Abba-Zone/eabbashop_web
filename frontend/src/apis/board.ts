@@ -1,6 +1,6 @@
 import { getData, postData, getTestData} from './mainApi'
 
-export const getlist = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string, type:number):boardList => {
+export const getBoardList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string, type:number):boardList => {
     /* real code*/
     // getData<boardList>('/list?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
     //     .then((data:APIResponse<boardList>) => {
@@ -23,7 +23,7 @@ export const getlist = (pageNo:number, pageSize:number, filter:number, filterVal
     return result;
 }
 
-export const getInfo = (boardID:string):boardDetail => {
+export const getBoardDetail = (boardID:string):boardDetail => {
     // getData<boardDetail>('/info?inquiryID='+ inquiryID)
     //     .then((data:APIResponse<boardDetail>) => {
     //         return data.result;
