@@ -41,7 +41,6 @@ public class LoginService {
     private final JwtTokenProvider tokenProvider;
     private final RedisService redisService;
     private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public LoginResponse makeToken(MemberDto memberDto){

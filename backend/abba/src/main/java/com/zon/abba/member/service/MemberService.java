@@ -1,19 +1,30 @@
 package com.zon.abba.member.service;
 
+import com.zon.abba.account.dto.WalletDto;
+import com.zon.abba.account.service.WalletService;
+import com.zon.abba.address.dto.AddressDto;
+import com.zon.abba.address.service.AddressService;
 import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.security.JwtTokenProvider;
+import com.zon.abba.member.dto.MemberInfoDto;
+import com.zon.abba.member.dto.SellerDto;
 import com.zon.abba.member.entity.Member;
 import com.zon.abba.member.repository.MemberRepository;
+import com.zon.abba.member.repository.RecommendedMemberRepository;
+import com.zon.abba.member.repository.SellerRepository;
 import com.zon.abba.member.request.MemberGradeRequest;
 import com.zon.abba.member.request.MemberInfoRequest;
 import com.zon.abba.member.request.MemberRoleRequest;
+import com.zon.abba.member.response.MemberDetailResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,9 +32,38 @@ public class MemberService {
 
     private static final Logger logger = LoggerFactory.getLogger(MemberService.class);
     private final MemberRepository memberRepository;
+    private final RecommendedMemberRepository recommendedMemberRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final SellerService sellerService;
+    private final WalletService walletService;
+    private final AddressService addressService;
+
+    @Transactional
+    public MemberDetailResponse detailMember(String memberId){
+        logger.info("유저 정보를 받아옵니다. {}", memberId);
+
+        MemberInfoDto memberDto = memberRepository.findOneByMemberId(memberId)
+                .map(MemberInfoDto::new)
+                .orElseThrow(() -> new NoMemberException("없는 회원 정보입니다."));
+
+        // recommend email 받아오기.
+        memberDto.setRecommend(recommendedMemberRepository.findEmailByReferIdNative(memberId).orElse(null));
+
+        // seller 정보 가져오기
+        SellerDto sellerDto = sellerService.getSeller(memberId);
+
+        // wallet 정보 가져오기
+        WalletDto walletDto = walletService.getWallet(memberId);
+
+        // address 리스트 가져오기
+        List<AddressDto> addressDtoList = addressService.getAddressList(memberId);
+
+        return new MemberDetailResponse(memberDto, sellerDto, walletDto, addressDtoList);
+    }
 
 
+
+    @Transactional
     public ResponseBody updateMemberInfo(MemberInfoRequest memberInfoRequest){
         logger.info("유저 정보를 업데이트합니다.");
 
@@ -36,7 +76,6 @@ public class MemberService {
         member.setLastName(memberInfoRequest.getLastName());
         member.setPhone(memberInfoRequest.getPhone());
         member.setPassword(memberInfoRequest.getPassword());
-        member.setModifiedDateTime(LocalDateTime.now());
 
         memberRepository.save(member);
 
@@ -44,6 +83,7 @@ public class MemberService {
         return new ResponseBody("성공했습니다.");
     }
 
+    @Transactional
     public ResponseBody updateMemberRole(MemberRoleRequest memberRoleRequest){
         logger.info("유저 역할을 업데이트합니다.");
 
@@ -52,7 +92,6 @@ public class MemberService {
 
         // 요청 정보 업데이트
         member.setRole(memberRoleRequest.getRole());
-        member.setModifiedDateTime(LocalDateTime.now());
 
         memberRepository.save(member);
 
@@ -60,6 +99,7 @@ public class MemberService {
         return new ResponseBody("성공했습니다.");
     }
 
+    @Transactional
     public ResponseBody updateMemberGrade(MemberGradeRequest memberGradeRequest){
         logger.info("유저 등급을 업데이트합니다.");
 
@@ -68,7 +108,6 @@ public class MemberService {
 
         // 요청 정보 업데이트
         member.setGrade(memberGradeRequest.getGrade());
-        member.setModifiedDateTime(LocalDateTime.now());
 
         memberRepository.save(member);
 

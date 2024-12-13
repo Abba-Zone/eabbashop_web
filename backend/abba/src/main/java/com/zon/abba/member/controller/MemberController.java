@@ -5,6 +5,7 @@ import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.member.dto.TokenDto;
 import com.zon.abba.member.request.*;
 import com.zon.abba.member.response.LoginResponse;
+import com.zon.abba.member.response.MemberDetailResponse;
 import com.zon.abba.member.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -107,32 +108,18 @@ public class MemberController {
 
     @GetMapping("/detail")
     @Operation(summary = "회원 정보 조회", description = "회원 정보 상세 조회가 가능")
-    public ResponseBody<Object> detailMember(@PathVariable String memberID){
+    public ResponseEntity<Object> detailMember(@PathVariable String memberID){
 
+        MemberDetailResponse memberDetailResponse = memberService.detailMember(memberID);
+        return ResponseEntity.status(HttpStatus.OK).body(memberDetailResponse);
+    }
 
+    @GetMapping("/list")
+    @Operation(summary = "회원 리스트 조회", description = "회원 정보를 리스트로 가능")
+    public ResponseEntity<Object> detailMember(){
+
+//        MemberDetailResponse memberDetailResponse = memberService.detailMember(memberID);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-//    @GetMapping("/redis_test/save")
-//    public ResponseEntity<Object> saveTest(HttpServletRequest request){
-//        redisService.save("123141515", "rudgns9334@gmail.com");
-////        logger.info(redisService.get("123141515").toString());
-////        redisService.delete("123141515");
-//        return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody("good"));
-//    }
-//
-//    @GetMapping("/redis_test/get")
-//    public ResponseEntity<Object> getTest(HttpServletRequest request){
-////        redisService.save("123141515", "rudgns9334@gmail.com");
-//        logger.info(redisService.get("123141515").toString());
-////        redisService.delete("123141515");
-//        return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody("good"));
-//    }
-//
-//    @GetMapping("/redis_test/delete")
-//    public ResponseEntity<Object> deleteTest(HttpServletRequest request){
-////        redisService.save("123141515", "rudgns9334@gmail.com");
-////        logger.info(redisService.get("123141515").toString());
-//        redisService.delete("123141515");
-//        return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody("good"));
-//    }
+
 }

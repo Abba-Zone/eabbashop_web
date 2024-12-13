@@ -2,6 +2,8 @@ package com.zon.abba.member.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -31,9 +33,11 @@ public class RecommendedMember {
     @Column(name = "ModifiedID", columnDefinition = "CHAR(36)", nullable = false)
     private String modifiedId;
 
+    @CreationTimestamp
     @Column(name = "CreatedDateTime", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", nullable = false, updatable = false)
     private LocalDateTime createdDateTime;
 
+    @UpdateTimestamp
     @Column(name = "ModifiedDateTime", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP", nullable = false)
     private LocalDateTime modifiedDateTime;
 
