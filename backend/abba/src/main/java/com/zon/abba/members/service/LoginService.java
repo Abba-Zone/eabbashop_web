@@ -91,6 +91,7 @@ public class LoginService {
 //         3. 비밀번호 검증 성공 시 failCount 초기화 및 lastLoginTime 업데이트
         member.setFailCount(0); // 실패 횟수 초기화
         member.setLastLoginTime(LocalDateTime.now()); // 마지막 로그인 시간 갱신
+
         memberRepository.save(member);
 
         // 4. DTO 변환 및 토큰 생성
@@ -101,21 +102,26 @@ public class LoginService {
     @Transactional
     public LoginResponse googleLogin(String code) throws LoginException {
         String googleAccessToken = googleClient.requestGoogleAccessToken(code);
-        GoogleMemberInfoResponse member = googleClient.requestGoogleUserInfo(googleAccessToken);
+        GoogleMemberInfoResponse memberInfo = googleClient.requestGoogleUserInfo(googleAccessToken);
         logger.info(googleAccessToken);
         // 유저 정보를 토대로 토큰 정보 확인
-        Optional<Member> memberOptional = memberRepository.findByEmail(member.getEmail());
+        Optional<Member> memberOptional = memberRepository.findByEmail(memberInfo.getEmail());
 
         // memberOptional이 비어있으면 예외 던지기 SignupException
         MemberDto memberDto = memberOptional
                 .map(MemberDto::new)
                 .orElseThrow(()-> new SignupException("회원 가입 해주세요.", new SignupResponse(
-                    member.getGivenName(),
-                    member.getFamilyName(),
-                    member.getEmail(),
-                    member.getId(),
+                        memberInfo.getGivenName(),
+                        memberInfo.getFamilyName(),
+                        memberInfo.getEmail(),
+                        memberInfo.getId(),
                     "google"
                 )));
+
+        Member member = memberOptional.get();
+        member.setLastLoginTime(LocalDateTime.now()); // 마지막 로그인 시간 갱신
+
+        memberRepository.save(member);
 
         return makeToken(memberDto);
     }
@@ -124,21 +130,26 @@ public class LoginService {
     public LoginResponse kakaoLogin(String code) throws LoginException {
         String kakaoAccessToken = kakaoClient.requestKakaoAccessToken(code);
         logger.info(kakaoAccessToken);
-        KakaoMemberInfoResponse member = kakaoClient.requestKakaoUserInfo(kakaoAccessToken);
+        KakaoMemberInfoResponse memberInfo = kakaoClient.requestKakaoUserInfo(kakaoAccessToken);
 
         // 유저 정보를 토대로 토큰 정보 확인
-        Optional<Member> memberOptional = memberRepository.findByEmail(member.getKakaoAccount().getEmail());
+        Optional<Member> memberOptional = memberRepository.findByEmail(memberInfo.getKakaoAccount().getEmail());
 
         // memberOptional이 비어있으면 예외 던지기 SignupException
         MemberDto memberDto = memberOptional
                 .map(MemberDto::new)
                 .orElseThrow(()-> new SignupException("회원 가입 해주세요.", new SignupResponse(
-                        member.getKakaoAccount().getProfile().getNickName(),
-                        member.getKakaoAccount().getProfile().getNickName(),
-                        member.getKakaoAccount().getEmail(),
-                        String.valueOf(member.getId()),
+                        memberInfo.getKakaoAccount().getProfile().getNickName(),
+                        memberInfo.getKakaoAccount().getProfile().getNickName(),
+                        memberInfo.getKakaoAccount().getEmail(),
+                        String.valueOf(memberInfo.getId()),
                         "kakao"
                 )));
+
+        Member member = memberOptional.get();
+        member.setLastLoginTime(LocalDateTime.now()); // 마지막 로그인 시간 갱신
+
+        memberRepository.save(member);
 
         return makeToken(memberDto);
     }
