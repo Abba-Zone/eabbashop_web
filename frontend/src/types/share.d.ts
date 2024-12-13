@@ -7,6 +7,11 @@ interface shareLine{
     memberNM: number
 }
 
+interface shareLineList{
+    totalCount : number,
+    list : shareLine[]
+}
+
 interface shareMoney{
     memberID : string,
     name: string,

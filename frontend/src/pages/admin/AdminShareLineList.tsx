@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AdminShareLineListComponent, BottomButton, SearchSet } from '../../components';
+import { getShareLineList_s } from '../../services/share';
 
 const AdminShareLineList: React.FC = () => {
   const [shareLines, setShareLines] = useState<shareLine[]>([]);
@@ -12,16 +13,17 @@ const AdminShareLineList: React.FC = () => {
   const [sortValue, setSortValue] = useState<string>("DESC");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:'상품명', select:'name', selectType:'text', itemList:[]},
-    {selectName:'판매자', select:'seller', selectType:'text', itemList:[]},
-    {selectName:'재고', select:'stock', selectType:'text', itemList:[]},
-    {selectName:'활성화', select:'activeYN', selectType:'select', itemList:['활성화', '비활성화']},
+    {selectName:'이름', select:'name', selectType:'text', itemList:[]},
+    {selectName:'이메일', select:'email', selectType:'text', itemList:[]},
+    {selectName:'전화', select:'phone', selectType:'text', itemList:[]},
+    {selectName:'역할', select:'role', selectType:'select', itemList:['대리점', '협력사사']},
+    {selectName:'고객수', select:'memberNM', selectType:'text', itemList:[]},
   ];
   const getShareLineList = useCallback( async () => {
       try {
-        // const total_and_productList : productList = await getProductList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
-        // setProducts(total_and_productList.products);
-        // setLastPage(total_and_productList.totalProduct === 0? 1:Math.floor((total_and_productList.totalProduct - 1)/pageSize) + 1);
+        const totalAndShareLineList : shareLineList = await getShareLineList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
+        setShareLines(totalAndShareLineList.list);
+        setLastPage(totalAndShareLineList.totalCount === 0? 1:Math.floor((totalAndShareLineList.totalCount - 1)/pageSize) + 1);
       } catch (error) {
         console.error('Error fetching shareLine list:', error);
       }
