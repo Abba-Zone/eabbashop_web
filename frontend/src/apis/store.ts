@@ -33,8 +33,8 @@ export const getStoreProductList = (storeID:string, pageNo:number, pageSize:numb
 
     /* make for test*/
     var result :productList = {
-        totalProduct: 123412414,
-        products : [
+        totalCount: 123412414,
+        list : [
             {productID: "1dvxb32c45s7d87b49lkfdvb", name : "물병",seller : "전 현태",	stock : 100, activeYN : true,},
             {productID: "2dvxb32c45s7d87b49lkfdvb", name : "물병",seller : "전 현태",	stock : 100, activeYN : false,},
             {productID: "3dvxb32c45s7d87b49lkfdvb", name : "물병",seller : "전 현태",	stock : 100, activeYN : false,},

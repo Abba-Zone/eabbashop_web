@@ -7,8 +7,8 @@ interface product{
 }
 
 interface productList{
-    totalProduct : number,
-    products : product[]
+    totalCount : number,
+    list : product[]
 }
 
 interface productDetailAndSeller{
@@ -36,8 +36,8 @@ interface productSeller extends seller{
 }
 
 interface reviewList{
-    totalReview : number,
-    reviews : review[],
+    totalCount : number,
+    list : review[],
 }
 
 interface review{

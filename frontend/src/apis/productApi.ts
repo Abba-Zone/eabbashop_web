@@ -12,8 +12,8 @@ export const getProductList = (pageNo:number, pageSize:number, filter:number, fi
 
     /* make for test*/
     var result :productList = {
-        totalProduct: 123412414,
-        products : [
+        totalCount: 123412414,
+        list : [
             {productID: "1dvxb32c45s7d87b49lkfdvb", name : "물병",seller : "전 현태",	stock : 100, activeYN : true,},
             {productID: "2dvxb32c45s7d87b49lkfdvb", name : "물병",seller : "전 현태",	stock : 100, activeYN : false,},
             {productID: "3dvxb32c45s7d87b49lkfdvb", name : "물병",seller : "전 현태",	stock : 100, activeYN : false,},
@@ -73,8 +73,8 @@ export const getProductReviewList = (pageNo:number, pageSize:number, sort:number
 
     /* make for test*/
     var result :reviewList = {
-        totalReview: 123,
-        reviews : [
+        totalCount: 123,
+        list : [
             {
                 comment : "이 제품을 먹었더니 머리가 났어요.",
                 createdDateTime : "2024-11-12 17:38:22",

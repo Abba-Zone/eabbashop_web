@@ -18,11 +18,11 @@ const AdminProductReviewListComponent: React.FC = () => {
       try {
         if (params.id !== undefined){
             const totalAndReviews : reviewList = await getProductReviewList_s(pageNo, pageSize, sort, params.id);
-            setReviews(totalAndReviews.reviews);
-            setLastPage(totalAndReviews.totalReview === 0? 1:Math.floor((totalAndReviews.totalReview - 1)/pageSize) + 1);
+            setReviews(totalAndReviews.list);
+            setLastPage(totalAndReviews.totalCount === 0? 1:Math.floor((totalAndReviews.totalCount - 1)/pageSize) + 1);
         }
       } catch (error) {
-        console.error('Error fetching user list:', error);
+        console.error('Error fetching productReview list:', error);
       }
   },[pageNo, pageSize, sort]);
 
