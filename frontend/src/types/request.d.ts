@@ -17,6 +17,10 @@ interface payment{
     status : string,
     createdDateTime : string
 }
+interface paymentList{
+    totalCount : number,
+    list : payment[]
+}
 
 /* TransferCancel */
 interface transferCancel{
