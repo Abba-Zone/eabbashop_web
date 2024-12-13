@@ -61,3 +61,5 @@ export {default as AdminStoreProcutListComponent} from "./admin/storeDetail/Admi
 export {default as AdminShareLineListComponent} from "./admin/shareLineList/AdminShareLineListComponent";
 /* ShareMoney List */
 export {default as AdminShareMoneyListComponent} from "./admin/shareMoneyList/AdminShareMoneyListComponent";
+/* ShareMoney Detail */
+export {default as AdminShareMoneyDetailListComponent} from "./admin/shareMoneyDetailList/AdminShareMoneyDetailListComponent";
