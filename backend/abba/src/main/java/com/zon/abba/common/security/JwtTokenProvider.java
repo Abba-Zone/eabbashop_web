@@ -3,7 +3,7 @@ package com.zon.abba.common.security;
 import com.zon.abba.common.exception.ExpiredTokenException;
 import com.zon.abba.common.exception.LogoutException;
 import com.zon.abba.common.redis.RedisService;
-import com.zon.abba.members.service.CustomUserDetailsService;
+import com.zon.abba.member.service.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
