@@ -1,4 +1,4 @@
-import { getInquiryList, getinquiryDetail } from '../apis/inquiry'
+import { getInquiryList, getInquiryDetail } from '../apis/inquiry'
 
 export const getInquiryList_s = async (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string): Promise<inquiryList> => {
     return await getInquiryList(pageNo, pageSize, filter, filterValue, sort, sortValue);
