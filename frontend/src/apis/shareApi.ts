@@ -49,7 +49,7 @@ export const getShareMoneyList = (pageNo:number, pageSize:number, filter:number,
 }
 
 /* ShareMoneyDetail */
-export const getShareMoneyDetailList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):shareMoneyDetailList => {
+export const getShareMoneyDetailList = (memberID:string, pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):shareMoneyDetailList => {
     /* real code*/
     // getData<boardList>('/list?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
     //     .then((data:APIResponse<boardList>) => {

@@ -26,10 +26,12 @@ const AdminShareMoneyDetail: React.FC = () => {
   ];
   const getShareMoneyDetailList = useCallback( async () => {
       try {
-        const totalAndShareMoneyDetailList : shareMoneyDetailList = await getShareMoneyDetailList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
-        setShareMoneyDetails(totalAndShareMoneyDetailList.list);
-        setMemberInfo({name:totalAndShareMoneyDetailList.name, email:totalAndShareMoneyDetailList.email});
-        setLastPage(totalAndShareMoneyDetailList.totalCount === 0? 1:Math.floor((totalAndShareMoneyDetailList.totalCount - 1)/pageSize) + 1);
+        if (params.id){
+          const totalAndShareMoneyDetailList : shareMoneyDetailList = await getShareMoneyDetailList_s(params.id, pageNo, pageSize, filter, filterValue, sort, sortValue);
+          setShareMoneyDetails(totalAndShareMoneyDetailList.list);
+          setMemberInfo({name:totalAndShareMoneyDetailList.name, email:totalAndShareMoneyDetailList.email});
+          setLastPage(totalAndShareMoneyDetailList.totalCount === 0? 1:Math.floor((totalAndShareMoneyDetailList.totalCount - 1)/pageSize) + 1);
+        }
       } catch (error) {
         console.error('Error fetching shareMoneyDetail list:', error);
       }
