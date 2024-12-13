@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AdminRefundListComponent, BottomButton, SearchSet } from '../../components';
+import { getRefundList_s } from '../../services/customRequest';
 
 const AdminRefundRequest: React.FC = () => {
   const [refunds, setRefunds] = useState<refund[]>([]);
@@ -12,17 +13,18 @@ const AdminRefundRequest: React.FC = () => {
   const [sortValue, setSortValue] = useState<string>("DESC");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:"", select:'name', selectType:'text', itemList:[]},
-    {selectName:"", select:'host', selectType:'text', itemList:[]},
-    {selectName:"", select:'phone', selectType:'text', itemList:[]},
-    {selectName:"", select:'createdDateTime', selectType:'date', itemList:[]},
+    {selectName:"신청자", select:'name', selectType:'text', itemList:[]},
+    {selectName:"전화번호", select:'phone', selectType:'text', itemList:[]},
+    {selectName:"주문번호", select:'orderID', selectType:'text', itemList:[]},
+    {selectName:"신청일", select:'createdDateTime', selectType:'date', itemList:[]},
+    {selectName:"상태", select:'status', selectType:'select', itemList:["보류", "완료"]},
   ];
 
   const getRefundList = useCallback (async () => {
     try {
-      // const totalAndStoreList : storeList = await getStoreList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
-      // setStores(totalAndStoreList.stores);
-      // setLastPage(totalAndStoreList.totalStore === 0? 1:Math.floor((totalAndStoreList.totalStore - 1)/pageSize) + 1);
+      const totalAndRefundList : refundList = await getRefundList_s(pageNo, pageSize, filter, filterValue, sort, sortValue, 200);
+      setRefunds(totalAndRefundList.list);
+      setLastPage(totalAndRefundList.totalCount === 0? 1:Math.floor((totalAndRefundList.totalCount - 1)/pageSize) + 1);
     } catch (error) {
       console.error('Error fetching transfer list:', error);
     }
