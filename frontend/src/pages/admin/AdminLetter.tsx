@@ -22,7 +22,7 @@ const AdminLetter: React.FC = () => {
     {selectName:t("AdminBoard:List.Filter05"), select:'createdDateTime', selectType:'date', itemList:[]},
   ];
 
-  const getNoticeList = useCallback (async () => {
+  const getLetterList = useCallback (async () => {
     try {
       const totalAndBoardList : boardList = await getBoardList_s(pageNo, pageSize, filter, filterValue, sort, sortValue, 200);
       setLetters(totalAndBoardList.boards);
@@ -52,8 +52,8 @@ const AdminLetter: React.FC = () => {
   }
 
   useEffect(() => {
-    getNoticeList(); // 비동기 함수 호출
-  }, [getNoticeList]);
+    getLetterList(); // 비동기 함수 호출
+  }, [getLetterList]);
 
   return (
     <div>
