@@ -6,7 +6,7 @@ interface Props{
   const AdminShareLineListCard:React.FC<Props> = ({shareMoney}) => {
      const navigate = useNavigate();
       return (
-        <tr onClick={()=>{navigate(`/admin/sharemoneydetail/${shareMoney.MemberID}`)}}>
+        <tr onClick={()=>{navigate(`/admin/sharemoneydetail/${shareMoney.memberID}`)}}>
           <td>선택</td>
           <td>{shareMoney.name}</td>
           <td>{shareMoney.email}</td>

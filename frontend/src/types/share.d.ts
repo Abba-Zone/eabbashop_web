@@ -8,7 +8,7 @@ interface shareLine{
 }
 
 interface shareMoney{
-    MemberID : string,
+    memberID : string,
     name: string,
     email: string,
     grade: string,
