@@ -14,10 +14,7 @@ import com.zon.abba.member.entity.Member;
 import com.zon.abba.member.repository.MemberRepository;
 import com.zon.abba.member.repository.RecommendedMemberRepository;
 import com.zon.abba.member.repository.SellerRepository;
-import com.zon.abba.member.request.MemberGradeRequest;
-import com.zon.abba.member.request.MemberInfoRequest;
-import com.zon.abba.member.request.MemberListRequest;
-import com.zon.abba.member.request.MemberRoleRequest;
+import com.zon.abba.member.request.*;
 import com.zon.abba.member.response.MemberDetailResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -70,7 +67,7 @@ public class MemberService {
 
     @Transactional
     public MemberDetailResponse detailMe(){
-        logger.info("내 정보를 받아옵니다");
+        logger.info("내 정보를 받아옵니다 : {}", jwtTokenProvider.getCurrentEmail().get());
 
         MemberInfoDto memberDto = jwtTokenProvider.getCurrentEmail().flatMap(memberRepository::findByEmail)
                 .map(MemberInfoDto::new)
@@ -168,6 +165,22 @@ public class MemberService {
         memberRepository.save(member);
 
         logger.info("유저 등급 업데이트 완료");
+        return new ResponseBody("성공했습니다.");
+    }
+
+    @Transactional
+    public ResponseBody updateMemberPassword(MemberPasswordRequest memberPasswordRequest){
+        logger.info("유저 비밀번호를 업데이트합니다.");
+
+        Member member = memberRepository.findByEmail(memberPasswordRequest.getEmail())
+                .orElseThrow(() -> new NoMemberException("없는 회원 정보입니다."));
+
+        // 요청 정보 업데이트
+        member.setGrade(memberPasswordRequest.getPassword());
+
+        memberRepository.save(member);
+
+        logger.info("유저 비밀번호 업데이트 완료");
         return new ResponseBody("성공했습니다.");
     }
 

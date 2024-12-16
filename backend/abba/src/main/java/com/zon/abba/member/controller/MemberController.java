@@ -107,6 +107,14 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PostMapping("/update/password")
+    @Operation(summary = "회원 비밀번호 수정", description = "비밀번호 수정 가능")
+    public ResponseEntity<Object> updateMemberPassword(@RequestBody MemberPasswordRequest memberPasswordRequest){
+
+        ResponseBody response = memberService.updateMemberPassword(memberPasswordRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
     @GetMapping("/detail")
     @Operation(summary = "회원 정보 조회", description = "회원 정보 상세 조회가 가능")
     public ResponseEntity<Object> detailMember(@PathVariable String memberID){
