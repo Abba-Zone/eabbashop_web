@@ -7,14 +7,57 @@
         "Filter04": "Referrer",
         "Filter05": "Grade",
         "Filter06": "Role",
-        "Filter07": "First Registration Location",
-        "Filter08": "Registration Date"
+        "Filter07": "Sign-Up Location",
+        "Filter08": "Registration Date",
+        "Option6": {
+            "Attribute01": "Partner",
+            "Attribute02": "Branch",
+            "Attribute03": "Agency",
+            "Attribute04": "Retailer",
+            "Attribute05": "Customer"
+        }
     },
     "Detail": {
+        "Option": {
+            "Attribute00": "No customer information available."
+        },
         "Item01": {
             "Title": "Customer Information",
             "Attribute01": "Email",
-            "Attribute02": "Phone Number"
+            "Attribute02": "Phone Number",
+            "Attribute03": "Grade",
+            "Attribute04": "Role",
+            "Attribute05": "Country",
+            "Attribute06": "Referrer",
+            "Attribute07": "Platform",
+            "Attribute08": "Last Login",
+            "Attribute09": "First Created Date"
+        },
+        "Item02": {
+            "Title": "Wallet Information"
+        },
+        "Item03": {
+            "Title": "Address Information",
+            "Option": {
+                "Attribute00": "No address information available."
+            },
+            "Attribute01": "Postal Code",
+            "Attribute02": "Primary Address",
+            "Attribute03": "Detailed Address",
+            "Attribute04": "Country",
+            "Attribute05": "Recipient",
+            "Attribute06": "Phone Number",
+            "Attribute07": "Request Details",
+            "Attribute08": "Billing Address",
+            "Attribute09": "Primary Address"
+        },
+        "Item04": {
+            "Title": "Store Information",
+            "Attribute01": "Store Name",
+            "Attribute02": "Postal Code",
+            "Attribute03": "Primary Address",
+            "Attribute04": "Detailed Address",
+            "Attribute05": "Phone Number"
         }
     }
 }

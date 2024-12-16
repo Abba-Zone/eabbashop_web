@@ -2,7 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {MemberAdminInfo, MemberAdminWallet, MemberAdminAddress, MemberAdminSeller} from '../../components';
 import { getMemberDetail_s } from '../../services/member';
+import { useTranslation } from 'react-i18next';
 const AdminMemberDetail: React.FC = () => {
+  const { t } = useTranslation();
   const [member, setMember] = useState<memberDetail | undefined>(undefined);
   const [wallet, setWallet] = useState<wallet | undefined>(undefined);
   const [address, setAddress] = useState<addressAllInfo[]>([]);
@@ -27,7 +29,7 @@ const AdminMemberDetail: React.FC = () => {
   if (!member || !wallet || !seller) {
     return (
       <div>
-        <h1>회원 정보가 없습니다.</h1>
+        <h1>{t("AdminManagerMember:Detail.Option.Attribute00")}</h1>
       </div>
     );
   }
