@@ -15,9 +15,9 @@ const AdminOrderList: React.FC = () => {
   const [sortValue, setSortValue] = useState<string>("DESC");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:t("AdminOrder:List.Filter01"), select:'name', selectType:'text', itemList:[]},
-    {selectName:t("AdminOrder:List.Filter02"), select:'email', selectType:'text', itemList:[]},
-    {selectName:t("AdminOrder:List.Filter03"), select:'phone', selectType:'select', itemList:['처리중', '배송중', '완료']},
+    {selectName:t("AdminOrder:List.Filter01"), select:'productName', selectType:'text', itemList:[]},
+    {selectName:t("AdminOrder:List.Filter02"), select:'memberName', selectType:'text', itemList:[]},
+    {selectName:t("AdminOrder:List.Filter03"), select:'status', selectType:'select', itemList:[t("AdminOrder:List.Option03.Attribute01"), t("AdminOrder:List.Option03.Attribute02"), t("AdminOrder:List.Option03.Attribute03")]},
     {selectName:t("AdminOrder:List.Filter04"), select:'createdDateTime', selectType:'date', itemList:[]},
   ];
 

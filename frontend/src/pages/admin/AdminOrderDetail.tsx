@@ -2,8 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getOrderDetail_s } from '../../services/sale';
 import { AdminOrderAddressInfo, AdminOrderInfo, AdminOrderMemberInfo, AdminOrderProductInfo } from '../../components';
+import { useTranslation } from 'react-i18next';
 
 const AdminOrderDetail: React.FC = () => {
+  const { t } = useTranslation();
   const [address, setAddress] = useState<orderAddress | undefined>(undefined);
   const [order, setOrder] = useState<orderOrder | undefined>(undefined);
   const [member, setMember] = useState<orderMember | undefined>(undefined);
@@ -30,7 +32,7 @@ const AdminOrderDetail: React.FC = () => {
   if (!member || !address || !order || !product) {
     return (
       <div>
-        <h1>주문 정보가 없습니다.</h1>
+        <h1>{t("AdminOrder:Detail.Option.Attribute00")}</h1>
       </div>
     );
   }

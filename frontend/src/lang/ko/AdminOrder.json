@@ -4,9 +4,17 @@
         "Filter01" : "상품명",
         "Filter02" : "주문자",
         "Filter03" : "상태",
-        "Filter04" : "주문일"
+        "Filter04" : "주문일",
+        "Option03":{
+            "Attribute01": "처리중",
+            "Attribute02": "배송중",
+            "Attribute03": "완료"
+        }
     },
     "Detail": {
+        "Option":{
+            "Attribute00":"주문 정보가 없습니다."
+        },
         "Item01" : {
             "Title" : "주문 정보",
             "Attribute01" : "상품명",
