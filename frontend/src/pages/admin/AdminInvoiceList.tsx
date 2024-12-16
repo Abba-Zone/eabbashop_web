@@ -15,11 +15,11 @@ const AdminInvoiceList: React.FC = () => {
   const [sortValue, setSortValue] = useState<string>("DESC");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:'주문아이디', select:'orderDetailID', selectType:'text', itemList:[]},
-    {selectName:'송장번호', select:'invoiceNo', selectType:'text', itemList:[]},
-    {selectName:'받는사람', select:'name', selectType:'text', itemList:[]},    
-    {selectName:'상태', select:'status', selectType:'select', itemList:['처리중', '완료', '결제']},
-    {selectName:'송장발급일', select:'createdDateTime', selectType:'date', itemList:[]},
+    {selectName:t("AdminInvoice:List.Filter01"), select:'orderDetailID', selectType:'text', itemList:[]},
+    {selectName:t("AdminInvoice:List.Filter02"), select:'invoiceNo', selectType:'text', itemList:[]},
+    {selectName:t("AdminInvoice:List.Filter03"), select:'name', selectType:'text', itemList:[]},    
+    {selectName:t("AdminInvoice:List.Filter04"), select:'status', selectType:'select', itemList:[t("AdminInvoice:List.Option4.Attribute01"), t("AdminInvoice:List.Option4.Attribute02"), t("AdminInvoice:List.Option4.Attribute03")]},
+    {selectName:t("AdminInvoice:List.Filter05"), select:'createdDateTime', selectType:'date', itemList:[]},
   ];
 
   const getInvoiceList = useCallback (async () => {
