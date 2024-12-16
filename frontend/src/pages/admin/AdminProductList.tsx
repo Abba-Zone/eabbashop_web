@@ -15,10 +15,10 @@ const AdminProductList: React.FC = () => {
   const [sortValue, setSortValue] = useState<string>("DESC");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:'상품명', select:'name', selectType:'text', itemList:[]},
-    {selectName:'판매자', select:'seller', selectType:'text', itemList:[]},
-    {selectName:'재고', select:'stock', selectType:'text', itemList:[]},
-    {selectName:'활성화', select:'activeYN', selectType:'select', itemList:['활성화', '비활성화']},
+    {selectName:t("AdminProduct:List.Filter01"), select:'name', selectType:'text', itemList:[]},
+    {selectName:t("AdminProduct:List.Filter02"), select:'seller', selectType:'text', itemList:[]},
+    {selectName:t("AdminProduct:List.Filter03"), select:'stock', selectType:'text', itemList:[]},
+    {selectName:t("AdminProduct:List.Filter04"), select:'activeYN', selectType:'select', itemList:[t("AdminProduct:List.Option04.Attribute01"), t("AdminProduct:List.Option04.Attribute02")]},
   ];
   const getProductList = useCallback( async () => {
       try {

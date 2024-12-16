@@ -5,9 +5,16 @@
         "Filter02" : "판매자",
         "Filter03" : "재고",
         "Filter04" : "활성화",
-        "Filter05" : "비활성화"
+        "Option04": {
+            "Attribute01": "활성화",
+            "Attribute02": "비활성화"
+        }
     },
     "Detail": {
+        "Option":{
+            "Attribute00":"상품 정보가 없습니다.",
+            "Attribute01":"리뷰가 없습니다."
+        },
         "Item01" : {
             "Title" : "상품 정보",
             "Attribute01" : "썸네일",

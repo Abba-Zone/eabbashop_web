@@ -39,6 +39,14 @@ const AdminProductReviewListComponent: React.FC = () => {
     getReviewList(); // 비동기 함수 호출
     }, [getReviewList]);
 
+  if (reviews==null || reviews.length === 0){
+    return(
+      <div>
+        <h1>{t("AdminProduct:Detail.Option.Attribute01")}</h1>
+      </div>
+    )
+  }
+
   return (
     <div>
         <h2>{t("AdminProduct:Detail.Item03.Title")}</h2>
