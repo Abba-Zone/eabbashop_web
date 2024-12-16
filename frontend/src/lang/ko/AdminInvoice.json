@@ -5,7 +5,12 @@
         "Filter02" : "송장번호",
         "Filter03" : "받는사람",
         "Filter04" : "상태",
-        "Filter05" : "송장발급일"
+        "Filter05" : "송장발급일",
+        "Option4":{
+            "Attribute01":"처리중",
+            "Attribute02":"완료",
+            "Attribute03":"결제"
+        }
     },
     "Detail":{
         "Title": "송장",
