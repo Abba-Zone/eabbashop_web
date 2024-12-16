@@ -1,0 +1,29 @@
+{
+    "List": {
+        "Title": "수당분배",
+        "Filter01" : "이름",
+        "Filter02" : "이메일",
+        "Filter03" : "등급",
+        "Filter04" : "net수당금",
+        "Filter05" : "역할",
+        "Filter06" : "zon수당금",
+        "Option05":{
+            "Attribute01":"협력사",
+            "Attribute02":"지점",
+            "Attribute03":"대리점",
+            "Attribute04":"판매점",
+            "Attribute05":"고객"
+        }
+    },
+    "Detail": {
+        "Option": {
+            "Attribute00": "회원 정보가 없습니다."
+        },
+        "Filter01" : "net/zon",
+        "Filter02" : "비율",
+        "Filter03" : "가격",
+        "Filter04" : "누적수당",
+        "Filter05" : "상태",
+        "Filter06" : "날짜"
+    }
+}

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import ListCard from "./AdminShareMoneyListCard";
 interface Props{
   shareMoneys:shareMoney[],
@@ -5,6 +6,7 @@ interface Props{
 }
 
 const AdminShareMoneyListComponent:React.FC<Props> = ({shareMoneys, changeSort}) => {
+  const { t } = useTranslation();
   const rendering = (): JSX.Element[] => {
       const result = [];
       for(let i = 0 ; i < shareMoneys.length; i++){
@@ -16,12 +18,12 @@ const AdminShareMoneyListComponent:React.FC<Props> = ({shareMoneys, changeSort})
     const result = 
     <tr>
       <th>선택</th>
-      <th onClick={()=>{changeSort('name')}}>이름</th>
-      <th onClick={()=>{changeSort('email')}}>이메일</th>
-      <th onClick={()=>{changeSort('grade')}}>등급</th>
-      <th onClick={()=>{changeSort('netAK')}}>net수당금</th>
-      <th onClick={()=>{changeSort('role')}}>역할</th>
-      <th onClick={()=>{changeSort('zonAK')}}>zon수당금</th>
+      <th onClick={()=>{changeSort('name')}}>{t("AdminShareMoney:List.Filter01")}</th>
+      <th onClick={()=>{changeSort('email')}}>{t("AdminShareMoney:List.Filter02")}</th>
+      <th onClick={()=>{changeSort('grade')}}>{t("AdminShareMoney:List.Filter03")}</th>
+      <th onClick={()=>{changeSort('netAK')}}>{t("AdminShareMoney:List.Filter04")}</th>
+      <th onClick={()=>{changeSort('role')}}>{t("AdminShareMoney:List.Filter05")}</th>
+      <th onClick={()=>{changeSort('zonAK')}}>{t("AdminShareMoney:List.Filter06")}</th>
     </tr>;
     return result;
   }

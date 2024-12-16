@@ -2,8 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { AdminShareMoneyDetailListComponent, BottomButton, SearchSet } from '../../components';
 import { useParams } from 'react-router-dom';
 import { getShareMoneyDetailList_s } from '../../services/share';
+import { useTranslation } from 'react-i18next';
 
 const AdminShareMoneyDetail: React.FC = () => {
+  const { t } = useTranslation();
   const [shareMoneyDetails, setShareMoneyDetails] = useState<shareMoneyDetail[]>([]);
   const [memberInfo, setMemberInfo] = useState<{name:string, email:string} | undefined>(undefined);
   const [pageNo, setPageNo] = useState<number>(1);
@@ -16,12 +18,12 @@ const AdminShareMoneyDetail: React.FC = () => {
   const params = useParams<{id:string}>();
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:'net/zon', select:'platform', selectType:'select', itemList:['net', 'zon']},
-    {selectName:'비율', select:'rate', selectType:'text', itemList:[]},
-    {selectName:'가격', select:'money', selectType:'text', itemList:[]},
-    {selectName:'누적수당', select:'accumulation', selectType:'text', itemList:[]},
-    {selectName:'상태', select:'status', selectType:'select', itemList:['canceled', 'pass', 'complete']},
-    {selectName:'날짜', select:'createdDateTime', selectType:'date', itemList:[]},
+    {selectName:t("AdminShareMoney:Detail.Filter01"), select:'platform', selectType:'select', itemList:['net', 'zon']},
+    {selectName:t("AdminShareMoney:Detail.Filter02"), select:'rate', selectType:'text', itemList:[]},
+    {selectName:t("AdminShareMoney:Detail.Filter03"), select:'money', selectType:'text', itemList:[]},
+    {selectName:t("AdminShareMoney:Detail.Filter04"), select:'accumulation', selectType:'text', itemList:[]},
+    {selectName:t("AdminShareMoney:Detail.Filter05"), select:'status', selectType:'select', itemList:['canceled', 'pass', 'complete']},
+    {selectName:t("AdminShareMoney:Detail.Filter06"), select:'createdDateTime', selectType:'date', itemList:[]},
   
   ];
   const getShareMoneyDetailList = useCallback( async () => {
@@ -61,7 +63,7 @@ const AdminShareMoneyDetail: React.FC = () => {
     }, [getShareMoneyDetailList]);
   if(!memberInfo){
     return(
-      <div><h1>회원 정보가 없습니다.</h1></div>
+      <div><h1>{t("AdminShareMoney:Detail.Option.Attribute00")}</h1></div>
     )
   }
   return (
