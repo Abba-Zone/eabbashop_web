@@ -1,0 +1,15 @@
+{
+    "List": {
+        "RefundTitle": "Refund Request",
+        "TakebackTitle": "Return Request",
+        "Filter01": "Applicant",
+        "Filter02": "Phone Number",
+        "Filter03": "Order Number",
+        "Filter04": "Application Date",
+        "Filter05": "Status",
+        "Option5": {
+            "Attribute01": "On Hold",
+            "Attribute02": "Completed"
+        }
+    }
+}

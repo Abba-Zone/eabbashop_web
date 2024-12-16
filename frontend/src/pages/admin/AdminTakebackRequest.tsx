@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AdminRefundListComponent, BottomButton, SearchSet } from '../../components';
 import { getRefundList_s } from '../../services/customRequest';
+import { useTranslation } from 'react-i18next';
 
 const AdminTakebackRequest: React.FC = () => {
+  const { t } = useTranslation();
   const [takebacks, setTakebacks] = useState<refund[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -13,11 +15,11 @@ const AdminTakebackRequest: React.FC = () => {
   const [sortValue, setSortValue] = useState<string>("DESC");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:"신청자", select:'name', selectType:'text', itemList:[]},
-    {selectName:"전화번호", select:'phone', selectType:'text', itemList:[]},
-    {selectName:"주문번호", select:'orderID', selectType:'text', itemList:[]},
-    {selectName:"신청일", select:'createdDateTime', selectType:'date', itemList:[]},
-    {selectName:"상태", select:'status', selectType:'text', itemList:["보류", "완료"]},
+    {selectName:t("AdminRefund:List.Filter01"), select:'name', selectType:'text', itemList:[]},
+    {selectName:t("AdminRefund:List.Filter02"), select:'phone', selectType:'text', itemList:[]},
+    {selectName:t("AdminRefund:List.Filter03"), select:'orderID', selectType:'text', itemList:[]},
+    {selectName:t("AdminRefund:List.Filter04"), select:'createdDateTime', selectType:'date', itemList:[]},
+    {selectName:t("AdminRefund:List.Filter05"), select:'status', selectType:'select', itemList:[t("AdminRefund:List.Option5.Attribute01"), t("AdminRefund:List.Option5.Attribute02")]},
   ];
 
   const getTakebackList = useCallback (async () => {
@@ -55,7 +57,7 @@ const AdminTakebackRequest: React.FC = () => {
 
   return (
     <div>
-      <h1>반품요청</h1>
+      <h1>{t("AdminRefund:List.TakebackTitle")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <AdminRefundListComponent refunds={takebacks}  changeSort={changeSort}/>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
