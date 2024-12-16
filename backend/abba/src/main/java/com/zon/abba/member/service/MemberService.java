@@ -69,6 +69,29 @@ public class MemberService {
     }
 
     @Transactional
+    public MemberDetailResponse detailMe(){
+        logger.info("내 정보를 받아옵니다");
+
+        MemberInfoDto memberDto = jwtTokenProvider.getCurrentEmail().flatMap(memberRepository::findByEmail)
+                .map(MemberInfoDto::new)
+                .orElseThrow(() -> new NoMemberException("없는 회원 정보입니다."));
+
+        // recommend email 받아오기.
+        memberDto.setRecommend(recommendedMemberRepository.findEmailByReferIdNative(memberDto.getMemberID()).orElse(null));
+
+        // seller 정보 가져오기
+        SellerDto sellerDto = sellerService.getSeller(memberDto.getMemberID());
+
+        // wallet 정보 가져오기
+        WalletDto walletDto = walletService.getWallet(memberDto.getMemberID());
+
+        // address 리스트 가져오기
+        List<AddressDto> addressDtoList = addressService.getAddressList(memberDto.getMemberID());
+
+        return new MemberDetailResponse(memberDto, sellerDto, walletDto, addressDtoList);
+    }
+
+    @Transactional
     public ResponseListBody memberList(MemberListRequest memberListRequest){
         logger.info("member list를 조회합니다.");
         // Pageable 객체 생성
