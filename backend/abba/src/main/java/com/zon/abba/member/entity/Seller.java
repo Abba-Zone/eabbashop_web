@@ -23,6 +23,9 @@ public class Seller {
     @Column(name = "SellerID", columnDefinition = "CHAR(36)", nullable = false, updatable = false)
     private String sellerId;
 
+    @Column(name = "MemberID", columnDefinition = "CHAR(36)", nullable = false)
+    private String memberId;
+
     @Column(name = "Name", length = 30, nullable = false)
     private String name;
 

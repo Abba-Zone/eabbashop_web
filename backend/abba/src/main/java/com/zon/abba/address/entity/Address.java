@@ -70,7 +70,7 @@ public class Address {
     private LocalDateTime modifiedDateTime;
 
     @Column(name = "DeleteYN", columnDefinition = "CHAR(1) DEFAULT 'N'", nullable = false)
-    private String deleteYN = "N";
+    private String deleteYN;
 
     @PrePersist
     public void perPersist(){

@@ -28,22 +28,22 @@ public class Wallet {
     private String memberId;
 
     @Column(name = "LP", precision = 10, scale = 2, nullable = false)
-    private BigDecimal lp = BigDecimal.ZERO;
+    private BigDecimal lp;
 
     @Column(name = "AK", precision = 10, scale = 2, nullable = false)
-    private BigDecimal ak = BigDecimal.ZERO;
+    private BigDecimal ak;
 
     @Column(name = "ABZ", precision = 10, scale = 2, nullable = false)
-    private BigDecimal abz = BigDecimal.ZERO;
+    private BigDecimal abz;
 
     @Column(name = "ABZPoint", precision = 10, scale = 2, nullable = false)
-    private BigDecimal abzPoint = BigDecimal.ZERO;
+    private BigDecimal abzPoint;
 
     @Column(name = "AP", precision = 10, scale = 2, nullable = false)
-    private BigDecimal ap = BigDecimal.ZERO;
+    private BigDecimal ap;
 
     @Column(name = "SP", precision = 10, scale = 2, nullable = false)
-    private BigDecimal sp = BigDecimal.ZERO;
+    private BigDecimal sp;
 
     @Column(name = "CreatedID", columnDefinition = "CHAR(36)", nullable = false)
     private String createdId;
@@ -60,10 +60,10 @@ public class Wallet {
     private LocalDateTime modifiedDateTime;
 
     @Column(name = "DeleteYN", columnDefinition = "CHAR(1) DEFAULT 'N'", nullable = false)
-    private String deleteYN = "N";
+    private String deleteYN;
 
     @Column(name = "ActiveYN", columnDefinition = "CHAR(1) DEFAULT 'Y'", nullable = false)
-    private String activeYN = "Y";
+    private String activeYN;
 
     @PrePersist
     public void perPersist(){

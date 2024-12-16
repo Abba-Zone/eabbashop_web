@@ -2,6 +2,7 @@ package com.zon.abba.member.controller;
 
 import com.zon.abba.common.redis.RedisService;
 import com.zon.abba.common.response.ResponseBody;
+import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.member.dto.TokenDto;
 import com.zon.abba.member.request.*;
 import com.zon.abba.member.response.LoginResponse;
@@ -116,10 +117,10 @@ public class MemberController {
 
     @GetMapping("/list")
     @Operation(summary = "회원 리스트 조회", description = "회원 정보를 리스트로 가능")
-    public ResponseEntity<Object> detailMember(){
+    public ResponseEntity<Object> detailMember(MemberListRequest memberListRequest){
 
-//        MemberDetailResponse memberDetailResponse = memberService.detailMember(memberID);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        ResponseListBody responseListBody = memberService.memberList(memberListRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(responseListBody);
     }
 
 }
