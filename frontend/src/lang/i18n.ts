@@ -1,6 +1,9 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
+import Common_ko from './ko/Common.json';
+import Common_en from './en/Common.json';
+
 import AdminMenu_en from './en/AdminMenu.json';
 import AdminMenu_ko from './ko/AdminMenu.json';
 import AdminMenu_ja from './ja/AdminMenu.json';
@@ -55,6 +58,7 @@ import AdminTransfer_en from './en/AdminTransfer.json';
 
 const resources = {
   ko: {
+    Common: Common_ko,
     AdminMenu: AdminMenu_ko,
     AdminManagerMember: AdminManagerMember_ko,
     AdminInquiry: AdminInquiry_ko,
@@ -73,6 +77,7 @@ const resources = {
     AdminTransfer: AdminTransfer_ko
   },
   en: {
+    Common: Common_en,
     AdminMenu: AdminMenu_en,
     AdminManagerMember: AdminManagerMember_en,
     AdminInquiry: AdminInquiry_en,
