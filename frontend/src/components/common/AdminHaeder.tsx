@@ -14,10 +14,10 @@ const AdminHaeder:React.FC = () => {
         i18n.changeLanguage(lng);
     }
     const handleGoLogin = () =>{
-        navigate("/login");
+        navigate("/admin/login");
     }
     const handleGoSignup = () =>{
-        navigate("/signup");
+        navigate("/admin/signup");
     }
     return (
         <div className="admin-header-and-menu">
