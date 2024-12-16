@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import ListCard from "./AdminRefundCard";
 interface Props{
   refunds:refund[],
@@ -5,6 +6,7 @@ interface Props{
 }
 
 const AdminRefundListComponent:React.FC<Props> = ({refunds, changeSort}) => {
+  const { t } = useTranslation();
   const rendering = (): JSX.Element[] => {
       const result = [];
       for(let i = 0 ; i < refunds.length; i++){
@@ -16,11 +18,11 @@ const AdminRefundListComponent:React.FC<Props> = ({refunds, changeSort}) => {
     const result = 
     <tr>
       <th>선택</th>
-      <th onClick={()=>{changeSort('name')}}>신청자</th>
-      <th onClick={()=>{changeSort('phone')}}>전화번호</th>
-      <th onClick={()=>{changeSort('orderID')}}>주문번호</th>
-      <th onClick={()=>{changeSort('createdDateTime')}}>신청일</th>
-      <th onClick={()=>{changeSort('status')}}>상태</th>
+      <th onClick={()=>{changeSort('name')}}>{t("AdminRefund:List.Filter01")}</th>
+      <th onClick={()=>{changeSort('phone')}}>{t("AdminRefund:List.Filter02")}</th>
+      <th onClick={()=>{changeSort('orderID')}}>{t("AdminRefund:List.Filter03")}</th>
+      <th onClick={()=>{changeSort('createdDateTime')}}>{t("AdminRefund:List.Filter04")}</th>
+      <th onClick={()=>{changeSort('status')}}>{t("AdminRefund:List.Filter05")}</th>
     </tr>;
     return result;
   }

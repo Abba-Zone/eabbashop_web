@@ -1,0 +1,15 @@
+{
+    "List": {
+        "RefundTitle": "환불요청",
+        "TakebackTitle": "반품요청",
+        "Filter01" : "신청자",
+        "Filter02" : "전화번호",
+        "Filter03" : "주문번호",
+        "Filter04" : "신청일",
+        "Filter05" : "상태",
+        "Option5":{
+            "Attribute01":"보류",
+            "Attribute02":"완료"
+        }
+    }
+}
