@@ -2,8 +2,10 @@ import React, { useCallback } from 'react';
 import { useEffect, useState } from "react";
 import { BottomButton, MemberList, SearchSet } from '../../components';
 import { getMemberList_s } from '../../services/member';
+import { useTranslation } from 'react-i18next';
 
 const AdminMemberList: React.FC = () => {
+  const { t } = useTranslation();
   const [members, setMembers] = useState<memberInfo[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -14,14 +16,14 @@ const AdminMemberList: React.FC = () => {
   const [sortValue, setSortValue] = useState<string>("DESC");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:'이름', select:'name', selectType:'text', itemList:[]},
-    {selectName:'이메일', select:'email', selectType:'text', itemList:[]},
-    {selectName:'전화번호', select:'phone', selectType:'text', itemList:[]},
-    {selectName:'추천인', select:'recommend', selectType:'text', itemList:[]},
-    {selectName:'등급', select:'grade', selectType:'select', itemList:['Diamond', 'Gold', 'Platinum', 'Silver', 'Bronze']},
-    {selectName:'역할', select:'role', selectType:'select', itemList:['협력사', '지점', '대리점', '판매점, 고객']},
-    {selectName:'최초가입지', select:'platform', selectType:'text', itemList:[]},
-    {selectName:'가입일', select:'createdDateTime', selectType:'date', itemList:[]},
+    {selectName:t("AdminManagerMember:List.Filter01"), select:'name', selectType:'text', itemList:[]},
+    {selectName:t("AdminManagerMember:List.Filter02"), select:'email', selectType:'text', itemList:[]},
+    {selectName:t("AdminManagerMember:List.Filter03"), select:'phone', selectType:'text', itemList:[]},
+    {selectName:t("AdminManagerMember:List.Filter04"), select:'recommend', selectType:'text', itemList:[]},
+    {selectName:t("AdminManagerMember:List.Filter05"), select:'grade', selectType:'select', itemList:['Diamond', 'Gold', 'Platinum', 'Silver', 'Bronze']},
+    {selectName:t("AdminManagerMember:List.Filter06"), select:'role', selectType:'select', itemList:[t("AdminManagerMember:List.Option6.Attribute01"), t("AdminManagerMember:List.Option6.Attribute02"), t("AdminManagerMember:List.Option6.Attribute03"), t("AdminManagerMember:List.Option6.Attribute04"), t("AdminManagerMember:List.Option6.Attribute05")]},
+    {selectName:t("AdminManagerMember:List.Filter07"), select:'platform', selectType:'text', itemList:[]},
+    {selectName:t("AdminManagerMember:List.Filter08"), select:'createdDateTime', selectType:'date', itemList:[]},
   ];
   const getMemberList = useCallback( async () => {
       try {
@@ -58,7 +60,7 @@ const AdminMemberList: React.FC = () => {
 
   return (
     <div>
-      <h2>고객 관리</h2>
+      <h2>{t("AdminManagerMember:List.Title")}</h2>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <MemberList members={members} changeSort={changeSort}></MemberList>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>

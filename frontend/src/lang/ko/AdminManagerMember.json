@@ -8,13 +8,57 @@
         "Filter05" : "등급",
         "Filter06" : "역할",
         "Filter07" : "최초가입지",
-        "Filter08" : "가입일"
+        "Filter08" : "가입일",
+        "Option6":{
+            "Attribute01":"협력사",
+            "Attribute02":"지점",
+            "Attribute03":"대리점",
+            "Attribute04":"판매점",
+            "Attribute05":"고객"
+        }
     },
     "Detail": {
+        "Option":{
+            "Attribute00":"회원 정보가 없습니다."
+        },
         "Item01" : {
             "Title" : "고객 정보",
             "Attribute01" : "이메일",
-            "Attribute02" : "전화번호"
+            "Attribute02" : "전화번호",
+            "Attribute03" : "등급",
+            "Attribute04" : "역할",
+            "Attribute05" : "국가",
+            "Attribute06" : "추천인",
+            "Attribute07" : "플랫폼",
+            "Attribute08" : "마지막 로그인",
+            "Attribute09" : "최초 생성일"
+        },
+        "Item02" : {
+            "Title" : "지갑 정보"
+        },
+        "Item03" : {
+            "Title" : "주소 정보",
+            "Option":{
+                "Attribute00":"주소 정보가 없습니다."
+            },
+            "Attribute01" : "우편번호",
+            "Attribute02" : "기본주소",
+            "Attribute03" : "상세주소",
+            "Attribute04" : "국가",
+            "Attribute05" : "받는 사람",
+            "Attribute06" : "전화번호",
+            "Attribute07" : "요청사항",
+            "Attribute08" : "청구주소",
+            "Attribute09" : "기본주소"
+        },
+        "Item04" : {
+            "Title" : "가게 정보",
+            "Attribute01" : "가게이름",
+            "Attribute02" : "우편번호",
+            "Attribute03" : "기본주소",
+            "Attribute04" : "상세주소",
+            "Attribute05" : "전화번호"
         }
+        
     }
 }
