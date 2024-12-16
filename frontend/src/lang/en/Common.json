@@ -1,0 +1,12 @@
+{
+    "Header":{
+        "Login":"Login",
+        "Signup":"Signup"
+    },
+    "Language":{
+        "Korean":"Korean",
+        "English":"English",
+        "Chinese":"Chinese",
+        "Japanese":"Japanese"
+    }
+}
