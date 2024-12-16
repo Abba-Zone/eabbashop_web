@@ -1,0 +1,29 @@
+{
+    "List": {
+        "Title": "Compensation Distribution",
+        "Filter01": "Name",
+        "Filter02": "Email",
+        "Filter03": "Grade",
+        "Filter04": "Net Compensation",
+        "Filter05": "Role",
+        "Filter06": "Zon Compensation",
+        "Option05": {
+            "Attribute01": "Partner",
+            "Attribute02": "Branch",
+            "Attribute03": "Agency",
+            "Attribute04": "Retailer",
+            "Attribute05": "Customer"
+        }
+    },
+    "Detail": {
+        "Option": {
+            "Attribute00": "No member information available."
+        },
+        "Filter01": "Net/Zon",
+        "Filter02": "Ratio",
+        "Filter03": "Price",
+        "Filter04": "Cumulative Compensation",
+        "Filter05": "Status",
+        "Filter06": "Date"
+    }
+}
