@@ -21,6 +21,9 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     // ID로 member 조회
     Optional<Member> findOneByMemberId(String memberID);
 
+    // phone로 member 조회
+    Optional<Member> findByPhone(String phone);
+
     // 이메일로 memberID 조회
     @Query(value = "SELECT MemberID FROM Members WHERE Email = :email", nativeQuery = true)
     Optional<String> findMemberIDByEmail(@Param("email") String email);

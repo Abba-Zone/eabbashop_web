@@ -5,6 +5,7 @@ import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.member.dto.TokenDto;
 import com.zon.abba.member.request.*;
+import com.zon.abba.member.response.EmailResponse;
 import com.zon.abba.member.response.LoginResponse;
 import com.zon.abba.member.response.MemberDetailResponse;
 import com.zon.abba.member.service.*;
@@ -138,6 +139,14 @@ public class MemberController {
 
         ResponseListBody responseListBody = memberService.memberList(memberListRequest);
         return ResponseEntity.status(HttpStatus.OK).body(responseListBody);
+    }
+
+    @PostMapping("/find")
+    @Operation(summary = "아이디 찾기", description = "아이디(이메일) 찾기 가능")
+    public ResponseEntity<Object> findEmail(@RequestBody FindEmailRequest findEmailRequest){
+
+        EmailResponse response = memberService.findEmail(findEmailRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }

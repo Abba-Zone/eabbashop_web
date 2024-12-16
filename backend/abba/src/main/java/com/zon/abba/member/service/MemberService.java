@@ -4,6 +4,7 @@ import com.zon.abba.account.dto.WalletDto;
 import com.zon.abba.account.service.WalletService;
 import com.zon.abba.address.dto.AddressDto;
 import com.zon.abba.address.service.AddressService;
+import com.zon.abba.common.exception.InvalidMemberException;
 import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
@@ -15,6 +16,7 @@ import com.zon.abba.member.repository.MemberRepository;
 import com.zon.abba.member.repository.RecommendedMemberRepository;
 import com.zon.abba.member.repository.SellerRepository;
 import com.zon.abba.member.request.*;
+import com.zon.abba.member.response.EmailResponse;
 import com.zon.abba.member.response.MemberDetailResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -182,6 +184,22 @@ public class MemberService {
 
         logger.info("유저 비밀번호 업데이트 완료");
         return new ResponseBody("성공했습니다.");
+    }
+
+    @Transactional
+    public EmailResponse findEmail(FindEmailRequest findEmailRequest){
+        logger.info("유저 이메일을 찾습니다.");
+
+        Member member = memberRepository.findByPhone(findEmailRequest.getPhone())
+                .orElseThrow(() -> new NoMemberException("없는 회원 정보입니다."));
+
+        if(!member.getFirstName().equals(findEmailRequest.getFirstName()) ||
+        !member.getLastName().equals(findEmailRequest.getLastName())){
+            throw new InvalidMemberException("회원 정보가 일치하지 않습니다.");
+        }
+        // valid 체크가 끝난다면 회원 정보 리턴
+        logger.info("유저 이메일 찾기 완료");
+        return new EmailResponse(member.getEmail());
     }
 
 }

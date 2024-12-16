@@ -46,6 +46,13 @@ public class GlobalExceptionHandler {
                 .body(ex.getMessage()); // 에러 메시지 반환
     }
 
+    @ExceptionHandler(InvalidMemberException.class)
+    public ResponseEntity<String> handleInvalidMemberException(InvalidMemberException ex){
+        return ResponseEntity
+                .status(205) // 205 회원 정보 불일치
+                .body(ex.getMessage()); // 에러 메시지 반환
+    }
+
     @ExceptionHandler(SignupException.class)
     public ResponseEntity<SignupErrorResponse> handleSignupException(SignupException ex){
         return ResponseEntity
