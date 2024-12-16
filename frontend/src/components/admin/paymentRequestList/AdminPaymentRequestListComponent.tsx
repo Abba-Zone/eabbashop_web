@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import ListCard from "./AdminPaymentRequestListCard";
 interface Props{
   payments:payment[],
@@ -5,6 +6,7 @@ interface Props{
 }
 
 const AdminPaymentRequestListComponent:React.FC<Props> = ({payments, changeSort}) => {
+  const { t } = useTranslation();
   const rendering = (): JSX.Element[] => {
       const result = [];
       for(let i = 0 ; i < payments.length; i++){
@@ -16,10 +18,10 @@ const AdminPaymentRequestListComponent:React.FC<Props> = ({payments, changeSort}
     const result = 
     <tr>
       <th>선택</th>
-      <th onClick={()=>{changeSort('name')}}>요청자</th>
-      <th onClick={()=>{changeSort('money')}}>결제금액</th>
-      <th onClick={()=>{changeSort('createdDateTime')}}>요청일</th>
-      <th onClick={()=>{changeSort('status')}}>상태</th>
+      <th onClick={()=>{changeSort('name')}}>{t("AdminPayment:List.Filter01")}</th>
+      <th onClick={()=>{changeSort('money')}}>{t("AdminPayment:List.Filter02")}</th>
+      <th onClick={()=>{changeSort('createdDateTime')}}>{t("AdminPayment:List.Filter03")}</th>
+      <th onClick={()=>{changeSort('status')}}>{t("AdminPayment:List.Filter04")}</th>
       <th></th>
     </tr>;
     return result;

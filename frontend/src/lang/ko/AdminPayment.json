@@ -1,0 +1,14 @@
+{
+    "List": {
+        "Title": "결제요청",
+        "Filter01" : "요청자",
+        "Filter02" : "결제금액",
+        "Filter03" : "요청일",
+        "Filter04" : "상태",
+        "Option04" : {
+            "Attribute01": "보류",
+            "Attribute02": "완료"
+        },
+        "Button01": "수락"
+    }
+}

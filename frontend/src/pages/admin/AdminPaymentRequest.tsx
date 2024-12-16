@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AdminPaymentRequestListComponent, BottomButton, SearchSet } from '../../components';
 import { getPaymentList_s } from '../../services/customRequest';
+import { useTranslation } from 'react-i18next';
 
 const AdminPaymentRequest: React.FC = () => {
+  const { t } = useTranslation();
   const [payments, setPayments] = useState<payment[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -13,10 +15,10 @@ const AdminPaymentRequest: React.FC = () => {
   const [sortValue, setSortValue] = useState<string>("DESC");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:"요청자", select:'name', selectType:'text', itemList:[]},
-    {selectName:"결제금액", select:'money', selectType:'text', itemList:[]},
-    {selectName:"요청일", select:'createdDateTime', selectType:'date', itemList:[]},
-    {selectName:"상태", select:'status', selectType:'text', itemList:["완료", "보류중"]},
+    {selectName:t("AdminPayment:List.Filter01"), select:'name', selectType:'text', itemList:[]},
+    {selectName:t("AdminPayment:List.Filter02"), select:'money', selectType:'text', itemList:[]},
+    {selectName:t("AdminPayment:List.Filter03"), select:'createdDateTime', selectType:'date', itemList:[]},
+    {selectName:t("AdminPayment:List.Filter04"), select:'status', selectType:'select', itemList:[t("AdminPayment:List.Option04.Attribute01"), t("AdminPayment:List.Option04.Attribute02")]},
   ];
 
   const getPaymentList = useCallback (async () => {
@@ -54,7 +56,7 @@ const AdminPaymentRequest: React.FC = () => {
 
   return (
     <div>
-      <h1>결제요청</h1>
+      <h1>{t("AdminPayment:List.Title")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <AdminPaymentRequestListComponent payments={payments}  changeSort={changeSort}/>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
