@@ -11,3 +11,16 @@
 .admin-header-right{
     display: flex;
 }
+.shop-header{
+    display: flex;
+    justify-content: space-between;
+}
+.shop-header>*>*{
+    margin: 10px;
+}
+.shop-header-left{
+    display: flex;
+}
+.shop-header-right{
+    display: flex;
+}
