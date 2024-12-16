@@ -34,7 +34,7 @@ const AdminStoreDetail: React.FC = () => {
         <AdminStoreInfo store={storeInfo}></AdminStoreInfo>
       </div>
       <div>
-        <AdminStoreProcutListComponent></AdminStoreProcutListComponent>
+        <AdminStoreProcutListComponent/>
       </div>
     </div>
   );

@@ -23,6 +23,16 @@
             "Attribute01" : "상품명",
             "Attribute02" : "재고",
             "Attribute03" : "활성화"
+        },
+        "Item03" : {
+            "Title" : "상품리스트",
+            "Filter01" : "상품명",
+            "Filter02" : "재고",
+            "Filter03" : "활성화",
+            "Option03":{
+                "Attribute01":"활성화",
+                "Attribute02":"비활성화"
+            }
         }
     }
 }

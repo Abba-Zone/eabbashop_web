@@ -12,7 +12,7 @@ interface Props{
           <td>선택</td>
           <td>{product.name}</td>
           <td>{product.stock}</td>
-          <td>{product.activeYN? t("AdminProduct:List.Filter04") : t("AdminProduct:List.Filter05")}</td>
+          <td>{product.activeYN? t("AdminProduct:List.Option04.Attribute01") : t("AdminProduct:List.Option04.Attribute02")}</td>
         </tr>
       );
 }

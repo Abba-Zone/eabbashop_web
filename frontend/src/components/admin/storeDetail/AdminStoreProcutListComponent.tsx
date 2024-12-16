@@ -19,9 +19,9 @@ const AdminStoreProcutListComponent: React.FC = () => {
   const params = useParams<{id:string}>();
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:'상품명', select:'name', selectType:'text', itemList:[]},
-    {selectName:'재고', select:'stock', selectType:'text', itemList:[]},
-    {selectName:'활성화', select:'activeYN', selectType:'select', itemList:['활성화', '비활성화']},
+    {selectName:t("AdminStore:Detail.Item03.Filter01"), select:'name', selectType:'text', itemList:[]},
+    {selectName:t("AdminStore:Detail.Item03.Filter02"), select:'stock', selectType:'text', itemList:[]},
+    {selectName:t("AdminStore:Detail.Item03.Filter03"), select:'activeYN', selectType:'select', itemList:[t("AdminStore:Detail.Item03.Option03.Attribute01"), t("AdminStore:Detail.Item03.Option03.Attribute02")]},
   ];
   const getStoreProductList = useCallback( async () => {
       try {
@@ -65,7 +65,7 @@ const AdminStoreProcutListComponent: React.FC = () => {
 
   return (
     <div>
-      <h1>상품리스트</h1>
+      <h1>{t("AdminStore:Detail.Item03.Title")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <StoreProductList products={products} changeSort={changeSort}/>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
