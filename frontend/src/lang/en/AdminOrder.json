@@ -2,18 +2,26 @@
     "List": {
         "Title": "Order Management",
         "Filter01": "Product Name",
-        "Filter02": "Customer",
+        "Filter02": "Orderer",
         "Filter03": "Status",
-        "Filter04": "Order Date"
+        "Filter04": "Order Date",
+        "Option03": {
+            "Attribute01": "Processing",
+            "Attribute02": "In Transit",
+            "Attribute03": "Completed"
+        }
     },
     "Detail": {
+        "Option": {
+            "Attribute00": "No order information available."
+        },
         "Item01": {
             "Title": "Order Information",
             "Attribute01": "Product Name",
             "Attribute02": "Quantity",
             "Attribute03": "Shipping Status",
             "Attribute04": "Payment Method",
-            "Attribute05": "Order Date and Time"
+            "Attribute05": "Order Timestamp"
         },
         "Item02": {
             "Title": "Address Information",
@@ -22,14 +30,14 @@
             "Attribute03": {
                 "Title": "Shipping Address",
                 "SubAttribute01": "Postal Code",
-                "SubAttribute02": "Basic Address",
+                "SubAttribute02": "Primary Address",
                 "SubAttribute03": "Detailed Address",
-                "SubAttribute04": "Special Requests"
+                "SubAttribute04": "Request Details"
             },
             "Attribute04": {
                 "Title": "Billing Address",
                 "SubAttribute01": "Postal Code",
-                "SubAttribute02": "Basic Address",
+                "SubAttribute02": "Primary Address",
                 "SubAttribute03": "Detailed Address"
             }
         },
@@ -38,12 +46,12 @@
             "Attribute01": "Product Name",
             "Attribute02": "Actual Price",
             "Attribute03": "Price Excluding Tax",
-            "Attribute04": "SP Amount",
+            "Attribute04": "SP Price",
             "Attribute05": "Allowed Countries",
             "Attribute06": "Mobile/Web"
         },
         "Item04": {
-            "Title": "Customer Information",
+            "Title": "Orderer Information",
             "Attribute01": "Name",
             "Attribute02": "Email",
             "Attribute03": "Role",
