@@ -22,18 +22,18 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     Optional<Member> findOneByMemberId(String memberID);
 
     // 이메일로 memberID 조회
-    @Query(value = "SELECT MemberID FROM members WHERE Email = :email", nativeQuery = true)
+    @Query(value = "SELECT MemberID FROM Members WHERE Email = :email", nativeQuery = true)
     Optional<String> findMemberIDByEmail(@Param("email") String email);
 
 
-    @Query(value = "SELECT * FROM members m " +
+    @Query(value = "SELECT * FROM Members m " +
             "WHERE (:filter IS NULL OR " +
             "       CASE " +
             "           WHEN :filter = 'email' THEN m.email LIKE CONCAT('%', :filterValue, '%') " +
 //            "           WHEN :filter = 'name' THEN m.name LIKE CONCAT('%', :filterValue, '%') " +
             "           WHEN :filter = 'phone' THEN m.phone LIKE CONCAT('%', :filterValue, '%') " +
             "       END) ",
-            countQuery = "SELECT COUNT(*) FROM members m " +
+            countQuery = "SELECT COUNT(*) FROM Members m " +
                     "WHERE (:filter IS NULL OR " +
                     "       CASE " +
                     "           WHEN :filter = 'email' THEN m.email LIKE CONCAT('%', :filterValue, '%') " +
