@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { BottomButton, InquiryList, SearchSet } from '../../components';
 import { getInquiryList_s } from '../../services/inquiry';
+import { useTranslation } from 'react-i18next';
 
 const AdminInquiryList: React.FC = () => {
+  const { t } = useTranslation();
   const [inquirys, setInquirys] = useState<inquiry[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -13,11 +15,11 @@ const AdminInquiryList: React.FC = () => {
   const [sortValue, setSortValue] = useState<string>("DESC");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:'제목', select:'name', selectType:'text', itemList:[]},
-    {selectName:'작성자', select:'email', selectType:'text', itemList:[]},
-    {selectName:'유형', select:'type', selectType:'select', itemList:['처리중', '완료']},    
-    {selectName:'상태', select:'phone', selectType:'select', itemList:['처리중', '완료']},
-    {selectName:'작성일', select:'createdDateTime', selectType:'date', itemList:[]},
+    {selectName:t("AdminInquiry:List.Filter01"), select:'title', selectType:'text', itemList:[]},
+    {selectName:t("AdminInquiry:List.Filter02"), select:'type', selectType:'select', itemList:[t("AdminInquiry:List.Option1.Attribute01"), t("AdminInquiry:List.Option1.Attribute02")]},
+    {selectName:t("AdminInquiry:List.Filter03"), select:'name', selectType:'text', itemList:[]},    
+    {selectName:t("AdminInquiry:List.Filter04"), select:'status', selectType:'select', itemList:[t("AdminInquiry:List.Option2.Attribute01"), t("AdminInquiry:List.Option2.Attribute02")]},
+    {selectName:t("AdminInquiry:List.Filter05"), select:'createdDateTime', selectType:'date', itemList:[]},
   ];
 
   const getInquiryList = useCallback (async () => {
@@ -55,7 +57,7 @@ const AdminInquiryList: React.FC = () => {
 
   return (
     <div>
-      <h2>고객 문의</h2>
+      <h2>{t("AdminInquiry:List.Title")}</h2>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <InquiryList inquirys={inquirys} changeSort={changeSort}></InquiryList>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
