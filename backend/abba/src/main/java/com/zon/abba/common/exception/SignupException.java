@@ -1,6 +1,6 @@
 package com.zon.abba.common.exception;
 
-import com.zon.abba.members.response.SignupResponse;
+import com.zon.abba.member.response.SignupResponse;
 import lombok.Getter;
 
 @Getter
