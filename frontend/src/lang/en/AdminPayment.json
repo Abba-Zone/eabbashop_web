@@ -1,0 +1,14 @@
+{
+    "List": {
+        "Title": "Payment Request",
+        "Filter01": "Requester",
+        "Filter02": "Payment Amount",
+        "Filter03": "Request Date",
+        "Filter04": "Status",
+        "Option04": {
+            "Attribute01": "Pending",
+            "Attribute02": "Completed"
+        },
+        "Button01": "Accept"
+    }
+}

@@ -1,11 +1,14 @@
+import { useTranslation } from "react-i18next";
+
 interface Props{
   payment:payment;
   }
   const AdminPaymentRequestListCard:React.FC<Props> = ({payment}) => {
+    const { t } = useTranslation();
     const button = (): JSX.Element => {
-      if(payment.status === '완료'){
+      if(payment.status !== '완료'){
         return(
-          <button>수락</button>
+          <button>{t("AdminPayment:List.Button01")}</button>
         );
       }else{
         return(
