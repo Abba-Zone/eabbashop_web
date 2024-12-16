@@ -1,15 +1,18 @@
+import { useTranslation } from "react-i18next";
+
 interface Props{
   transfer:transfer;
   }
   const AdminShareLineListCard:React.FC<Props> = ({transfer}) => {
+    const { t } = useTranslation();
     const button = (): JSX.Element => {
       if(transfer.status === '완료'){
         return(
-          <button>수락</button>
+          <button>{t("AdminTransfer:List.Button02")}</button>
         );
       }else{
         return(
-          <button>취소</button>
+          <button>{t("AdminTransfer:List.Button01")}</button>
         );
       }
         

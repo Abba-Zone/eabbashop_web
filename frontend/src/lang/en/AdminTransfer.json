@@ -1,0 +1,17 @@
+{
+    "List": {
+        "Title": "Transfer Requests",
+        "Filter01": "Sender",
+        "Filter02": "Recipient",
+        "Filter03": "Transfer Amount",
+        "Filter04": "Transfer Type",
+        "Filter05": "Transfer Date",
+        "Filter06": "Status",
+        "Option06": {
+            "Attribute01": "Pending",
+            "Attribute02": "Completed"
+        },
+        "Button01": "Accept",
+        "Button02": "Cancel"
+    }
+}
