@@ -5,9 +5,20 @@
         "Filter02" : "문의유형",
         "Filter03" : "작성자",
         "Filter04" : "상태",
-        "Filter05" : "작성일"
+        "Filter05" : "작성일",
+        "Option1":{
+            "Attribute01":"불편사항",
+            "Attribute02":"건의사항"
+        },
+        "Option2":{
+            "Attribute01":"처리중",
+            "Attribute02":"완료"
+        }
     },
     "Detail":{
+        "Option":{
+            "Attribute00":"문의 정보가 없습니다."
+        },
         "Item01" :{
             "Title" : "문의 정보",
             "Attribute01": "작성자",

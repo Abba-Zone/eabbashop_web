@@ -2,25 +2,36 @@
     "List": {
         "Title": "Customer Inquiry",
         "Filter01": "Title",
-        "Filter02": "Type",
+        "Filter02": "Inquiry Type",
         "Filter03": "Author",
         "Filter04": "Status",
-        "Filter05": "Registration Date"
+        "Filter05": "Creation Date",
+        "Option1": {
+            "Attribute01": "Complaint",
+            "Attribute02": "Suggestion"
+        },
+        "Option2": {
+            "Attribute01": "In Progress",
+            "Attribute02": "Completed"
+        }
     },
     "Detail": {
+        "Option": {
+            "Attribute00": "No inquiry information available."
+        },
         "Item01": {
             "Title": "Inquiry Information",
             "Attribute01": "Author",
             "Attribute02": "Inquiry Type",
             "Attribute03": "Details",
             "Attribute04": "Status",
-            "Attribute05": "Created Date"
+            "Attribute05": "Creation Date"
         },
         "Item02": {
             "Title": "Inquiry Response",
             "Attribute01": "Responder",
             "Attribute02": "Response Content",
-            "Attribute03": "Created Date"
+            "Attribute03": "Response Date"
         }
     }
 }
