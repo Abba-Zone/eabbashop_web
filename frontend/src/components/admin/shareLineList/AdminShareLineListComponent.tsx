@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import ListCard from "./AdminShareLineListCard";
 interface Props{
   shareLines:shareLine[],
@@ -5,6 +6,7 @@ interface Props{
 }
 
 const AdminShareLineListComponent:React.FC<Props> = ({shareLines, changeSort}) => {
+  const { t } = useTranslation();
   const rendering = (): JSX.Element[] => {
       const result = [];
       for(let i = 0 ; i < shareLines.length; i++){
@@ -16,11 +18,11 @@ const AdminShareLineListComponent:React.FC<Props> = ({shareLines, changeSort}) =
     const result = 
     <tr>
       <th>선택</th>
-      <th onClick={()=>{changeSort('name')}}>이름</th>
-      <th onClick={()=>{changeSort('email')}}>이메일</th>
-      <th onClick={()=>{changeSort('phone')}}>전화번호</th>
-      <th onClick={()=>{changeSort('role')}}>역할</th>
-      <th onClick={()=>{changeSort('memberNM')}}>고객수</th>
+      <th onClick={()=>{changeSort('name')}}>{t("AdminShareLine:List.Filter01")}</th>
+      <th onClick={()=>{changeSort('email')}}>{t("AdminShareLine:List.Filter02")}</th>
+      <th onClick={()=>{changeSort('phone')}}>{t("AdminShareLine:List.Filter03")}</th>
+      <th onClick={()=>{changeSort('role')}}>{t("AdminShareLine:List.Filter04")}</th>
+      <th onClick={()=>{changeSort('memberNM')}}>{t("AdminShareLine:List.Filter05")}</th>
     </tr>;
     return result;
   }

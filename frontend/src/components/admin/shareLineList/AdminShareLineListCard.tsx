@@ -11,6 +11,7 @@ interface Props{
           <td>{shareLine.name}</td>
           <td>{shareLine.email}</td>
           <td>{shareLine.phone}</td>
+          <td>{shareLine.role}</td>
           <td>{shareLine.memberNM}</td>
         </tr>
       );

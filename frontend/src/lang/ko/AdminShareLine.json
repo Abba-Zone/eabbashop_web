@@ -1,0 +1,17 @@
+{
+    "List": {
+        "Title": "수당라인",
+        "Filter01" : "이름",
+        "Filter02" : "이메일",
+        "Filter03" : "전화",
+        "Filter04" : "역할",
+        "Filter05" : "고객수",
+        "Option4":{
+            "Attribute01":"협력사",
+            "Attribute02":"지점",
+            "Attribute03":"대리점",
+            "Attribute04":"판매점",
+            "Attribute05":"고객"
+        }
+    }
+}

@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AdminShareLineListComponent, BottomButton, SearchSet } from '../../components';
 import { getShareLineList_s } from '../../services/share';
+import { useTranslation } from 'react-i18next';
 
 const AdminShareLineList: React.FC = () => {
+  const { t } = useTranslation();
   const [shareLines, setShareLines] = useState<shareLine[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -13,11 +15,11 @@ const AdminShareLineList: React.FC = () => {
   const [sortValue, setSortValue] = useState<string>("DESC");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:'이름', select:'name', selectType:'text', itemList:[]},
-    {selectName:'이메일', select:'email', selectType:'text', itemList:[]},
-    {selectName:'전화', select:'phone', selectType:'text', itemList:[]},
-    {selectName:'역할', select:'role', selectType:'select', itemList:['대리점', '협력사사']},
-    {selectName:'고객수', select:'memberNM', selectType:'text', itemList:[]},
+    {selectName:t("AdminShareLine:List.Filter01"), select:'name', selectType:'text', itemList:[]},
+    {selectName:t("AdminShareLine:List.Filter02"), select:'email', selectType:'text', itemList:[]},
+    {selectName:t("AdminShareLine:List.Filter03"), select:'phone', selectType:'text', itemList:[]},
+    {selectName:t("AdminShareLine:List.Filter04"), select:'role', selectType:'select', itemList:[t("AdminShareLine:List.Option4.Attribute01"), t("AdminShareLine:List.Option4.Attribute02"), t("AdminShareLine:List.Option4.Attribute03"), t("AdminShareLine:List.Option4.Attribute04"), t("AdminShareLine:List.Option4.Attribute05")]},
+    {selectName:t("AdminShareLine:List.Filter05"), select:'memberNM', selectType:'text', itemList:[]},
   ];
   const getShareLineList = useCallback( async () => {
       try {
@@ -53,7 +55,7 @@ const AdminShareLineList: React.FC = () => {
     }, [getShareLineList]);
   return (
     <div>
-      <h1>수당라인</h1>
+      <h1>{t("AdminShareLine:List.Title")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <AdminShareLineListComponent shareLines={shareLines} changeSort={changeSort}/>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>

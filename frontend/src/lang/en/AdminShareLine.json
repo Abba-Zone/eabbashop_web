@@ -1,0 +1,17 @@
+{
+    "List": {
+        "Title": "Commission Line",
+        "Filter01": "Name",
+        "Filter02": "Email",
+        "Filter03": "Phone",
+        "Filter04": "Role",
+        "Filter05": "Number of Customers",
+        "Option4": {
+            "Attribute01": "Partner",
+            "Attribute02": "Branch",
+            "Attribute03": "Agency",
+            "Attribute04": "Retailer",
+            "Attribute05": "Customer"
+        }
+    }
+}
