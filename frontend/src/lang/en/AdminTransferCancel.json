@@ -1,0 +1,16 @@
+{
+    "List": {
+        "Title": "이체취소요청",
+        "Filter01" : "보낸사람",
+        "Filter02" : "받는사람",
+        "Filter03" : "이체금액",
+        "Filter04" : "금액유형",
+        "Filter05" : "이체일",
+        "Filter06" : "상태",
+        "Option06" : {
+            "Attribute01" : "보류",
+            "Attribute02" : "완료"
+        },
+        "Button01":"수락"
+    }
+}

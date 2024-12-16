@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import ListCard from "./AdminTransferCancelListCard";
 interface Props{
   transferCancels:transferCancel[],
@@ -5,6 +6,7 @@ interface Props{
 }
 
 const AdminTransferCancelListComponent:React.FC<Props> = ({transferCancels, changeSort}) => {
+  const { t } = useTranslation();
   const rendering = (): JSX.Element[] => {
       const result = [];
       for(let i = 0 ; i < transferCancels.length; i++){
@@ -14,16 +16,16 @@ const AdminTransferCancelListComponent:React.FC<Props> = ({transferCancels, chan
   }
   const makeheader = (): JSX.Element => {
     const result = 
-    <tr>
-      <th>선택</th>
-      <th onClick={()=>{changeSort('senderName')}}>보낸사람</th>
-      <th onClick={()=>{changeSort('receiverName')}}>받는사람</th>
-      <th onClick={()=>{changeSort('money')}}>이체금액</th>
-      <th onClick={()=>{changeSort('moneyType')}}>금액유형</th>
-      <th onClick={()=>{changeSort('createdDateTime')}}>이체일</th>
-      <th onClick={()=>{changeSort('status')}}>상태</th>
-      <th></th>
-    </tr>;
+      <tr>
+        <th>선택</th>
+        <th onClick={()=>{changeSort('senderName')}}>{t("AdminTransferCancel:List.Filter01")}</th>
+        <th onClick={()=>{changeSort('receiverName')}}>{t("AdminTransferCancel:List.Filter02")}</th>
+        <th onClick={()=>{changeSort('money')}}>{t("AdminTransferCancel:List.Filter03")}</th>
+        <th onClick={()=>{changeSort('moneyType')}}>{t("AdminTransferCancel:List.Filter04")}</th>
+        <th onClick={()=>{changeSort('createdDateTime')}}>{t("AdminTransferCancel:List.Filter05")}</th>
+        <th onClick={()=>{changeSort('status')}}>{t("AdminTransferCancel:List.Filter06")}</th>
+        <th></th>
+      </tr>;
     return result;
   }
     return (

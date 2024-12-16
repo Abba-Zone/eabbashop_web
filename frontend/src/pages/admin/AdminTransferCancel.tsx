@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AdminTransferCancelListComponent, BottomButton, SearchSet } from '../../components';
 import { getTransferCancelList_s } from '../../services/customRequest';
+import { useTranslation } from 'react-i18next';
 
 const AdminTransferCancel: React.FC = () => {
+  const { t } = useTranslation();
   const [transferCancels, setTransferCancels] = useState<transferCancel[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -13,12 +15,12 @@ const AdminTransferCancel: React.FC = () => {
   const [sortValue, setSortValue] = useState<string>("DESC");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:"보낸사람", select:'senderName', selectType:'text', itemList:[]},
-    {selectName:"받는사람", select:'receiverName', selectType:'text', itemList:[]},
-    {selectName:"이체금액", select:'money', selectType:'text', itemList:[]},
-    {selectName:"금액유형", select:'moneyType', selectType:'text', itemList:[]},
-    {selectName:"이체일", select:'createdDateTime', selectType:'date', itemList:[]},
-    {selectName:"상태", select:'status', selectType:'select', itemList:['보류중', '완료']},
+    {selectName:t("AdminTransferCancel:List.Filter01"), select:'senderName', selectType:'text', itemList:[]},
+    {selectName:t("AdminTransferCancel:List.Filter02"), select:'receiverName', selectType:'text', itemList:[]},
+    {selectName:t("AdminTransferCancel:List.Filter03"), select:'money', selectType:'text', itemList:[]},
+    {selectName:t("AdminTransferCancel:List.Filter04"), select:'moneyType', selectType:'text', itemList:[]},
+    {selectName:t("AdminTransferCancel:List.Filter05"), select:'createdDateTime', selectType:'date', itemList:[]},
+    {selectName:t("AdminTransferCancel:List.Filter06"), select:'status', selectType:'select', itemList:[t("AdminTransferCancel:List.Option06.Attribute01"), t("AdminTransferCancel:List.Option06.Attribute01")]},
   ];
 
   const getTransferCancelList = useCallback (async () => {
@@ -56,7 +58,7 @@ const AdminTransferCancel: React.FC = () => {
 
   return (
     <div>
-      <h1>이체취소요청</h1>
+      <h1>{t("AdminTransferCancel:List.Title")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <AdminTransferCancelListComponent transferCancels={transferCancels}  changeSort={changeSort}/>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>

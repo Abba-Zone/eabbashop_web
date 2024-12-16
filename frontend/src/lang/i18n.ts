@@ -47,6 +47,9 @@ import AdminShareLine_en from './en/AdminShareLine.json';
 import AdminShareMoney_ko from './ko/AdminShareMoney.json';
 import AdminShareMoney_en from './en/AdminShareMoney.json';
 
+import AdminTransferCancel_ko from './ko/AdminTransferCancel.json';
+import AdminTransferCancel_en from './en/AdminTransferCancel.json';
+
 const resources = {
   ko: {
     AdminMenu: AdminMenu_ko,
@@ -62,7 +65,8 @@ const resources = {
     AdminPayment: AdminPayment_ko,
     AdminRefund: AdminRefund_ko,
     AdminShareLine: AdminShareLine_ko,
-    AdminShareMoney: AdminShareMoney_ko
+    AdminShareMoney: AdminShareMoney_ko,
+    AdminTransferCancel: AdminTransferCancel_ko
   },
   en: {
     AdminMenu: AdminMenu_en,
@@ -78,7 +82,8 @@ const resources = {
     AdminPayment: AdminPayment_en,
     AdminRefund: AdminRefund_en,
     AdminShareLine: AdminShareLine_en,
-    AdminShareMoney: AdminShareMoney_en
+    AdminShareMoney: AdminShareMoney_en,
+    AdminTransferCancel: AdminTransferCancel_en
   },
   ja: {
     AdminMenu: AdminMenu_ja,
