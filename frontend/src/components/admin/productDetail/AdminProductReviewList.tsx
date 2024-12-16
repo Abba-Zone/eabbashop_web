@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AdminProductReviewCard from "./AdminProductReviewCard";
 interface Props{
@@ -13,13 +12,6 @@ const AdminProductReviewList:React.FC<Props> = ({reviews}) => {
           result.push(<AdminProductReviewCard key={i} review={reviews[i]} ></AdminProductReviewCard>);
         }
         return result;
-    }
-    if (reviews==null || reviews.length === 0){
-      return(
-        <div>
-          <h1>리뷰가 없습니다.</h1>
-        </div>
-      )
     }
     return (
       <div>

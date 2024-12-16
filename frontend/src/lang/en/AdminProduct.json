@@ -1,13 +1,20 @@
 {
     "List": {
-        "Title": "Product List",
+        "Title": "Product Management",
         "Filter01": "Product Name",
         "Filter02": "Seller",
         "Filter03": "Stock",
         "Filter04": "Active",
-        "Filter05": "Inactive"
+        "Option04": {
+            "Attribute01": "Active",
+            "Attribute02": "Inactive"
+        }
     },
     "Detail": {
+        "Option": {
+            "Attribute00": "No product information available.",
+            "Attribute01": "No reviews available."
+        },
         "Item01": {
             "Title": "Product Information",
             "Attribute01": "Thumbnail",
@@ -20,12 +27,12 @@
             "Attribute08": "Allowed Countries",
             "Attribute09": "Mobile/Web",
             "Attribute10": "Display",
-            "Attribute11": "Active"
+            "Attribute11": "Activity"
         },
         "Item02": {
             "Title": "Seller Information",
             "Attribute01": "Store Name",
-            "Attribute02": "Postal Code",
+            "Attribute02": "Zip Code",
             "Attribute03": "Basic Address",
             "Attribute04": "Detailed Address",
             "Attribute05": "Host",
@@ -33,13 +40,13 @@
             "Attribute07": "Phone Number"
         },
         "Item03": {
-            "Title": "Reviews",
-            "Attribute01": "Author",
-            "Attribute02": "Rating Score",
+            "Title": "Product Reviews",
+            "Attribute01": "Reviewer",
+            "Attribute02": "Product Rating",
             "Attribute03": "Review Content",
-            "Attribute04": "Date",
-            "Attribute05": "Dislikes",
-            "Attribute06": "Likes"
+            "Attribute04": "Review Date",
+            "Attribute05": "Dislike Count",
+            "Attribute06": "Like Count"
         },
         "Item04": {
             "Attribute01": "Active",
@@ -48,7 +55,7 @@
             "Attribute04": "Web",
             "Attribute05": "Mobile/Web",
             "Attribute06": "Best Order",
-            "Attribute07": "Latest Order"
+            "Attribute07": "Newest First"
         }
     }
 }
