@@ -5,7 +5,7 @@ import "./style.css"
 
 const ShopHeader:React.FC = () => {
   const navigate = useNavigate();
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const [ visible, setVisible ] = useState<boolean>(false)
   const openMenu = () => {
     setVisible(!visible);
@@ -23,18 +23,18 @@ const ShopHeader:React.FC = () => {
       <div className="shop-header">
           <div className="shop-header-left">
             <select onChange={(e) => changeLanguage(e.target.value)} className="language-select">
-              <option value="ko">한국어</option>
-              <option value="en">English</option>
-              <option value="zh">中文</option>
-              <option value="ja">日本語</option>
+              <option value="ko">{t("Common:Language.Korean")}</option>
+              <option value="en">{t("Common:Language.English")}</option>
+              <option value="zh">{t("Common:Language.Chinese")}</option>
+              <option value="ja">{t("Common:Language.Japanese")}</option>
             </select>
           </div>
           <div className="shop-header-right">
             <div onClick={handleGoLogin}>
-                로그인
+                {t("Common:Header.Login")}
             </div>
             <div onClick={handleGoSignup}>
-                회원가입
+                {t("Common:Header.Signup")}
             </div>
           </div>
       </div>

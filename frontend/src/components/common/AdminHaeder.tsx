@@ -4,7 +4,7 @@ import Menu from "../menu/Menu";
 import "./style.css"
 import { useNavigate } from "react-router-dom";
 const AdminHaeder:React.FC = () => {
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
     const navigate = useNavigate();
     const [ visible, setVisible ] = useState<boolean>(false)
     const openMenu = () => {
@@ -26,10 +26,10 @@ const AdminHaeder:React.FC = () => {
                     <div className="admin-header-menu-button" onClick={openMenu}>햄버거</div> 
                     <div className="admin-header-logo">로고</div>
                     <select onChange={(e) => changeLanguage(e.target.value)} className="language-select">
-                        <option value="ko">한국어</option>
-                        <option value="en">English</option>
-                        <option value="zh">中文</option>
-                        <option value="ja">日本語</option>
+                        <option value="ko">{t("Common:Language.Korean")}</option>
+                        <option value="en">{t("Common:Language.English")}</option>
+                        <option value="zh">{t("Common:Language.Chinese")}</option>
+                        <option value="ja">{t("Common:Language.Japanese")}</option>
                     </select>
                 </div>
                 <div className="admin-header-right">
@@ -37,10 +37,10 @@ const AdminHaeder:React.FC = () => {
                     <div>프로필</div>
                     <div>유저명</div>
                     <div onClick={handleGoLogin}>
-                        로그인
+                        {t("Common:Header.Login")}
                     </div>
                     <div onClick={handleGoSignup}>
-                        회원가입
+                        {t("Common:Header.Signup")}
                     </div>
                 </div>
             </div>
