@@ -1,11 +1,14 @@
+import { useTranslation } from "react-i18next";
+
 interface Props{
   transferCancel:transferCancel;
   }
   const AdminTransferCancelListCard:React.FC<Props> = ({transferCancel}) => {
+    const { t } = useTranslation();
     const button = (): JSX.Element => {
       if(transferCancel.status === '완료'){
         return(
-          <button>수락</button>
+          <button>{t("AdminTransferCancel:List.Button01")}</button>
         );
       }else{
         return(
