@@ -71,6 +71,10 @@ export {default as AdminPaymentRequestListComponent} from "./admin/paymentReques
 export {default as AdminTransferCancelListComponent} from "./admin/transferCancelList/AdminTransferCancelListComponent";
 /* Refund List */
 export {default as AdminRefundListComponent} from "./admin/refundList/AdminRefundListComponent";
+/* Refund Detail */
+export {default as AdminRefundInfo} from "./admin/refundDetail/AdminRefundInfo";
+
+
 
 
 
