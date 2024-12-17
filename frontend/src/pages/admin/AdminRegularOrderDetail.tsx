@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AdminRegularOrderAddressInfo, AdminRegularOrderInfo, AdminRegularOrderMemberInfo } from '../../components';
+import { getRegularOrderDetail_s } from '../../services/sale';
 
 const AdminRegularOrderDetail: React.FC = () => {
   const [address, setAddress] = useState<regularOrderAddress | undefined>(undefined);
@@ -10,11 +11,10 @@ const AdminRegularOrderDetail: React.FC = () => {
   const getRegularOrderDetail = useCallback (async () => {
     try {
       if (params.id !== undefined){
-        // const orderDetail : orderDetail = await getOrderDetail_s(params.id);
-        // setAddress(orderDetail.address);
-        // setOrder(orderDetail.order);
-        // setMember(orderDetail.member);
-        // setProduct(orderDetail.product);
+        const regularOrderDetail : regularOrderDetail = await getRegularOrderDetail_s(params.id);
+        setAddress(regularOrderDetail.address);
+        setRegularOrder(regularOrderDetail.info);
+        setMember(regularOrderDetail.member);
       }
     } catch (error) {
       console.error('Error fetching orederDetail:', error);

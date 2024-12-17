@@ -208,3 +208,58 @@ export const getShipmentDetail = (shipmentID:string):shipmentDetail => {
     };
     return result;
 }
+/* Regular Order */
+export const getRegularOrderList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):regularOrderList => {
+    /* real code*/
+    // getData<orderList>('/list/admin?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
+    //     .then((data:APIResponse<orderList>) => {
+    //         return data.result;
+    //     }
+    // );
+    // return null as unknown as orderList;
+
+    /* make for test*/
+    var result :regularOrderList = {
+        totalCount: 123412414,
+        list : []
+    };
+    return result;
+}
+
+export const getRegularOrderDetail = (orderID:string):regularOrderDetail => {
+    // getData<orderDetail>('/info?orderID='+ orderID)
+    //     .then((data:APIResponse<orderDetail>) => {
+    //         return data.result;
+    //     }
+    // );
+    // return null as unknown as orderDetail;
+    var result:regularOrderDetail= {
+       address : {
+        name : "전현태",
+        phone : "010-1234-5678",
+        zipCode: "12345",
+        baseAddress: "청주시 흥덕구 봉명동",
+        detailAddress: "아파트 00동00호",
+        billZipCode : "11111111111",
+        billBaseAddress : "부산시 기장군 기장읍",
+        billDetailAddress : "아파트 아파트 아파트 아파트",
+        comment : "문앞에 던져주세요",
+       },
+       member : {
+        name : "전현태",
+        email : "chc526@gmail.com",
+        role: "대리점",
+        grade: "gold"
+       },
+       info : {
+        memberName:"전현태A",
+        orderID:"asdfbsgrdbxcvb",
+        period:30,
+        productID:"btrgnbvnvbnvbn",
+        productName : "물병",
+        quantity : 12,
+        createdDateTime : "2024-11-12 17:38:22",
+       }
+    };
+    return result;
+}

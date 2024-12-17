@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AdminRegularOrderListComponent, BottomButton, SearchSet } from '../../components';
+import { getRegularOrderList_s } from '../../services/sale';
 
 const AdminRegularOrderList: React.FC = () => {
   const [regularOrders, setRegularOrders] = useState<regularOrder[]>([]);
@@ -21,9 +22,9 @@ const AdminRegularOrderList: React.FC = () => {
 
   const getRegularOrderList = useCallback (async () => {
     try {
-      // const totalAndOrderList : orderList = await getOrderList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
-      // setOrders(totalAndOrderList.list);
-      // setLastPage(totalAndOrderList.totalCount === 0? 1:Math.floor((totalAndOrderList.totalCount - 1)/pageSize) + 1);
+      const totalAndRegularOrderList : regularOrderList = await getRegularOrderList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
+      setRegularOrders(totalAndRegularOrderList.list);
+      setLastPage(totalAndRegularOrderList.totalCount === 0? 1:Math.floor((totalAndRegularOrderList.totalCount - 1)/pageSize) + 1);
     } catch (error) {
       console.error('Error fetching regularOrder list:', error);
     }
