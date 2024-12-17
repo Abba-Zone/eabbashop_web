@@ -73,6 +73,12 @@ export {default as AdminTransferCancelListComponent} from "./admin/transferCance
 export {default as AdminRefundListComponent} from "./admin/refundList/AdminRefundListComponent";
 /* Refund Detail */
 export {default as AdminRefundInfo} from "./admin/refundDetail/AdminRefundInfo";
+/* RegularOrder List */
+export {default as AdminRegularOrderListComponent} from "./admin/regularOrderList/AdminRegularOrderListComponent";
+/* Refund Detail */
+export {default as AdminRegularOrderAddressInfo} from "./admin/regularOrderDetail/AdminRegularOrderAddressInfo";
+export {default as AdminRegularOrderInfo} from "./admin/regularOrderDetail/AdminRegularOrderInfo";
+export {default as AdminRegularOrderMemberInfo} from "./admin/regularOrderDetail/AdminRegularOrderMemberInfo";
 
 
 

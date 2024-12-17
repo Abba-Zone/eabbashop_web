@@ -73,8 +73,8 @@ const RoutePath:React.FC = () => {
         <Route path="/admin/invoicedetail/:id" element={<AdminInvoiceDetail />} />
         <Route path="/admin/shipment" element={<AdminShipmentList />} />
         <Route path="/admin/shipmentdetail/:id" element={<AdminShipmentDetail />} />
-        <Route path="/admin/regularorder" element={<AdminRegularOrderList />} />
-        <Route path="/admin/regularorderdetail/:id" element={<AdminRegularOrderDetail />} />
+        <Route path="/admin/regular-order" element={<AdminRegularOrderList />} />
+        <Route path="/admin/regular-order-detail/:id" element={<AdminRegularOrderDetail />} />
 
         {/* Share Management */}
         <Route path="/admin/share-line" element={<AdminShareLineList />} />
