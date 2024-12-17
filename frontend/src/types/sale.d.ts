@@ -130,3 +130,31 @@ interface shipmentOrder extends invoiceOrder{}
 interface shipmentMember extends invoiceMember{}
 
 interface shipmentAddress extends invoiceAddress{}
+
+/* Regular Order*/
+interface regularOrder{
+    orderID : string,
+    memberName : string,
+    productName : string,
+    quantity : number,
+    period : number,
+    createdDateTime : string
+}
+
+interface regularOrderList{
+    totalCount : number,
+    list : regularOrder[]
+}
+
+interface regularOrderDetail{
+    info : regularOrderInfo,
+    member : regularOrderMember,
+    address : regularOrderAddress,
+}
+interface regularOrderInfo extends regularOrder{
+    productID : string
+}
+
+interface regularOrderMember extends orderMember{}
+
+interface regularOrderAddress extends orderAddress{}
