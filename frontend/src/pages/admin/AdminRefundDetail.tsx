@@ -2,8 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AdminRefundInfo } from '../../components';
 import { getRefundDetail_s } from '../../services/customRequest';
+import { useTranslation } from 'react-i18next';
 
 const AdminRefundDetail: React.FC = () => {
+  const { t } = useTranslation();
   const [refundInfo, setRefundInfo] = useState<refundDetail | undefined>(undefined);
   const params = useParams<{id:string}>();
   const getRefundDetail = useCallback (async () => {
@@ -24,7 +26,7 @@ const AdminRefundDetail: React.FC = () => {
   if (!refundInfo) {
       return (
           <div>
-              <h1>정보가 없습니다.</h1>
+              <h1>{t("AdminRefund:Detail.Option.Attribute00")}</h1>
           </div>
       );
   }
