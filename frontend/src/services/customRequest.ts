@@ -1,4 +1,4 @@
-import { getTransferList, getPaymentList, getTransferCancelList, getRefundList } from '../apis/requestApi'
+import { getTransferList, getPaymentList, getTransferCancelList, getRefundList, getRefundDetail } from '../apis/requestApi'
 
 /* Refund */
 export const getTransferList_s = async (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string): Promise<transferList> => {
@@ -19,3 +19,7 @@ export const getTransferCancelList_s = async (pageNo:number, pageSize:number, fi
 export const getRefundList_s = async (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string, type:number): Promise<refundList> => {
     return await getRefundList(pageNo, pageSize, filter, filterValue, sort, sortValue, type);
 }
+export const getRefundDetail_s = async (refundID:string): Promise<refundDetail> => {
+    return await getRefundDetail(refundID);
+};
+

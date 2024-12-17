@@ -54,3 +54,8 @@ interface refundList{
     totalCount : number,
     list : refund[]
 }
+interface refundDetail extends refund{
+    productName : string,
+    type : number,
+    quantity : number
+}

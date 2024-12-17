@@ -90,4 +90,25 @@ export const getRefundList = (pageNo:number, pageSize:number, filter:number, fil
     };
     return result;
 }
+export const getRefundDetail = (refundID:string):refundDetail => {
+    // getData<refundDetail>('/product/detail?productID='+ productID)
+    //     .then((data:APIResponse<refundDetail>) => {
+    //         return data.result;
+    //     }
+    // );
+    // return null as unknown as refundDetail;
+    
+    var result:refundDetail= {
+       createdDateTime : "2024-11-15 16:30:22",
+       name : "전 현태A",
+       orderID : "1q2w3er4t5t",
+       phone : "010-1234-5678",
+       productName : "물병병",
+       quantity : 1,
+       refundID : "1q2w3er4t5t",
+       status : "보류",
+       type : 100
+    };
+    return result;
+}
 
