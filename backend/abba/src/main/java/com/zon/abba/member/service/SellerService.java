@@ -1,13 +1,16 @@
 package com.zon.abba.member.service;
 
 import com.zon.abba.common.exception.NoMemberException;
+import com.zon.abba.common.exception.NoSellerException;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.member.dto.SellerDto;
 import com.zon.abba.member.dto.SellerListDto;
 import com.zon.abba.member.entity.Seller;
 import com.zon.abba.member.mapping.SellerList;
 import com.zon.abba.member.repository.SellerRepository;
+import com.zon.abba.member.request.seller.SellerDetailRequest;
 import com.zon.abba.member.request.seller.SellerListRequest;
+import com.zon.abba.member.response.SellerDetailResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -63,6 +66,19 @@ public class SellerService {
         logger.info("seller list 반환 완료");
 
         return new ResponseListBody(sellerLists.getTotalElements(), sellerListDtos);
+    }
+
+    @Transactional
+    public SellerDetailResponse sellerDetail(SellerDetailRequest sellerDetailRequest){
+        logger.info("seller detail 반환 시작");
+
+        SellerDetailResponse sellerDetailResponse = sellerRepository.findSellerDetailById(sellerDetailRequest.getSellerID())
+                .map(SellerDetailResponse::new)
+                .orElseThrow(() -> new NoSellerException("없는 가게 입니다."));
+
+        logger.info("seller detail 반환 완료");
+
+        return sellerDetailResponse;
     }
 }
 

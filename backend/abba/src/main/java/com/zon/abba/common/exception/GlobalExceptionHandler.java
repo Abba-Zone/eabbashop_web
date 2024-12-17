@@ -39,10 +39,17 @@ public class GlobalExceptionHandler {
                 .body(ex.getMessage()); // 에러 메시지 반환
     }
 
+    @ExceptionHandler(SignupException.class)
+    public ResponseEntity<SignupErrorResponse> handleSignupException(SignupException ex){
+        return ResponseEntity
+                .status(201) // 201 신규 회원
+                .body(new SignupErrorResponse(ex.getMessage(), ex.getSignupResponse())); // 에러 메시지 반환
+    }
+
     @ExceptionHandler(NoMemberException.class)
     public ResponseEntity<String> handleNoMemberException(NoMemberException ex){
         return ResponseEntity
-                .status(HttpStatus.NO_CONTENT) // 204 없는 회원
+                .status(204) // 204 없는 회원
                 .body(ex.getMessage()); // 에러 메시지 반환
     }
 
@@ -56,14 +63,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotMemberException.class)
     public ResponseEntity<String> handleNotMemberException(NotMemberException ex){
         return ResponseEntity
-                .status(206) // 204 탈퇴한 회원
+                .status(206) // 206 탈퇴한 회원
                 .body(ex.getMessage()); // 에러 메시지 반환
     }
 
-    @ExceptionHandler(SignupException.class)
-    public ResponseEntity<SignupErrorResponse> handleSignupException(SignupException ex){
+    @ExceptionHandler(NoSellerException.class)
+    public ResponseEntity<String> handleNoSellerException(NoSellerException ex){
         return ResponseEntity
-                .status(HttpStatus.CREATED) // 201 신규 회원
-                .body(new SignupErrorResponse(ex.getMessage(), ex.getSignupResponse())); // 에러 메시지 반환
+                .status(214) // 214 없는 가게
+                .body(ex.getMessage()); // 에러 메시지 반환
     }
+
+
 }

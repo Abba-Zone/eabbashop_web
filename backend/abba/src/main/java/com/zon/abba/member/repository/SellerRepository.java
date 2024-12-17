@@ -1,6 +1,7 @@
 package com.zon.abba.member.repository;
 
 import com.zon.abba.member.entity.Seller;
+import com.zon.abba.member.mapping.SellerDetail;
 import com.zon.abba.member.mapping.SellerList;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,4 +46,18 @@ public interface SellerRepository extends JpaRepository<Seller, String> {
             @Param("filterValue") String filterValue,
             Pageable pageable
     );
+
+    @Query(value = "SELECT s.SellerID AS sellerId, " +
+            "       s.Name AS name, " +
+            "       CONCAT(m.LastName, ' ', m.FirstName) AS host, " +
+            "       s.Phone AS phone, " +
+            "       s.ZipCode AS zipCode, " +
+            "       s.BaseAddress AS baseAddress, " +
+            "       s.DetailAddress AS detailAddress, " +
+            "       s.CreatedDateTime AS createdDateTime " +
+            "FROM Seller s " +
+            "LEFT JOIN Members m ON s.MemberID = m.MemberID " +
+            "WHERE s.SellerID = :sellerId",
+            nativeQuery = true)
+    Optional<SellerDetail> findSellerDetailById(@Param("sellerId") String sellerID);
 }
