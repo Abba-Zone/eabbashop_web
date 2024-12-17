@@ -1,0 +1,48 @@
+{
+    "List": {
+        "Title": "Recurring Order Management",
+        "Filter01": "Product Name",
+        "Filter02": "Customer",
+        "Filter03": "Frequency",
+        "Filter04": "Quantity",
+        "Filter05": "Order Date"
+    },
+    "Detail": {
+        "Title": "Recurring Order Number",
+        "Option": {
+            "Attribute00": "No order information available."
+        },
+        "Item01": {
+            "Title": "Recurring Order Information",
+            "Attribute01": "Product Name",
+            "Attribute02": "Frequency",
+            "Attribute03": "Quantity",
+            "Attribute04": "Application Date"
+        },
+        "Item02": {
+            "Title": "Customer Information",
+            "Attribute01": "Name",
+            "Attribute02": "Email",
+            "Attribute03": "Role",
+            "Attribute04": "Grade"
+        },
+        "Item03": {
+            "Title": "Address Information",
+            "Attribute01": "Recipient",
+            "Attribute02": "Phone Number",
+            "Attribute03": {
+                "Title": "Shipping Address",
+                "SubAttribute01": "Postal Code",
+                "SubAttribute02": "Primary Address",
+                "SubAttribute03": "Detailed Address",
+                "SubAttribute04": "Request Details"
+            },
+            "Attribute04": {
+                "Title": "Billing Address",
+                "SubAttribute01": "Postal Code",
+                "SubAttribute02": "Primary Address",
+                "SubAttribute03": "Detailed Address"
+            }
+        }
+    }
+}

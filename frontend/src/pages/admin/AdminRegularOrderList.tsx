@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AdminRegularOrderListComponent, BottomButton, SearchSet } from '../../components';
 import { getRegularOrderList_s } from '../../services/sale';
+import { useTranslation } from 'react-i18next';
 
 const AdminRegularOrderList: React.FC = () => {
+  const { t } = useTranslation();
   const [regularOrders, setRegularOrders] = useState<regularOrder[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -13,11 +15,11 @@ const AdminRegularOrderList: React.FC = () => {
   const [sortValue, setSortValue] = useState<string>("DESC");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:"상품명", select:'productName', selectType:'text', itemList:[]},
-    {selectName:"주문자", select:'memberName', selectType:'text', itemList:[]},
-    {selectName:"주기", select:'period', selectType:'text', itemList:[]},
-    {selectName:"개수", select:'quantity', selectType:'text', itemList:[]},
-    {selectName:"주문일일", select:'createdDateTime', selectType:'date', itemList:[]},
+    {selectName:t("AdminRegularOrder:List.Filter01"), select:'productName', selectType:'text', itemList:[]},
+    {selectName:t("AdminRegularOrder:List.Filter02"), select:'memberName', selectType:'text', itemList:[]},
+    {selectName:t("AdminRegularOrder:List.Filter03"), select:'period', selectType:'text', itemList:[]},
+    {selectName:t("AdminRegularOrder:List.Filter04"), select:'quantity', selectType:'text', itemList:[]},
+    {selectName:t("AdminRegularOrder:List.Filter05"), select:'createdDateTime', selectType:'date', itemList:[]},
   ];
 
   const getRegularOrderList = useCallback (async () => {
@@ -55,7 +57,7 @@ const AdminRegularOrderList: React.FC = () => {
 
   return (
     <div>
-      <h1>정기주문관리</h1>
+      <h1>{t("AdminRegularOrder:List.Title")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <AdminRegularOrderListComponent regularOrders={regularOrders} changeSort={changeSort}/>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
