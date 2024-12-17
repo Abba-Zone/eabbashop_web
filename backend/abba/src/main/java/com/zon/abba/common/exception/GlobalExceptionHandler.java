@@ -53,6 +53,13 @@ public class GlobalExceptionHandler {
                 .body(ex.getMessage()); // 에러 메시지 반환
     }
 
+    @ExceptionHandler(NotMemberException.class)
+    public ResponseEntity<String> handleNotMemberException(NotMemberException ex){
+        return ResponseEntity
+                .status(206) // 204 탈퇴한 회원
+                .body(ex.getMessage()); // 에러 메시지 반환
+    }
+
     @ExceptionHandler(SignupException.class)
     public ResponseEntity<SignupErrorResponse> handleSignupException(SignupException ex){
         return ResponseEntity

@@ -149,4 +149,12 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PostMapping("/withdraw")
+    @Operation(summary = "회원 탈퇴", description = "회원 탈퇴 가능")
+    public ResponseEntity<Object> withdraw(){
+
+        ResponseBody response = memberService.withdraw();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
 }

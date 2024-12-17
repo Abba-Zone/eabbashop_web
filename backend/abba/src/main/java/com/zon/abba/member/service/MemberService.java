@@ -202,4 +202,23 @@ public class MemberService {
         return new EmailResponse(member.getEmail());
     }
 
+    @Transactional
+    public ResponseBody withdraw(){
+        logger.info("회원 정보를 탈퇴합니다.");
+
+        Member member = jwtTokenProvider.getCurrentEmail()
+                .flatMap(memberRepository::findByEmail)
+                .orElseThrow(() -> new NoMemberException("없는 회원 정보입니다."));
+
+        // 요청 정보 업데이트
+        member.setDeleteYN("Y");
+
+
+        memberRepository.save(member);
+
+        logger.info("회원 정보를 탈퇴 완료");
+
+        return new ResponseBody("성공했습니다.");
+    }
+
 }
