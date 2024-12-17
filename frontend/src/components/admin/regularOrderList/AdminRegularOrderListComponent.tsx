@@ -16,10 +16,10 @@ const AdminRegularOrderListComponent:React.FC<Props> = ({regularOrders, changeSo
     const result = 
     <tr>
       <th>선택</th>
-      <th onClick={()=>{changeSort('name')}}>상품명</th>
-      <th onClick={()=>{changeSort('phone')}}>주문자</th>
-      <th onClick={()=>{changeSort('orderID')}}>주기</th>
-      <th onClick={()=>{changeSort('status')}}>개수</th>
+      <th onClick={()=>{changeSort('productName')}}>상품명</th>
+      <th onClick={()=>{changeSort('memberName')}}>주문자</th>
+      <th onClick={()=>{changeSort('period')}}>주기</th>
+      <th onClick={()=>{changeSort('quantity')}}>개수</th>
       <th onClick={()=>{changeSort('createdDateTime')}}>주문일</th>
     </tr>;
     return result;

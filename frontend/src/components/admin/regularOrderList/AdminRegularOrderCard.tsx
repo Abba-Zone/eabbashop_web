@@ -6,7 +6,7 @@ interface Props{
 const AdminRegularOrderCard:React.FC<Props> = ({regularOrder}) => {
   const navigate = useNavigate();
   return (
-    <tr onClick={()=>{navigate(`/admin/regularorderdetail/${regularOrder.orderID}`)}}>
+    <tr onClick={()=>{navigate(`/admin/regular-order-detail/${regularOrder.orderID}`)}}>
       <td>선택</td>
       <td>{regularOrder.productName}</td>
       <td>{regularOrder.memberName}</td>
