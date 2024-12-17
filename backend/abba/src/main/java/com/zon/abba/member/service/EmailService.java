@@ -5,7 +5,7 @@ import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.member.entity.Member;
 import com.zon.abba.member.repository.MemberRepository;
-import com.zon.abba.member.request.EmailRequest;
+import com.zon.abba.member.request.email.EmailRequest;
 import com.zon.abba.member.response.EmailCodeResponse;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

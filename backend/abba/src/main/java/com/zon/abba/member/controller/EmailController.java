@@ -1,7 +1,7 @@
 package com.zon.abba.member.controller;
 
 import com.zon.abba.common.response.ResponseBody;
-import com.zon.abba.member.request.EmailRequest;
+import com.zon.abba.member.request.email.EmailRequest;
 import com.zon.abba.member.response.EmailCodeResponse;
 import com.zon.abba.member.service.EmailService;
 import io.swagger.v3.oas.annotations.Operation;
