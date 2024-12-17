@@ -2,8 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AdminRegularOrderAddressInfo, AdminRegularOrderInfo, AdminRegularOrderMemberInfo } from '../../components';
 import { getRegularOrderDetail_s } from '../../services/sale';
+import { useTranslation } from 'react-i18next';
 
 const AdminRegularOrderDetail: React.FC = () => {
+  const { t } = useTranslation();
   const [address, setAddress] = useState<regularOrderAddress | undefined>(undefined);
   const [regularOrder, setRegularOrder] = useState<regularOrderInfo | undefined>(undefined);
   const [member, setMember] = useState<regularOrderMember | undefined>(undefined);
@@ -17,7 +19,7 @@ const AdminRegularOrderDetail: React.FC = () => {
         setMember(regularOrderDetail.member);
       }
     } catch (error) {
-      console.error('Error fetching orederDetail:', error);
+      console.error('Error fetching regularOrederDetail:', error);
     }
   }, [params.id]);
 
@@ -28,14 +30,14 @@ const AdminRegularOrderDetail: React.FC = () => {
   if (!member || !address || !regularOrder) {
     return (
       <div>
-        <h1>주문 정보가 없습니다.</h1>
+        <h1>{t("AdminRegularOrder:Detail.Option.Attribute00")}</h1>
       </div>
     );
   }
 
   return (
     <div>
-      <h1>{regularOrder.orderID}</h1>
+      <h1>{t("AdminRegularOrder:Detail.Title")}({regularOrder.orderID})</h1>
       <AdminRegularOrderInfo order={regularOrder}/>
       <AdminRegularOrderMemberInfo member={member}/>
       <AdminRegularOrderAddressInfo adress={address}/>

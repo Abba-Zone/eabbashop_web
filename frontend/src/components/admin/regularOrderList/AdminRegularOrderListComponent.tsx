@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import ListCard from "./AdminRegularOrderCard";
 interface Props{
   regularOrders:regularOrder[],
@@ -5,6 +6,7 @@ interface Props{
 }
 
 const AdminRegularOrderListComponent:React.FC<Props> = ({regularOrders, changeSort}) => {
+  const { t } = useTranslation();
   const rendering = (): JSX.Element[] => {
       const result = [];
       for(let i = 0 ; i < regularOrders.length; i++){
@@ -16,11 +18,11 @@ const AdminRegularOrderListComponent:React.FC<Props> = ({regularOrders, changeSo
     const result = 
     <tr>
       <th>선택</th>
-      <th onClick={()=>{changeSort('productName')}}>상품명</th>
-      <th onClick={()=>{changeSort('memberName')}}>주문자</th>
-      <th onClick={()=>{changeSort('period')}}>주기</th>
-      <th onClick={()=>{changeSort('quantity')}}>개수</th>
-      <th onClick={()=>{changeSort('createdDateTime')}}>주문일</th>
+      <th onClick={()=>{changeSort('productName')}}>{t("AdminRegularOrder:List.Filter01")}</th>
+      <th onClick={()=>{changeSort('memberName')}}>{t("AdminRegularOrder:List.Filter02")}</th>
+      <th onClick={()=>{changeSort('period')}}>{t("AdminRegularOrder:List.Filter03")}</th>
+      <th onClick={()=>{changeSort('quantity')}}>{t("AdminRegularOrder:List.Filter04")}</th>
+      <th onClick={()=>{changeSort('createdDateTime')}}>{t("AdminRegularOrder:List.Filter05")}</th>
     </tr>;
     return result;
   }
