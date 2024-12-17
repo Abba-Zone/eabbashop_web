@@ -11,5 +11,24 @@
             "Attribute01": "On Hold",
             "Attribute02": "Completed"
         }
+    },
+    "Detail": {
+        "Option": {
+            "Attribute00": "No information available."
+        },
+        "Item01": {
+            "Attribute01": "Requester",
+            "Attribute02": "Phone Number",
+            "Attribute03": "Order Number",
+            "Attribute04": "Request Date",
+            "Attribute05": "Status",
+            "Attribute06": "Type",
+            "Attribute07": "Product Name",
+            "Attribute08": "Quantity",
+            "Option06": {
+                "Attribute01": "Takeback",
+                "Attribute02": "Refund"
+            }
+        }
     }
 }

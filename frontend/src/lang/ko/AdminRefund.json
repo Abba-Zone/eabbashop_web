@@ -11,5 +11,24 @@
             "Attribute01":"보류",
             "Attribute02":"완료"
         }
+    },
+    "Detail":{
+        "Option":{
+            "Attribute00":"정보가 없습니다."
+        },
+        "Item01" : {
+            "Attribute01" : "요청자",
+            "Attribute02" : "전화번호",
+            "Attribute03" : "주문번호",
+            "Attribute04" : "요청일자",
+            "Attribute05" : "상태",
+            "Attribute06" : "타입",
+            "Attribute07" : "상품명",
+            "Attribute08" : "수량",
+            "Option06":{
+                "Attribute01":"반품",
+                "Attribute02":"환불"
+            }
+        }
     }
 }
