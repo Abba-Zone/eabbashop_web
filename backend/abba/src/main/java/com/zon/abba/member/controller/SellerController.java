@@ -1,5 +1,6 @@
 package com.zon.abba.member.controller;
 
+import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.member.request.seller.SellerListRequest;
 import com.zon.abba.member.service.SellerService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,8 @@ public class SellerController {
     @GetMapping("/list")
     public ResponseEntity<Object> sellerList(SellerListRequest sellerListRequest){
 
+        ResponseListBody response = sellerService.sellerList(sellerListRequest);
 
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

@@ -17,7 +17,7 @@ public interface SellerRepository extends JpaRepository<Seller, String> {
 
     @Query(value = "SELECT s.SellerID AS sellerId, " +
             "       s.Name AS name, " +
-            "       CONCAT(m.FirstName, ' ', m.LastName) AS host, " +
+            "       CONCAT(m.LastName, ' ', m.FirstName) AS host, " +
             "       s.Phone AS phone, " +
             "       s.CreatedDateTime AS createdDateTime " +
             "FROM Seller s " +
@@ -25,7 +25,7 @@ public interface SellerRepository extends JpaRepository<Seller, String> {
             "WHERE (:filter IS NULL OR " +
             "       CASE " +
             "           WHEN :filter = 'name' THEN s.Name LIKE CONCAT('%', :filterValue, '%') " +
-            "           WHEN :filter = 'host' THEN CONCAT(m.FirstName, ' ', m.LastName) LIKE CONCAT('%', :filterValue, '%') " +
+            "           WHEN :filter = 'host' THEN CONCAT(m.LastName, ' ', m.FirstName) LIKE CONCAT('%', :filterValue, '%') " +
             "           WHEN :filter = 'phone' THEN s.Phone LIKE CONCAT('%', :filterValue, '%') " +
             "           WHEN :filter = 'createdDateTime' THEN DATE_FORMAT(s.CreatedDateTime, '%Y-%m-%d') = :filterValue " +
             "       END) ",
@@ -35,7 +35,7 @@ public interface SellerRepository extends JpaRepository<Seller, String> {
                     "WHERE (:filter IS NULL OR " +
                     "       CASE " +
                     "           WHEN :filter = 'name' THEN s.Name LIKE CONCAT('%', :filterValue, '%') " +
-                    "           WHEN :filter = 'host' THEN CONCAT(m.FirstName, ' ', m.LastName) LIKE CONCAT('%', :filterValue, '%') " +
+                    "           WHEN :filter = 'host' THEN CONCAT(m.LastName, ' ', m.FirstName) LIKE CONCAT('%', :filterValue, '%') " +
                     "           WHEN :filter = 'phone' THEN s.Phone LIKE CONCAT('%', :filterValue, '%') " +
                     "           WHEN :filter = 'createdDateTime' THEN DATE_FORMAT(s.CreatedDateTime, '%Y-%m-%d') = :filterValue " +
                     "       END) ",
