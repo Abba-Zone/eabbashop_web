@@ -1,4 +1,4 @@
-package com.zon.abba.member.request;
+package com.zon.abba.member.request.seller;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberListRequest {
+public class SellerListRequest {
     private Integer pageNo;
     private Integer pageSize;
     private String sort;

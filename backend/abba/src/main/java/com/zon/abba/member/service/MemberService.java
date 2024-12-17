@@ -4,6 +4,7 @@ import com.zon.abba.account.dto.WalletDto;
 import com.zon.abba.account.service.WalletService;
 import com.zon.abba.address.dto.AddressDto;
 import com.zon.abba.address.service.AddressService;
+import com.zon.abba.common.exception.InvalidMemberException;
 import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
@@ -13,11 +14,8 @@ import com.zon.abba.member.dto.SellerDto;
 import com.zon.abba.member.entity.Member;
 import com.zon.abba.member.repository.MemberRepository;
 import com.zon.abba.member.repository.RecommendedMemberRepository;
-import com.zon.abba.member.repository.SellerRepository;
-import com.zon.abba.member.request.MemberGradeRequest;
-import com.zon.abba.member.request.MemberInfoRequest;
-import com.zon.abba.member.request.MemberListRequest;
-import com.zon.abba.member.request.MemberRoleRequest;
+import com.zon.abba.member.request.member.*;
+import com.zon.abba.member.response.EmailResponse;
 import com.zon.abba.member.response.MemberDetailResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +27,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,7 +67,7 @@ public class MemberService {
 
     @Transactional
     public MemberDetailResponse detailMe(){
-        logger.info("내 정보를 받아옵니다");
+        logger.info("내 정보를 받아옵니다 : {}", jwtTokenProvider.getCurrentEmail().get());
 
         MemberInfoDto memberDto = jwtTokenProvider.getCurrentEmail().flatMap(memberRepository::findByEmail)
                 .map(MemberInfoDto::new)
@@ -168,6 +165,57 @@ public class MemberService {
         memberRepository.save(member);
 
         logger.info("유저 등급 업데이트 완료");
+        return new ResponseBody("성공했습니다.");
+    }
+
+    @Transactional
+    public ResponseBody updateMemberPassword(MemberPasswordRequest memberPasswordRequest){
+        logger.info("유저 비밀번호를 업데이트합니다.");
+
+        Member member = memberRepository.findByEmail(memberPasswordRequest.getEmail())
+                .orElseThrow(() -> new NoMemberException("없는 회원 정보입니다."));
+
+        // 요청 정보 업데이트
+        member.setGrade(memberPasswordRequest.getPassword());
+
+        memberRepository.save(member);
+
+        logger.info("유저 비밀번호 업데이트 완료");
+        return new ResponseBody("성공했습니다.");
+    }
+
+    @Transactional
+    public EmailResponse findEmail(FindEmailRequest findEmailRequest){
+        logger.info("유저 이메일을 찾습니다.");
+
+        Member member = memberRepository.findByPhone(findEmailRequest.getPhone())
+                .orElseThrow(() -> new NoMemberException("없는 회원 정보입니다."));
+
+        if(!member.getFirstName().equals(findEmailRequest.getFirstName()) ||
+        !member.getLastName().equals(findEmailRequest.getLastName())){
+            throw new InvalidMemberException("회원 정보가 일치하지 않습니다.");
+        }
+        // valid 체크가 끝난다면 회원 정보 리턴
+        logger.info("유저 이메일 찾기 완료");
+        return new EmailResponse(member.getEmail());
+    }
+
+    @Transactional
+    public ResponseBody withdraw(){
+        logger.info("회원 정보를 탈퇴합니다.");
+
+        Member member = jwtTokenProvider.getCurrentEmail()
+                .flatMap(memberRepository::findByEmail)
+                .orElseThrow(() -> new NoMemberException("없는 회원 정보입니다."));
+
+        // 요청 정보 업데이트
+        member.setDeleteYN("Y");
+
+
+        memberRepository.save(member);
+
+        logger.info("회원 정보를 탈퇴 완료");
+
         return new ResponseBody("성공했습니다.");
     }
 

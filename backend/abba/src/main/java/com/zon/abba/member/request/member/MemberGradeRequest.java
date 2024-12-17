@@ -1,4 +1,4 @@
-package com.zon.abba.member.request;
+package com.zon.abba.member.request.member;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -10,9 +10,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberRoleRequest {
+public class MemberGradeRequest {
     @JsonProperty("memberID")
     private String memberID;
-    @JsonProperty("role")
-    private String role;
+
+    @JsonProperty("grade")
+    private String grade;
 }

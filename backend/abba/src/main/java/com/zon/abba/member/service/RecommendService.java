@@ -1,23 +1,19 @@
 package com.zon.abba.member.service;
 
-import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.member.dto.RecommendDto;
-import com.zon.abba.member.entity.Member;
 import com.zon.abba.member.entity.RecommendedMember;
 import com.zon.abba.member.repository.MemberRepository;
 import com.zon.abba.member.repository.RecommendedMemberRepository;
-import com.zon.abba.member.request.AlterRecommendRequest;
-import com.zon.abba.member.request.EmailRequest;
-import com.zon.abba.member.request.ListRecommendRequest;
+import com.zon.abba.member.request.member.AlterRecommendRequest;
+import com.zon.abba.member.request.email.EmailRequest;
+import com.zon.abba.member.request.recommend.ListRecommendRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

@@ -5,8 +5,8 @@ import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.member.entity.Member;
 import com.zon.abba.member.repository.MemberRepository;
-import com.zon.abba.member.request.EmailRequest;
-import com.zon.abba.member.response.EmailResponse;
+import com.zon.abba.member.request.email.EmailRequest;
+import com.zon.abba.member.response.EmailCodeResponse;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
@@ -40,9 +40,9 @@ public class EmailService {
         else return new ResponseBody("성공했습니다.");
     }
 
-    public EmailResponse sendMail(EmailRequest emailRequest){
+    public EmailCodeResponse sendMail(EmailRequest emailRequest){
         String code = createCode();
-        EmailResponse emailResponse = new EmailResponse(code);
+        EmailCodeResponse emailCodeResponse = new EmailCodeResponse(code);
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
@@ -57,7 +57,7 @@ public class EmailService {
 
             logger.info("Success");
 
-            return emailResponse;
+            return emailCodeResponse;
 
         } catch (MessagingException e) {
             logger.info("fail");

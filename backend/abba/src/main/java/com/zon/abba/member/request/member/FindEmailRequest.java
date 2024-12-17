@@ -1,4 +1,4 @@
-package com.zon.abba.member.request;
+package com.zon.abba.member.request.member;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -10,13 +10,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberInfoRequest {
+public class FindEmailRequest {
+    @JsonProperty("phone")
+    private String phone;
     @JsonProperty("firstName")
     private String firstName;
     @JsonProperty("lastName")
     private String lastName;
-    @JsonProperty("phone")
-    private String phone;
-    @JsonProperty("password")
-    private String password;
 }

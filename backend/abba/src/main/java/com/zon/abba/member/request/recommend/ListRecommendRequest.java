@@ -1,4 +1,4 @@
-package com.zon.abba.member.response;
+package com.zon.abba.member.request.recommend;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmailResponse {
-    private String email;
+public class ListRecommendRequest {
+    private Integer pageNo;
+    private Integer pageSize;
 }

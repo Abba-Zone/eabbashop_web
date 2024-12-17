@@ -1,8 +1,8 @@
 package com.zon.abba.member.controller;
 
 import com.zon.abba.common.response.ResponseBody;
-import com.zon.abba.member.request.EmailRequest;
-import com.zon.abba.member.response.EmailResponse;
+import com.zon.abba.member.request.email.EmailRequest;
+import com.zon.abba.member.response.EmailCodeResponse;
 import com.zon.abba.member.service.EmailService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +24,10 @@ public class EmailController {
     @Operation(summary = "이메일 인증", description = "이메일 인증")
     public ResponseEntity<Object> authEmail(@RequestBody EmailRequest emailRequest){
         logger.info("email 인증을 시작합니다. {}", emailRequest.getEmail());
-        EmailResponse emailResponse = emailService.sendMail(emailRequest);
-        logger.info("email 인증 코드. {}", emailResponse.getCode());
+        EmailCodeResponse emailCodeResponse = emailService.sendMail(emailRequest);
+        logger.info("email 인증 코드. {}", emailCodeResponse.getCode());
 
-        return ResponseEntity.status(HttpStatus.OK).body(emailResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(emailCodeResponse);
     }
 
     @GetMapping("/check")

@@ -5,7 +5,7 @@ import com.zon.abba.member.dto.MemberDto;
 import com.zon.abba.member.dto.RecommendDto;
 import com.zon.abba.member.entity.Member;
 import com.zon.abba.member.repository.MemberRepository;
-import com.zon.abba.member.request.SignupRequest;
+import com.zon.abba.member.request.member.SignupRequest;
 import com.zon.abba.member.response.LoginResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

@@ -4,7 +4,8 @@ import com.zon.abba.common.redis.RedisService;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.member.dto.TokenDto;
-import com.zon.abba.member.request.*;
+import com.zon.abba.member.request.member.*;
+import com.zon.abba.member.response.EmailResponse;
 import com.zon.abba.member.response.LoginResponse;
 import com.zon.abba.member.response.MemberDetailResponse;
 import com.zon.abba.member.service.*;
@@ -107,6 +108,14 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PostMapping("/update/password")
+    @Operation(summary = "회원 비밀번호 수정", description = "비밀번호 수정 가능")
+    public ResponseEntity<Object> updateMemberPassword(@RequestBody MemberPasswordRequest memberPasswordRequest){
+
+        ResponseBody response = memberService.updateMemberPassword(memberPasswordRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
     @GetMapping("/detail")
     @Operation(summary = "회원 정보 조회", description = "회원 정보 상세 조회가 가능")
     public ResponseEntity<Object> detailMember(@PathVariable String memberID){
@@ -130,6 +139,22 @@ public class MemberController {
 
         ResponseListBody responseListBody = memberService.memberList(memberListRequest);
         return ResponseEntity.status(HttpStatus.OK).body(responseListBody);
+    }
+
+    @PostMapping("/find")
+    @Operation(summary = "아이디 찾기", description = "아이디(이메일) 찾기 가능")
+    public ResponseEntity<Object> findEmail(@RequestBody FindEmailRequest findEmailRequest){
+
+        EmailResponse response = memberService.findEmail(findEmailRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/withdraw")
+    @Operation(summary = "회원 탈퇴", description = "회원 탈퇴 가능")
+    public ResponseEntity<Object> withdraw(){
+
+        ResponseBody response = memberService.withdraw();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }

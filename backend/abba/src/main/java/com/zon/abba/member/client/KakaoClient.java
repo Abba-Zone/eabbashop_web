@@ -1,6 +1,6 @@
 package com.zon.abba.member.client;
 
-import com.zon.abba.member.request.KakaoAccessTokenRequest;
+import com.zon.abba.member.request.oauth.KakaoAccessTokenRequest;
 import com.zon.abba.member.response.KakaoAccessTokenResponse;
 import com.zon.abba.member.response.KakaoMemberInfoResponse;
 import lombok.RequiredArgsConstructor;

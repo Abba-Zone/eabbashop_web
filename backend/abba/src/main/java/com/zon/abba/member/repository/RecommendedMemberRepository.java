@@ -11,8 +11,8 @@ import java.util.Optional;
 @Repository
 public interface RecommendedMemberRepository extends JpaRepository<RecommendedMember, String> {
     @Query(value = "SELECT m.email " +
-            "FROM recommendedmember rm " +
-            "JOIN members m ON rm.referredID = m.member_id " +
+            "FROM RecommendedMembers rm " +
+            "JOIN Members m ON rm.referredID = m.MemberID " +
             "WHERE rm.referID = :memberId",
             nativeQuery = true)
     Optional<String> findEmailByReferIdNative(@Param("memberId") String memberId);
