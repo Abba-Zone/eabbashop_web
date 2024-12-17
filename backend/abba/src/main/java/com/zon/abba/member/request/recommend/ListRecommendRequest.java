@@ -1,4 +1,4 @@
-package com.zon.abba.member.request;
+package com.zon.abba.member.request.recommend;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,11 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberListRequest {
+public class ListRecommendRequest {
     private Integer pageNo;
     private Integer pageSize;
-    private String sort;
-    private String sortValue;
-    private String filter;
-    private String filterValue;
 }

@@ -1,6 +1,6 @@
 package com.zon.abba.member.client;
 
-import com.zon.abba.member.request.GoogleAccessTokenRequest;
+import com.zon.abba.member.request.oauth.GoogleAccessTokenRequest;
 import com.zon.abba.member.response.GoogleAccessTokenResponse;
 import com.zon.abba.member.response.GoogleMemberInfoResponse;
 import lombok.RequiredArgsConstructor;

@@ -10,7 +10,7 @@ import com.zon.abba.member.client.KakaoClient;
 import com.zon.abba.member.dto.MemberDto;
 import com.zon.abba.member.entity.Member;
 import com.zon.abba.member.repository.MemberRepository;
-import com.zon.abba.member.request.LoginRequest;
+import com.zon.abba.member.request.member.LoginRequest;
 import com.zon.abba.member.response.KakaoMemberInfoResponse;
 import com.zon.abba.member.response.GoogleMemberInfoResponse;
 import com.zon.abba.member.response.LoginResponse;
@@ -23,7 +23,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.LoginException;

@@ -4,7 +4,7 @@ import com.zon.abba.common.redis.RedisService;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.member.dto.TokenDto;
-import com.zon.abba.member.request.*;
+import com.zon.abba.member.request.member.*;
 import com.zon.abba.member.response.EmailResponse;
 import com.zon.abba.member.response.LoginResponse;
 import com.zon.abba.member.response.MemberDetailResponse;

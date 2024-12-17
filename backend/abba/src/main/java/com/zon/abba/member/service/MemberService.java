@@ -14,8 +14,7 @@ import com.zon.abba.member.dto.SellerDto;
 import com.zon.abba.member.entity.Member;
 import com.zon.abba.member.repository.MemberRepository;
 import com.zon.abba.member.repository.RecommendedMemberRepository;
-import com.zon.abba.member.repository.SellerRepository;
-import com.zon.abba.member.request.*;
+import com.zon.abba.member.request.member.*;
 import com.zon.abba.member.response.EmailResponse;
 import com.zon.abba.member.response.MemberDetailResponse;
 import jakarta.transaction.Transactional;
@@ -28,7 +27,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
