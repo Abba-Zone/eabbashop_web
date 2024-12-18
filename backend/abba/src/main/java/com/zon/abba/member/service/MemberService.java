@@ -69,7 +69,7 @@ public class MemberService {
 
     @Transactional
     public MemberDetailResponse detailMe(){
-        logger.info("내 정보를 받아옵니다 : {}", jwtTokenProvider.getCurrentEmail().get());
+        logger.info("내 정보를 받아옵니다 : {}", jwtTokenProvider.getCurrentEmail().orElse(null));
 
         MemberInfoDto memberDto = jwtTokenProvider.getCurrentEmail().flatMap(memberRepository::findByEmail)
                 .map(MemberInfoDto::new)

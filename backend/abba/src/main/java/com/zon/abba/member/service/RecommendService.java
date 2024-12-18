@@ -58,7 +58,7 @@ public class RecommendService {
     @Transactional
     public ResponseBody requestAlterRecommend(EmailRequest emailRequest){
 
-        logger.info("테이블 변경 요청을 넣습니다.");
+        logger.info("테이블 변경 요청을 넣습니다. 대상자 : {}", emailRequest.getEmail());
         // 테이블 추가시 변경 예정
         // 현재 유저 정보
         String referID = jwtTokenProvider.getCurrentEmail()
