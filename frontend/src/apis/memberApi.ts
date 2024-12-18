@@ -3,11 +3,11 @@ import { updateAccessTokenAxios } from "../handlers/tokenHandler"
 /* 데이터 불러오기*/
 export const login = (loginUser:emailAndPassword):boolean => {
     postData<loginSuccess>('/login', loginUser)
-        .then((data:APIResponse<loginSuccess>) => {
+        .then((data:loginSuccess) => {
             if(data == null) //로그인 실패
                 return false;
             else{ //로그인 성공
-                updateAccessTokenAxios(data.result.accessToken, data.result.refreshToken);
+                updateAccessTokenAxios(data.access_token, data.refresh_token);
                 return true;
             }
         }
@@ -16,12 +16,12 @@ export const login = (loginUser:emailAndPassword):boolean => {
 };
 
 export const signup = (signupUser:signupUser):boolean => {
-    postData<loginSuccess>('/signup', signupUser)
-        .then((data:APIResponse<loginSuccess>) => {
-            if(data == null) //회운가입 실패
+    postData<loginSuccess>('member/signup', signupUser)
+        .then((data:loginSuccess) => {
+            if(data == null) //회원가입 실패
                 return false;
-            else{ //회원가입 성공
-                updateAccessTokenAxios(data.result.accessToken, data.result.refreshToken);
+            else{ //회원가입 
+                updateAccessTokenAxios(data.access_token, data.refresh_token);
                 return true;
             }
         }
@@ -31,8 +31,8 @@ export const signup = (signupUser:signupUser):boolean => {
 
 export const checkEmail = (email:string):number => {
     postData<number>('/mailauth', email)
-        .then((data:APIResponse<number>) => {
-            return data.result;
+        .then((data:number) => {
+            return data;
         }
     );
     return 1;

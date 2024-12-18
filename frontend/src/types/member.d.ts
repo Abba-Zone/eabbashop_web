@@ -1,9 +1,10 @@
 /*필요한 객체 생성후 사용 */
 interface loginSuccess {
-	accessToken : string,
-	refreshToken : string,
+	access_token : string,
+	refresh_token : string,
 	firstName : string,
 	lastName : string,
+	role: string
 }
 
 interface emailAndPassword {
@@ -18,7 +19,9 @@ interface signupUser {
 	provider : string,
 	phone : string,
 	password : string,
-	recommend : string
+	recommend : string,
+	platform: string,
+	country: string
 }
 
 interface memberIDAndRole{
