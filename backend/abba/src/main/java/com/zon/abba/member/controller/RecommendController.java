@@ -27,6 +27,13 @@ public class RecommendController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PostMapping("/delete")
+    @Operation(summary = "추천인 삭제 요청", description = "내 상위 추천인을 삭제하고 싶을 때")
+    public ResponseEntity<Object> deleteRecommend(){
+        ResponseBody response = recommendService.deleteRecommend();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
     @PostMapping("/update")
     @Operation(summary = "추천인 변경 승인/거절", description = "추천인 변경 요청 처리 필요")
     public ResponseEntity<Object> updateRecommend(@RequestBody AlterRecommendRequest alterRecommendRequest){
