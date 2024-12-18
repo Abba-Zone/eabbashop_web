@@ -3,6 +3,7 @@ package com.zon.abba.member.controller;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.member.request.email.EmailRequest;
+import com.zon.abba.member.request.member.AlterRecommendRequest;
 import com.zon.abba.member.request.recommend.ListRecommendRequest;
 import com.zon.abba.member.service.RecommendService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,10 +29,10 @@ public class RecommendController {
 
     @PostMapping("/update")
     @Operation(summary = "추천인 변경 승인/거절", description = "추천인 변경 요청 처리 필요")
-    public ResponseEntity<Object> updateRecommend(@RequestBody EmailRequest emailRequest){
+    public ResponseEntity<Object> updateRecommend(@RequestBody AlterRecommendRequest alterRecommendRequest){
 
-
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody("성공했습니다."));
+        ResponseBody response = recommendService.alterRecommend(alterRecommendRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/list")
