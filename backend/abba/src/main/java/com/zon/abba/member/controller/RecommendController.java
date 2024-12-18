@@ -1,6 +1,7 @@
 package com.zon.abba.member.controller;
 
 import com.zon.abba.common.response.ResponseBody;
+import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.member.request.email.EmailRequest;
 import com.zon.abba.member.request.recommend.ListRecommendRequest;
 import com.zon.abba.member.service.RecommendService;
@@ -21,8 +22,8 @@ public class RecommendController {
     @Operation(summary = "추천인 변경 요청", description = "내 상위 추천인을 변경하고 싶을 때")
     public ResponseEntity<Object> requestRecommend(@RequestBody EmailRequest emailRequest){
 
-
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody("성공했습니다."));
+        ResponseBody response = recommendService.requestAlterRecommend(emailRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping("/update")
@@ -37,6 +38,8 @@ public class RecommendController {
     @Operation(summary = "추천인 변경 요청 리스트", description = "추천인 변경 요청 리스트 출력")
     public ResponseEntity<Object> listRecommend(ListRecommendRequest listRecommendRequest){
 
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseBody("성공했습니다."));
+        ResponseListBody response = recommendService.listRecommend(listRecommendRequest);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
