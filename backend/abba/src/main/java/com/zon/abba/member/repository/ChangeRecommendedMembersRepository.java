@@ -12,19 +12,23 @@ import java.util.Optional;
 public interface ChangeRecommendedMembersRepository extends JpaRepository<ChangeRecommendedMembers, Long> {
 
     @Query(value = "SELECT c.ChangeRecommendedMemberID AS changeRecommendedMemberId, " +
-            "       CONCAT(m1.FirstName, ' ', m1.LastName) AS referredName, " +
-            "       CONCAT(m2.FirstName, ' ', m2.LastName) AS referName, " +
+            "       CONCAT(m1.LastName, ' ', m1.FirstName) AS referredName, " +
+            "       CONCAT(m2.LastName, ' ', m2.FirstName) AS referName, " +
             "       c.Status AS status, " +
             "       c.CreatedDateTime AS createdDateTime " +
             "FROM ChangeRecommendedMembers c " +
-            "LEFT JOIN Members m1 ON c.NewReferredID = m1.MemberID " +
-            "LEFT JOIN Members m2 ON c.ReferID = m2.MemberID " +
-            "WHERE c.DeleteYN = 'N' AND c.ActiveYN = 'Y'",
+            "LEFT JOIN members m1 ON c.NewReferredID = m1.MemberID " +
+            "LEFT JOIN members m2 ON c.ReferID = m2.MemberID " +
+            "WHERE (:filter = 'referredName' AND CONCAT(m1.LastName, ' ', m1.FirstName) LIKE %:filterValue%) " +
+            "   OR (:filter = 'referName' AND CONCAT(m2.LastName, ' ', m2.FirstName) LIKE %:filterValue%) " +
+            "   OR (:filter = 'status' AND c.Status LIKE %:filterValue%)",
             countQuery = "SELECT COUNT(*) " +
                     "FROM ChangeRecommendedMembers c " +
-                    "LEFT JOIN Members m1 ON c.NewReferredID = m1.MemberID " +
-                    "LEFT JOIN Members m2 ON c.ReferID = m2.MemberID " +
-                    "WHERE c.DeleteYN = 'N' AND c.ActiveYN = 'Y'",
+                    "LEFT JOIN members m1 ON c.NewReferredID = m1.MemberID " +
+                    "LEFT JOIN members m2 ON c.ReferID = m2.MemberID " +
+                    "WHERE (:filter = 'referredName' AND CONCAT(m1.LastName, ' ', m1.FirstName) LIKE %:filterValue%) " +
+                    "   OR (:filter = 'referName' AND CONCAT(m2.LastName, ' ', m2.FirstName) LIKE %:filterValue%) " +
+                    "   OR (:filter = 'status' AND c.Status LIKE %:filterValue%)",
             nativeQuery = true)
     Page<ChangeRecommendedMembersList> findAllWithNames(Pageable pageable);
 
