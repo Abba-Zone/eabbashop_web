@@ -95,3 +95,7 @@ interface testuser {
     email:string,
     phone:string,
 }
+
+interface authEmail{
+	code : string,
+}

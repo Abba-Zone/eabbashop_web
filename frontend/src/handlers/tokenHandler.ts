@@ -15,3 +15,7 @@ export const updateAccessTokenAxios = (newAccessToken:string, newRefreshToken:st
     localStorage.setItem("access-token", newAccessToken);
     localStorage.setItem("refresh-token", newRefreshToken);
   }
+
+export const updateEmailAuthCode = (authCode:string) => {
+    localStorage.setItem("email-auth-code", authCode);
+}
