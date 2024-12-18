@@ -4,57 +4,57 @@ import { getNewConfig } from "../handlers/tokenHandler"
 
 // axios 인스턴스 생성
 const client: Axios = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: 'https://abbazon.global/api',
   headers: {
     'Content-Type': 'application/json',
   }
 })
 
 //TODO: GET 메서드
-export const getData = async <T>(url: string): Promise<APIResponse<T>> => {
+export const getData = async <T>(url: string): Promise<T> => {
   try {
     const newConfig: AxiosRequestConfig = getNewConfig();
-    const response = await client.get<APIResponse<T>>(url, newConfig);
+    const response = await client.get<T>(url, newConfig);
     return response.data;
   } catch (error) {
     handleError(error);
-    return null as unknown as APIResponse<T>;
+    return null as unknown as T;
   }
 };
 
 //TODO: POST 메서드
-export const postData = async <T>(url: string, data?: any): Promise<APIResponse<T>> => {
+export const postData = async <T>(url: string, data?: any): Promise<T> => {
   try {
     const newConfig: AxiosRequestConfig = getNewConfig();
-    const response = await client.post<APIResponse<T>>(url, data, newConfig);
+    const response = await client.post<T>(url, data, newConfig);
     return response.data;
   } catch (error) {    
     handleError(error);
-    return null as unknown as APIResponse<T>;
+    return null as unknown as T;
   }
 };
 
 //TODO: PUT 메서드
-export const putData = async <T>(url: string, data?: any): Promise<APIResponse<T>> => {
+export const putData = async <T>(url: string, data?: any): Promise<T> => {
   try {
     const newConfig: AxiosRequestConfig = getNewConfig();
-    const response = await client.put<APIResponse<T>>(url, data, newConfig);
+    const response = await client.put<T>(url, data, newConfig);
     return response.data;
   } catch (error) {
     handleError(error);
-    return null as unknown as APIResponse<T>;
+    return null as unknown as T;
   }
 };
 
 //TODO: Delete 메서드
-export const deleteData = async <T>(url: string): Promise<APIResponse<T>> => {
+export const deleteData = async <T>(url: string): Promise<T> => {
   try {
     const newConfig: AxiosRequestConfig = getNewConfig();
-    const response = await client.delete<APIResponse<T>>(url, newConfig);
+    const response = await client.delete<T>(url, newConfig);
     return response.data;
   } catch (error) {
     handleError(error);
-    return null as unknown as APIResponse<T>;
+    return null as unknown as T;
   }
 };
 
