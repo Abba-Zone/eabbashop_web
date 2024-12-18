@@ -1,5 +1,6 @@
 package com.zon.abba.member.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zon.abba.member.mapping.SellerList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,10 +14,12 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 public class SellerListDto {
+    @JsonProperty("sellerID")
     private String sellerID;
     private String name;
     private String host;
     private String phone;
+    @JsonProperty("createdDateTime")
     private LocalDateTime createdDateTime;
 
     public SellerListDto(SellerList sellerList){
