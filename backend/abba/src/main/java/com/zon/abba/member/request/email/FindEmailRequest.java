@@ -1,4 +1,4 @@
-package com.zon.abba.member.request.member;
+package com.zon.abba.member.request.email;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

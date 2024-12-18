@@ -2,6 +2,7 @@ package com.zon.abba.member.service;
 
 import com.zon.abba.common.exception.NoDataException;
 import com.zon.abba.common.exception.NoMemberException;
+import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.common.security.JwtTokenProvider;
@@ -15,9 +16,8 @@ import com.zon.abba.member.repository.ChangeRecommendedMembersRepository;
 import com.zon.abba.member.repository.MemberRepository;
 import com.zon.abba.member.repository.RecommendedMemberRepository;
 import com.zon.abba.member.repository.RecommendedMembersAlterLogRepository;
-import com.zon.abba.member.request.member.AlterRecommendRequest;
+import com.zon.abba.member.request.recommend.AlterRecommendRequest;
 import com.zon.abba.member.request.email.EmailRequest;
-import com.zon.abba.member.request.recommend.ListRecommendRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -118,7 +118,7 @@ public class RecommendService {
     }
 
     @Transactional
-    public ResponseListBody listRecommend(ListRecommendRequest listRecommendRequest){
+    public ResponseListBody listRecommend(RequestList listRecommendRequest){
 
         logger.info("변경 요청 리스트 반환");
 

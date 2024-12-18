@@ -1,10 +1,10 @@
 package com.zon.abba.member.controller;
 
+import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.member.request.email.EmailRequest;
-import com.zon.abba.member.request.member.AlterRecommendRequest;
-import com.zon.abba.member.request.recommend.ListRecommendRequest;
+import com.zon.abba.member.request.recommend.AlterRecommendRequest;
 import com.zon.abba.member.service.RecommendService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class RecommendController {
 
     @GetMapping("/list")
     @Operation(summary = "추천인 변경 요청 리스트", description = "추천인 변경 요청 리스트 출력")
-    public ResponseEntity<Object> listRecommend(ListRecommendRequest listRecommendRequest){
+    public ResponseEntity<Object> listRecommend(RequestList listRecommendRequest){
 
         ResponseListBody response = recommendService.listRecommend(listRecommendRequest);
 
