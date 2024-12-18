@@ -38,10 +38,10 @@ public class MemberService {
 
     private static final Logger logger = LoggerFactory.getLogger(MemberService.class);
     private final MemberRepository memberRepository;
-    private final RecommendedMemberRepository recommendedMemberRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final SellerService sellerService;
     private final WalletService walletService;
+    private final RecommendService recommendService;
     private final AddressService addressService;
 
     @Transactional
@@ -53,7 +53,7 @@ public class MemberService {
                 .orElseThrow(() -> new NoMemberException("없는 회원 정보입니다."));
 
         // recommend email 받아오기.
-        memberDto.setRecommend(recommendedMemberRepository.findEmailByReferIdNative(memberId).orElse(null));
+        memberDto.setRecommend(recommendService.getRecommend(memberId));
 
         // seller 정보 가져오기
         SellerDto sellerDto = sellerService.getSeller(memberId);
@@ -76,7 +76,7 @@ public class MemberService {
                 .orElseThrow(() -> new NoMemberException("없는 회원 정보입니다."));
 
         // recommend email 받아오기.
-        memberDto.setRecommend(recommendedMemberRepository.findEmailByReferIdNative(memberDto.getMemberID()).orElse(null));
+        memberDto.setRecommend(recommendService.getRecommend(memberDto.getMemberID()));
 
         // seller 정보 가져오기
         SellerDto sellerDto = sellerService.getSeller(memberDto.getMemberID());

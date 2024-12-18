@@ -8,6 +8,7 @@ import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.common.security.JwtTokenProvider;
 import com.zon.abba.member.dto.ChangeRecommendedMembersListDto;
 import com.zon.abba.member.dto.RecommendDto;
+import com.zon.abba.member.dto.SellerDto;
 import com.zon.abba.member.entity.ChangeRecommendedMembers;
 import com.zon.abba.member.entity.RecommendedMember;
 import com.zon.abba.member.entity.RecommendedMembersAlterLog;
@@ -40,6 +41,16 @@ public class RecommendService {
     private final RecommendedMemberRepository recommendedMemberRepository;
     private final ChangeRecommendedMembersRepository changeRecommendedMembersRepository;
     private final RecommendedMembersAlterLogRepository recommendedMembersAlterLogRepository;
+
+
+    @Transactional
+    public String getRecommend(String memberId){
+        logger.info("member에 맞는 추천인을 찾습니다.");
+
+        // memberId로 추천인 찾기
+        return recommendedMemberRepository.findEmailByReferIdNative(memberId)
+                .orElse(null);
+    }
 
     @Transactional
     public void registRecommend(RecommendDto recommendDto){
