@@ -14,7 +14,6 @@ import com.zon.abba.member.dto.MemberInfoDto;
 import com.zon.abba.member.dto.SellerDto;
 import com.zon.abba.member.entity.Member;
 import com.zon.abba.member.repository.MemberRepository;
-import com.zon.abba.member.repository.RecommendedMemberRepository;
 import com.zon.abba.member.request.email.FindEmailRequest;
 import com.zon.abba.member.request.member.*;
 import com.zon.abba.member.response.EmailResponse;
@@ -69,9 +68,9 @@ public class MemberService {
 
     @Transactional
     public MemberDetailResponse detailMe(){
-        logger.info("내 정보를 받아옵니다 : {}", jwtTokenProvider.getCurrentEmail().orElse(null));
+        logger.info("내 정보를 받아옵니다 : {}", jwtTokenProvider.getCurrentMemberId().orElse(null));
 
-        MemberInfoDto memberDto = jwtTokenProvider.getCurrentEmail().flatMap(memberRepository::findByEmail)
+        MemberInfoDto memberDto = jwtTokenProvider.getCurrentMemberId().flatMap(memberRepository::findOneByMemberId)
                 .map(MemberInfoDto::new)
                 .orElseThrow(() -> new NoMemberException("없는 회원 정보입니다."));
 
@@ -122,8 +121,8 @@ public class MemberService {
     public ResponseBody updateMemberInfo(MemberInfoRequest memberInfoRequest){
         logger.info("유저 정보를 업데이트합니다.");
 
-        Member member = jwtTokenProvider.getCurrentEmail()
-                .flatMap(memberRepository::findByEmail)
+        Member member = jwtTokenProvider.getCurrentMemberId()
+                .flatMap(memberRepository::findOneByMemberId)
                 .orElseThrow(() -> new NoMemberException("없는 회원 정보입니다."));
 
         // 요청 정보 업데이트
@@ -206,8 +205,8 @@ public class MemberService {
     public ResponseBody withdraw(){
         logger.info("회원 정보를 탈퇴합니다.");
 
-        Member member = jwtTokenProvider.getCurrentEmail()
-                .flatMap(memberRepository::findByEmail)
+        Member member = jwtTokenProvider.getCurrentMemberId()
+                .flatMap(memberRepository::findOneByMemberId)
                 .orElseThrow(() -> new NoMemberException("없는 회원 정보입니다."));
 
         // 요청 정보 업데이트

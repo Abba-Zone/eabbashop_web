@@ -109,10 +109,10 @@ public class JwtTokenProvider {
     // JWT에서 Authentication 객체 생성
     public Authentication getAuthentication(String token, Integer type) {
         // 토큰에서 사용자 이름 추출
-        String email = getEmailFromToken(token, type);
+        String memberId = getEmailFromToken(token, type);
 
         // 사용자 이름을 이용해 UserDetails 객체를 가져옴
-        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
 
         // UserDetails 객체를 기반으로 Authentication 객체 생성
         return new UsernamePasswordAuthenticationToken(userDetails, token, userDetails.getAuthorities());
@@ -177,7 +177,7 @@ public class JwtTokenProvider {
         return (expiration.getTime() - now);
     }
 
-    public Optional<String> getCurrentEmail() {
+    public Optional<String> getCurrentMemberId() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null) {
@@ -185,14 +185,14 @@ public class JwtTokenProvider {
             return Optional.empty();
         }
 
-        String email = null;
+        String memberId = null;
         if (authentication.getPrincipal() instanceof UserDetails springSecurityUser) {
-            email = springSecurityUser.getUsername();
+            memberId = springSecurityUser.getUsername();
         } else if (authentication.getPrincipal() instanceof String) {
-            email = (String) authentication.getPrincipal();
+            memberId = (String) authentication.getPrincipal();
         }
 
-        return Optional.ofNullable(email);
+        return Optional.ofNullable(memberId);
     }
 
 }

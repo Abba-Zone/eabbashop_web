@@ -8,7 +8,6 @@ import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.common.security.JwtTokenProvider;
 import com.zon.abba.member.dto.ChangeRecommendedMembersListDto;
 import com.zon.abba.member.dto.RecommendDto;
-import com.zon.abba.member.dto.SellerDto;
 import com.zon.abba.member.entity.ChangeRecommendedMembers;
 import com.zon.abba.member.entity.RecommendedMember;
 import com.zon.abba.member.entity.RecommendedMembersAlterLog;
@@ -72,16 +71,17 @@ public class RecommendService {
         logger.info("테이블 변경 요청을 넣습니다. 대상자 : {}", emailRequest.getEmail());
         // 테이블 추가시 변경 예정
         // 현재 유저 정보
-        String referID = jwtTokenProvider.getCurrentEmail()
-                .flatMap(memberRepository::findByEmail)
-                .orElseThrow(() -> new NoMemberException("없는 회원입니다."))
-                .getMemberId();
+        logger.info("referID를 가져옵니다.");
+        String referID = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
 
         // 바뀔 추천인 정보
+        logger.info("새로운 referredID를 가져옵니다.");
         String newReferredID = memberRepository.findByEmail(emailRequest.getEmail())
                 .orElseThrow(() -> new NoMemberException("없는 회원입니다."))
                 .getMemberId();
 
+        logger.info("변경 요청을 신청합니다.");
         ChangeRecommendedMembers changeRecommendedMembers = ChangeRecommendedMembers.builder()
                 .newReferredId(newReferredID)
                 .referId(referID)
@@ -89,6 +89,27 @@ public class RecommendService {
                 .build();
 
         changeRecommendedMembersRepository.save(changeRecommendedMembers);
+
+        return new ResponseBody("성공했습니다.");
+    }
+
+    @Transactional
+    public ResponseBody deleteRecommend(){
+        logger.info("상위 추천인을 삭제를 시작합니다.");
+
+        logger.info("상위 추천인 정보를 가져옵니다.");
+        RecommendedMember recommendedMember = jwtTokenProvider.getCurrentMemberId()
+                .flatMap(recommendedMemberRepository::findByReferId)
+                .orElseThrow(() -> new NoDataException("없는 데이터입니다."));
+
+        logger.info("추천인 삭제 로그를 기록합니다.");
+        // 로그는 기존의 내용을 그대로 넣고 변경 내용을 적용
+        RecommendedMembersAlterLog recommendedMembersAlterLog = new RecommendedMembersAlterLog(recommendedMember, "D");
+        recommendedMembersAlterLogRepository.save(recommendedMembersAlterLog);
+
+        logger.info("삭제 처리를 합니다.");
+        recommendedMember.setReferredId(null);
+        recommendedMemberRepository.save(recommendedMember);
 
         return new ResponseBody("성공했습니다.");
     }
@@ -106,23 +127,20 @@ public class RecommendService {
         RecommendedMember currentRecommendedMember = recommendedMemberRepository.findByReferId(changeRecommendedMember.getReferId())
                 .orElseThrow(() -> new NoDataException("없는 추천인 정보입니다."));
 
+        logger.info("추천인 변경 로그를 기록합니다.");
+        // 로그는 기존의 내용을 그대로 넣고 변경 내용을 적용
+        RecommendedMembersAlterLog recommendedMembersAlterLog = new RecommendedMembersAlterLog(currentRecommendedMember, "M");
+        recommendedMembersAlterLogRepository.save(recommendedMembersAlterLog);
+
         logger.info("현재 추천인 정보를 업데이트 합니다.");
         // 현재 추천인 정보 변경
         currentRecommendedMember.setReferredId(changeRecommendedMember.getNewReferredId());
         recommendedMemberRepository.save(currentRecommendedMember);
-        logger.info("현재 추천인 정보를 업데이트 완료.");
 
         logger.info("변경 신청 내역 정보를 업데이트 합니다.");
         // 변경 신청 내역 정보 변경
         changeRecommendedMember.setStatus(alterRecommendRequest.getStatus());
         changeRecommendedMembersRepository.save(changeRecommendedMember);
-        logger.info("변경 신청 내역 정보를 업데이트 완료.");
-
-        logger.info("추천인 변경 로그를 기록합니다.");
-        // 로그는 기존의 내용을 그대로 넣고 변경 내용을 적용
-        RecommendedMembersAlterLog recommendedMembersAlterLog = new RecommendedMembersAlterLog(currentRecommendedMember, "M");
-        recommendedMembersAlterLogRepository.save(recommendedMembersAlterLog);
-        logger.info("추천인 변경 로그를 기록 완료.");
 
         logger.info("변경 정보를 업데이트 완료.");
         // 이후 activeType이랑 activeDateTime 넣기
