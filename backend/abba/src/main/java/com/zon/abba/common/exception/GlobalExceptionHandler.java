@@ -74,5 +74,12 @@ public class GlobalExceptionHandler {
                 .body(ex.getMessage()); // 에러 메시지 반환
     }
 
+    @ExceptionHandler(NoDataException.class)
+    public ResponseEntity<String> handleNoDataException(NoDataException ex){
+        return ResponseEntity
+                .status(224) // 224 없는 정보
+                .body(ex.getMessage()); // 에러 메시지 반환
+    }
+
 
 }

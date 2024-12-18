@@ -7,6 +7,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AlterRecommendRequest {
-    private String alterRecommendId;
+    private Long changeRecommendedMemberID;
     private String status;
 }

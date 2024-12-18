@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
+
 public interface ChangeRecommendedMembersRepository extends JpaRepository<ChangeRecommendedMembers, Long> {
 
     @Query(value = "SELECT c.ChangeRecommendedMemberID AS changeRecommendedMemberId, " +
@@ -25,4 +27,6 @@ public interface ChangeRecommendedMembersRepository extends JpaRepository<Change
                     "WHERE c.DeleteYN = 'N' AND c.ActiveYN = 'Y'",
             nativeQuery = true)
     Page<ChangeRecommendedMembersList> findAllWithNames(Pageable pageable);
+
+    Optional<ChangeRecommendedMembers> findByChangeRecommendedMemberId(Long changeRecommendedMemberId);
 }
