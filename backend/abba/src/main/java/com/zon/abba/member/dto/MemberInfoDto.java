@@ -1,5 +1,6 @@
 package com.zon.abba.member.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zon.abba.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberInfoDto {
+    @JsonProperty("memberID")
     private String memberID;
     private String email;
     private String name;
@@ -22,7 +24,9 @@ public class MemberInfoDto {
     private String phone;
     private String country;
     private String platform;
+    @JsonProperty("createdDateTime")
     private LocalDateTime createdDateTime;
+    @JsonProperty("lastLoginTime")
     private LocalDateTime lastLoginTime;
 
     public MemberInfoDto(Member member){

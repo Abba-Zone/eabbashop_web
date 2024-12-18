@@ -1,5 +1,6 @@
 package com.zon.abba.member.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zon.abba.account.dto.WalletDto;
 import com.zon.abba.address.dto.AddressDto;
 import com.zon.abba.address.entity.Address;
@@ -17,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberDetailResponse {
+    @JsonProperty("memberInfo")
     private MemberInfoDto memberInfo;
     private SellerDto seller;
     private WalletDto wallet;

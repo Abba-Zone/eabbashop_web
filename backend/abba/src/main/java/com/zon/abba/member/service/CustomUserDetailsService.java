@@ -27,7 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 
             if(member.get().getDeleteYN().equals("Y")) throw new NotMemberException("탈퇴한 회원입니다.");
 
-            return org.springframework.security.core.userdetails.User.withUsername(username)
+            return org.springframework.security.core.userdetails.User.withUsername(member.get().getMemberId())
                     .password(passwordEncoder.encode(member.get().getPassword()))
                     .roles(member.get().getRole())
                     .build();

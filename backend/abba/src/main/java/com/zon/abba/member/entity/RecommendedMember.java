@@ -21,7 +21,7 @@ public class RecommendedMember {
     @Column(name = "RecommendedMemberID", columnDefinition = "CHAR(36)", updatable = false, nullable = false)
     private String recommendedMemberId;
 
-    @Column(name = "ReferredID", columnDefinition = "CHAR(36)", nullable = false)
+    @Column(name = "ReferredID", columnDefinition = "CHAR(36)")
     private String referredId;
 
     @Column(name = "ReferID", columnDefinition = "CHAR(36)", nullable = false)

@@ -17,9 +17,14 @@ public class RedisService {
     private Long JWT_REFRESH_EXPIRATION;
 
 
-    public void save(String token, Object email) {
+    public void save(String token, Object memberId) {
         ValueOperations<String, Object> values = redisTemplate.opsForValue();
-        values.set(token, email, Duration.ofMillis(JWT_REFRESH_EXPIRATION));  // 1시간 뒤 메모리에서 삭제된다.
+        values.set(token, memberId, Duration.ofMillis(JWT_REFRESH_EXPIRATION));  // 1시간 뒤 메모리에서 삭제된다.
+    }
+
+    public void saveCode(String code, Object email) {
+        ValueOperations<String, Object> values = redisTemplate.opsForValue();
+        values.set(code, email, Duration.ofMillis(300_000));  // 5분 뒤 삭제
     }
 
     public void setLogoutValues(String token, Long validExpiration){
@@ -27,11 +32,11 @@ public class RedisService {
         values.set(token, "logout", Duration.ofMillis(validExpiration));
     }
 
-    public Object get(String token) {
-        return redisTemplate.opsForValue().get(token);
+    public Object get(String key) {
+        return redisTemplate.opsForValue().get(key);
     }
 
-    public void delete(String token) {
-        redisTemplate.delete(token);
+    public void delete(String key) {
+        redisTemplate.delete(key);
     }
 }

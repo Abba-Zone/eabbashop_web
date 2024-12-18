@@ -28,9 +28,9 @@ public class ReissueService {
         String accessToken = tokenProvider.createAccessToken(authentication);
         String newRefreshToken = tokenProvider.createRefreshToken(authentication);
 
-        String email = tokenProvider.getCurrentEmail().orElseThrow();
+        String memberId = tokenProvider.getCurrentMemberId().orElseThrow();
 
-        redisService.save(newRefreshToken, email);
+        redisService.save(newRefreshToken, memberId);
 
         // 새로운 토큰 정보 저장
         token.setAccessToken(accessToken);

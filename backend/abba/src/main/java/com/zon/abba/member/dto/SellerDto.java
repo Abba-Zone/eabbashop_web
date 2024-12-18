@@ -1,5 +1,6 @@
 package com.zon.abba.member.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zon.abba.member.entity.Seller;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,10 +12,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SellerDto {
+    @JsonProperty("sellerID")
     private String sellerID;
     private String name;
+    @JsonProperty("zipCode")
     private String zipCode;
+    @JsonProperty("baseAddress")
     private String baseAddress;
+    @JsonProperty("detailAddress")
     private String detailAddress;
     private String phone;
 

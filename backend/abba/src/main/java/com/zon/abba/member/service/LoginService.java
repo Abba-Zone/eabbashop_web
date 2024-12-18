@@ -46,7 +46,7 @@ public class LoginService {
         // 사용자 인증
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        memberDto.getEmail(),
+                        memberDto.getMemberId(),
                         memberDto.getPassword()
                 )
         );
@@ -59,7 +59,7 @@ public class LoginService {
         String refreshToken = tokenProvider.createRefreshToken(authentication);
 
         // 레디스에 리프레쉬 토큰 저장 과정 추가 예정
-        redisService.save(refreshToken, memberDto.getEmail());
+        redisService.save(refreshToken, memberDto.getMemberId());
 
         return new LoginResponse(
                 accessToken,

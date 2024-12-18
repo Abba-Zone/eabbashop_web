@@ -79,6 +79,14 @@ public class GlobalExceptionHandler {
                 .body(ex.getMessage()); // 에러 메시지 반환
     }
 
+    @ExceptionHandler(NotCodeException.class)
+    public ResponseEntity<String> handleNotCodeException(NotCodeException ex){
+        logger.info("NotCodeException 발생 : 216");
+        return ResponseEntity
+                .status(216) // 206 코드가 맞지 않습니다.
+                .body(ex.getMessage()); // 에러 메시지 반환
+    }
+
     @ExceptionHandler(NoSellerException.class)
     public ResponseEntity<String> handleNoSellerException(NoSellerException ex){
         logger.info("NoSellerException 발생 : 214");

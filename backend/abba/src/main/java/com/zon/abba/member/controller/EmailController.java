@@ -1,6 +1,7 @@
 package com.zon.abba.member.controller;
 
 import com.zon.abba.common.response.ResponseBody;
+import com.zon.abba.member.request.email.CodeRequest;
 import com.zon.abba.member.request.email.EmailRequest;
 import com.zon.abba.member.response.EmailCodeResponse;
 import com.zon.abba.member.service.EmailService;
@@ -28,6 +29,15 @@ public class EmailController {
         logger.info("email 인증 코드. {}", emailCodeResponse.getCode());
 
         return ResponseEntity.status(HttpStatus.OK).body(emailCodeResponse);
+    }
+
+    @GetMapping("/code")
+    @Operation(summary = "이메일 코드 인증", description = "이메일 코드 검증")
+    public ResponseEntity<Object> validateCode(CodeRequest codeRequest){
+
+        ResponseBody response = emailService.validateCode(codeRequest);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/check")

@@ -2,9 +2,12 @@ package com.zon.abba.member.service;
 
 import com.zon.abba.common.code.MailTitleCode;
 import com.zon.abba.common.exception.NoMemberException;
+import com.zon.abba.common.exception.NotCodeException;
+import com.zon.abba.common.redis.RedisService;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.member.entity.Member;
 import com.zon.abba.member.repository.MemberRepository;
+import com.zon.abba.member.request.email.CodeRequest;
 import com.zon.abba.member.request.email.EmailRequest;
 import com.zon.abba.member.response.EmailCodeResponse;
 import jakarta.mail.MessagingException;
@@ -30,6 +33,7 @@ public class EmailService {
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
     private final MemberRepository memberRepository;
+    private final RedisService redisService;
 
     @Transactional
     public ResponseBody checkEmail(EmailRequest emailRequest){
@@ -40,6 +44,21 @@ public class EmailService {
         else return new ResponseBody("성공했습니다.");
     }
 
+    @Transactional
+    public ResponseBody validateCode(CodeRequest codeRequest){
+        logger.info("code를 검증합니다. {}", codeRequest.getCode());
+        Object email = redisService.get(codeRequest.getCode());
+        if(email == null){
+            throw new NotCodeException("유효하지 않은 코드입니다.");
+        }
+        // 코드가 통과되면 redis에서 코드 삭제
+        redisService.delete(codeRequest.getCode());
+
+        logger.info("code를 검증 완료");
+        return new ResponseBody("성공했습니다.");
+    }
+
+    @Transactional
     public EmailCodeResponse sendMail(EmailRequest emailRequest){
         String code = createCode();
         EmailCodeResponse emailCodeResponse = new EmailCodeResponse(code);
@@ -47,6 +66,9 @@ public class EmailService {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
         MailTitleCode mailTitleCode = MailTitleCode.EMAIL;
+
+        // 5분 동안 redis에 저장
+        redisService.save(code, emailRequest.getEmail());
 
         try {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");

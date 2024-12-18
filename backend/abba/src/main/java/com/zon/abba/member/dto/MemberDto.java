@@ -1,5 +1,6 @@
 package com.zon.abba.member.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zon.abba.member.entity.Member;
 import lombok.*;
 
