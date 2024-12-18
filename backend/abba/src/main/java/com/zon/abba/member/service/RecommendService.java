@@ -133,7 +133,10 @@ public class RecommendService {
         );
 
         // page 반환
-        Page<ChangeRecommendedMembersList> page = changeRecommendedMembersRepository.findAllWithNames(pageable);
+        Page<ChangeRecommendedMembersList> page = changeRecommendedMembersRepository.findAllWithNames(
+                listRecommendRequest.getFilter(),
+                listRecommendRequest.getFilterValue(),
+                pageable);
 
         // list 반환
         List<ChangeRecommendedMembersListDto> list = page.stream()
