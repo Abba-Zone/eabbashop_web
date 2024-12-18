@@ -1,5 +1,5 @@
 import { getData, postData, getTestData} from './mainApi'
-import { updateAccessTokenAxios } from "../handlers/tokenHandler"
+import { updateAccessTokenAxios, updateEmailAuthCode } from "../handlers/tokenHandler"
 /* 데이터 불러오기*/
 export const login = (loginUser:emailAndPassword):boolean => {
     postData<loginSuccess>('/login', loginUser)
@@ -29,14 +29,25 @@ export const signup = (signupUser:signupUser):boolean => {
     return false;
 };
 
-export const checkEmail = (email:string):number => {
-    postData<number>('/mailauth', email)
-        .then((data:number) => {
+export const isEmailValid = (email:string):boolean => {
+    postData<boolean>('member/email/check', email)
+        .then((data:boolean) => {
             return data;
         }
     );
-    return 1;
+    return false;
 }
+
+export const authEmail = async (email: string): Promise<string> => {
+    try {
+        const data:authEmail = await postData<authEmail>('member/email/auth', email);
+        updateEmailAuthCode(data.code);
+        return data.code; // 성공적으로 인증번호가 발송되면 반환
+    } catch (error) {
+        console.error('Email authentication error:', error);
+        return ''; // 실패 시 빈 문자열 반환
+    }
+};
 
 export const changeRole = (memberidAndRole:memberIDAndRole) => {
     postData('/role/update', memberidAndRole).then(() => {});
@@ -125,7 +136,7 @@ export const getMemberDetail = (memberID:string):memberDetailInfo => {
                 host : "정경훈5",
                 phone : "010-1234-56785",
                 name : "우리집5",
-                comment : "문앞에두지말고경비원옆에두지말고널판5"
+                comment : "문앞에두지말고경비원옆��두지말고널판5"
           }
         ],
         // seller:null as unknown as seller
