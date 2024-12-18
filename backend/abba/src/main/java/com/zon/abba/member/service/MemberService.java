@@ -6,6 +6,7 @@ import com.zon.abba.address.dto.AddressDto;
 import com.zon.abba.address.service.AddressService;
 import com.zon.abba.common.exception.InvalidMemberException;
 import com.zon.abba.common.exception.NoMemberException;
+import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.common.security.JwtTokenProvider;
@@ -14,6 +15,7 @@ import com.zon.abba.member.dto.SellerDto;
 import com.zon.abba.member.entity.Member;
 import com.zon.abba.member.repository.MemberRepository;
 import com.zon.abba.member.repository.RecommendedMemberRepository;
+import com.zon.abba.member.request.email.FindEmailRequest;
 import com.zon.abba.member.request.member.*;
 import com.zon.abba.member.response.EmailResponse;
 import com.zon.abba.member.response.MemberDetailResponse;
@@ -67,7 +69,7 @@ public class MemberService {
 
     @Transactional
     public MemberDetailResponse detailMe(){
-        logger.info("내 정보를 받아옵니다 : {}", jwtTokenProvider.getCurrentEmail().get());
+        logger.info("내 정보를 받아옵니다 : {}", jwtTokenProvider.getCurrentEmail().orElse(null));
 
         MemberInfoDto memberDto = jwtTokenProvider.getCurrentEmail().flatMap(memberRepository::findByEmail)
                 .map(MemberInfoDto::new)
@@ -89,7 +91,7 @@ public class MemberService {
     }
 
     @Transactional
-    public ResponseListBody memberList(MemberListRequest memberListRequest){
+    public ResponseListBody memberList(RequestList memberListRequest){
         logger.info("member list를 조회합니다.");
         // Pageable 객체 생성
         Pageable pageable = PageRequest.of(

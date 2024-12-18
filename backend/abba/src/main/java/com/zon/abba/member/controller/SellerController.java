@@ -1,12 +1,11 @@
 package com.zon.abba.member.controller;
 
+import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.member.request.seller.SellerDetailRequest;
-import com.zon.abba.member.request.seller.SellerListRequest;
 import com.zon.abba.member.response.SellerDetailResponse;
 import com.zon.abba.member.service.SellerService;
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +24,7 @@ public class SellerController {
 
     @GetMapping("/list")
     @Operation(summary = "가게 리스트", description = "가게 리스트 확인")
-    public ResponseEntity<Object> sellerList(SellerListRequest sellerListRequest){
+    public ResponseEntity<Object> sellerList(RequestList sellerListRequest){
 
         ResponseListBody response = sellerService.sellerList(sellerListRequest);
 

@@ -1,15 +1,13 @@
 package com.zon.abba.member.service;
 
-import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.exception.NoSellerException;
+import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.member.dto.SellerDto;
 import com.zon.abba.member.dto.SellerListDto;
-import com.zon.abba.member.entity.Seller;
 import com.zon.abba.member.mapping.SellerList;
 import com.zon.abba.member.repository.SellerRepository;
 import com.zon.abba.member.request.seller.SellerDetailRequest;
-import com.zon.abba.member.request.seller.SellerListRequest;
 import com.zon.abba.member.response.SellerDetailResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +20,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +38,7 @@ public class SellerService {
     }
 
     @Transactional
-    public ResponseListBody sellerList(SellerListRequest sellerListRequest) {
+    public ResponseListBody sellerList(RequestList sellerListRequest) {
         logger.info("seller list 반환 시작");
 
         Pageable pageable = PageRequest.of(

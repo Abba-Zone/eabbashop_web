@@ -16,4 +16,6 @@ public interface RecommendedMemberRepository extends JpaRepository<RecommendedMe
             "WHERE rm.referID = :memberId",
             nativeQuery = true)
     Optional<String> findEmailByReferIdNative(@Param("memberId") String memberId);
+
+    Optional<RecommendedMember> findByReferId(String referId);
 }
