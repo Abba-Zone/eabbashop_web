@@ -24,7 +24,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         logger.info("접근중인 url: " + requestURI);
         // 인증이 필요 없는 경로는 필터를 통과
-        if (requestURI.startsWith("/api/member/") ||
+        if (requestURI.startsWith("/api/member/oauth/") ||
+                requestURI.startsWith("/api/member/login/") ||
+                requestURI.startsWith("/api/member/signup/") ||
+                requestURI.startsWith("/api/member/email/") ||
+                requestURI.startsWith("/api/member/find/") ||
+                requestURI.startsWith("/api/member/update/password/") ||
                 requestURI.startsWith("/api/swagger-ui/") ||
                 requestURI.startsWith("/api/v3/") ) {
             filterChain.doFilter(request, response);
