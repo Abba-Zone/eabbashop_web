@@ -31,9 +31,9 @@ public class EmailController {
         return ResponseEntity.status(HttpStatus.OK).body(emailCodeResponse);
     }
 
-    @GetMapping("/code")
+    @PostMapping("/code")
     @Operation(summary = "이메일 코드 인증", description = "이메일 코드 검증")
-    public ResponseEntity<Object> validateCode(CodeRequest codeRequest){
+    public ResponseEntity<Object> validateCode(@RequestBody CodeRequest codeRequest){
 
         ResponseBody response = emailService.validateCode(codeRequest);
 

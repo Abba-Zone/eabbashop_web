@@ -11,5 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CodeRequest {
+    @JsonProperty("code")
     private String code;
 }
