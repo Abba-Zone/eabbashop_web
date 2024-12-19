@@ -1,5 +1,5 @@
 import { getData, postData, getTestData} from './mainApi'
-import { updateAccessTokenAxios, updateEmailAuthCode } from "../handlers/tokenHandler"
+import { updateAccessTokenAxios } from "../handlers/tokenHandler"
 /* 데이터 불러오기*/
 export const login = (loginUser:emailAndPassword):boolean => {
     postData<loginSuccess>('/login', loginUser)
@@ -15,18 +15,19 @@ export const login = (loginUser:emailAndPassword):boolean => {
     return false;
 };
 
-export const signup = (signupUser:signupUser):boolean => {
-    postData<loginSuccess>('member/signup', signupUser)
-        .then((data:loginSuccess) => {
-            if(data == null) //회원가입 실패
-                return false;
-            else{ //회원가입 
-                updateAccessTokenAxios(data.access_token, data.refresh_token);
-                return true;
-            }
-        }
-    );
+export const signup = async (signupUser: signupUser): Promise<boolean> => {
+  try {
+    const data = await postData<loginSuccess>('member/signup', signupUser);
+    if (data) {
+      console.log(data);
+      updateAccessTokenAxios(data.access_token, data.refresh_token);
+      return true;
+    }
     return false;
+  } catch (error) {
+    console.error('Signup error:', error);
+    return false;
+  }
 };
 
 export const isEmailValid = (email:string):boolean => {
@@ -41,12 +42,31 @@ export const isEmailValid = (email:string):boolean => {
 export const authEmail = async (email: string): Promise<string> => {
     try {
         const data:authEmail = await postData<authEmail>('member/email/auth', email);
-        updateEmailAuthCode(data.code);
         return data.code; // 성공적으로 인증번호가 발송되면 반환
     } catch (error) {
         console.error('Email authentication error:', error);
         return ''; // 실패 시 빈 문자열 반환
     }
+};
+
+export const checkAuthCode = async (email: string, code: string): Promise<boolean> => {
+  try {
+    const response = await postData<boolean>('member/email/code', { email, code });
+    return response; // 서버로부터의 응답을 반환
+  } catch (error) {
+    console.error('Error verifying auth code:', error);
+    return false; // 오류 발생 시 false 반환
+  }
+};
+
+export const checkRecommendEmail = async (email: string): Promise<string> => {
+  try {
+    const response = await getData<{ message: string }>(`/member/email/check?email=${email}`);
+    return response.message; // 서버로부터의 메시지를 반환
+  } catch (error) {
+    console.error('Error checking recommend email:', error);
+    return '유효하지 않은 추천인 이름입니다.'; // 오류 발생 시 메시지 반환
+  }
 };
 
 export const changeRole = (memberidAndRole:memberIDAndRole) => {
@@ -136,7 +156,7 @@ export const getMemberDetail = (memberID:string):memberDetailInfo => {
                 host : "정경훈5",
                 phone : "010-1234-56785",
                 name : "우리집5",
-                comment : "문앞에두지말고경비원옆��두지말고널판5"
+                comment : "문앞에두지말고경비원옆에두지말고널판5"
           }
         ],
         // seller:null as unknown as seller
