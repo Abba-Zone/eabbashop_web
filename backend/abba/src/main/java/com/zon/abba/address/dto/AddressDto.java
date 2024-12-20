@@ -1,5 +1,6 @@
 package com.zon.abba.address.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zon.abba.address.entity.Address;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,16 +12,27 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddressDto {
+    @JsonProperty("addressID")
     private String addressID;
+    @JsonProperty("country")
     private String country;
+    @JsonProperty("zipCode")
     private String zipCode;
+    @JsonProperty("baseAddress")
     private String baseAddress;
+    @JsonProperty("detailAddress")
     private String detailAddress;
+    @JsonProperty("isMain")
     private Boolean isMain;
+    @JsonProperty("isBill")
     private Boolean isBill;
+    @JsonProperty("host")
     private String host;
+    @JsonProperty("phone")
     private String phone;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("comment")
     private String comment;
 
     public AddressDto(Address address){
@@ -29,9 +41,9 @@ public class AddressDto {
         this.zipCode = address.getZipCode();
         this.baseAddress = address.getBaseAddress();
         this.detailAddress = address.getDetailAddress();
-        this.isMain = address.getMainAddress() == 1;
-        this.isBill = address.getBillAddress() == 1;
-        this.host = address.getName();
+        this.isMain = address.getMainAddress();
+        this.isBill = address.getBillAddress();
+        this.host = address.getLastName() + " " + address.getFirstName();
         this.phone = address.getPhone();
         this.name = address.getAddressName();
         this.comment = address.getComment();
