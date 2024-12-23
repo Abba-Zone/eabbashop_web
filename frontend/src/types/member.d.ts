@@ -1,7 +1,7 @@
 /*필요한 객체 생성후 사용 */
 interface loginSuccess {
-	access_token : string,
-	refresh_token : string,
+	accessToken : string,
+	refreshToken : string,
 	firstName : string,
 	lastName : string,
 	role: string
