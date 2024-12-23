@@ -1,19 +1,21 @@
 import { getData, postData, getTestData} from './mainApi'
-import { updateAccessTokenAxios } from "../handlers/tokenHandler"
+import { updateAccessTokenAxios, updateUserInfo } from "../handlers/tokenHandler"
 import { AxiosResponse } from 'axios';
-import { convertToObject } from 'typescript';
+
 /* 데이터 불러오기*/
-export const login = async (loginUser: emailAndPassword): Promise<boolean> => {
+export const login = async (loginUser: emailAndPassword): Promise<loginSuccess> => {
   try {
     const data: AxiosResponse<loginSuccess> = await postData<loginSuccess>('member/login', loginUser);
-    if (data) { // 로그인 성공
-      updateAccessTokenAxios(data.data.access_token, data.data.refresh_token);
-      return true;
+    if (data.status === 200) { 
+      alert('로그인 성공');
+      updateAccessTokenAxios(data.data.accessToken, data.data.refreshToken);
+      updateUserInfo(data.data.firstName, data.data.lastName, data.data.role);
+      return data.data; 
     }
-    return false; // 로그인 실패
+    return null as unknown as loginSuccess; // 로그인 실패
   } catch (error) {
     console.error('Login error:', error);
-    return false; // 오류 발생 시 false 반환
+    return null as unknown as loginSuccess; // 오류 발생 시 false 반환
   }
 };
 
@@ -21,7 +23,7 @@ export const signup = async (signupUser: signupUser): Promise<boolean> => {
   try {
     const data = await postData<loginSuccess>('member/signup', signupUser);
     if (data) {
-      updateAccessTokenAxios(data.data.access_token, data.data.refresh_token);
+      updateAccessTokenAxios(data.data.accessToken, data.data.refreshToken);
       return true;
     }
     return false;

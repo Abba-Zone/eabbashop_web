@@ -14,9 +14,9 @@ const Login:React.FC = () => {
       setInputPw(event.target.value)
   }
 
-  const onClickLogin = () => {
+  const onClickLogin = async () => {
     const loginUser = {email : inputId, password : inputPw}
-    const loginResult = login_s(loginUser);
+    const loginResult = await login_s(loginUser);
     if (loginResult){
       navigate("/");
     } else {
