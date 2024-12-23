@@ -7,11 +7,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AddressRepository extends JpaRepository<Address, String> {
     @Query(value = "SELECT * FROM address " +
-            "WHERE MemberID = :memberId " +
+            "WHERE MemberID = :memberId AND DeleteYN = 'N' " +
             "ORDER BY " +
             "CASE " +
             "   WHEN MainAddress = 1 AND BillAddress = 1 THEN 1 " + // 둘 다 1인 경우
@@ -22,7 +23,9 @@ public interface AddressRepository extends JpaRepository<Address, String> {
             "CASE " +
             "   WHEN MainAddress != 1 AND BillAddress != 1 THEN CreatedDateTime " +
             "   ELSE NULL " +                                    // 우선순위 4에만 시간 순 정렬
-            "END ASC",
+            "END ASC ",
             nativeQuery = true)
     List<Address> findSortedAddressesByMemberId(@Param("memberId") String memberId);
+
+    Optional<Address> findByAddressId(String addressId);
 }

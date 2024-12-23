@@ -100,5 +100,13 @@ public class GlobalExceptionHandler {
                 .body(ex.getMessage()); // 에러 메시지 반환
     }
 
+    @ExceptionHandler(TooManyException.class)
+    public ResponseEntity<String> handleTooManyException(TooManyException ex){
+        logger.info("TooManyException 발생 : 230");
+        return ResponseEntity
+                .status(230) // 230 먼가 많은 정보
+                .body(ex.getMessage()); // 에러 메시지 반환
+    }
+
 
 }

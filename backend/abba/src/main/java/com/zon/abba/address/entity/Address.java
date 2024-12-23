@@ -26,10 +26,10 @@ public class Address {
     private String memberId;
 
     @Column(name = "MainAddress", nullable = false)
-    private Integer mainAddress;
+    private Boolean mainAddress;
 
     @Column(name = "BillAddress", nullable = false)
-    private Integer billAddress;
+    private Boolean billAddress;
 
     @Column(name = "Comment", length = 500)
     private String comment;
@@ -52,8 +52,11 @@ public class Address {
     @Column(name = "Phone", length = 100)
     private String phone;
 
-    @Column(name = "Name", length = 100)
-    private String name;
+    @Column(name = "FirstName", length = 100)
+    private String firstName;
+
+    @Column(name = "LastName", length = 100)
+    private String lastName;
 
     @Column(name = "CreatedID", columnDefinition = "CHAR(36)", nullable = false)
     private String createdId;
