@@ -16,6 +16,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -71,10 +72,11 @@ public class EmailService {
         redisService.save(code, emailRequest.getEmail());
 
         try {
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
             mimeMessageHelper.setTo(emailRequest.getEmail()); // 메일 수신자
             mimeMessageHelper.setSubject(mailTitleCode.getMessage()); // 메일 제목
             mimeMessageHelper.setText(setContext(code, mailTitleCode), true); // 메일 본문 내용, HTML 여부
+            mimeMessageHelper.addInline("image", new ClassPathResource("static/images/mail.png"));
             javaMailSender.send(mimeMessage);
 
             logger.info("Success");
