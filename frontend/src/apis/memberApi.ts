@@ -3,25 +3,24 @@ import { updateAccessTokenAxios } from "../handlers/tokenHandler"
 import { AxiosResponse } from 'axios';
 import { convertToObject } from 'typescript';
 /* 데이터 불러오기*/
-export const login = (loginUser:emailAndPassword):boolean => {
-    postData<loginSuccess>('/login', loginUser)
-        .then((data:AxiosResponse<loginSuccess>) => {
-            if(data == null) //로그인 실패
-                return false;
-            else{ //로그인 성공
-                updateAccessTokenAxios(data.data.access_token, data.data.refresh_token);
-                return true;
-            }
-        }
-    );
-    return false;
+export const login = async (loginUser: emailAndPassword): Promise<boolean> => {
+  try {
+    const data: AxiosResponse<loginSuccess> = await postData<loginSuccess>('member/login', loginUser);
+    if (data) { // 로그인 성공
+      updateAccessTokenAxios(data.data.access_token, data.data.refresh_token);
+      return true;
+    }
+    return false; // 로그인 실패
+  } catch (error) {
+    console.error('Login error:', error);
+    return false; // 오류 발생 시 false 반환
+  }
 };
 
 export const signup = async (signupUser: signupUser): Promise<boolean> => {
   try {
     const data = await postData<loginSuccess>('member/signup', signupUser);
     if (data) {
-      console.log(data);
       updateAccessTokenAxios(data.data.access_token, data.data.refresh_token);
       return true;
     }
@@ -145,7 +144,7 @@ export const getMemberDetail = (memberID:string):memberDetailInfo => {
                 country : "KOR",
                 zipCode : "11111",
                 baseAddress : "부산시 기장군",
-                detailAddress : "파란하늘집",
+                detailAddress : "파란하��집",
                 isMain : true,
                 isBill : true,
                 host : "정경훈",
