@@ -1,13 +1,15 @@
 import { getData, postData, getTestData} from './mainApi'
 import { updateAccessTokenAxios } from "../handlers/tokenHandler"
+import { AxiosResponse } from 'axios';
+import { convertToObject } from 'typescript';
 /* 데이터 불러오기*/
 export const login = (loginUser:emailAndPassword):boolean => {
     postData<loginSuccess>('/login', loginUser)
-        .then((data:loginSuccess) => {
+        .then((data:AxiosResponse<loginSuccess>) => {
             if(data == null) //로그인 실패
                 return false;
             else{ //로그인 성공
-                updateAccessTokenAxios(data.access_token, data.refresh_token);
+                updateAccessTokenAxios(data.data.access_token, data.data.refresh_token);
                 return true;
             }
         }
@@ -20,7 +22,7 @@ export const signup = async (signupUser: signupUser): Promise<boolean> => {
     const data = await postData<loginSuccess>('member/signup', signupUser);
     if (data) {
       console.log(data);
-      updateAccessTokenAxios(data.access_token, data.refresh_token);
+      updateAccessTokenAxios(data.data.access_token, data.data.refresh_token);
       return true;
     }
     return false;
@@ -32,7 +34,7 @@ export const signup = async (signupUser: signupUser): Promise<boolean> => {
 
 export const isEmailValid = (email:string):boolean => {
     postData<boolean>('member/email/check', email)
-        .then((data:boolean) => {
+        .then((data:AxiosResponse<boolean>) => {
             return data;
         }
     );
@@ -41,28 +43,33 @@ export const isEmailValid = (email:string):boolean => {
 
 export const authEmail = async (email: string): Promise<string> => {
     try {
-        const data:authEmail = await postData<authEmail>('member/email/auth', email);
-        return data.code; // 성공적으로 인증번호가 발송되면 반환
+        const data:AxiosResponse<authEmail> = await postData<authEmail>('member/email/auth', email);
+        return data.data.code; // 성공적으로 인증번호가 발송되면 반환
     } catch (error) {
         console.error('Email authentication error:', error);
         return ''; // 실패 시 빈 문자열 반환
     }
 };
 
-export const checkAuthCode = async (email: string, code: string): Promise<boolean> => {
+export const checkAuthCode = async (email: string, code: string): Promise<{ status: number, isValid: boolean }> => {
   try {
-    const response = await postData<boolean>('member/email/code', { email, code });
-    return response; // 서버로부터의 응답을 반환
-  } catch (error) {
+    const response = await postData<{ isValid: boolean }>('member/email/code', { email, code });
+    const reponseStatus = response.status;
+    if (reponseStatus === 216) {
+      return { status: 216, isValid: false }; // 인증 코드 만료
+    }
+    return { status: 200, isValid: response.data.isValid }; // 성공적인 응답
+  } catch (error: any) {
     console.error('Error verifying auth code:', error);
-    return false; // 오류 발생 시 false 반환
+    return { status: 500, isValid: false }; // 기타 오류
   }
 };
 
 export const checkRecommendEmail = async (email: string): Promise<string> => {
   try {
     const response = await getData<{ message: string }>(`/member/email/check?email=${email}`);
-    return response.message; // 서버로부터의 메시지를 반환
+    // console.log(response);
+    return response.data.message; // 서버로부터의 메시지를 반환
   } catch (error) {
     console.error('Error checking recommend email:', error);
     return '유효하지 않은 추천인 이름입니다.'; // 오류 발생 시 메시지 반환

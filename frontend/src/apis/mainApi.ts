@@ -1,4 +1,4 @@
-import axios, { Axios, AxiosRequestConfig } from 'axios' // 추가
+import axios, { Axios, AxiosRequestConfig, AxiosResponse } from 'axios' // 추가
 import { handleError } from "../handlers/ErrorHandler"
 import { getNewConfig } from "../handlers/tokenHandler"
 
@@ -11,50 +11,50 @@ const client: Axios = axios.create({
 })
 
 //TODO: GET 메서드
-export const getData = async <T>(url: string): Promise<T> => {
+export const getData = async <T>(url: string): Promise<AxiosResponse<T>> => {
   try {
     const newConfig: AxiosRequestConfig = getNewConfig();
     const response = await client.get<T>(url, newConfig);
-    return response.data;
+    return response;
   } catch (error) {
     handleError(error);
-    return null as unknown as T;
+    throw error;
   }
 };
 
 //TODO: POST 메서드
-export const postData = async <T>(url: string, data?: any): Promise<T> => {
+export const postData = async <T>(url: string, data?: any): Promise<AxiosResponse<T>> => {
   try {
     const newConfig: AxiosRequestConfig = getNewConfig();
     const response = await client.post<T>(url, data, newConfig);
-    return response.data;
+    return response;
   } catch (error) {    
     handleError(error);
-    return null as unknown as T;
+    throw error;
   }
 };
 
 //TODO: PUT 메서드
-export const putData = async <T>(url: string, data?: any): Promise<T> => {
+export const putData = async <T>(url: string, data?: any): Promise<AxiosResponse<T>> => {
   try {
     const newConfig: AxiosRequestConfig = getNewConfig();
     const response = await client.put<T>(url, data, newConfig);
-    return response.data;
+    return response;
   } catch (error) {
     handleError(error);
-    return null as unknown as T;
+    throw error;
   }
 };
 
 //TODO: Delete 메서드
-export const deleteData = async <T>(url: string): Promise<T> => {
+export const deleteData = async <T>(url: string): Promise<AxiosResponse<T>> => {
   try {
     const newConfig: AxiosRequestConfig = getNewConfig();
     const response = await client.delete<T>(url, newConfig);
-    return response.data;
+    return response;
   } catch (error) {
     handleError(error);
-    return null as unknown as T;
+    throw error;
   }
 };
 
