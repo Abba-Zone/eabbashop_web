@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum MailTitleCode implements BasicCode {
-    EMAIL("email", "[Abbazone] Abbazone 메일 인증 코드입니다.");
+    EMAIL("email", "[Abbazon] Abbazon 메일 인증 코드입니다.");
 
     private final String code;
     private final String message;
