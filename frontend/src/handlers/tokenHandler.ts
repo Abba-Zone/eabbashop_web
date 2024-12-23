@@ -14,4 +14,11 @@ export const getNewConfig = (): AxiosRequestConfig => {
 export const updateAccessTokenAxios = (newAccessToken:string, newRefreshToken:string) =>{
     localStorage.setItem("access-token", newAccessToken);
     localStorage.setItem("refresh-token", newRefreshToken);
-  }
+}
+
+export const updateUserInfo = (newFirstName:string, newLastName:string ,newRole:string) =>{
+  localStorage.setItem("first-name", newFirstName);
+  localStorage.setItem("last-name", newLastName);
+  localStorage.setItem("role", newRole);
+
+}
