@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { signup, authEmail, checkAuthCode, checkRecommendEmail, login } from '../../apis/memberApi'
+import { signup_s, login_s, authEmail_s, checkAuthCode_s, checkRecommendEmail_s } from '../../services/member'
 
 const Signup:React.FC = () => {
   const [inputFn, setInputFirstName] = useState<string>('')
@@ -28,6 +28,7 @@ const Signup:React.FC = () => {
   const [inputPwConfirm, setInputPwConfirm] = useState<string>('');
   const [passwordMatchError, setPasswordMatchError] = useState<string>('');
   const [isSigningUp, setIsSigningUp] = useState<boolean>(false);
+  const [isEmailEditable, setIsEmailEditable] = useState<boolean>(false);
 
   useEffect(() => {
     let timer: NodeJS.Timeout | undefined; // timer 변수를 선언
@@ -111,7 +112,7 @@ const Signup:React.FC = () => {
     setDebounceTimer(
       setTimeout(async () => {
         if (recommendValue) {
-          const message = await checkRecommendEmail(recommendValue);
+          const message = await checkRecommendEmail_s(recommendValue);
           if (message === '성공했습니다.') {
             setRecommendMessage('유효한 추천인입니다.');
           } else if (message === undefined) {
@@ -164,20 +165,19 @@ const Signup:React.FC = () => {
       email: inputEm,
       phone: inputPn,
       recommend: inputRm,
-      provider: 'web',
+      provider: 'local',
       platform: 'zon',
       country: 'KOR'
     };
 
     try {
-      const signupResult = await signup(signupUser);
+      const signupResult = await signup_s(signupUser);
       if (signupResult) {
         alert('회원가입이 완료되었습니다.');
         
         // 로그인 시도
-        const loginResult = await login({ email: inputEm, password: inputPw });
+        const loginResult = await login_s({ email: inputEm, password: inputPw });
         if (loginResult) {
-          alert('로그인에 성공했습니다.');
           window.location.href = '/';
         } else {
           alert('로그인에 실패했습니다.');
@@ -186,8 +186,8 @@ const Signup:React.FC = () => {
         alert('회원가입에 실패했습니다.');
       }
     } catch (error) {
-      console.error('Signup error:', error);
-      alert('회원가입에 실패했습니다.');
+      console.error('Signup or login error:', error);
+      alert('회원가입 또는 로그인에 실패했습니다.');
     } finally {
       setIsSigningUp(false); // 요청 완료
     }
@@ -198,7 +198,7 @@ const Signup:React.FC = () => {
 
     setIsSendingAuthCode(true); // 요청 시작
     try {
-      const authCode = await authEmail(inputEm);
+      const authCode = await authEmail_s(inputEm);
       if (authCode) {
         alert('이메일 인증 코드가 전송되었습니다.');
         setIsAuthCodeSent(true);
@@ -218,7 +218,7 @@ const Signup:React.FC = () => {
 
   const handleAuthCodeVerification = async () => {
     try {
-      const response = await checkAuthCode(inputEm, inputAuth);
+      const response = await checkAuthCode_s(inputEm, inputAuth);
       // console.log(response);
       const reponseStatus = response.status;
       console.log(reponseStatus);
@@ -227,6 +227,7 @@ const Signup:React.FC = () => {
       } else if (reponseStatus === 200) {
         setAuthCodeMessage('');
         setIsAuthCodeVerified(true);
+        setIsEmailEditable(false);
       }
     } catch (error) {
       // console.error('Error verifying auth code:', error);
@@ -253,6 +254,14 @@ const Signup:React.FC = () => {
     return phoneRegex.test(phone);
   };
 
+  const handleModifyEmail = () => {
+    setIsEmailEditable(true);
+    setIsAuthCodeVerified(false);
+    setIsAuthCodeSent(false);
+    setInputAuth('');
+    setAuthCodeMessage('');
+  };
+
   return (
     <h2>
       <div>
@@ -263,12 +272,21 @@ const Signup:React.FC = () => {
         </div> */}
         <div>
           <label htmlFor='input_em'>E-mail(ID)* : </label>
-          <input type='text' name='input_em' value={inputEm} onChange={handleInputEm} />
+          <input
+            type='text'
+            name='input_em'
+            value={inputEm}
+            onChange={handleInputEm}
+            disabled={isAuthCodeVerified && !isEmailEditable}
+          />
           {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>}
           {isAuthCodeSent ? (
             <button type='button' onClick={sendAuthCode}>인증번호 재전송</button>
           ) : (
             <button type='button' onClick={sendAuthCode} disabled={isSendingAuthCode}>인증번호 전송</button>
+          )}
+          {isAuthCodeVerified && (
+            <button type="button" onClick={handleModifyEmail}>수정</button>
           )}
         </div>
         {isAuthCodeSent && !isAuthCodeVerified && (
