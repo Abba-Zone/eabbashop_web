@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { signup, authEmail, checkAuthCode, checkRecommendEmail } from '../../apis/memberApi'
+import { signup, authEmail, checkAuthCode, checkRecommendEmail, login } from '../../apis/memberApi'
 
 const Signup:React.FC = () => {
   const [inputFn, setInputFirstName] = useState<string>('')
@@ -25,6 +25,9 @@ const Signup:React.FC = () => {
     recommend: ''
   });
   const [isSendingAuthCode, setIsSendingAuthCode] = useState<boolean>(false);
+  const [inputPwConfirm, setInputPwConfirm] = useState<string>('');
+  const [passwordMatchError, setPasswordMatchError] = useState<string>('');
+  const [isSigningUp, setIsSigningUp] = useState<boolean>(false);
 
   useEffect(() => {
     let timer: NodeJS.Timeout | undefined; // timer 변수를 선언
@@ -109,7 +112,6 @@ const Signup:React.FC = () => {
       setTimeout(async () => {
         if (recommendValue) {
           const message = await checkRecommendEmail(recommendValue);
-          console.log(message);
           if (message === '성공했습니다.') {
             setRecommendMessage('유효한 추천인입니다.');
           } else if (message === undefined) {
@@ -128,7 +130,15 @@ const Signup:React.FC = () => {
     setInputAuth(event.target.value)
   }
 
+  const handleInputPwConfirm = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const confirmPassword = event.target.value;
+    setInputPwConfirm(confirmPassword);
+    setPasswordMatchError(confirmPassword === inputPw ? '' : '비밀번호가 일치하지 않습니다.');
+  };
+
   const onClickSignUp = async () => {
+    if (isSigningUp) return; // 이미 요청 중이면 중복 요청 방지
+
     if (!isAuthCodeVerified) {
       alert('이메일 인증을 먼저 진행해주세요.');
       return;
@@ -139,10 +149,12 @@ const Signup:React.FC = () => {
       return;
     }
 
-    if (Object.values(errors).some((error) => error !== '')) {
+    if (Object.values(errors).some((error) => error !== '') || passwordMatchError) {
       alert('입력한 정보가 유효하지 않습니다. 다시 확인해주세요.');
       return;
     }
+
+    setIsSigningUp(true); // 요청 시작
 
     const signupUser = {
       firstName: inputFn,
@@ -153,23 +165,31 @@ const Signup:React.FC = () => {
       phone: inputPn,
       recommend: inputRm,
       provider: 'web',
-      platform: 'zone',
+      platform: 'zon',
       country: 'KOR'
     };
 
     try {
-      const result = await signup(signupUser);
-      if (result) {
+      const signupResult = await signup(signupUser);
+      if (signupResult) {
         alert('회원가입이 완료되었습니다.');
-        window.location.href = '/';
-      // } else if (result.status === 488) {
-      //   alert('이메일 중복입니다.');
+        
+        // 로그인 시도
+        const loginResult = await login({ email: inputEm, password: inputPw });
+        if (loginResult) {
+          alert('로그인에 성공했습니다.');
+          window.location.href = '/';
+        } else {
+          alert('로그인에 실패했습니다.');
+        }
       } else {
         alert('회원가입에 실패했습니다.');
       }
     } catch (error) {
       console.error('Signup error:', error);
       alert('회원가입에 실패했습니다.');
+    } finally {
+      setIsSigningUp(false); // 요청 완료
     }
   };
 
@@ -275,6 +295,11 @@ const Signup:React.FC = () => {
           </div>
         </div>
         <div>
+          <label htmlFor='input_pw_confirm'>비밀번호 확인* : </label>
+          <input type='password' name='input_pw_confirm' value={inputPwConfirm} onChange={handleInputPwConfirm} />
+          {passwordMatchError && <div style={{ color: 'red' }}>{passwordMatchError}</div>}
+        </div>
+        <div>
           <label htmlFor='last_name'>성* : </label>
           <input type='text' name='input_last' value={inputLn} onChange={handleInputLn} />
           {errors.lastName && <div style={{ color: 'red' }}>{errors.lastName}</div>}
@@ -289,6 +314,7 @@ const Signup:React.FC = () => {
           <input type='text' name='input_pn' value={inputPn} onChange={handleInputPn} />
           {errors.phone && <div style={{ color: 'red' }}>{errors.phone}</div>}
         </div>
+        <div style={{ fontSize: '12px' }}>전화번호는 010-0000-0000 형식으로 입력해주세요.</div>
         <div>
           <label htmlFor='recommend'>추천인 이메일*: </label>
           <input type='text' name='recommend' value={inputRm} onChange={handleInputRm} />
@@ -300,7 +326,9 @@ const Signup:React.FC = () => {
           )}
         </div>
         <div>
-          <button type='button' onClick={onClickSignUp}>Sign Up</button>
+          <button type="button" onClick={onClickSignUp} disabled={isSigningUp}>
+            Sign Up
+          </button>
         </div>
       </div>
     </h2>
