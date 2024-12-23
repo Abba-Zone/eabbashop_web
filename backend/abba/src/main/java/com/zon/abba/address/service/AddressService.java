@@ -9,6 +9,7 @@ import com.zon.abba.address.request.SetAddressRequest;
 import com.zon.abba.address.request.UpdateAddressRequest;
 import com.zon.abba.common.exception.NoDataException;
 import com.zon.abba.common.exception.NoMemberException;
+import com.zon.abba.common.exception.TooManyException;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.common.security.JwtTokenProvider;
@@ -20,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,6 +42,37 @@ public class AddressService {
         if (list == null || list.isEmpty()) {
             return null;
         }
+
+        // 리스트 개수가 많은 경우
+        logger.info("리스트의 개수를 체크합니다.");
+        if(list.size() > 5) {
+            throw new TooManyException("너무 개수가 많습니다.");
+        }
+        //
+        logger.info("메인 주소의 개수를 체크합니다.");
+        // MainAddress가 여러 개인 경우 바로 예외를 던짐
+        AtomicInteger mainAddressCount = new AtomicInteger(0);
+
+        list.stream()
+                .filter(Address::getMainAddress)
+                .forEach(address -> {
+                    if (mainAddressCount.incrementAndGet() > 1) {
+                        throw new TooManyException("MainAddress 값이 여러 개입니다.");
+                    }
+                });
+
+        logger.info("청구 주소의 개수를 체크합니다.");
+        // BillAddress가 여러 개인 경우 바로 예외를 던짐
+        AtomicInteger billAddressCount = new AtomicInteger(0);
+
+        list.stream()
+                .filter(Address::getBillAddress)
+                .forEach(address -> {
+                    if (billAddressCount.incrementAndGet() > 1) {
+                        throw new TooManyException("BillAddress 값이 여러 개입니다.");
+                    }
+                });
+
         // 값이 있으면 리스트 반환
         return list.stream()
                 .map(AddressDto::new)
@@ -55,13 +88,14 @@ public class AddressService {
                 .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
 
         List<AddressDto> list = getAddressList(memberId);
+
         logger.info("회원 리스트 출력을 완료했습니다.");
 
         return new ResponseListBody((long) list.size(), list);
     }
 
     @Transactional
-    public ResponseBody registerAddress(RegisterAddressRequest registerAddressRequest){
+    public ResponseListBody registerAddress(RegisterAddressRequest registerAddressRequest){
         logger.info("주소를 등록을 시작합니다.");
 
         logger.info("주소 등록용 회원 정보를 가져옵니다.");
@@ -88,9 +122,11 @@ public class AddressService {
                 .build();
 
         addressRepository.save(address);
-        
+
+        List<AddressDto> list = getAddressList(memberId);
+
         logger.info("주소를 등록을 완료했습니다.");
-        return new ResponseBody("성공했습니다.");
+        return new ResponseListBody((long) list.size(), list);
     }
 
     @Transactional
@@ -127,7 +163,7 @@ public class AddressService {
         address.setPhone(updateAddressRequest.getPhone());
         address.setCountry(updateAddressRequest.getCountry());
         address.setZipCode(updateAddressRequest.getZipCode());
-        address.setBaseAddress(updateAddressRequest.getBassAddress());
+        address.setBaseAddress(updateAddressRequest.getBaseAddress());
         address.setDetailAddress(updateAddressRequest.getDetailAddress());
         address.setComment(updateAddressRequest.getComment());
         addressRepository.save(address);

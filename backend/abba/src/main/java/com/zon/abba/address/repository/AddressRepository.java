@@ -23,8 +23,7 @@ public interface AddressRepository extends JpaRepository<Address, String> {
             "CASE " +
             "   WHEN MainAddress != 1 AND BillAddress != 1 THEN CreatedDateTime " +
             "   ELSE NULL " +                                    // 우선순위 4에만 시간 순 정렬
-            "END ASC " +
-            "LIMIT 5",
+            "END ASC ",
             nativeQuery = true)
     List<Address> findSortedAddressesByMemberId(@Param("memberId") String memberId);
 

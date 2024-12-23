@@ -32,7 +32,7 @@ public class AddressController {
     @PostMapping("/register")
     @Operation(summary = "주소 등록", description = "주소 등록")
     public ResponseEntity<Object> registerAddress(@RequestBody RegisterAddressRequest registerAddressRequest){
-        ResponseBody response = addressService.registerAddress(registerAddressRequest);
+        ResponseListBody response = addressService.registerAddress(registerAddressRequest);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
