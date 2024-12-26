@@ -1,0 +1,40 @@
+{
+    "Title": "Sign Up",
+    "Attribute01": "Email (ID)",
+    "Attribute02": "Password",
+    "Attribute03": "Confirm Password",
+    "Attribute04": "Last Name",
+    "Attribute05": "First Name",
+    "Attribute06": "Phone Number",
+    "Attribute07": "Referral Email",
+    "Attribute08": "Verification Code",
+    "Button": {
+        "authCodeResend": "Resend Verification Code",
+        "authCodeSend": "Send Verification Code",
+        "signup": "Sign Up",
+        "modifyEmail": "Modify Email",
+        "authCodeVerify": "Verify Verification Code"
+    },
+    "Alert": {
+        "authCodeMismatch": "Verification code does not match.",
+        "authCodeError": "An error occurred while verifying the code.",
+        "authCodeSuccess": "Verification successful.",
+        "emailInvalid": "Invalid email format.",
+        "passwordInvalid": "Invalid password format.",
+        "nameInvalid": "Please enter within 50 characters.",
+        "phoneInvalid": "Invalid phone number format.",
+        "recommendInvalid": "Invalid email format.",
+        "recommendSuccess": "Valid referral.",
+        "recommendFail": "User does not exist.",
+        "passwordMismatch": "Passwords do not match.",
+        "signupComplete": "Sign up completed.",
+        "signupFail": "Sign up failed.",
+        "loginFail": "Login failed.",
+        "emailAuthPrompt": "Please complete email verification first.",
+        "fillAllFields": "Please fill in all required fields.",
+        "invalidInput": "The information entered is invalid. Please check again.",
+        "remainingTime": "Remaining time: {{minutes}}:{{seconds}}",
+        "phoneFormat": "Please enter the phone number in the format 010-0000-0000.",
+        "passwordFormat": "Password must be 8 to 16 characters long and include uppercase and lowercase letters, numbers, and special characters {'! \\\" # $ % & \\' ( ) * + , - . / : ; < = > ? @ [ ₩ ] ^ _ ` { | } ~'}."
+    }
+}

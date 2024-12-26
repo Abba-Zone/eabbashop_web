@@ -1,0 +1,40 @@
+{
+    "Title": "회원가입",
+    "Attribute01": "이메일(아이디)",
+    "Attribute02": "비밀번호",
+    "Attribute03": "비밀번호 확인",
+    "Attribute04": "성",
+    "Attribute05": "이름",
+    "Attribute06": "전화번호",
+    "Attribute07": "추천인 이메일",
+    "Attribute08": "인증번호",
+    "Button": {
+        "authCodeResend": "인증번호 재전송",
+        "authCodeSend": "인증번호 전송",
+        "signup": "회원가입",
+        "modifyEmail": "이메일 수정",
+        "authCodeVerify": "인증번호 확인"
+    },
+    "Alert": {
+        "authCodeMismatch": "인증 코드가 일치하지 않습니다.",
+        "authCodeError": "인증 코드 확인 중 오류가 발생했습니다.",
+        "authCodeSuccess": "인증 완료",
+        "emailInvalid": "유효한 이메일 형식이 아닙니다.",
+        "passwordInvalid": "유효한 비밀번호 형식이 아닙니다.",
+        "nameInvalid": "50자 이하로 입력해주세요.",
+        "phoneInvalid": "유효한 전화번호 형식이 아닙니다.",
+        "recommendInvalid": "유효한 이메일 형식이 아닙니다.",
+        "recommendSuccess": "유효한 추천인입니다.",
+        "recommendFail": "존재하지 않는 유저입니다.",
+        "passwordMismatch": "비밀번호가 일치하지 않습니다.",
+        "signupComplete": "회원가입이 완료되었습니다.",
+        "signupFail": "회원가입에 실패했습니다.",
+        "loginFail": "로그인에 실패했습니다.",
+        "emailAuthPrompt": "이메일 인증을 먼저 진행해주세요.",
+        "fillAllFields": "모든 필수 정보를 입력해주세요.",
+        "invalidInput": "입력한 정보가 유효하지 않습니다. 다시 확인해주세요.",
+        "remainingTime": "남은 시간: {{minutes}}:{{seconds}}",
+        "phoneFormat": "전화번호는 010-0000-0000 형식으로 입력해주세요.",
+        "passwordFormat": "비밀번호는 8자 이상 16자 이하의 영문 대소문자, 숫자, 특수문자{'! \\\" # $ % & \\' ( ) * + , - . / : ; < = > ? @ [ ₩ ] ^ _ ` { | } ~'}로 구성되어야 합니다."
+    }
+}

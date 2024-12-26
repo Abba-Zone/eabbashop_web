@@ -1,0 +1,40 @@
+{
+    "Title": "登録",
+    "Attribute01": "メールアドレス（ID）",
+    "Attribute02": "パスワード",
+    "Attribute03": "パスワード確認",
+    "Attribute04": "姓",
+    "Attribute05": "名",
+    "Attribute06": "電話番号",
+    "Attribute07": "推薦者のメールアドレス",
+    "Attribute08": "認証コード",
+    "Button": {
+        "authCodeResend": "認証コードを再送信",
+        "authCodeSend": "認証コードを送信",
+        "signup": "登録",
+        "modifyEmail": "メールアドレスを修正",
+        "authCodeVerify": "認証コードを確認"
+    },
+    "Alert": {
+        "authCodeMismatch": "認証コードが一致しません。",
+        "authCodeError": "認証コードの確認中にエラーが発生しました。",
+        "authCodeSuccess": "認証に成功しました。",
+        "emailInvalid": "無効なメールアドレス形式です。",
+        "passwordInvalid": "無効なパスワード形式です。",
+        "nameInvalid": "50文字以内で入力してください。",
+        "phoneInvalid": "無効な電話番号形式です。",
+        "recommendInvalid": "無効なメールアドレス形式です。",
+        "recommendSuccess": "有効な推薦です。",
+        "recommendFail": "ユーザーが存在しません。",
+        "passwordMismatch": "パスワードが一致しません。",
+        "signupComplete": "登録が完了しました。",
+        "signupFail": "登録に失敗しました。",
+        "loginFail": "ログインに失敗しました。",
+        "emailAuthPrompt": "まずメール認証を完了してください。",
+        "fillAllFields": "すべての必須項目を入力してください。",
+        "invalidInput": "入力された情報が無効です。もう一度確認してください。",
+        "remainingTime": "残り時間：{{minutes}}:{{seconds}}",
+        "phoneFormat": "電話番号は010-0000-0000の形式で入力してください。",
+        "passwordFormat": "パスワードは8〜16文字で、大文字と小文字のアルファベット、数字、特殊文字{'! \\\" # $ % & \\' ( ) * + , - . / : ; < = > ? @ [ ₩ ] ^ _ ` { | } ~'}を含める必要があります。"
+    }
+}

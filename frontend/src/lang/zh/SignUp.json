@@ -1,0 +1,40 @@
+{
+    "Title": "注册",
+    "Attribute01": "电子邮件（ID）",
+    "Attribute02": "密码",
+    "Attribute03": "确认密码",
+    "Attribute04": "姓",
+    "Attribute05": "名",
+    "Attribute06": "电话号码",
+    "Attribute07": "推荐人电子邮件",
+    "Attribute08": "验证码",
+    "Button": {
+        "authCodeResend": "重新发送验证码",
+        "authCodeSend": "发送验证码",
+        "signup": "注册",
+        "modifyEmail": "修改电子邮件",
+        "authCodeVerify": "验证验证码"
+    },
+    "Alert": {
+        "authCodeMismatch": "验证码不匹配。",
+        "authCodeError": "验证代码时发生错误。",
+        "authCodeSuccess": "验证成功。",
+        "emailInvalid": "无效的电子邮件格式。",
+        "passwordInvalid": "无效的密码格式。",
+        "nameInvalid": "请输入50个字符以内。",
+        "phoneInvalid": "无效的电话号码格式。",
+        "recommendInvalid": "无效的电子邮件格式。",
+        "recommendSuccess": "有效的推荐。",
+        "recommendFail": "用户不存在。",
+        "passwordMismatch": "密码不匹配。",
+        "signupComplete": "注册完成。",
+        "signupFail": "注册失败。",
+        "loginFail": "登录失败。",
+        "emailAuthPrompt": "请先完成电子邮件验证。",
+        "fillAllFields": "请填写所有必填字段。",
+        "invalidInput": "输入的信息无效。请再检查一遍。",
+        "remainingTime": "剩余时间：{{minutes}}:{{seconds}}",
+        "phoneFormat": "请输入格式为010-0000-0000的电话号码。",
+        "passwordFormat": "密码必须为8到16个字符长，并包含大写和小写字母、数字和特殊字符{'! \\\" # $ % & \\' ( ) * + , - . / : ; < = > ? @ [ ₩ ] ^ _ ` { | } ~'}。"
+    }
+}

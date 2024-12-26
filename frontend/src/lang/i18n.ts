@@ -59,6 +59,11 @@ import AdminTransfer_en from './en/AdminTransfer.json';
 import AdminRegularOrder_ko from './ko/AdminRegularOrder.json';
 import AdminRegularOrder_en from './en/AdminRegularOrder.json';
 
+import SignUp_ko from './ko/SignUp.json';
+import SignUp_en from './en/SignUp.json';
+import SignUp_ja from './ja/SignUp.json';
+import SignUp_zh from './zh/SignUp.json';
+
 const resources = {
   ko: {
     Common: Common_ko,
@@ -78,7 +83,8 @@ const resources = {
     AdminShareMoney: AdminShareMoney_ko,
     AdminTransferCancel: AdminTransferCancel_ko,
     AdminTransfer: AdminTransfer_ko,
-    AdminRegularOrder: AdminRegularOrder_ko
+    AdminRegularOrder: AdminRegularOrder_ko,
+    SignUp: SignUp_ko
   },
   en: {
     Common: Common_en,
@@ -98,15 +104,18 @@ const resources = {
     AdminShareMoney: AdminShareMoney_en,
     AdminTransferCancel: AdminTransferCancel_en,
     AdminTransfer: AdminTransfer_en,
-    AdminRegularOrder: AdminRegularOrder_en
+    AdminRegularOrder: AdminRegularOrder_en,
+    SignUp: SignUp_en
   },
   ja: {
     AdminMenu: AdminMenu_ja,
     AdminManagerMember: AdminManagerMember_ja,
+    SignUp: SignUp_ja
   },
   zh: {
     AdminMenu: AdminMenu_zh,
     AdminManagerMember: AdminManagerMember_zh,
+    SignUp: SignUp_zh
   },
 };
 

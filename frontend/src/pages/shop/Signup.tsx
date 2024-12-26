@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
 import { signup_s, login_s, authEmail_s, checkAuthCode_s, checkRecommendEmail_s } from '../../services/member'
+import { useTranslation } from 'react-i18next';
 
 const Signup:React.FC = () => {
+  const { t } = useTranslation('SignUp');
   const [inputFn, setInputFirstName] = useState<string>('')
   const [inputLn, setInputLastName] = useState<string>('')
   // const [inputId, setInputId] = useState<string>('')
@@ -13,7 +15,7 @@ const Signup:React.FC = () => {
   const [isAuthCodeSent, setIsAuthCodeSent] = useState<boolean>(false)
   const [timeLeft, setTimeLeft] = useState<number>(180)
   const [isAuthCodeVerified, setIsAuthCodeVerified] = useState<boolean>(false)
-  const [recommendMessage, setRecommendMessage] = useState<string>('')
+  const [recommendStatus, setRecommendStatus] = useState<number | null>(null);
   const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null)
   const [authCodeMessage, setAuthCodeMessage] = useState<string>('')
   const [errors, setErrors] = useState({
@@ -32,14 +34,13 @@ const Signup:React.FC = () => {
 
   useEffect(() => {
     let timer: NodeJS.Timeout | undefined; // timer 변수를 선언
-  
     if (isAuthCodeSent && timeLeft > 0) {
       timer = setInterval(() => {
         setTimeLeft((prevTime) => prevTime - 1);
       }, 1000);
     } else if (timeLeft === 0) {
       clearInterval(timer);
-      setAuthCodeMessage('인증을 다시 시도 해주세요.');
+      setAuthCodeMessage(t('Alert.authCodeError'));
       setIsAuthCodeSent(false);
     }
     return () => {
@@ -54,7 +55,7 @@ const Signup:React.FC = () => {
     setInputLastName(lastName);
     setErrors((prevErrors) => ({
       ...prevErrors,
-      lastName: validateName(lastName) ? '' : '50자 이하로 입력해주세요.'
+      lastName: validateName(lastName) ? '' : t('Alert.nameInvalid')
     }));
   }
   const handleInputFn = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,7 +63,7 @@ const Signup:React.FC = () => {
     setInputFirstName(firstName);
     setErrors((prevErrors) => ({
       ...prevErrors,
-      firstName: validateName(firstName) ? '' : '50자 이하로 입력해주세요.'
+      firstName: validateName(firstName) ? '' : t('Alert.nameInvalid')
     }));
   }
 
@@ -75,7 +76,7 @@ const Signup:React.FC = () => {
     setInputPw(password);
     setErrors((prevErrors) => ({
       ...prevErrors,
-      password: validatePassword(password) ? '' : '유효한 비밀번호 형식이 아닙니다.'
+      password: validatePassword(password) ? '' : t('Alert.passwordInvalid')
     }));
   };
 
@@ -84,7 +85,7 @@ const Signup:React.FC = () => {
     setInputEmail(email);
     setErrors((prevErrors) => ({
       ...prevErrors,
-      email: validateEmail(email) ? '' : '유효한 이메일 형식이 아닙니다.'
+      email: validateEmail(email) ? '' : t('Alert.emailInvalid')
     }));
   }
   
@@ -93,7 +94,7 @@ const Signup:React.FC = () => {
     setInputPhone(phone);
     setErrors((prevErrors) => ({
       ...prevErrors,
-      phone: validatePhone(phone) ? '' : '유효한 전화번호 형식이 아닙니다.'
+      phone: validatePhone(phone) ? '' : t('Alert.phoneInvalid')
     }));
   }
 
@@ -102,7 +103,7 @@ const Signup:React.FC = () => {
     setInputRecommend(recommendValue);
     setErrors((prevErrors) => ({
       ...prevErrors,
-      recommend: validateEmail(recommendValue) ? '' : '유효한 이메일 형식이 아닙니다.'
+      recommend: validateEmail(recommendValue) ? '' : t('Alert.recommendInvalid')
     }));
 
     if (debounceTimer) {
@@ -113,15 +114,15 @@ const Signup:React.FC = () => {
       setTimeout(async () => {
         if (recommendValue) {
           const message = await checkRecommendEmail_s(recommendValue);
-          if (message === '성공했습니다.') {
-            setRecommendMessage('유효한 추천인입니다.');
-          } else if (message === undefined) {
-            setRecommendMessage('존재하지 않는 유저입니다.');
+          if (message.status === 200) {
+            setRecommendStatus(200);
+          } else if (message.status === 204) {
+            setRecommendStatus(204);
           } else {
-            setRecommendMessage(message);
+            setRecommendStatus(500);
           }
         } else {
-          setRecommendMessage('');
+          setRecommendStatus(null);
         }
       }, 1000)
     );
@@ -134,24 +135,24 @@ const Signup:React.FC = () => {
   const handleInputPwConfirm = (event: React.ChangeEvent<HTMLInputElement>) => {
     const confirmPassword = event.target.value;
     setInputPwConfirm(confirmPassword);
-    setPasswordMatchError(confirmPassword === inputPw ? '' : '비밀번호가 일치하지 않습니다.');
+      setPasswordMatchError(confirmPassword === inputPw ? '' : t('Alert.passwordMismatch'));
   };
 
   const onClickSignUp = async () => {
     if (isSigningUp) return; // 이미 요청 중이면 중복 요청 방지
 
     if (!isAuthCodeVerified) {
-      alert('이메일 인증을 먼저 진행해주세요.');
+      alert(t('Alert.emailAuthPrompt'));
       return;
     }
 
     if (!inputFn || !inputLn || !inputPw || !inputEm || !inputPn || !inputRm) {
-      alert('모든 필수 정보를 입력해주세요.');
+      alert(t('Alert.fillAllFields'));
       return;
     }
 
     if (Object.values(errors).some((error) => error !== '') || passwordMatchError) {
-      alert('입력한 정보가 유효하지 않습니다. 다시 확인해주세요.');
+      alert(t('Alert.invalidInput'));
       return;
     }
 
@@ -173,21 +174,21 @@ const Signup:React.FC = () => {
     try {
       const signupResult = await signup_s(signupUser);
       if (signupResult) {
-        alert('회원가입이 완료되었습니다.');
+        alert(t('Alert.signupComplete'));
         
         // 로그인 시도
         const loginResult = await login_s({ email: inputEm, password: inputPw });
         if (loginResult) {
           window.location.href = '/';
         } else {
-          alert('로그인에 실패했습니다.');
+          alert(t('Alert.loginFail'));
         }
       } else {
-        alert('회원가입에 실패했습니다.');
+        alert(t('Alert.signupFail'));
       }
     } catch (error) {
       console.error('Signup or login error:', error);
-      alert('회원가입 또는 로그인에 실패했습니다.');
+      alert(t('Alert.signupFail'));
     } finally {
       setIsSigningUp(false); // 요청 완료
     }
@@ -200,17 +201,17 @@ const Signup:React.FC = () => {
     try {
       const authCode = await authEmail_s(inputEm);
       if (authCode) {
-        alert('이메일 인증 코드가 전송되었습니다.');
+        alert(t('Alert.authCodeSuccess'));
         setIsAuthCodeSent(true);
         setTimeLeft(180);
         setAuthCodeMessage('');
         setIsAuthCodeVerified(false);
       } else {
-        alert('이메일 인증 코드 전송에 실패했습니다.');
+        alert(t('Alert.authCodeError'));
       }
     } catch (error) {
       console.error('Email authentication error:', error);
-      alert('이메일 인증 코드 전송에 실패했습니다.');
+      alert(t('Alert.authCodeError'));
     } finally {
       setIsSendingAuthCode(false); // 요청 완료
     }
@@ -223,7 +224,7 @@ const Signup:React.FC = () => {
       const reponseStatus = response.status;
       console.log(reponseStatus);
       if (reponseStatus === 216) {
-        setAuthCodeMessage('인증 코드가 일치하지 않습니다.');
+        setAuthCodeMessage(t('Alert.authCodeMismatch'));
       } else if (reponseStatus === 200) {
         setAuthCodeMessage('');
         setIsAuthCodeVerified(true);
@@ -231,7 +232,7 @@ const Signup:React.FC = () => {
       }
     } catch (error) {
       // console.error('Error verifying auth code:', error);
-      setAuthCodeMessage('인증 코드 확인 중 오류가 발생했습니다.');
+      setAuthCodeMessage(t('Alert.authCodeError'));
     }
   };
 
@@ -241,7 +242,7 @@ const Signup:React.FC = () => {
   };
 
   const validatePassword = (password: string) => {
-    const passwordRegex = /^(?=.*[!\"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~])[A-Za-z0-9!\"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]{8,16}$/;
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[!\"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~])[A-Za-z0-9!\"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]{8,16}$/;
     return passwordRegex.test(password);
   };
 
@@ -265,13 +266,13 @@ const Signup:React.FC = () => {
   return (
     <h2>
       <div>
-        <h2>회원가입</h2>
+        <h2>{t('Title')}</h2>
         {/* <div>
             <label htmlFor='input_id'>ID : </label>
             <input type='text' name='input_id' value={inputId} onChange = {handleInputId} />
         </div> */}
         <div>
-          <label htmlFor='input_em'>E-mail(ID)* : </label>
+          <label htmlFor='input_em'>{t('Attribute01')}* : </label>
           <input
             type='text'
             name='input_em'
@@ -281,71 +282,75 @@ const Signup:React.FC = () => {
           />
           {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>}
           {isAuthCodeSent ? (
-            <button type='button' onClick={sendAuthCode}>인증번호 재전송</button>
+            <button type='button' onClick={sendAuthCode}>{t('Button.authCodeResend')}</button>
           ) : (
-            <button type='button' onClick={sendAuthCode} disabled={isSendingAuthCode}>인증번호 전송</button>
+            <button type='button' onClick={sendAuthCode} disabled={isSendingAuthCode}>{t('Button.authCodeSend')}</button>
           )}
           {isAuthCodeVerified && (
-            <button type="button" onClick={handleModifyEmail}>수정</button>
+            <button type="button" onClick={handleModifyEmail}>{t('Button.modifyEmail')}</button>
           )}
         </div>
         {isAuthCodeSent && !isAuthCodeVerified && (
           <div>
-            <label htmlFor='auth_code'>인증번호 : </label>
+            <label htmlFor='auth_code'>{t('Attribute08')} : </label>
             <input type='text' name='auth_code' value={inputAuth} onChange={handleAuthCodeInput} />
-            <button type='button' onClick={handleAuthCodeVerification}>인증번호 확인</button>
-            <div>남은 시간: {Math.floor(timeLeft / 60)}:{('0' + (timeLeft % 60)).slice(-2)}</div>
+            <button type='button' onClick={handleAuthCodeVerification}>{t('Button.authCodeVerify')}</button>
+            <div>{t('Alert.remainingTime', { minutes: Math.floor(timeLeft / 60), seconds: ('0' + (timeLeft % 60)).slice(-2) })}</div>
           </div>
         )}
         {authCodeMessage && (
           <div style={{ color: 'red' }}>{authCodeMessage}</div>
         )}
         {isAuthCodeVerified && (
-          <div style={{ color: 'blue' }}>인증 완료</div>
+          <div style={{ color: 'blue' }}>{t('Alert.authCodeSuccess')}</div>
         )}
         <div>
-          <label htmlFor='input_pw'>비밀번호* : </label>
+          <label htmlFor='input_pw'>{t('Attribute02')}* : </label>
           <input type='password' name='input_pw' value={inputPw} onChange={handleInputPw} />
           {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
           <div style={{ fontSize: '12px' }}>
-            비밀번호는 8자 이상 16자 이하의 영문 대소문자, 숫자, 특수문자
-            {'! " # $ % & \' ( ) * + , - . / : ; < = > ? @ [ ₩ ] ^ _ ` { | } ~'}로 구성되어야 합니다.
+            {t('Alert.passwordFormat')}
           </div>
         </div>
         <div>
-          <label htmlFor='input_pw_confirm'>비밀번호 확인* : </label>
+          <label htmlFor='input_pw_confirm'>{t('Attribute03')}* : </label>
           <input type='password' name='input_pw_confirm' value={inputPwConfirm} onChange={handleInputPwConfirm} />
           {passwordMatchError && <div style={{ color: 'red' }}>{passwordMatchError}</div>}
         </div>
         <div>
-          <label htmlFor='last_name'>성* : </label>
+          <label htmlFor='last_name'>{t('Attribute04')}* : </label>
           <input type='text' name='input_last' value={inputLn} onChange={handleInputLn} />
           {errors.lastName && <div style={{ color: 'red' }}>{errors.lastName}</div>}
         </div>
         <div>
-          <label htmlFor='fisrt_name'>이름* : </label>
+          <label htmlFor='fisrt_name'>{t('Attribute05')}* : </label>
           <input type='text' name='input_first' value={inputFn} onChange={handleInputFn} />
           {errors.firstName && <div style={{ color: 'red' }}>{errors.firstName}</div>}
         </div>
         <div>
-          <label htmlFor='input_pn'>전화번호* : </label>
+          <label htmlFor='input_pn'>{t('Attribute06')}* : </label>
           <input type='text' name='input_pn' value={inputPn} onChange={handleInputPn} />
           {errors.phone && <div style={{ color: 'red' }}>{errors.phone}</div>}
         </div>
-        <div style={{ fontSize: '12px' }}>전화번호는 010-0000-0000 형식으로 입력해주세요.</div>
+        <div style={{ fontSize: '12px' }}>{t('Alert.phoneFormat')}</div>
         <div>
-          <label htmlFor='recommend'>추천인 이메일*: </label>
+          <label htmlFor='recommend'>{t('Attribute07')}*: </label>
           <input type='text' name='recommend' value={inputRm} onChange={handleInputRm} />
           {errors.recommend && <div style={{ color: 'red' }}>{errors.recommend}</div>}
-          {recommendMessage && (
-            <div style={{ color: recommendMessage.includes('존재하지 않는') ? 'red' : 'blue' }}>
-              {recommendMessage}
+          {recommendStatus === 200 && (
+            <div style={{ color: 'blue' }}>
+              {t('Alert.recommendSuccess')}
+            </div>
+          )}
+          {recommendStatus === 204 && (
+            <div style={{ color: 'red' }}>
+              {t('Alert.recommendFail')}
             </div>
           )}
         </div>
         <div>
           <button type="button" onClick={onClickSignUp} disabled={isSigningUp}>
-            Sign Up
+            {t('Button.signup')}
           </button>
         </div>
       </div>
