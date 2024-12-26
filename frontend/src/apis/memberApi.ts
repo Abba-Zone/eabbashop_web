@@ -66,14 +66,15 @@ export const checkAuthCode = async (email: string, code: string): Promise<{ stat
   }
 };
 
-export const checkRecommendEmail = async (email: string): Promise<string> => {
+export const checkRecommendEmail = async (email: string): Promise<{ status: number}> => {
   try {
     const response = await getData<{ message: string }>(`/member/email/check?email=${email}`);
-    // console.log(response);
-    return response.data.message; // 서버로부터의 메시지를 반환
+    const reponseStatus = response.status;
+    console.log(response); 
+    return { status: reponseStatus };
   } catch (error) {
     console.error('Error checking recommend email:', error);
-    return '유효하지 않은 추천인 이름입니다.'; // 오류 발생 시 메시지 반환
+    return { status: 500 };
   }
 };
 
@@ -146,7 +147,7 @@ export const getMemberDetail = (memberID:string):memberDetailInfo => {
                 country : "KOR",
                 zipCode : "11111",
                 baseAddress : "부산시 기장군",
-                detailAddress : "파란하��집",
+                detailAddress : "파란하집",
                 isMain : true,
                 isBill : true,
                 host : "정경훈",

@@ -17,7 +17,7 @@ export const checkAuthCode_s = async (email: string, code: string): Promise<{ st
     return await checkAuthCode(email, code);
 };
 
-export const checkRecommendEmail_s = async (email: string): Promise<string> => {
+export const checkRecommendEmail_s = async (email: string): Promise<{ status: number}> => {
     return await checkRecommendEmail(email);
 };
 
