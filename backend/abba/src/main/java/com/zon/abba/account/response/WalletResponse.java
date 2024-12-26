@@ -1,7 +1,7 @@
-package com.zon.abba.account.dto;
+package com.zon.abba.account.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.zon.abba.account.entity.Wallet;
+import com.zon.abba.account.dto.WalletDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,11 +9,11 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WalletDto {
+public class WalletResponse {
     @JsonProperty("walletID")
     private String walletID;
     @JsonProperty("LP")
@@ -29,14 +29,13 @@ public class WalletDto {
     @JsonProperty("SP")
     private BigDecimal SP;
 
-    public WalletDto(Wallet wallet){
-        this.walletID = wallet.getWalletId();
-        this.LP = wallet.getLp();
-        this.AK = wallet.getAk();
-        this.AP = wallet.getAp();
-        this.ABZ = wallet.getAbz();
-        this.ABZPoint = wallet.getAbzPoint();
-        this.SP = wallet.getSp();
-
+    public WalletResponse(WalletDto walletDto){
+        this.walletID = walletDto.getWalletID();
+        this.LP = walletDto.getLP();
+        this.AK = walletDto.getAK();
+        this.AP = walletDto.getAP();
+        this.ABZ = walletDto.getABZ();
+        this.ABZPoint = walletDto.getABZPoint();
+        this.SP = walletDto.getSP();
     }
 }
