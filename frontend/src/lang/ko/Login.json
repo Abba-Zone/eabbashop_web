@@ -1,0 +1,11 @@
+{
+    "Title": "로그인",
+    "Attribute01": "이메일 (ID)",
+    "Attribute02": "비밀번호",
+    "Button": {
+        "login": "로그인"
+    },
+    "Alert": {
+        "LoginFailed": "로그인에 실패하였습니다."
+    }
+}

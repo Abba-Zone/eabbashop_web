@@ -1,0 +1,12 @@
+{
+    "Header":{
+        "Login":"登录",
+        "Signup":"注册"
+    },
+    "Language":{
+        "Korean":"韩语",
+        "English":"英语",
+        "Chinese":"中文",
+        "Japanese":"日语"
+    }
+}

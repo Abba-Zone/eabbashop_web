@@ -1,0 +1,11 @@
+{
+    "Title": "登录",
+    "Attribute01": "邮箱 (ID)",
+    "Attribute02": "密码",
+    "Button": {
+        "login": "登录"
+    },
+    "Alert": {
+        "LoginFailed": "登录失败。"
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "Title": "ログイン",
+    "Attribute01": "メールアドレス（ID）",
+    "Attribute02": "パスワード",
+    "Button": {
+        "login": "ログイン"
+    },
+    "Alert": {
+        "LoginFailed": "ログインに失敗しました。"
+    }
+}
