@@ -1,0 +1,11 @@
+{
+    "Title": "Login",
+    "Attribute01": "Email (ID)",
+    "Attribute02": "Password",
+    "Button": {
+        "login": "Login"
+    },
+    "Alert": {
+        "LoginFailed": "Login failed."
+    }
+}

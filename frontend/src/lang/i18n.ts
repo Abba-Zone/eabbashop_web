@@ -3,6 +3,18 @@ import { initReactI18next } from 'react-i18next';
 
 import Common_ko from './ko/Common.json';
 import Common_en from './en/Common.json';
+import Common_ja from './ja/Common.json';
+import Common_zh from './zh/Common.json';
+
+import SignUp_ko from './ko/SignUp.json';
+import SignUp_en from './en/SignUp.json';
+import SignUp_ja from './ja/SignUp.json';
+import SignUp_zh from './zh/SignUp.json';
+
+import Login_ko from './ko/Login.json';
+import Login_en from './en/Login.json';
+import Login_ja from './ja/Login.json';
+import Login_zh from './zh/Login.json';
 
 import AdminMenu_en from './en/AdminMenu.json';
 import AdminMenu_ko from './ko/AdminMenu.json';
@@ -59,11 +71,6 @@ import AdminTransfer_en from './en/AdminTransfer.json';
 import AdminRegularOrder_ko from './ko/AdminRegularOrder.json';
 import AdminRegularOrder_en from './en/AdminRegularOrder.json';
 
-import SignUp_ko from './ko/SignUp.json';
-import SignUp_en from './en/SignUp.json';
-import SignUp_ja from './ja/SignUp.json';
-import SignUp_zh from './zh/SignUp.json';
-
 const resources = {
   ko: {
     Common: Common_ko,
@@ -84,7 +91,8 @@ const resources = {
     AdminTransferCancel: AdminTransferCancel_ko,
     AdminTransfer: AdminTransfer_ko,
     AdminRegularOrder: AdminRegularOrder_ko,
-    SignUp: SignUp_ko
+    SignUp: SignUp_ko,
+    Login: Login_ko
   },
   en: {
     Common: Common_en,
@@ -105,17 +113,22 @@ const resources = {
     AdminTransferCancel: AdminTransferCancel_en,
     AdminTransfer: AdminTransfer_en,
     AdminRegularOrder: AdminRegularOrder_en,
-    SignUp: SignUp_en
+    SignUp: SignUp_en,
+    Login: Login_en
   },
   ja: {
     AdminMenu: AdminMenu_ja,
     AdminManagerMember: AdminManagerMember_ja,
-    SignUp: SignUp_ja
+    SignUp: SignUp_ja,
+    Common: Common_ja,
+    Login: Login_ja
   },
   zh: {
     AdminMenu: AdminMenu_zh,
     AdminManagerMember: AdminManagerMember_zh,
-    SignUp: SignUp_zh
+    SignUp: SignUp_zh,
+    Common: Common_zh,
+    Login: Login_zh
   },
 };
 
