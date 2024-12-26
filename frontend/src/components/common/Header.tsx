@@ -6,9 +6,9 @@ const Header:React.FC = () => {
   const rendering = (): JSX.Element[] => {
     const result = [];
     switch (pathname.pathname) {
-      case "/login": case "/signup": case "/admin/login": case "/admin/signup":
-        result.push(<></>);
-        return result
+      // case "/login": case "/signup": case "/admin/login": case "/admin/signup":
+      //   result.push(<></>);
+      //   return result
       default:
         if(pathname.pathname.substring(0,6) === "/admin")
           result.push(<AdminHaeder key={"admin"}/>); //어드민 헤더

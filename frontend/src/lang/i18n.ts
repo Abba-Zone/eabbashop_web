@@ -134,7 +134,7 @@ const resources = {
 
 i18n.use(initReactI18next).init({
   resources: resources,
-  lng: 'ko',
+  lng: localStorage.getItem('language') || 'ko',
   fallbackLng: 'en',
   ns: ['AdminMenu'],
   defaultNS: 'AdminMenu',

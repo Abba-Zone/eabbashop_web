@@ -10,7 +10,6 @@ const ShopHeader: React.FC = () => {
   const [userInfo, setUserInfo] = useState<{ firstName: string, lastName: string, role: string } | null>(null);
 
   useEffect(() => {
-    // 로컬 스토리지에서 사용자 정보 읽기
     const accessToken = localStorage.getItem('access-token');
     if (accessToken) {
       const firstName = localStorage.getItem('first-name');
@@ -20,7 +19,7 @@ const ShopHeader: React.FC = () => {
         setUserInfo({ firstName, lastName, role });
       }
     }
-  }, []);
+  }, [i18n]);
 
   const openMenu = () => {
     setVisible(!visible);
@@ -32,13 +31,14 @@ const ShopHeader: React.FC = () => {
     localStorage.removeItem('first-name');
     localStorage.removeItem('last-name');
     localStorage.removeItem('role');
-    alert('로그아웃 되었습니다.');
+    alert(t('Alert.LogoutSuccess'));
     window.location.reload();
     navigate('/');
   }
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
+    localStorage.setItem('language', lng); // 선택한 언어를 로컬 스토리지에 저장
   }
 
   const handleGoLogin = () => {
@@ -64,7 +64,7 @@ const ShopHeader: React.FC = () => {
   return (
     <div className="shop-header">
       <div className="shop-header-left">
-        <select onChange={(e) => changeLanguage(e.target.value)} className="language-select">
+        <select onChange={(e) => changeLanguage(e.target.value)} className="language-select" value={i18n.language}>
           <option value="ko">{t("Common:Language.Korean")}</option>
           <option value="en">{t("Common:Language.English")}</option>
           <option value="zh">{t("Common:Language.Chinese")}</option>
