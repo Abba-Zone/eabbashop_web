@@ -12,6 +12,7 @@ const AdminHaeder:React.FC = () => {
     }
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
+        localStorage.setItem('language', lng);
     }
     const handleGoLogin = () =>{
         navigate("/admin/login");
@@ -25,7 +26,7 @@ const AdminHaeder:React.FC = () => {
                 <div className="admin-header-left">
                     <div className="admin-header-menu-button" onClick={openMenu}>햄버거</div> 
                     <div className="admin-header-logo">로고</div>
-                    <select onChange={(e) => changeLanguage(e.target.value)} className="language-select">
+                    <select onChange={(e) => changeLanguage(e.target.value)} className="language-select" value={i18n.language}>
                         <option value="ko">{t("Common:Language.Korean")}</option>
                         <option value="en">{t("Common:Language.English")}</option>
                         <option value="zh">{t("Common:Language.Chinese")}</option>

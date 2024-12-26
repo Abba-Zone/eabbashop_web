@@ -8,5 +8,8 @@
         "English":"英语",
         "Chinese":"中文",
         "Japanese":"日语"
+    },
+    "Alert":{
+        "LogoutSuccess":"登出成功"
     }
 }

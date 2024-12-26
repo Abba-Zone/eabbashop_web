@@ -30,11 +30,11 @@ const Login:React.FC = () => {
     <div>
       <h2>{t('Title')}</h2>
       <div>
-          <label htmlFor='input_id'>{t('Attribute01')}</label>
+          <label htmlFor='input_id'>{t('Attribute01') + ' : '}</label>
           <input type='text' name='input_id' value={inputId} onChange = {handleInputId} />
       </div>
       <div>
-          <label htmlFor='input_pw'>{t('Attribute02')}</label>
+          <label htmlFor='input_pw'>{t('Attribute02') + ' : '}</label>
           <input type='password' name='input_pw' value={inputPw} onChange = {handleInputPw} />
       </div>
       <div>
