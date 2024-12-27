@@ -28,7 +28,7 @@ const AdminProductRegistModal:React.FC<Props> = ({setModalOpen}) => {
   
   const registProduct = async () =>{
     const registCategories: string[] = categories.map(item => item.ID);
-    if(thumbnail===null)
+    if(thumbnail === null)
       return;
     const thumnailUrl = await registThumbnail_s(thumbnail);
     const imageUrls = await registImageFiles_s(description, images);
@@ -49,8 +49,8 @@ const AdminProductRegistModal:React.FC<Props> = ({setModalOpen}) => {
       showYN : showYN,
       activeYN : activeYN
     };
-    // await registProduct_s(productInfo);
-    // setModalOpen(false);
+    await registProduct_s(productInfo);
+    setModalOpen(false);
   }
   const changeUrls = (imageUrls:{preUrl:string[], lastUrl:string[]}, videoUrls:{preUrl:string[], lastUrl:string[]}) =>{
     for(let i = 0 ; i < imageUrls.preUrl.length; i++){

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Editor from "../editor/Editor";
 import { registBoard_s } from "../../../services/board";
+import { registImageFiles_s, registVideoFiles_s } from "../../../services/file";
 
 interface Props{
   type : string,
@@ -14,7 +15,9 @@ const AdminBoardRegistModal:React.FC<Props> = ({type, setModalOpen}) => {
   const [images, setImages] = useState<IFile[]>([]);
   const [videos, setVideos] = useState<IFile[]>([]);
   const registBoard = async () =>{
-    //FormDataList보내서 S3주소 받고 content수정
+    const imageUrls = await registImageFiles_s(content, images);
+    const videoUrls = await registVideoFiles_s(content, videos);
+    changeUrls(imageUrls, videoUrls);
     const boardInfo:registBoard = {
       title : title,
       content : content,
@@ -24,7 +27,15 @@ const AdminBoardRegistModal:React.FC<Props> = ({type, setModalOpen}) => {
     }
     console.log(content);
     await registBoard_s(boardInfo);
-    // setModalOpen(false);
+    setModalOpen(false);
+  }
+  const changeUrls = (imageUrls:{preUrl:string[], lastUrl:string[]}, videoUrls:{preUrl:string[], lastUrl:string[]}) =>{
+    for(let i = 0 ; i < imageUrls.preUrl.length; i++){
+      setContent(content.replace(imageUrls.preUrl[i], imageUrls.lastUrl[i]));
+    }
+    for(let i = 0 ; i < videoUrls.preUrl.length; i++){
+      setContent(content.replace(videoUrls.preUrl[i], videoUrls.lastUrl[i]));
+    }
   }
   return (
     <div style={{backgroundColor:"white", overflow : "scroll"}}>
