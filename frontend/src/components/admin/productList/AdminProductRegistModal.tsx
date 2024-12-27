@@ -2,12 +2,14 @@ import { useState } from "react";
 import Editor from "../editor/Editor";
 import { registProduct_s } from "../../../services/product";
 import { registImageFiles_s, registThumbnail_s, registVideoFiles_s } from "../../../services/file";
+import ViewEditor from "../editor/ViewEditor";
 
 interface Props{
   setModalOpen(type:boolean):void;
 }
 
 const AdminProductRegistModal:React.FC<Props> = ({setModalOpen}) => {
+  const [preview, setPreview] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [thumbnail, setThumbnail] = useState<IFile | null>(null);
   const [taxFreePrice, setTaxFreePrice] = useState<number>(0);
@@ -181,8 +183,9 @@ const AdminProductRegistModal:React.FC<Props> = ({setModalOpen}) => {
         <input type='radio' name='top' value='Y' onChange={() => {setActiveYN("Y")}} checked={activeYN==="Y"}/>활성화
         <input type='radio' name='top' value='N' onChange={() => {setActiveYN("N")}} checked={activeYN==="N"}/>비활성화
       </div>
-      <Editor images={images} setImages={setImages} videos={videos} setVideos={setVideos} content={description} setContent={setDescription}></Editor>
-      <button onClick={() => setModalOpen(false)}>상품등록취소</button>
+      {preview? <ViewEditor content={description}/>: <Editor images={images} setImages={setImages} videos={videos} setVideos={setVideos} content={description} setContent={setDescription}></Editor>}
+      {!preview && <button onClick={() => setModalOpen(false)}>상품등록취소</button>}
+      <button onClick={() => setPreview(!preview)}>{preview? "수정하기":"설명 미리보기"}</button>
       <button onClick={registProduct}>상품등록</button>
     </div>
   );
