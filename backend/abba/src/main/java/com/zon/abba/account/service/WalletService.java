@@ -44,6 +44,12 @@ public class WalletService {
 
     @Transactional
     public ResponseListBody getWalletList(){
+        logger.info("내역 조회를 시작합니다.");
+        logger.info("내역 조회용 회원 정보를 가져옵니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+
         return null;
     }
 }

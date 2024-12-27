@@ -3,6 +3,10 @@ package com.zon.abba.account.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 @Entity
 @Table(name = "PointsHistory")
 @Data
@@ -28,22 +32,31 @@ public class PointsHistory {
     private String message;
 
     @Column(name = "LP", precision = 10, scale = 2, nullable = false)
-    private double lp;
+    private BigDecimal lp;
 
-    @Column(name = "LPBalance", precision = 10, scale = 2, nullable = false)
-    private double lpBalance;
+    @Column(name = "SenderLPBalance", precision = 10, scale = 2, nullable = false)
+    private BigDecimal senderLpBalance;
+
+    @Column(name = "ReceiverLPBalance", precision = 10, scale = 2, nullable = false)
+    private BigDecimal receiverLpBalance;
 
     @Column(name = "AK", precision = 10, scale = 2, nullable = false)
-    private double ak;
+    private BigDecimal ak;
 
-    @Column(name = "AKBalance", precision = 10, scale = 2, nullable = false)
-    private double akBalance;
+    @Column(name = "SenderAKBalance", precision = 10, scale = 2, nullable = false)
+    private BigDecimal senderAkBalance;
+
+    @Column(name = "ReceiverAKBalance", precision = 10, scale = 2, nullable = false)
+    private BigDecimal receiverAkBalance;
 
     @Column(name = "SP", precision = 10, scale = 2, nullable = false)
-    private double sp;
+    private BigDecimal sp;
 
-    @Column(name = "SPBalance", precision = 10, scale = 2, nullable = false)
-    private double spBalance;
+    @Column(name = "SenderSPBalance", precision = 10, scale = 2, nullable = false)
+    private BigDecimal senderSpBalance;
+
+    @Column(name = "ReceiverSPBalance", precision = 10, scale = 2, nullable = false)
+    private BigDecimal receiverSpBalance;
 
     @Column(name = "Status", length = 1, nullable = false)
     private String status;
@@ -71,4 +84,16 @@ public class PointsHistory {
 
     @Column(name = "DeleteYN", length = 1, nullable = false)
     private String deleteYn;
+
+    @PrePersist
+    public void perPersist(){
+
+        if (this.createdId == null) this.createdId = UUID.randomUUID().toString();
+        if (this.modifiedId == null) this.modifiedId = UUID.randomUUID().toString();
+
+        if(this.createdDateTime == null) this.createdDateTime = LocalDateTime.now();
+        if(this.modifiedDateTime == null) this.modifiedDateTime = LocalDateTime.now();
+
+        if(this.deleteYn == null) this.deleteYn = "N";
+    }
 }
