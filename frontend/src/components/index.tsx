@@ -18,6 +18,7 @@ export {default as InquriryInfo} from "./admin/inquiryDetail/InquriryInfo";
 export {default as InquriryResponse} from "./admin/inquiryDetail/InquriryResponse";
 /* Product List */
 export {default as ProductList} from "./admin/productList/ProductList";
+export {default as AdminProductRegistModal} from "./admin/productList/AdminProductRegistModal";
 /* Product Detail */
 export {default as AdminProductInfo} from "./admin/productDetail/AdminProductInfo";
 export {default as AdminProductSellerInfo} from "./admin/productDetail/AdminProductSellerInfo";
@@ -48,6 +49,7 @@ export {default as AdminShipmentMemberInfo} from "./admin/shipmentDetail/AdminSh
 export {default as AdminShipmentOrderInfo} from "./admin/shipmentDetail/AdminShipmentOrderInfo";
 /* Board List */
 export {default as AdminBoardList} from "./admin/boardList/AdminBoardList";
+export {default as AdminBoardRegistModal} from "./admin/boardList/AdminBoardRegistModal";
 /* Board Detail */
 export {default as AdminBoardInfo} from "./admin/boardDetail/AdminBoardInfo";
 /* Donation List */

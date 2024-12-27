@@ -5,7 +5,21 @@ interface product{
     stock : number,
     activeYN : boolean
 }
-
+interface registProduct{
+    name : string,
+    thumbnail : string,
+    taxFreePrice : number,
+    SPPrice : number,
+    stock : number,
+    summary : string,
+    description : string,
+    paybackRatio : number,
+    allowNation : string[],
+    categories : string[]	,
+    viewSite : string	,
+    showYN : string,
+    activeYN : string
+}
 interface productList{
     totalCount : number,
     list : product[]

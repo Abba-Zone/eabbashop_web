@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { getBoardList_s } from '../../services/board';
-import { AdminBoardList, BottomButton, SearchSet } from '../../components';
+import { AdminBoardList, AdminBoardRegistModal, BottomButton, SearchSet } from '../../components';
 import { useTranslation } from 'react-i18next';
 
 const AdminLetter: React.FC = () => {
   const { t } = useTranslation();
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [letters, setLetters] = useState<board[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -21,6 +22,7 @@ const AdminLetter: React.FC = () => {
     {selectName:t("AdminBoard:List.Filter04"), select:'showYN', selectType:'select', itemList:['ON', 'OFF']},
     {selectName:t("AdminBoard:List.Filter05"), select:'createdDateTime', selectType:'date', itemList:[]},
   ];
+  const modalRef = useRef<HTMLDivElement>(null); // modal에 대한 ref 추가
 
   const getLetterList = useCallback (async () => {
     try {
@@ -57,7 +59,21 @@ const AdminLetter: React.FC = () => {
 
   return (
     <div>
-      <h1>{t("AdminBoard:List.LetterTitle")}</h1>
+      <h1>{t("AdminBoard:List.LetterTitle")}<button onClick={() => setModalOpen(true)}>등록</button></h1>
+      {
+        modalOpen && 
+        <div 
+          ref={modalRef}
+          style={{
+          "width": "100%",
+          "height": "100%",
+          "position": "fixed",
+          "top": "0",
+          "left": "0",
+          "display": "flex",
+          "background": "rgba(0, 0, 0, 0.5)"
+        }}><AdminBoardRegistModal type='아빠의편지' setModalOpen={setModalOpen}/></div>
+      }
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <AdminBoardList boards={letters}  changeSort={changeSort}></AdminBoardList>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>

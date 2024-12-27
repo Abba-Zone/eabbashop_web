@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { BottomButton, ProductList, SearchSet } from '../../components';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { AdminProductRegistModal, BottomButton, ProductList, SearchSet } from '../../components';
 import { getProductList_s } from '../../services/product';
 import { useTranslation } from 'react-i18next';
 
 const AdminProductList: React.FC = () => {
   const { t } = useTranslation();
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [products, setProducts] = useState<product[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -20,6 +21,7 @@ const AdminProductList: React.FC = () => {
     {selectName:t("AdminProduct:List.Filter03"), select:'stock', selectType:'text', itemList:[]},
     {selectName:t("AdminProduct:List.Filter04"), select:'activeYN', selectType:'select', itemList:[t("AdminProduct:List.Option04.Attribute01"), t("AdminProduct:List.Option04.Attribute02")]},
   ];
+  const modalRef = useRef<HTMLDivElement>(null); // modal에 대한 ref 추가
   const getProductList = useCallback( async () => {
       try {
         const totalAndProductList : productList = await getProductList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
@@ -59,7 +61,21 @@ const AdminProductList: React.FC = () => {
     }, [getProductList]);
   return (
     <div>
-      <h1>{t("AdminProduct:List.Title")}</h1>
+      <h1>{t("AdminProduct:List.Title")} <button onClick={() => setModalOpen(true)}>등록</button></h1>
+      {
+        modalOpen && 
+        <div 
+          ref={modalRef}
+          style={{
+          "width": "100%",
+          "height": "100%",
+          "position": "fixed",
+          "top": "0",
+          "left": "0",
+          "display": "flex",
+          "background": "rgba(0, 0, 0, 0.5)"
+        }}><AdminProductRegistModal setModalOpen={setModalOpen}/></div>
+      }
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <ProductList products={products} changeSort={changeSort}/>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>

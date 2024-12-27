@@ -62,6 +62,15 @@ export const getProductDetail = (productID:string):productDetailAndSeller => {
     return result;
 }
 
+export const registerProduct = (registProduct:registProduct) => {
+    /* real code*/
+    postData<reviewList>('/product/register', registProduct)
+        .then((data:any) => {
+            // return data.result;
+        }
+    );
+}
+
 export const getProductReviewList = (pageNo:number, pageSize:number, sort:number, productID:string):reviewList => {
     /* real code*/
     // getData<reviewList>('/review/list?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&orderby='+ sort + '&productID='+ productID)
