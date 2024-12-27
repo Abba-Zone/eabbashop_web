@@ -43,3 +43,12 @@ export const getBoardDetail = (boardID:string):boardDetail => {
     };
     return result;
 }
+
+export const registerBoard = (registBoard:registBoard) => {
+    /* real code*/
+    postData<reviewList>('/board/register', registBoard)
+        .then((data:any) => {
+            // return data.result;
+        }
+    );
+}

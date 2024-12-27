@@ -16,3 +16,10 @@ interface boardDetail extends board{
     type : number,
     contents : string
 }
+interface registBoard {
+    title : string,
+    content : string,
+    show : string,
+    top : string,
+    type : string
+}
