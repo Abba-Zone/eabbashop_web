@@ -2,12 +2,15 @@ import { useState } from "react";
 import Editor from "../editor/Editor";
 import { registBoard_s } from "../../../services/board";
 import { registImageFiles_s, registVideoFiles_s } from "../../../services/file";
+import ReactQuill from "react-quill";
+import ViewEditor from "../editor/ViewEditor";
 
 interface Props{
   type : string,
   setModalOpen(type:boolean):void;
 }
 const AdminBoardRegistModal:React.FC<Props> = ({type, setModalOpen}) => {
+  const [preview, setPreview] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [show, setShow] = useState<string>("Y");
@@ -54,8 +57,9 @@ const AdminBoardRegistModal:React.FC<Props> = ({type, setModalOpen}) => {
         <input type='radio' name='top' value='Y' onChange={() => {setTop("Y")}} checked={top==="Y"}/>활성화
         <input type='radio' name='top' value='N' onChange={() => {setTop("N")}} checked={top==="N"}/>비활성화
       </div>
-      <Editor images={images} setImages={setImages} videos={videos} setVideos={setVideos} content={content} setContent={setContent}></Editor>
+      {preview? <ViewEditor content={content}/>: <Editor images={images} setImages={setImages} videos={videos} setVideos={setVideos} content={content} setContent={setContent}></Editor>}
       <button onClick={() => setModalOpen(false)}>작성취소</button>
+      <button onClick={() => setPreview(!preview)}>{preview? "수정하기":"미리보기"}</button>
       <button onClick={registBoard}>글쓰기</button>
     </div>
   );
