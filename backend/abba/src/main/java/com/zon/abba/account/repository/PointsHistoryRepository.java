@@ -4,6 +4,7 @@ import com.zon.abba.account.entity.PointsHistory;
 import com.zon.abba.account.entity.Wallet;
 import com.zon.abba.account.mapping.HistoryList;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -53,5 +54,5 @@ public interface PointsHistoryRepository extends JpaRepository<PointsHistory, St
                     "           OR ReceiverWalletID IN (SELECT WalletID FROM Wallet WHERE MemberID = :memberId)) AND (:type IS NULL OR Type = :type) " +
                     ") ph",
             nativeQuery = true)
-    Page<HistoryList> findHistoryByWalletId(@Param("memberId") String memberId);
+    Page<HistoryList> findHistoryByWalletId(@Param("memberId") String memberId, @Param("type") String type, Pageable pageable);
 }
