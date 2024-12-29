@@ -4,6 +4,7 @@ import ReactQuill, { Quill } from 'react-quill'
 import 'react-quill-new/dist/quill.snow.css';
 import { ImageActions } from '@xeger/quill-image-actions';
 import { ImageFormats } from '@xeger/quill-image-formats';
+import { useTranslation } from "react-i18next";
 
 Quill.register('modules/imageActions', ImageActions);
 Quill.register('modules/imageFormats', ImageFormats);
@@ -18,6 +19,7 @@ interface Props{
 }
 
 const Editor:React.FC<Props> = ({content, images, videos, setImages, setVideos, setContent}) => {
+  const { t } = useTranslation();
   const QuillRef = useRef<ReactQuill | null>(null);
   const imageHandler = () => {
     const input = document.createElement("input");
@@ -122,16 +124,16 @@ const Editor:React.FC<Props> = ({content, images, videos, setImages, setVideos, 
     'video'
   ];
   return (
-      <ReactQuill
-          ref={QuillRef}
-          formats={formats}
-          value={content}
-          onChange={setContent}
-          modules={modules}
-          theme="snow"
-          style={{height: '600px', marginBottom: '10%'}} // style 
-          placeholder="내용을 입력해주세요."
-        />
+    <ReactQuill
+        ref={QuillRef}
+        formats={formats}
+        value={content}
+        onChange={setContent}
+        modules={modules}
+        theme="snow"
+        style={{height: '600px', marginBottom: '10%'}}
+        placeholder={t("AdminBoard:Regist.Attribute01")}
+      />
   );
 };
 

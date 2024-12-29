@@ -20,5 +20,25 @@
             "Attribute05" : "상단고정",
             "Attribute06" : "활성화"
         }
+    },
+    "Regist":{
+        "NoticeTitle": "공지사항",
+        "LetterTitle": "아빠의 편지",
+        "Filter01" : "제목",
+        "Filter02" : "보여주기",
+        "Option02": {
+            "Attribute01": "활성화",
+            "Attribute02": "비활성화"
+        },
+        "Filter03" : "상단고정",
+        "Option03": {
+            "Attribute01": "활성화",
+            "Attribute02": "비활성화"
+        },
+        "Button01" : "작성취소",
+        "Button02" : "수정하기",
+        "Button03" : "미리보기",
+        "Button04" : "글쓰기",
+        "Attribute01" : "내용을 입력해주세요."
     }
 }

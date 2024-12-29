@@ -57,5 +57,39 @@
             "Attribute06":"베스트 순",
             "Attribute07":"최신 순"
         }
+    },
+    "Regist":{
+        "Title" : "상품등록",
+        "Filter01" : "상품명",
+        "Filter02" : "상품이미지",
+        "Filter03" : "세금제외가격",
+        "Filter04" : "SPPrice",
+        "Filter05" : "재고",
+        "Filter06" : "요약설명",
+        "Filter07" : "페이백",
+        "Filter08" : "국가설정",
+        "Option08" : "국가 선택",
+        "Filter09" : "카데고리설정",
+        "Option09" : "카테고리 선택",
+        "Filter10" : "웹/모바일",
+        "Option10": {
+            "Attribute01": "전체",
+            "Attribute02": "웹",
+            "Attribute03": "모바일"
+        },
+        "Filter11" : "보여주기",
+        "Option11": {
+            "Attribute01": "활성화",
+            "Attribute02": "비활성화"
+        },
+        "Filter12" : "활성화",
+        "Option12": {
+            "Attribute01": "활성화",
+            "Attribute02": "비활성화"
+        },
+        "Button01" : "상품등록취소",
+        "Button02" : "수정하기",
+        "Button03" : "설명 미리보기",
+        "Button04" : "상품등록"
     }
 }

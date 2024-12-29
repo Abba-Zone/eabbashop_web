@@ -57,5 +57,40 @@
             "Attribute06": "Best Order",
             "Attribute07": "Newest First"
         }
+    },
+    "Regist": {
+        "Title": "Product Registration",
+        "Filter01": "Product Name",
+        "Filter02": "Product Image",
+        "Filter03": "Price Excluding Tax",
+        "Filter04": "SP Price",
+        "Filter05": "Stock",
+        "Filter06": "Summary Description",
+        "Filter07": "Payback",
+        "Filter08": "Country Settings",
+        "Option08": "Select Country",
+        "Filter09": "Category Settings",
+        "Option09": "Select Category",
+        "Filter10": "Web/Mobile",
+        "Option10": {
+            "Attribute01": "All",
+            "Attribute02": "Web",
+            "Attribute03": "Mobile"
+        },
+        "Filter11": "Display",
+        "Option11": {
+            "Attribute01": "Active",
+            "Attribute02": "Inactive"
+        },
+        "Filter12": "Activation",
+        "Option12": {
+            "Attribute01": "Active",
+            "Attribute02": "Inactive"
+        },
+        "Button01": "Cancel Registration",
+        "Button02": "Edit Description",
+        "Button03": "Preview Description",
+        "Button04": "Register Product"
     }
+    
 }

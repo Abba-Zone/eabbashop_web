@@ -2,14 +2,15 @@ import { useState } from "react";
 import Editor from "../editor/Editor";
 import { registBoard_s } from "../../../services/board";
 import { registImageFiles_s, registVideoFiles_s } from "../../../services/file";
-import ReactQuill from "react-quill";
 import ViewEditor from "../editor/ViewEditor";
+import { useTranslation } from "react-i18next";
 
 interface Props{
   type : string,
   setModalOpen(type:boolean):void;
 }
 const AdminBoardRegistModal:React.FC<Props> = ({type, setModalOpen}) => {
+  const { t } = useTranslation();
   const [preview, setPreview] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
@@ -44,23 +45,23 @@ const AdminBoardRegistModal:React.FC<Props> = ({type, setModalOpen}) => {
     <div style={{backgroundColor:"white", overflow : "scroll"}}>
       <h2>{type}</h2>
       <div>
-        <label htmlFor='Title'>제목 : </label>
+        <label htmlFor='Title'>{t("AdminBoard:Regist.Filter01")} : </label>
         <input type='text' name='input_last' value={title} onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{setTitle(event.target.value)}}/>
       </div>
       <div>
-        <label htmlFor='showYN'>보여주기 : </label>
-        <input type='radio' name='show' value='Y' onChange={() => {setShow("Y")}} checked={show==="Y"}/>활성화
-        <input type='radio' name='show' value='N' onChange={() => {setShow("N")}} checked={show==="N"}/>비활성화
+        <label htmlFor='showYN'>{t("AdminBoard:Regist.Filter02")} : </label>
+        <input type='radio' name='show' value='Y' onChange={() => {setShow("Y")}} checked={show==="Y"}/>{t("AdminBoard:Regist.Option02.Attribute01")}
+        <input type='radio' name='show' value='N' onChange={() => {setShow("N")}} checked={show==="N"}/>{t("AdminBoard:Regist.Option02.Attribute02")}
       </div>
       <div>
-        <label htmlFor='topYN'>상단고정 : </label>
-        <input type='radio' name='top' value='Y' onChange={() => {setTop("Y")}} checked={top==="Y"}/>활성화
-        <input type='radio' name='top' value='N' onChange={() => {setTop("N")}} checked={top==="N"}/>비활성화
+        <label htmlFor='topYN'>{t("AdminBoard:Regist.Filter03")} : </label>
+        <input type='radio' name='top' value='Y' onChange={() => {setTop("Y")}} checked={top==="Y"}/>{t("AdminBoard:Regist.Option03.Attribute01")}
+        <input type='radio' name='top' value='N' onChange={() => {setTop("N")}} checked={top==="N"}/>{t("AdminBoard:Regist.Option03.Attribute02")}
       </div>
       {preview? <ViewEditor content={content}/>: <Editor images={images} setImages={setImages} videos={videos} setVideos={setVideos} content={content} setContent={setContent}></Editor>}
-      <button onClick={() => setModalOpen(false)}>작성취소</button>
-      <button onClick={() => setPreview(!preview)}>{preview? "수정하기":"미리보기"}</button>
-      <button onClick={registBoard}>글쓰기</button>
+      {!preview && <button onClick={() => setModalOpen(false)}>{t("AdminBoard:Regist.Button01")}</button>}
+      <button onClick={() => setPreview(!preview)}>{preview? t("AdminBoard:Regist.Button02"):t("AdminBoard:Regist.Button03")}</button>
+      <button onClick={registBoard}>{t("AdminBoard:Regist.Button04")}</button>
     </div>
   );
 }

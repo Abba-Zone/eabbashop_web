@@ -20,6 +20,25 @@
             "Attribute05": "Pinned",
             "Attribute06": "Active"
         }
+    },
+    "Regist": {
+        "NoticeTitle": "Notice",
+        "LetterTitle": "Father's Letter",
+        "Filter01": "Title",
+        "Filter02": "Display",
+        "Option02": {
+            "Attribute01": "Active",
+            "Attribute02": "Inactive"
+        },
+        "Filter03": "Pin to Top",
+        "Option03": {
+            "Attribute01": "Active",
+            "Attribute02": "Inactive"
+        },
+        "Button01": "Cancel",
+        "Button02": "Edit Content",
+        "Button03": "Preview Content",
+        "Button04": "Write Content",
+        "Attribute01": "Please enter content."
     }
-    
 }
