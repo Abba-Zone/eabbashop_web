@@ -3,12 +3,14 @@ import Editor from "../editor/Editor";
 import { registProduct_s } from "../../../services/product";
 import { registImageFiles_s, registThumbnail_s, registVideoFiles_s } from "../../../services/file";
 import ViewEditor from "../editor/ViewEditor";
+import { useTranslation } from "react-i18next";
 
 interface Props{
   setModalOpen(type:boolean):void;
 }
 
 const AdminProductRegistModal:React.FC<Props> = ({setModalOpen}) => {
+  const { t } = useTranslation();
   const [preview, setPreview] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [thumbnail, setThumbnail] = useState<IFile | null>(null);
@@ -29,6 +31,7 @@ const AdminProductRegistModal:React.FC<Props> = ({setModalOpen}) => {
   const category = [{ID:"1234qwea1", name:"이름1"}, {ID:"1234qwea2", name:"이름2"}, {ID:"1234qwea3", name:"이름3"}, {ID:"1234qwea4", name:"이름4"}, {ID:"1234qwea5", name:"이름5"}];
   
   const registProduct = async () =>{
+    
     const registCategories: string[] = categories.map(item => item.ID);
     if(thumbnail === null)
       return;
@@ -74,7 +77,7 @@ const AdminProductRegistModal:React.FC<Props> = ({setModalOpen}) => {
   }
   const nationsOption = (): JSX.Element[] => {
     const result = [];
-    result.push(<option key={0} value="" disabled hidden>국가 선택</option>)
+    result.push(<option key={0} value="" disabled hidden>{t("AdminProduct:Regist.Option08")}</option>)
     for(let i = 0 ; i < nation.length; i++){
       result.push(<option key={i + 1} value={i}>{nation[i]}</option>);
     }
@@ -99,7 +102,7 @@ const AdminProductRegistModal:React.FC<Props> = ({setModalOpen}) => {
   }
   const categoriesOption = (): JSX.Element[] => {
     const result = [];
-    result.push(<option key={0} value="" disabled hidden>카테고리 선택</option>)
+    result.push(<option key={0} value="" disabled hidden>{t("AdminProduct:Regist.Option09")}</option>)
     for(let i = 0 ; i < category.length; i++){
       result.push(<option key={i + 1} value={i}>{category[i].name}</option>);
     }
@@ -123,70 +126,70 @@ const AdminProductRegistModal:React.FC<Props> = ({setModalOpen}) => {
   };
   return (
     <div style={{backgroundColor:"white", overflow : "scroll"}}>
-      <h2>상품등록</h2>
+      <h2>{t("AdminProduct:Regist.Title")}</h2>
       <div>
-        <label htmlFor='name'>상품명 : </label>
+        <label htmlFor='name'>{t("AdminProduct:Regist.Filter01")} : </label>
         <input type='text' value={name} onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{setName(event.target.value)}}/>
       </div>
       <div>
-        <label htmlFor='thumbnail'>썸네일 : </label>
+        <label htmlFor='thumbnail'>{t("AdminProduct:Regist.Filter02")} : </label>
         {thumbnail &&<img src={thumbnail.previewURL} alt="Preview" style={{ width: '100px', height: '100px' }}/>}
         <input type='file' accept="image/*" onChange={handleFileChange}/>
       </div>
       <div>
-        <label htmlFor='taxFreePrice'>세금제외가격 : </label>
+        <label htmlFor='taxFreePrice'>{t("AdminProduct:Regist.Filter03")} : </label>
         <input type='number' value={taxFreePrice} onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{setTaxFreePrice(Number(event.target.value))}}/>
       </div>
       <div>
-        <label htmlFor='SPPrice'>SPPrice : </label>
+        <label htmlFor='SPPrice'>{t("AdminProduct:Regist.Filter04")} : </label>
         <input type='number' value={SPPrice} onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{setSPPrice(Number(event.target.value))}}/>
       </div>
       <div>
-        <label htmlFor='stock'>재고 : </label>
+        <label htmlFor='stock'>{t("AdminProduct:Regist.Filter05")} : </label>
         <input type='number' value={stock} onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{setStock(Number(event.target.value))}}/>
       </div>
       <div>
-        <label htmlFor='summary'>요약설명 : </label>
+        <label htmlFor='summary'>{t("AdminProduct:Regist.Filter06")} : </label>
         <input type='text' value={summary} onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{setSummary(event.target.value)}}/>
       </div>
       <div>
-        <label htmlFor='paybackRate'>페이백 : </label>
+        <label htmlFor='paybackRate'>{t("AdminProduct:Regist.Filter07")} : </label>
         <input type='text' value={paybackRate} onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{setPaybackRate(Number(event.target.value))}}/>
       </div>
       <div>
-        <label htmlFor='allowNation'>국가 : </label>
+        <label htmlFor='allowNation'>{t("AdminProduct:Regist.Filter08")} : </label>
         <select name="allowNation" value="" onChange={changeNation}>
           {nationsOption()}
         </select>
       </div>
       {selectNations()}
       <div>
-        <label htmlFor='categories'>카테고리 : </label>
+        <label htmlFor='categories'>{t("AdminProduct:Regist.Filter09")} : </label>
         <select name="categories" value="" onChange={changeCategory}>
           {categoriesOption()}
         </select>
       </div>
       {selectCategories()}
       <div>
-        <label htmlFor='viewSite'>웹/모바일 : </label>
-        <input type='radio' name='viewSite' value='all' onChange={() => {setViewSite("A")}} checked={viewSite==="A"}/>전체
-        <input type='radio' name='viewSite' value='web' onChange={() => {setViewSite("W")}} checked={viewSite==="W"}/>웹
-        <input type='radio' name='viewSite' value='mobile' onChange={() => {setViewSite("M")}} checked={viewSite==="M"}/>모바일
+        <label htmlFor='viewSite'>{t("AdminProduct:Regist.Filter10")} : </label>
+        <input type='radio' name='viewSite' value='all' onChange={() => {setViewSite("A")}} checked={viewSite==="A"}/>{t("AdminProduct:Regist.Option10.Attribute01")}
+        <input type='radio' name='viewSite' value='web' onChange={() => {setViewSite("W")}} checked={viewSite==="W"}/>{t("AdminProduct:Regist.Option10.Attribute02")}
+        <input type='radio' name='viewSite' value='mobile' onChange={() => {setViewSite("M")}} checked={viewSite==="M"}/>{t("AdminProduct:Regist.Option10.Attribute03")}
       </div>
       <div>
-        <label htmlFor='showYN'>보여주기 : </label>
-        <input type='radio' name='show' value='Y' onChange={() => {setShowYN("Y")}} checked={showYN==="Y"}/>활성화
-        <input type='radio' name='show' value='N' onChange={() => {setShowYN("N")}} checked={showYN==="N"}/>비활성화
+        <label htmlFor='showYN'>{t("AdminProduct:Regist.Filter11")} : </label>
+        <input type='radio' name='show' value='Y' onChange={() => {setShowYN("Y")}} checked={showYN==="Y"}/>{t("AdminProduct:Regist.Option11.Attribute01")}
+        <input type='radio' name='show' value='N' onChange={() => {setShowYN("N")}} checked={showYN==="N"}/>{t("AdminProduct:Regist.Option11.Attribute02")}
       </div>
       <div>
-        <label htmlFor='topYN'>활성화 : </label>
-        <input type='radio' name='top' value='Y' onChange={() => {setActiveYN("Y")}} checked={activeYN==="Y"}/>활성화
-        <input type='radio' name='top' value='N' onChange={() => {setActiveYN("N")}} checked={activeYN==="N"}/>비활성화
+        <label htmlFor='topYN'>{t("AdminProduct:Regist.Filter12")} : </label>
+        <input type='radio' name='top' value='Y' onChange={() => {setActiveYN("Y")}} checked={activeYN==="Y"}/>{t("AdminProduct:Regist.Option12.Attribute01")}
+        <input type='radio' name='top' value='N' onChange={() => {setActiveYN("N")}} checked={activeYN==="N"}/>{t("AdminProduct:Regist.Option12.Attribute02")}
       </div>
       {preview? <ViewEditor content={description}/>: <Editor images={images} setImages={setImages} videos={videos} setVideos={setVideos} content={description} setContent={setDescription}></Editor>}
-      {!preview && <button onClick={() => setModalOpen(false)}>상품등록취소</button>}
-      <button onClick={() => setPreview(!preview)}>{preview? "수정하기":"설명 미리보기"}</button>
-      <button onClick={registProduct}>상품등록</button>
+      {!preview && <button onClick={() => setModalOpen(false)}>{t("AdminProduct:Regist.Button01")}</button>}
+      <button onClick={() => setPreview(!preview)}>{preview? t("AdminProduct:Regist.Button02"):t("AdminProduct:Regist.Button03")}</button>
+      <button onClick={registProduct}>{t("AdminProduct:Regist.Button04")}</button>
     </div>
   );
 }

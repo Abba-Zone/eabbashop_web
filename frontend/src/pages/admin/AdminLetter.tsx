@@ -72,7 +72,7 @@ const AdminLetter: React.FC = () => {
           "left": "0",
           "display": "flex",
           "background": "rgba(0, 0, 0, 0.5)"
-        }}><AdminBoardRegistModal type='아빠의편지' setModalOpen={setModalOpen}/></div>
+        }}><AdminBoardRegistModal type={t("AdminBoard:Regist.LetterTitle")} setModalOpen={setModalOpen}/></div>
       }
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <AdminBoardList boards={letters}  changeSort={changeSort}></AdminBoardList>

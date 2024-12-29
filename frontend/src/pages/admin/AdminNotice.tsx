@@ -72,7 +72,7 @@ const AdminNotice: React.FC = () => {
           "left": "0",
           "display": "flex",
           "background": "rgba(0, 0, 0, 0.5)"
-        }}><AdminBoardRegistModal type='공지사항' setModalOpen={setModalOpen}/></div>
+        }}><AdminBoardRegistModal type={t("AdminBoard:Regist.NoticeTitle")} setModalOpen={setModalOpen}/></div>
       }
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <AdminBoardList boards={notices}  changeSort={changeSort}></AdminBoardList>
