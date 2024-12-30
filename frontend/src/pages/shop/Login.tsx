@@ -21,6 +21,7 @@ const Login:React.FC = () => {
     const loginResult = await login_s(loginUser);
     if (loginResult){
       navigate("/");
+      window.location.reload();
     } else {
       alert(t('Alert.LoginFailed'))
     }
