@@ -31,7 +31,7 @@ const ShopHeader: React.FC = () => {
     localStorage.removeItem('first-name');
     localStorage.removeItem('last-name');
     localStorage.removeItem('role');
-    alert(t('Alert.LogoutSuccess'));
+    alert(t('Common:Alert.LogoutSuccess'));
     window.location.reload();
     navigate('/');
   }
@@ -76,7 +76,7 @@ const ShopHeader: React.FC = () => {
           <div>
             {renderUserName()} ({userInfo.role}) &nbsp;
             <span>
-              <button onClick={handleLogout}>로그아웃</button>
+              <button onClick={handleLogout}>{t("Common:Header.Logout")}</button>
             </span>
           </div>
         ) : (

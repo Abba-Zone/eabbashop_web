@@ -16,13 +16,14 @@ import { Home, Login, Signup, Cart, Profile,
   AdminRefundRequest, AdminStoreList, AdminStoreDetail,
   AdminStoreManage, AdminNotice, AdminLetter, AdminDonation,
   AdminSetting, AdminInquiryList, AdminInquiryDetail, 
-  AdminBoardDetail, AdminRefundDetail} from '../pages';
+  AdminBoardDetail, AdminRefundDetail, GoogleLogin} from '../pages';
 
 const RoutePath:React.FC = () => {
   return (
     <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/login" element={<Login />}/>
+        <Route path="/code/google" element={<GoogleLogin />}/>
         <Route path="/signup" element={<Signup />}/>
         <Route path="/cart" element={<Cart />}/>        
         <Route path="/profile" element={<Profile />}/>        

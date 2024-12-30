@@ -1,7 +1,9 @@
 {
     "Header":{
         "Login":"로그인",
-        "Signup":"회원가입"
+        "Signup":"회원가입",
+        "Logout":"로그아웃",
+        "GoogleLogin":"구글 로그인"
     },
     "Language":{
         "Korean":"한국어",

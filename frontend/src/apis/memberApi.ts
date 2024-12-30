@@ -218,3 +218,46 @@ const filterToUrl = (memberListPage : memberListPage):String => {
                 '&filter.CreatedDateTime=' + memberListPage.filter.createdDateTime;
     return url;
 }
+
+export const googleLogin = async (): Promise<loginSuccess> => {
+  const googleOauthClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+  
+  if (!googleOauthClientId) {
+    throw new Error('Google OAuth Client ID is not defined');
+  }
+
+  const params = new URLSearchParams({
+    response_type: "code",
+    client_id: googleOauthClientId,
+    redirect_uri: "http://localhost:3000/code/google",
+    scope: "email profile"
+  });
+
+  const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
+
+  // 디버깅 로그 추가
+  console.log('Google OAuth URL:', googleAuthUrl);
+
+  window.location.href = googleAuthUrl;
+  
+  return null as unknown as loginSuccess;
+};
+
+export const googleLoginWithCode = async (code: string): Promise<loginSuccess | null> => {
+  try {
+    const response = await postData<loginSuccess>('member/oauth/google/code', { code });
+    console.log(response);
+    if (response.status === 200) {
+      updateAccessTokenAxios(response.data.accessToken, response.data.refreshToken);
+      updateUserInfo(response.data.firstName, response.data.lastName, response.data.role);
+      return response.data;
+    } else if (response.status === 300) {
+      alert('신규회원입니다');
+      // 신규 회원 등록 로직을 여기에 추가할 수 있습니다.
+    }
+    return null;
+  } catch (error) {
+    console.error('Google login error:', error);
+    return null;
+  }
+};
