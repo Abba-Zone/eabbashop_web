@@ -8,7 +8,7 @@ const AdminProductInfo:React.FC<Props> = ({productInfo}) => {
   const showCategorys = (): JSX.Element[] => {
     const result = [];
     for(let i = 0 ; i < productInfo.categories.length; i++){
-      result.push(<span key={i}> {productInfo.categories[i]} </span>);
+      result.push(<span key={i}> {productInfo.categories[i].name} </span>);
     }
     return result;
   }
@@ -30,7 +30,6 @@ const AdminProductInfo:React.FC<Props> = ({productInfo}) => {
 
   return (
     <div>
-      <h1>{productInfo.name}</h1>
       <div><div>{t("AdminProduct:Detail.Item01.Attribute01")}</div><div>{productInfo.thumbnail}</div></div>
       <div><div>{t("AdminProduct:Detail.Item01.Attribute02")}</div><div>{productInfo.stock}</div></div>
       <div><div>{t("AdminProduct:Detail.Item01.Attribute03")}</div>{productInfo.taxFreePrice} / {productInfo.SPPrice} / {productInfo.realPrice}</div>

@@ -1,4 +1,4 @@
-import { getProductList, getProductDetail, getProductReviewList, registerProduct } from '../apis/productApi'
+import { getProductList, getProductDetail, getProductReviewList, registerProduct, modifyProduct } from '../apis/productApi'
 export const getProductList_s = async (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string): Promise<productList> => {
     return await getProductList(pageNo, pageSize, filter, filterValue, sort, sortValue);
 };
@@ -9,6 +9,10 @@ export const getProductDetail_s = async (productId:string): Promise<productDetai
 
 export const registProduct_s = async (registProduct:registProduct) => {
     await registerProduct(registProduct);
+}
+
+export const modifyProduct_s = async (productInfo:modifyProduct) => {
+    await modifyProduct(productInfo);
 }
 
 export const getProductReviewList_s = async (pageNo:number, pageSize:number, sort:number, productID:string): Promise<reviewList> => {

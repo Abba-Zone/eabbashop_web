@@ -14,10 +14,10 @@ export const getProductList = (pageNo:number, pageSize:number, filter:number, fi
     var result :productList = {
         totalCount: 123412414,
         list : [
-            {productID: "1dvxb32c45s7d87b49lkfdvb", name : "물병",seller : "전 현태",	stock : 100, activeYN : true,},
-            {productID: "2dvxb32c45s7d87b49lkfdvb", name : "물병",seller : "전 현태",	stock : 100, activeYN : false,},
-            {productID: "3dvxb32c45s7d87b49lkfdvb", name : "물병",seller : "전 현태",	stock : 100, activeYN : false,},
-            {productID: "4dvxb32c45s7d87b49lkfdvb", name : "물병",seller : "전 현태",	stock : 100, activeYN : true,}
+            {productID: "1dvxb32c45s7d87b49lkfdvb", name : "물병",seller : "전 현태",	stock : 100, activeYN : "Y",},
+            {productID: "2dvxb32c45s7d87b49lkfdvb", name : "물병",seller : "전 현태",	stock : 100, activeYN : "N",},
+            {productID: "3dvxb32c45s7d87b49lkfdvb", name : "물병",seller : "전 현태",	stock : 100, activeYN : "N",},
+            {productID: "4dvxb32c45s7d87b49lkfdvb", name : "물병",seller : "전 현태",	stock : 100, activeYN : "Y",}
         ]
     };
     return result;
@@ -43,11 +43,11 @@ export const getProductDetail = (productID:string):productDetailAndSeller => {
             description : "물을 오래 보관할 수 있음(이미지도 있음)",
             summary : "물담는 거",
             paybackRatio : 0.5,
-            categories : ["qw12as", "12qwas"],
+            categories : [{"ID":"qw12as", "name":"생필품"}, {"ID":"12qwas","name" :"치약"}],
             allowNation : ["KOR", "USA"],
             viewSite : "A",
-            showYN :true,
-            activeYN : true
+            showYN :"Y",
+            activeYN : "Y"
         },
         seller:{
             baseAddress:"부산시 기장군",
@@ -65,6 +65,15 @@ export const getProductDetail = (productID:string):productDetailAndSeller => {
 export const registerProduct = (registProduct:registProduct) => {
     /* real code*/
     postData<reviewList>('/product/register', registProduct)
+        .then((data:any) => {
+            // return data.result;
+        }
+    );
+}
+
+export const modifyProduct = (productInfo:modifyProduct) => {
+    /* real code*/
+    postData<reviewList>('/product/update', productInfo)
         .then((data:any) => {
             // return data.result;
         }
