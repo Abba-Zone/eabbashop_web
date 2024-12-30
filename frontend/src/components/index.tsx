@@ -24,6 +24,7 @@ export {default as AdminProductInfo} from "./admin/productDetail/AdminProductInf
 export {default as AdminProductSellerInfo} from "./admin/productDetail/AdminProductSellerInfo";
 export {default as AdminProductReviewList} from "./admin/productDetail/AdminProductReviewList";
 export {default as AdminProductReviewListComponent} from "./admin/productDetail/AdminProductReviewListComponent";
+export {default as AdminProductModifyModal} from "./admin/productDetail/AdminProductModifyModal";
 /* Order List */
 export {default as AdminOrderListComponent} from "./admin/orderList/AdminOrderListComponent";
 /* Order Detail */
@@ -52,6 +53,7 @@ export {default as AdminBoardList} from "./admin/boardList/AdminBoardList";
 export {default as AdminBoardRegistModal} from "./admin/boardList/AdminBoardRegistModal";
 /* Board Detail */
 export {default as AdminBoardInfo} from "./admin/boardDetail/AdminBoardInfo";
+export {default as AdminBoardModifyModal} from "./admin/boardDetail/AdminBoardModifyModal";
 /* Donation List */
 export {default as AdminDonationList} from "./admin/donation/AdminDonationList";
 /* Store List */

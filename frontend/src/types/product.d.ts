@@ -3,8 +3,9 @@ interface product{
     name : string,
     seller : string,
     stock : number,
-    activeYN : boolean
+    activeYN : string
 }
+
 interface registProduct{
     name : string,
     thumbnail : string,
@@ -15,11 +16,29 @@ interface registProduct{
     description : string,
     paybackRatio : number,
     allowNation : string[],
-    categories : string[]	,
-    viewSite : string	,
+    categories : string[],
+    viewSite : string,
     showYN : string,
     activeYN : string
 }
+
+interface modifyProduct{
+    productID : string,
+    name : string,
+    thumbnail : string,
+    taxFreePrice : number,
+    SPPrice : number,
+    stock : number,
+    summary : string,
+    description : string,
+    paybackRatio : number,
+    allowNation : string[],
+    categories : string[],
+    viewSite : string,
+    showYN : string,
+    activeYN : string
+}
+
 interface productList{
     totalCount : number,
     list : product[]
@@ -38,10 +57,10 @@ interface productDetail extends Omit<product, 'seller'>{
     description : string,
     summary : string,
     paybackRatio : number,
-    categories : string[],
+    categories : category[],
     allowNation : string[],
     viewSite : string,
-    showYN : boolean
+    showYN : string
 }
 
 interface productSeller extends seller{
