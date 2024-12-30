@@ -9,3 +9,7 @@ export const registFiles = (formdatas:FormData[]):string[] => {
         result.push("test");
     return result;
 }
+
+export const deleteFiles = (deleteUrlList:string[]) => {
+    /* real code*/
+}

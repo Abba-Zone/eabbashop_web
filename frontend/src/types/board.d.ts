@@ -2,8 +2,8 @@ interface board{
     boardID : string,
     title : string,
     name : string,
-    showYN : boolean,
-    topYN : boolean,
+    showYN : string,
+    topYN : string,
     createdDateTime : string
 }
 
@@ -13,13 +13,22 @@ interface boardList{
 }
 
 interface boardDetail extends board{
-    type : number,
+    type : string,
     contents : string
 }
+
 interface registBoard {
     title : string,
     content : string,
-    show : string,
-    top : string,
+    showYN : string,
+    topYN : string,
     type : string
+}
+
+interface modifyBoard {
+    boardID : string,
+    title : string,
+    content : string,
+    showYN : string,
+    topYN : string
 }
