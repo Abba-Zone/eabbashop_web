@@ -221,7 +221,7 @@ const filterToUrl = (memberListPage : memberListPage):String => {
 }
 
 export const googleLogin = async (): Promise<loginSuccess> => {
-  const googleOauthClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+  const googleOauthClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID_PROD;
   
   if (!googleOauthClientId) {
     throw new Error('Google OAuth Client ID is not defined');
