@@ -14,14 +14,14 @@ const GoogleLogin:React.FC = () => {
     if (loginResult) {
       navigate("/");
     } else {
-      alert(t('Alert.GoogleLoginError'));
+
     }
   };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const code = urlParams.get('code');
-    console.log(code);
+    // console.log(code);
     if (code) {
       handleGoogleCallback(code);
     }

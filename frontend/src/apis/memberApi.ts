@@ -1,6 +1,7 @@
 import { getData, postData, getTestData} from './mainApi'
 import { updateAccessTokenAxios, updateUserInfo } from "../handlers/tokenHandler"
 import { AxiosResponse } from 'axios';
+import { sign } from 'crypto';
 
 /* 데이터 불러오기*/
 export const login = async (loginUser: emailAndPassword): Promise<loginSuccess> => {
@@ -251,9 +252,11 @@ export const googleLoginWithCode = async (code: string): Promise<loginSuccess | 
       updateAccessTokenAxios(response.data.accessToken, response.data.refreshToken);
       updateUserInfo(response.data.firstName, response.data.lastName, response.data.role);
       return response.data;
-    } else if (response.status === 300) {
-      alert('신규회원입니다');
-      // 신규 회원 등록 로직을 여기에 추가할 수 있습니다.
+    } else if (response.status === 201) {
+      alert('신규회원입니다.');
+      const { email, password, firstName, lastName, provider } = response.data.signup_response;
+      sessionStorage.setItem('signupData', JSON.stringify({ email, password, firstName, lastName, provider }));
+      window.location.href = '/socialsignup';
     }
     return null;
   } catch (error) {

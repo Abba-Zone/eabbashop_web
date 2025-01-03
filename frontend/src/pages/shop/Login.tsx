@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login_s, googleLoginWithCode_s } from "../../services/member";
+import { login_s } from "../../services/member";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 
@@ -35,14 +35,13 @@ const Login: React.FC = () => {
     }
   }
 
-  const location = useLocation();
-
   const handleGoogleLogin = () => {
     if (!googleOauthClientId) {
       console.error('Google OAuth Client ID is not defined');
       return;
     }
 
+    // const redirectUri = "http://localhost:3000/code/google";
     const redirectUri = "http://localhost:3000/code/google";
     const scope = "email profile";
     const responseType = "code";
@@ -55,7 +54,6 @@ const Login: React.FC = () => {
     });
 
     const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
-    console.log('Redirecting to Google OAuth URL:', googleAuthUrl);
     window.location.href = googleAuthUrl;
   };
 

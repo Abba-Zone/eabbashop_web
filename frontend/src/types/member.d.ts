@@ -5,6 +5,13 @@ interface loginSuccess {
 	firstName : string,
 	lastName : string,
 	role: string
+	signup_response : {
+		email : string,
+		password : string,
+		firstName : string,
+		lastName : string,
+		provider : string,
+	}
 }
 
 interface emailAndPassword {
