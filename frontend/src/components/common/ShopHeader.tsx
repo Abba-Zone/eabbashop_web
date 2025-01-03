@@ -10,15 +10,28 @@ const ShopHeader: React.FC = () => {
   const [userInfo, setUserInfo] = useState<{ firstName: string, lastName: string, role: string } | null>(null);
 
   useEffect(() => {
-    const accessToken = localStorage.getItem('access-token');
-    if (accessToken) {
-      const firstName = localStorage.getItem('first-name');
-      const lastName = localStorage.getItem('last-name');
-      const role = localStorage.getItem('role');
-      if (firstName && lastName && role) {
-        setUserInfo({ firstName, lastName, role });
+    const updateUserInfo = () => {
+      const accessToken = localStorage.getItem('access-token');
+      if (accessToken) {
+        const firstName = localStorage.getItem('first-name');
+        const lastName = localStorage.getItem('last-name');
+        const role = localStorage.getItem('role');
+        if (firstName && lastName && role) {
+          setUserInfo({ firstName, lastName, role });
+        }
       }
-    }
+    };
+
+    // 초기 로드 시 사용자 정보 설정
+    updateUserInfo();
+
+    // 커스텀 이벤트 리스너 추가
+    window.addEventListener('user-info-updated', updateUserInfo);
+
+    // 클린업 함수로 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener('user-info-updated', updateUserInfo);
+    };
   }, [i18n]);
 
   const openMenu = () => {

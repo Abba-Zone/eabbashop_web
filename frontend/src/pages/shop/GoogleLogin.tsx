@@ -13,6 +13,7 @@ const GoogleLogin:React.FC = () => {
     const loginResult = await googleLoginWithCode_s(code);
     if (loginResult) {
       navigate("/");
+      window.dispatchEvent(new Event('user-info-updated'));
     } else {
 
     }
