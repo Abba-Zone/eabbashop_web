@@ -1,17 +1,61 @@
 package com.zon.abba.board.controller;
 
 import com.zon.abba.address.controller.AddressController;
+import com.zon.abba.address.request.RegisterAddressRequest;
+import com.zon.abba.board.request.RegisterBoardRequest;
+import com.zon.abba.board.service.BoardService;
+import com.zon.abba.common.request.RequestList;
+import com.zon.abba.common.response.ResponseBody;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/board")
 public class BoardController {
     private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
+
+    private final BoardService boardService;
+
+    @GetMapping("/list")
+    @Operation(description = "board list", summary = "게시판 리스트 반환")
+    public ResponseEntity<Object> boardList(@ModelAttribute RequestList requestList,
+                                            @RequestParam(value = "type", required = true) String type){
+
+        return null;
+    }
+
+    @PostMapping("/register")
+    @Operation(description = "board register", summary = "게시판 등록")
+    public ResponseEntity<Object> registerBoard(@RequestBody RegisterBoardRequest registerBoardRequest){
+
+        ResponseBody response = boardService.registerBoard(registerBoardRequest);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/detail")
+    @Operation(description = "board detail", summary = "게시판 상세")
+    public ResponseEntity<Object> detailBoard(){
+        return null;
+    }
+
+    @PostMapping("/update")
+    @Operation(description = "board update", summary = "게시판 갱신")
+    public ResponseEntity<Object> updateBoard(){
+        return null;
+    }
+
+    @PostMapping("/delete")
+    @Operation(description = "board delete", summary = "게시판 삭제")
+    public ResponseEntity<Object> deleteBoard(){
+        return null;
+    }
 
 
 }
