@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 
 
-const googleOauthClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+const googleOauthClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID_PROD;
 
 const Login: React.FC = () => {
   const { t } = useTranslation('Login');

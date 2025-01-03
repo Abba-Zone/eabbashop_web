@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router-dom";
 import "./style.css"
-
+import Cookies from 'js-cookie';
 const ShopHeader: React.FC = () => {
   const navigate = useNavigate();
   const { i18n, t } = useTranslation();
@@ -11,11 +11,11 @@ const ShopHeader: React.FC = () => {
 
   useEffect(() => {
     const updateUserInfo = () => {
-      const accessToken = localStorage.getItem('access-token');
+      const accessToken = Cookies.get('access-token');
       if (accessToken) {
-        const firstName = localStorage.getItem('first-name');
-        const lastName = localStorage.getItem('last-name');
-        const role = localStorage.getItem('role');
+        const firstName = Cookies.get('first-name');
+        const lastName = Cookies.get('last-name');
+        const role = Cookies.get('role');
         if (firstName && lastName && role) {
           setUserInfo({ firstName, lastName, role });
         }
@@ -39,11 +39,11 @@ const ShopHeader: React.FC = () => {
   }
 
   const handleLogout = () => {
-    localStorage.removeItem('access-token');
-    localStorage.removeItem('refresh-token');
-    localStorage.removeItem('first-name');
-    localStorage.removeItem('last-name');
-    localStorage.removeItem('role');
+    Cookies.remove('access-token');
+    Cookies.remove('refresh-token');
+    Cookies.remove('first-name');
+    Cookies.remove('last-name');
+    Cookies.remove('role');
     alert(t('Common:Alert.LogoutSuccess'));
     window.location.reload();
     navigate('/');

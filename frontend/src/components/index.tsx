@@ -82,9 +82,6 @@ export {default as AdminRegularOrderAddressInfo} from "./admin/regularOrderDetai
 export {default as AdminRegularOrderInfo} from "./admin/regularOrderDetail/AdminRegularOrderInfo";
 export {default as AdminRegularOrderMemberInfo} from "./admin/regularOrderDetail/AdminRegularOrderMemberInfo";
 
-/* Google Login */
-export {default as GoogleLoginBtn} from "./common/GoogleLoginBtn";
-
 
 
 

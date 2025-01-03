@@ -1,7 +1,7 @@
 import { getData, postData, getTestData} from './mainApi'
 import { updateAccessTokenAxios, updateUserInfo } from "../handlers/tokenHandler"
 import { AxiosResponse } from 'axios';
-import { sign } from 'crypto';
+import Cookies from 'js-cookie';
 
 /* 데이터 불러오기*/
 export const login = async (loginUser: emailAndPassword): Promise<loginSuccess> => {
@@ -255,7 +255,7 @@ export const googleLoginWithCode = async (code: string): Promise<loginSuccess | 
     } else if (response.status === 201) {
       alert('신규회원입니다.');
       const { email, password, firstName, lastName, provider } = response.data.signup_response;
-      sessionStorage.setItem('signupData', JSON.stringify({ email, password, firstName, lastName, provider }));
+      Cookies.set('signupData', JSON.stringify({ email, password, firstName, lastName, provider }));
       window.location.href = '/socialsignup';
     }
     return null;
