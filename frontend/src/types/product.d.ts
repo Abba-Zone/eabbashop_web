@@ -1,3 +1,20 @@
+interface shopProduct{
+    productID : string,
+    thumbnail : string,
+    name : string,
+    realPrice : number,
+    AP : number,
+    AW : number,
+    AK : number,
+    averageScore:number,
+    reviewCnt:number
+}
+interface mainProductList{
+    newProducts:shopProduct[],
+    bestProducts:shopProduct[],
+    randomProducts:shopProduct[]
+}
+
 interface product{
     productID : string,
     name : string,
