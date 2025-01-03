@@ -1,4 +1,4 @@
-package com.zon.abba.upload.response;
+package com.zon.abba.upload.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
