@@ -22,7 +22,6 @@ const AdminBoardRegistModal:React.FC<Props> = ({type, setModalOpen}) => {
       top : top,
       type : type
     }
-    console.log(content);
     await registBoard_s(boardInfo);
     // setModalOpen(false);
   }

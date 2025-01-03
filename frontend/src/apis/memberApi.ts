@@ -1,8 +1,8 @@
 import { getData, postData, getTestData} from './mainApi'
 import { updateAccessTokenAxios, updateUserInfo } from "../handlers/tokenHandler"
 import { AxiosResponse } from 'axios';
-import Cookies from 'js-cookie';
 
+const Cookies = require('js-cookie');
 /* 데이터 불러오기*/
 export const login = async (loginUser: emailAndPassword): Promise<loginSuccess> => {
   try {
@@ -71,7 +71,6 @@ export const checkRecommendEmail = async (email: string): Promise<{ status: numb
   try {
     const response = await getData<{ message: string }>(`/member/email/check?email=${email}`);
     const reponseStatus = response.status;
-    console.log(response); 
     return { status: reponseStatus };
   } catch (error) {
     console.error('Error checking recommend email:', error);
@@ -236,9 +235,6 @@ export const googleLogin = async (): Promise<loginSuccess> => {
 
   const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
 
-  // 디버깅 로그 추가
-  console.log('Google OAuth URL:', googleAuthUrl);
-
   window.location.href = googleAuthUrl;
   
   return null as unknown as loginSuccess;
@@ -247,7 +243,6 @@ export const googleLogin = async (): Promise<loginSuccess> => {
 export const googleLoginWithCode = async (code: string): Promise<loginSuccess | null> => {
   try {
     const response = await postData<loginSuccess>('member/oauth/google/code', { code });
-    console.log(response);
     if (response.status === 200) {
       updateAccessTokenAxios(response.data.accessToken, response.data.refreshToken);
       updateUserInfo(response.data.firstName, response.data.lastName, response.data.role);

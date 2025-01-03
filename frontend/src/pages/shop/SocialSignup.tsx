@@ -3,6 +3,7 @@ import { signup_s, login_s, checkRecommendEmail_s } from '../../services/member'
 import { useTranslation } from 'react-i18next';
 
 const SocialSignup:React.FC = () => {
+  const Cookies = require('js-cookie');
   const { t } = useTranslation('SignUp');
   const [inputPn, setInputPhone] = useState<string>('')
   const [inputRm, setInputRecommend] = useState<string>('')
@@ -73,7 +74,7 @@ const SocialSignup:React.FC = () => {
 
     setIsSigningUp(true); // 요청 시작
 
-    const signupData = JSON.parse(sessionStorage.getItem('signupData') as string);
+    const signupData = JSON.parse(Cookies.get('signupData') as string);
 
     const signupUser = {
       firstName: signupData.firstName,
@@ -86,9 +87,6 @@ const SocialSignup:React.FC = () => {
       platform: 'zon',
       country: 'KOR'
     };
-
-    console.log(signupUser)
-
     try {
       const signupResult = await signup_s(signupUser as signupUser);
       if (signupResult) {

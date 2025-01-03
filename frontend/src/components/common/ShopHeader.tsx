@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router-dom";
 import "./style.css"
-import Cookies from 'js-cookie';
+
+
 const ShopHeader: React.FC = () => {
   const navigate = useNavigate();
   const { i18n, t } = useTranslation();
   const [visible, setVisible] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<{ firstName: string, lastName: string, role: string } | null>(null);
+  const Cookies = require('js-cookie');
 
   useEffect(() => {
     const updateUserInfo = () => {

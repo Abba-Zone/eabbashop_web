@@ -3,6 +3,7 @@ import { signup_s, login_s, authEmail_s, checkAuthCode_s, checkRecommendEmail_s 
 import { useTranslation } from 'react-i18next';
 
 const Signup:React.FC = () => {
+  const Cookies = require('js-cookie');
   const { t } = useTranslation('SignUp');
   const [inputFn, setInputFirstName] = useState<string>('')
   const [inputLn, setInputLastName] = useState<string>('')
@@ -161,7 +162,6 @@ const Signup:React.FC = () => {
     const signupUser = {
       firstName: inputFn,
       lastName: inputLn,
-      // id: inputId,
       password: inputPw,
       email: inputEm,
       phone: inputPn,
@@ -187,7 +187,6 @@ const Signup:React.FC = () => {
         alert(t('Alert.signupFail'));
       }
     } catch (error) {
-      console.error('Signup or login error:', error);
       alert(t('Alert.signupFail'));
     } finally {
       setIsSigningUp(false); // 요청 완료
@@ -210,7 +209,6 @@ const Signup:React.FC = () => {
         alert(t('Alert.authCodeError'));
       }
     } catch (error) {
-      console.error('Email authentication error:', error);
       alert(t('Alert.authCodeError'));
     } finally {
       setIsSendingAuthCode(false); // 요청 완료
@@ -220,9 +218,7 @@ const Signup:React.FC = () => {
   const handleAuthCodeVerification = async () => {
     try {
       const response = await checkAuthCode_s(inputEm, inputAuth);
-      // console.log(response);
       const reponseStatus = response.status;
-      console.log(reponseStatus);
       if (reponseStatus === 216) {
         setAuthCodeMessage(t('Alert.authCodeMismatch'));
       } else if (reponseStatus === 200) {
@@ -231,7 +227,6 @@ const Signup:React.FC = () => {
         setIsEmailEditable(false);
       }
     } catch (error) {
-      // console.error('Error verifying auth code:', error);
       setAuthCodeMessage(t('Alert.authCodeError'));
     }
   };

@@ -1,6 +1,6 @@
-import Cookies from 'js-cookie';
-
 import { AxiosRequestConfig } from 'axios' // 추가
+
+const Cookies = require('js-cookie');
 /*config에 access토큰 설정*/
 export const getNewConfig = (): AxiosRequestConfig => {
     const accessToken = Cookies.get("access-token");
