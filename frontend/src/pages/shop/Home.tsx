@@ -1,9 +1,9 @@
+import { Banner } from "../../components";
+
 const Home:React.FC = () => {
   return (
     <div>
-      <div>
-        베너
-      </div>
+      <Banner/>
       <div>
         <h2>오늘의 발견</h2>
         <div>(탬플릿만들어서 정보만 다르게 넣으면 됨)</div>

@@ -1,4 +1,4 @@
-import { registFiles, deleteFiles } from '../apis/file'
+import { registFiles, deleteFiles, getBannerList } from '../apis/file'
 
 export const registThumbnail_s = async (thumbnail:IFile): Promise<string> => {
     const formDatas:FormData[] = [];
@@ -79,3 +79,7 @@ export const deleteFiles_s = async (preContent:string, modifyContent:string) =>{
     }
     await deleteFiles(deleteUrlList);
 }
+
+export const getBannerList_s = async (): Promise<string[]> => {
+    return await getBannerList();
+};
