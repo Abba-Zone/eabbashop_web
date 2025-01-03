@@ -84,10 +84,6 @@ export {default as AdminRegularOrderAddressInfo} from "./admin/regularOrderDetai
 export {default as AdminRegularOrderInfo} from "./admin/regularOrderDetail/AdminRegularOrderInfo";
 export {default as AdminRegularOrderMemberInfo} from "./admin/regularOrderDetail/AdminRegularOrderMemberInfo";
 
-/* Banner */
+/* Home */
 export {default as Banner} from "./shop/home/Banner";
-
-
-
-
-
+export {default as HomeProductList} from "./shop/home/HomeProductList";

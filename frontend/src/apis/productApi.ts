@@ -1,5 +1,21 @@
 import { getData, postData, getTestData} from './mainApi'
-import { updateAccessTokenAxios } from "../handlers/tokenHandler"
+
+export const getMainProductLists = (nation:string, viewSite:string):mainProductList => {
+    /* real code*/
+
+    /* make for test*/
+    const result :mainProductList = {
+        bestProducts:[],
+        newProducts:[],
+        randomProducts:[]
+    };
+    for(let i = 0 ; i < 15 ; i++){
+        result.bestProducts.push({productID : "aasg564olvizxhncb32", thumbnail : "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT4is8rP6vgN2j1gBkrHpjZepJvJisJcdS9c5qjIzkeMZusSlpdY0xIEplzTvQZtJQksvL5ljEvnrXDD1Hk_dTgSM4xis4RiDWx6H5Baz8", name : `상품이름test`+i, realPrice : 14, AP : 5, AW : 3, AK : 5, averageScore:4.5, reviewCnt:50});
+        result.newProducts.push({productID : "aasg564olvizxhncb32", thumbnail : "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT4is8rP6vgN2j1gBkrHpjZepJvJisJcdS9c5qjIzkeMZusSlpdY0xIEplzTvQZtJQksvL5ljEvnrXDD1Hk_dTgSM4xis4RiDWx6H5Baz8", name : `상품이름test`+i, realPrice : 14, AP : 5, AW : 3, AK : 5, averageScore:4.5, reviewCnt:50});
+        result.randomProducts.push({productID : "aasg564olvizxhncb32", thumbnail : "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT4is8rP6vgN2j1gBkrHpjZepJvJisJcdS9c5qjIzkeMZusSlpdY0xIEplzTvQZtJQksvL5ljEvnrXDD1Hk_dTgSM4xis4RiDWx6H5Baz8", name : `상품이름test`+i, realPrice : 14, AP : 5, AW : 3, AK : 5, averageScore:4.5, reviewCnt:50});
+    }
+    return result;
+}
 
 export const getProductList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):productList => {
     /* real code*/
