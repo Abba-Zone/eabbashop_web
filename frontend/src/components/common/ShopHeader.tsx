@@ -3,22 +3,37 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router-dom";
 import "./style.css"
 
+
 const ShopHeader: React.FC = () => {
   const navigate = useNavigate();
   const { i18n, t } = useTranslation();
   const [visible, setVisible] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<{ firstName: string, lastName: string, role: string } | null>(null);
+  const Cookies = require('js-cookie');
 
   useEffect(() => {
-    const accessToken = localStorage.getItem('access-token');
-    if (accessToken) {
-      const firstName = localStorage.getItem('first-name');
-      const lastName = localStorage.getItem('last-name');
-      const role = localStorage.getItem('role');
-      if (firstName && lastName && role) {
-        setUserInfo({ firstName, lastName, role });
+    const updateUserInfo = () => {
+      const accessToken = Cookies.get('access-token');
+      if (accessToken) {
+        const firstName = Cookies.get('first-name');
+        const lastName = Cookies.get('last-name');
+        const role = Cookies.get('role');
+        if (firstName && lastName && role) {
+          setUserInfo({ firstName, lastName, role });
+        }
       }
-    }
+    };
+
+    // 초기 로드 시 사용자 정보 설정
+    updateUserInfo();
+
+    // 커스텀 이벤트 리스너 추가
+    window.addEventListener('user-info-updated', updateUserInfo);
+
+    // 클린업 함수로 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener('user-info-updated', updateUserInfo);
+    };
   }, [i18n]);
 
   const openMenu = () => {
@@ -26,12 +41,12 @@ const ShopHeader: React.FC = () => {
   }
 
   const handleLogout = () => {
-    localStorage.removeItem('access-token');
-    localStorage.removeItem('refresh-token');
-    localStorage.removeItem('first-name');
-    localStorage.removeItem('last-name');
-    localStorage.removeItem('role');
-    alert(t('Alert.LogoutSuccess'));
+    Cookies.remove('access-token');
+    Cookies.remove('refresh-token');
+    Cookies.remove('first-name');
+    Cookies.remove('last-name');
+    Cookies.remove('role');
+    alert(t('Common:Alert.LogoutSuccess'));
     window.location.reload();
     navigate('/');
   }
@@ -76,7 +91,7 @@ const ShopHeader: React.FC = () => {
           <div>
             {renderUserName()} ({userInfo.role}) &nbsp;
             <span>
-              <button onClick={handleLogout}>로그아웃</button>
+              <button onClick={handleLogout}>{t("Common:Header.Logout")}</button>
             </span>
           </div>
         ) : (

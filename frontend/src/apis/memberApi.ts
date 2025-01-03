@@ -2,6 +2,7 @@ import { getData, postData, getTestData} from './mainApi'
 import { updateAccessTokenAxios, updateUserInfo } from "../handlers/tokenHandler"
 import { AxiosResponse } from 'axios';
 
+const Cookies = require('js-cookie');
 /* 데이터 불러오기*/
 export const login = async (loginUser: emailAndPassword): Promise<loginSuccess> => {
   try {
@@ -70,7 +71,6 @@ export const checkRecommendEmail = async (email: string): Promise<{ status: numb
   try {
     const response = await getData<{ message: string }>(`/member/email/check?email=${email}`);
     const reponseStatus = response.status;
-    console.log(response); 
     return { status: reponseStatus };
   } catch (error) {
     console.error('Error checking recommend email:', error);
@@ -218,3 +218,44 @@ const filterToUrl = (memberListPage : memberListPage):String => {
                 '&filter.CreatedDateTime=' + memberListPage.filter.createdDateTime;
     return url;
 }
+
+export const googleLogin = async (): Promise<loginSuccess> => {
+  const googleOauthClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID_PROD;
+  
+  if (!googleOauthClientId) {
+    throw new Error('Google OAuth Client ID is not defined');
+  }
+
+  const params = new URLSearchParams({
+    response_type: "code",
+    client_id: googleOauthClientId,
+    redirect_uri: "http://localhost:3000/code/google",
+    scope: "email profile"
+  });
+
+  const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
+
+  window.location.href = googleAuthUrl;
+  
+  return null as unknown as loginSuccess;
+};
+
+export const googleLoginWithCode = async (code: string): Promise<loginSuccess | null> => {
+  try {
+    const response = await postData<loginSuccess>('member/oauth/google/code', { code });
+    if (response.status === 200) {
+      updateAccessTokenAxios(response.data.accessToken, response.data.refreshToken);
+      updateUserInfo(response.data.firstName, response.data.lastName, response.data.role);
+      return response.data;
+    } else if (response.status === 201) {
+      alert('신규회원입니다.');
+      const { email, password, firstName, lastName, provider } = response.data.signup_response;
+      Cookies.set('signupData', JSON.stringify({ email, password, firstName, lastName, provider }));
+      window.location.href = '/socialsignup';
+    }
+    return null;
+  } catch (error) {
+    console.error('Google login error:', error);
+    return null;
+  }
+};

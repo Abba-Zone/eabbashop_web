@@ -1,7 +1,9 @@
 import { AxiosRequestConfig } from 'axios' // 추가
+
+const Cookies = require('js-cookie');
 /*config에 access토큰 설정*/
 export const getNewConfig = (): AxiosRequestConfig => {
-    const accessToken = localStorage.getItem("access-token");
+    const accessToken = Cookies.get("access-token");
       const config: AxiosRequestConfig = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -10,15 +12,15 @@ export const getNewConfig = (): AxiosRequestConfig => {
       return config;
   }
 
-/*호출에서 생긴 response로 acccess토큰와 refresh토큰 수정 */
-export const updateAccessTokenAxios = (newAccessToken:string, newRefreshToken:string) =>{
-    localStorage.setItem("access-token", newAccessToken);
-    localStorage.setItem("refresh-token", newRefreshToken);
-}
+// 쿠키에 토큰 저장하기
+export const updateAccessTokenAxios = (newAccessToken: string, newRefreshToken: string) => {
+  Cookies.set('access-token', newAccessToken, { secure: true, sameSite: 'Strict' });
+  Cookies.set('refresh-token', newRefreshToken, { secure: true, sameSite: 'Strict' });
+};
 
-export const updateUserInfo = (newFirstName:string, newLastName:string ,newRole:string) =>{
-  localStorage.setItem("first-name", newFirstName);
-  localStorage.setItem("last-name", newLastName);
-  localStorage.setItem("role", newRole);
-
-}
+// 사용자 정보 업데이트 함수
+export const updateUserInfo = (newFirstName: string, newLastName: string, newRole: string) => {
+  Cookies.set('first-name', newFirstName, { secure: true, sameSite: 'Strict' });
+  Cookies.set('last-name', newLastName, { secure: true, sameSite: 'Strict' });
+  Cookies.set('role', newRole, { secure: true, sameSite: 'Strict' });
+};

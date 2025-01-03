@@ -1,31 +1,62 @@
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react"
-import { login_s } from "../../services/member"
+import { login_s } from "../../services/member";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
-const Login:React.FC = () => {
+
+const googleOauthClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID_PROD;
+
+const Login: React.FC = () => {
   const { t } = useTranslation('Login');
-  const [inputId, setInputId] = useState<string>('')
-  const [inputPw, setInputPw] = useState<string>('')
+  const [inputId, setInputId] = useState<string>('');
+  const [inputPw, setInputPw] = useState<string>('');
+  const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
   const navigate = useNavigate();
+
   const handleInputId = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setInputId(event.target.value)
+    setInputId(event.target.value);
   }
 
   const handleInputPw = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setInputPw(event.target.value)
+    setInputPw(event.target.value);
   }
 
   const onClickLogin = async () => {
-    const loginUser = {email : inputId, password : inputPw}
+    setIsLoggingIn(true);
+    const loginUser = { email: inputId, password: inputPw };
     const loginResult = await login_s(loginUser);
-    if (loginResult){
+    setIsLoggingIn(false);
+    if (loginResult) {
       navigate("/");
       window.location.reload();
     } else {
-      alert(t('Alert.LoginFailed'))
+      alert(t('Alert.LoginFailed'));
     }
   }
+
+  const handleGoogleLogin = () => {
+    if (!googleOauthClientId) {
+      console.error('Google OAuth Client ID is not defined');
+      return;
+    }
+
+    // const redirectUri = "http://localhost:3000/code/google";
+    const redirectUri = "http://localhost:3000/code/google";
+    const scope = "email profile";
+    const responseType = "code";
+
+    const params = new URLSearchParams({
+      response_type: responseType,
+      client_id: googleOauthClientId,
+      redirect_uri: redirectUri,
+      scope: scope,
+    });
+
+    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
+    window.location.href = googleAuthUrl;
+  };
+
 
   return (
     <div>
@@ -39,11 +70,15 @@ const Login:React.FC = () => {
           <input type='password' name='input_pw' value={inputPw} onChange = {handleInputPw} />
       </div>
       <div>
-          <button type='button' onClick={onClickLogin}>{t('Button.login')}</button>
+        <button type='button' onClick={onClickLogin} disabled={isLoggingIn}>
+          {isLoggingIn ? t('Button.loggingIn') : t('Button.login')}
+        </button>
+      </div>
+      <div>
+        <button type='button' onClick={handleGoogleLogin}>{t('Button.googleOauthLogin')}</button>
       </div>
     </div>
   );
 }
 
 export default Login;
-  
