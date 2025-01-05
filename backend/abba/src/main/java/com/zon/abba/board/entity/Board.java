@@ -68,4 +68,9 @@ public class Board {
 
         if(this.deleteYn == null) this.deleteYn = "N";
     }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.modifiedId = UUID.randomUUID().toString(); // 업데이트 시 새로운 UUID 할당
+    }
 }

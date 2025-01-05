@@ -3,6 +3,7 @@ package com.zon.abba.board.controller;
 import com.zon.abba.address.controller.AddressController;
 import com.zon.abba.address.request.RegisterAddressRequest;
 import com.zon.abba.board.request.BoardIdRequest;
+import com.zon.abba.board.request.DetailBoardRequest;
 import com.zon.abba.board.request.RegisterBoardRequest;
 import com.zon.abba.board.response.DetailBoardResponse;
 import com.zon.abba.board.service.BoardService;
@@ -52,14 +53,20 @@ public class BoardController {
 
     @PostMapping("/update")
     @Operation(description = "board update", summary = "게시판 갱신")
-    public ResponseEntity<Object> updateBoard(){
-        return null;
+    public ResponseEntity<Object> updateBoard(@RequestBody DetailBoardRequest detailBoardRequest){
+
+        ResponseBody response = boardService.updateBoard(detailBoardRequest);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping("/delete")
     @Operation(description = "board delete", summary = "게시판 삭제")
-    public ResponseEntity<Object> deleteBoard(){
-        return null;
+    public ResponseEntity<Object> deleteBoard(@RequestBody BoardIdRequest boardIdRequest){
+
+        ResponseBody response = boardService.deleteBoard(boardIdRequest);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 

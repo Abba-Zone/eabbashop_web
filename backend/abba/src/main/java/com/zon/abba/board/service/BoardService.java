@@ -3,6 +3,7 @@ package com.zon.abba.board.service;
 import com.zon.abba.board.entity.Board;
 import com.zon.abba.board.repository.BoardRepository;
 import com.zon.abba.board.request.BoardIdRequest;
+import com.zon.abba.board.request.DetailBoardRequest;
 import com.zon.abba.board.request.RegisterBoardRequest;
 import com.zon.abba.board.response.DetailBoardResponse;
 import com.zon.abba.common.exception.NoDataException;
@@ -63,6 +64,40 @@ public class BoardService {
 
         String name = member.getLastName() + " " + member.getFirstName();
 
+        logger.info("게시글을 반환합니다.");
         return new DetailBoardResponse(board, name);
+    }
+
+    @Transactional
+    public ResponseBody updateBoard(DetailBoardRequest detailBoardRequest){
+        logger.info("업데이트할 게시글 정보를 가져옵니다.");
+        Board board = boardRepository.findByBoardId(detailBoardRequest.getBoardId())
+                .orElseThrow(() -> new NoDataException("게시글이 없습니다."));
+
+        logger.info("수정 내역을 저장합니다.");
+        board.setType(detailBoardRequest.getType());
+        board.setTitle(detailBoardRequest.getTitle());
+        board.setContents(detailBoardRequest.getContent());
+        board.setShowYn(detailBoardRequest.getShow());
+        board.setTopYn(detailBoardRequest.getTop());
+
+        boardRepository.save(board);
+
+        logger.info("게시글 업데이트를 완료했습니다.");
+        return new ResponseBody("성공했습니다.");
+    }
+
+    @Transactional
+    public ResponseBody deleteBoard(BoardIdRequest boardIdRequest){
+        logger.info("삭제할 게시글 정보를 가져옵니다.");
+        Board board = boardRepository.findByBoardId(boardIdRequest.getBoardId())
+                .orElseThrow(() -> new NoDataException("게시글이 없습니다."));
+
+        logger.info("삭제를 시도합니다.");
+        board.setDeleteYn("Y");
+        boardRepository.save(board);
+
+        logger.info("게시글 삭제를 완료했습니다.");
+        return new ResponseBody("성공했습니다.");
     }
 }
