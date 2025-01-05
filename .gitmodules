@@ -3,4 +3,4 @@
 	url = https://github.com/Abba-Zone/abba_env.git
 [submodule "frontend/config"]
 	path = frontend/config
-	url = https://github.com/Abba-Zone/abba_env
+	url = https://github.com/Abba-Zone/abba_env.git
