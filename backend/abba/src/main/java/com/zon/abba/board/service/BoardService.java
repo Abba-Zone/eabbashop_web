@@ -4,9 +4,13 @@ import com.zon.abba.board.entity.Board;
 import com.zon.abba.board.repository.BoardRepository;
 import com.zon.abba.board.request.BoardIdRequest;
 import com.zon.abba.board.request.RegisterBoardRequest;
+import com.zon.abba.board.response.DetailBoardResponse;
+import com.zon.abba.common.exception.NoDataException;
 import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.security.JwtTokenProvider;
+import com.zon.abba.member.entity.Member;
+import com.zon.abba.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -19,6 +23,7 @@ public class BoardService {
     private static final Logger logger = LoggerFactory.getLogger(BoardService.class);
 
     private final BoardRepository boardRepository;
+    private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
@@ -46,7 +51,18 @@ public class BoardService {
     }
 
     @Transactional
-    public ResponseBody detailBoard(BoardIdRequest boardIdRequest){
-        return null;
+    public DetailBoardResponse detailBoard(BoardIdRequest boardIdRequest){
+
+        logger.info("게시글 정보를 가져옵니다.");
+        Board board = boardRepository.findByBoardId(boardIdRequest.getBoardId())
+                .orElseThrow(() -> new NoDataException("게시글이 없습니다."));
+
+        logger.info("게시글 작성자 정보를 가져옵니다.");
+        Member member = memberRepository.findOneByMemberId(board.getMemberId())
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        String name = member.getLastName() + " " + member.getFirstName();
+
+        return new DetailBoardResponse(board, name);
     }
 }

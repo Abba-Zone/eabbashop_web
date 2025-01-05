@@ -2,7 +2,9 @@ package com.zon.abba.board.controller;
 
 import com.zon.abba.address.controller.AddressController;
 import com.zon.abba.address.request.RegisterAddressRequest;
+import com.zon.abba.board.request.BoardIdRequest;
 import com.zon.abba.board.request.RegisterBoardRequest;
+import com.zon.abba.board.response.DetailBoardResponse;
 import com.zon.abba.board.service.BoardService;
 import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
@@ -41,8 +43,11 @@ public class BoardController {
 
     @GetMapping("/detail")
     @Operation(description = "board detail", summary = "게시판 상세")
-    public ResponseEntity<Object> detailBoard(){
-        return null;
+    public ResponseEntity<Object> detailBoard(BoardIdRequest boardIdRequest){
+
+        DetailBoardResponse response = boardService.detailBoard(boardIdRequest);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping("/update")
