@@ -1,6 +1,8 @@
 package com.zon.abba.board.service;
 
+import com.zon.abba.board.dto.BoardDto;
 import com.zon.abba.board.entity.Board;
+import com.zon.abba.board.mapping.BoardList;
 import com.zon.abba.board.repository.BoardRepository;
 import com.zon.abba.board.request.BoardIdRequest;
 import com.zon.abba.board.request.DetailBoardRequest;
@@ -8,7 +10,9 @@ import com.zon.abba.board.request.RegisterBoardRequest;
 import com.zon.abba.board.response.DetailBoardResponse;
 import com.zon.abba.common.exception.NoDataException;
 import com.zon.abba.common.exception.NoMemberException;
+import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
+import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.common.security.JwtTokenProvider;
 import com.zon.abba.member.entity.Member;
 import com.zon.abba.member.repository.MemberRepository;
@@ -16,7 +20,15 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +38,40 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
+
+    @Transactional
+    public ResponseListBody boardList(RequestList requestList, Integer type){
+
+        logger.info("게시글 리스트를 반환합니다.");
+        // pageable 적용
+        Pageable pageable = PageRequest.of(
+                requestList.getPageNo(),
+                requestList.getPageSize(),
+                Sort.by(requestList.getSort().equals("ASC") ?
+                        Sort.Direction.ASC : Sort.Direction.DESC,
+                        requestList.getSortValue())
+        );
+
+        // 리스트 반환
+        Page<BoardList> list = boardRepository.findBoardsWithFilterAndType(
+                requestList.getFilter(),
+                requestList.getFilterValue(),
+                type,
+                pageable
+        );
+
+        // 리스트를 dto로 반환
+        List<BoardDto> boards = list.stream()
+                .map(BoardDto::new) // Board -> BoardDto 변환
+                .sorted(Comparator
+                        .comparing((BoardDto dto) -> dto.getTopYN() ? 0 : 1) // TopYN이 true인 경우 우선
+                        .thenComparing(dto -> dto.getTopYN() ? dto.getCreateDateTime() : null, Comparator.nullsLast(Comparator.reverseOrder())) // TopYN=true인 경우 최신순
+                        .thenComparing(BoardDto::getCreateDateTime, Comparator.reverseOrder())) // 나머지는 최신순
+                .toList();
+
+        logger.info("게시글 리스트를 반환을 완료합니다.");
+        return new ResponseListBody(list.getTotalElements(), boards);
+    }
 
     @Transactional
     public ResponseBody registerBoard(RegisterBoardRequest registerBoardRequest){

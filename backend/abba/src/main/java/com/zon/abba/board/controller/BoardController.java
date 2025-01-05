@@ -9,6 +9,7 @@ import com.zon.abba.board.response.DetailBoardResponse;
 import com.zon.abba.board.service.BoardService;
 import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
+import com.zon.abba.common.response.ResponseListBody;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -28,9 +29,11 @@ public class BoardController {
     @GetMapping("/list")
     @Operation(description = "board list", summary = "게시판 리스트 반환")
     public ResponseEntity<Object> boardList(@ModelAttribute RequestList requestList,
-                                            @RequestParam(value = "type", required = true) String type){
+                                            @RequestParam(value = "type", required = false) Integer type){
 
-        return null;
+        ResponseListBody response = boardService.boardList(requestList, type);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping("/register")
