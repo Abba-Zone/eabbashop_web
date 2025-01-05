@@ -10,9 +10,9 @@ const ProductCard:React.FC<Props> = ({product}) => {
         const result : JSX.Element[] =[];
         for(let i = 0 ; i < 5;i++){
             if(score >= 1)
-                result.push(<span style={{color:'orange'}}>★</span>)
+                result.push(<span key={i} style={{color:'orange'}}>★</span>)
             else
-                result.push(<span style={{color:'gray'}}>★</span>)
+                result.push(<span key={i} style={{color:'gray'}}>★</span>)
             score--;
         }
         return result;
