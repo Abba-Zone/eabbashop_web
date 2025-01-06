@@ -137,7 +137,7 @@ public class LoginService {
         MemberDto memberDto = memberOptional
                 .map(MemberDto::new)
                 .orElseThrow(()-> new SignupException("회원 가입 해주세요.", new SignupResponse(
-                        memberInfo.getKakaoAccount().getProfile().getNickName(),
+                        null,
                         memberInfo.getKakaoAccount().getProfile().getNickName(),
                         memberInfo.getKakaoAccount().getEmail(),
                         String.valueOf(memberInfo.getId()),
