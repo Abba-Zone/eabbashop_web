@@ -36,6 +36,16 @@ public class BoardController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @GetMapping("/list/admin")
+    @Operation(description = "board admin list", summary = "게시판 관리자 모드 리스트 반환")
+    public ResponseEntity<Object> boardAdminList(@ModelAttribute RequestList requestList,
+                                            @RequestParam(value = "type", required = false) Integer type){
+
+        ResponseListBody response = boardService.boardAdminList(requestList, type);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
     @PostMapping("/register")
     @Operation(description = "board register", summary = "게시판 등록")
     public ResponseEntity<Object> registerBoard(@RequestBody RegisterBoardRequest registerBoardRequest){
