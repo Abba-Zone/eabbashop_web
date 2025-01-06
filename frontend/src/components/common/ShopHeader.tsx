@@ -34,7 +34,7 @@ const ShopHeader: React.FC = () => {
     return () => {
       window.removeEventListener('user-info-updated', updateUserInfo);
     };
-  }, [i18n]);
+  }, [i18n , Cookies]);
 
   const openMenu = () => {
     setVisible(!visible);

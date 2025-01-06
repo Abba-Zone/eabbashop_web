@@ -16,7 +16,8 @@ import { Home, Login, Signup, Cart, Profile,
   AdminRefundRequest, AdminStoreList, AdminStoreDetail,
   AdminStoreManage, AdminNotice, AdminLetter, AdminDonation,
   AdminSetting, AdminInquiryList, AdminInquiryDetail, 
-  AdminBoardDetail, AdminRefundDetail, GoogleLogin, SocialSignup, KakaoLogin} from '../pages';
+  AdminBoardDetail, AdminRefundDetail, GoogleLogin, SocialSignup, KakaoLogin,
+  AdminRegistAdmin} from '../pages';
 
 const RoutePath:React.FC = () => {
   return (
@@ -47,12 +48,12 @@ const RoutePath:React.FC = () => {
         <Route path="/completecheckout" element={<CompleteCheckout />}/>        
         <Route path="/post" element={<Post />}/>
         <Route path="/postdetail" element={<PostDetail />}/>
-        
         {/* Admin Routes */}
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/signup" element={<AdminSignup />} />
         <Route path="/admin/findinfo" element={<AdminFindInfo />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/registadmin" element={<AdminRegistAdmin />} />
         
         {/* Customer Management */}
         <Route path="/admin/member" element={<AdminMemberList />} />
