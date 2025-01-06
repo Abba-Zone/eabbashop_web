@@ -5,6 +5,7 @@
     "Button": {
         "login": "로그인",
         "googleOauthLogin": "구글 로그인",
+        "kakaoOauthLogin": "카카오 로그인",
         "loggingIn": "로그인 중..."
     },
     "Alert": {

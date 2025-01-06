@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 
 
 const googleOauthClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID_PROD;
+const kakaoOauthClientId = process.env.REACT_APP_KAKAO_CLIENT_ID_PROD;
 
 const Login: React.FC = () => {
   const { t } = useTranslation('Login');
@@ -57,6 +58,23 @@ const Login: React.FC = () => {
     window.location.href = googleAuthUrl;
   };
 
+  const handleKakaoLogin = () => {
+    if (!kakaoOauthClientId) {
+      console.error('Kakao OAuth Client ID is not defined');
+      return;
+    }
+    const redirectUri = "http://localhost:3000/code/kakao";
+    const responseType = "code";
+
+    const params = new URLSearchParams({
+      response_type: responseType,
+      client_id: kakaoOauthClientId,
+      redirect_uri: redirectUri,
+    });
+
+    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?${params.toString()}`;
+    window.location.href = kakaoAuthUrl;
+  }
 
   return (
     <div>
@@ -76,6 +94,9 @@ const Login: React.FC = () => {
       </div>
       <div>
         <button type='button' onClick={handleGoogleLogin}>{t('Button.googleOauthLogin')}</button>
+      </div>
+      <div>
+        <button type='button' onClick={handleKakaoLogin}>{t('Button.kakaoOauthLogin')}</button>
       </div>
     </div>
   );

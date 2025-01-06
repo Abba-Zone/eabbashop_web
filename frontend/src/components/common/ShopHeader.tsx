@@ -18,7 +18,7 @@ const ShopHeader: React.FC = () => {
         const firstName = Cookies.get('first-name');
         const lastName = Cookies.get('last-name');
         const role = Cookies.get('role');
-        if (firstName && lastName && role) {
+        if (lastName && role) {
           setUserInfo({ firstName, lastName, role });
         }
       }

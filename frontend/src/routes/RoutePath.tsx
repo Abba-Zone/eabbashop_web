@@ -16,7 +16,7 @@ import { Home, Login, Signup, Cart, Profile,
   AdminRefundRequest, AdminStoreList, AdminStoreDetail,
   AdminStoreManage, AdminNotice, AdminLetter, AdminDonation,
   AdminSetting, AdminInquiryList, AdminInquiryDetail, 
-  AdminBoardDetail, AdminRefundDetail, GoogleLogin, SocialSignup} from '../pages';
+  AdminBoardDetail, AdminRefundDetail, GoogleLogin, SocialSignup, KakaoLogin} from '../pages';
 
 const RoutePath:React.FC = () => {
   return (
@@ -24,6 +24,7 @@ const RoutePath:React.FC = () => {
         <Route path="/" element={<Home />}/>
         <Route path="/login" element={<Login />}/>
         <Route path="/code/google" element={<GoogleLogin />}/>
+        <Route path="/code/kakao" element={<KakaoLogin />}/>
         <Route path="/signup" element={<Signup />}/>
         <Route path="/socialsignup" element={<SocialSignup />}/>
         <Route path="/cart" element={<Cart />}/>        
