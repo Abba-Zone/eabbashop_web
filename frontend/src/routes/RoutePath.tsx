@@ -43,7 +43,7 @@ const RoutePath:React.FC = () => {
         <Route path="/findinfo" element={<FindInfo />}/>        
         <Route path="/category" element={<Category />}/>        
         <Route path="/search" element={<Search />}/>        
-        <Route path="/product" element={<Product />}/>        
+        <Route path="/productdetail/:id" element={<Product />}/>        
         <Route path="/checkout" element={<Checkout />}/>        
         <Route path="/completecheckout" element={<CompleteCheckout />}/>        
         <Route path="/post" element={<Post />}/>

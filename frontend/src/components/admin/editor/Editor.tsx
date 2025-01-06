@@ -1,7 +1,6 @@
 import { AxiosError } from "axios";
 import { useMemo, useRef, useState } from "react";
 import ReactQuill, { Quill } from 'react-quill'
-import 'react-quill-new/dist/quill.snow.css';
 import { ImageActions } from '@xeger/quill-image-actions';
 import { ImageFormats } from '@xeger/quill-image-formats';
 import { useTranslation } from "react-i18next";
@@ -130,7 +129,6 @@ const Editor:React.FC<Props> = ({content, images, videos, setImages, setVideos, 
         value={content}
         onChange={setContent}
         modules={modules}
-        theme="snow"
         style={{height: '600px', marginBottom: '10%'}}
         placeholder={t("AdminBoard:Regist.Attribute01")}
       />
