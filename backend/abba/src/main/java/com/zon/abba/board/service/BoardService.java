@@ -46,10 +46,7 @@ public class BoardService {
         // pageable 적용
         Pageable pageable = PageRequest.of(
                 requestList.getPageNo(),
-                requestList.getPageSize(),
-                Sort.by(requestList.getSort().equals("ASC") ?
-                        Sort.Direction.ASC : Sort.Direction.DESC,
-                        requestList.getSortValue())
+                requestList.getPageSize()
         );
 
         // 리스트 반환
@@ -70,6 +67,36 @@ public class BoardService {
                 .toList();
 
         logger.info("게시글 리스트를 반환을 완료합니다.");
+        return new ResponseListBody(list.getTotalElements(), boards);
+    }
+
+    @Transactional
+    public ResponseListBody boardAdminList(RequestList requestList, Integer type){
+
+        logger.info("게시글 관리자용 리스트를 반환합니다.");
+        // pageable 적용
+        Pageable pageable = PageRequest.of(
+                requestList.getPageNo(),
+                requestList.getPageSize(),
+                Sort.by(requestList.getSort().equals("ASC") ?
+                                Sort.Direction.ASC : Sort.Direction.DESC,
+                        requestList.getSortValue())
+        );
+
+        // 리스트 반환
+        Page<BoardList> list = boardRepository.findBoardsWithFilterAndType(
+                requestList.getFilter(),
+                requestList.getFilterValue(),
+                type,
+                pageable
+        );
+
+        // 리스트를 dto로 반환
+        List<BoardDto> boards = list.stream()
+                .map(BoardDto::new) // Board -> BoardDto 변환
+                .toList();
+
+        logger.info("게시글 관리자용 리스트를 반환을 완료합니다.");
         return new ResponseListBody(list.getTotalElements(), boards);
     }
 
