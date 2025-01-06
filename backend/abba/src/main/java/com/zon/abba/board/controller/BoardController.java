@@ -41,7 +41,7 @@ public class BoardController {
     public ResponseEntity<Object> boardAdminList(@ModelAttribute RequestList requestList,
                                             @RequestParam(value = "type", required = false) Integer type){
 
-        ResponseListBody response = boardService.boardList(requestList, type);
+        ResponseListBody response = boardService.boardAdminList(requestList, type);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
