@@ -19,7 +19,9 @@ const Menu: React.FC = () => {
             url: "", 
             items: [
                 { name: t("Menu02.SubMenu01"), url: "/admin/member" },
-                { name: t("Menu02.SubMenu02"), url: "/admin/customer-inquiry" }
+                { name: t("Menu02.SubMenu02"), url: "/admin/customer-inquiry" },
+                { name: t("Menu02.SubMenu03"), url: "/admin/change-referral" },
+                { name: '등급업', url: "/admin/member-grade" }
             ]
         },
         {
@@ -28,7 +30,8 @@ const Menu: React.FC = () => {
             url: "", 
             items: [
                 { name: t("Menu03.SubMenu01"), url: "/admin/product" },
-                { name: t("Menu03.SubMenu02"), url: "/admin/category" }
+                { name: t("Menu03.SubMenu02"), url: "/admin/category" },
+                { name: '상품 리뷰', url: "/admin/product/review" }
             ]
         },
         {
@@ -56,11 +59,10 @@ const Menu: React.FC = () => {
             headerName: t("Menu06.Title"), 
             url: "", 
             items: [
-                { name: t("Menu06.SubMenu01"), url: "/admin/transfer" },
-                { name: t("Menu06.SubMenu02"), url: "/admin/payment" },
-                { name: t("Menu06.SubMenu03"), url: "/admin/transfer-cancel" },
-                { name: t("Menu06.SubMenu04"), url: "/admin/return" },
-                { name: t("Menu06.SubMenu05"), url: "/admin/refund-request" }
+                { name: t("Menu06.SubMenu01"), url: "/admin/charge-point" },
+                { name: t("Menu06.SubMenu02"), url: "/admin/change-point" },
+                { name: t("Menu06.SubMenu03"), url: "/admin/cancle-transfer" },
+                { name: t("Menu06.SubMenu04"), url: "/admin/refund-request" }
             ]
         },
         {

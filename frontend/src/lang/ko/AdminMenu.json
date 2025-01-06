@@ -5,7 +5,8 @@
   "Menu02": {
     "Title": "고객",
     "SubMenu01": "고객 관리",
-    "SubMenu02": "고객 문의"
+    "SubMenu02": "고객 문의",
+    "SubMenu03": "추천인 변경"
   },
   "Menu03": {
     "Title": "상품",
@@ -25,12 +26,11 @@
     "SubMenu02": "수당 분배"
   },
   "Menu06": {
-    "Title": "요청",
-    "SubMenu01": "이체",
-    "SubMenu02": "결제",
+    "Title": "금융",
+    "SubMenu01": "포인트 충전",
+    "SubMenu02": "환급(포인트 -> 현금)",
     "SubMenu03": "이체 취소",
-    "SubMenu04": "반품",
-    "SubMenu05": "환불 요청"
+    "SubMenu04": "환불 요청"
   },
   "Menu07": {
     "Title": "매장",
