@@ -30,6 +30,7 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/**").permitAll()
                         .requestMatchers("/images/**").permitAll()
+                        //.requestMatchers("/product/**").permitAll()
                         .anyRequest().authenticated() // 허용이 필요한 루트
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);

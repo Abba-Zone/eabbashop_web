@@ -121,3 +121,7 @@ dist
 package-lock.json
 
 .DS_Store
+backend/abba/config/
+backend/abba/.idea/
+backend/abba/.gradle/
+backend/abba/build/
