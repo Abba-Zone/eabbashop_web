@@ -15,9 +15,9 @@ const StarMark:React.FC<Props> = ({scores}) => {
         return result;
     }
     return (
-        <div >
+        <span >
             {makeStar()}
-        </div>
+        </span>
     );
 }
 export default StarMark;

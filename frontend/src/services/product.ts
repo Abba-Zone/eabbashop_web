@@ -1,4 +1,4 @@
-import { getMainProductLists, getProductList, getProductDetail, getProductReviewList, registerProduct, modifyProduct } from '../apis/productApi'
+import { getMainProductLists, getProductList, getProductDetail, getProductReviewList, registerProduct, modifyProduct, reviewLikes } from '../apis/productApi'
 
 export const getMainProductLists_s = async (nation:string, viewSite:string): Promise<mainProductList> => {
     return await getMainProductLists(nation, viewSite);
@@ -22,4 +22,8 @@ export const modifyProduct_s = async (productInfo:modifyProduct) => {
 
 export const getProductReviewList_s = async (pageNo:number, pageSize:number, sort:number, productID:string): Promise<reviewList> => {
     return await getProductReviewList(pageNo, pageSize, sort, productID);
+};
+
+export const reviewLikes_s = async (productReviewID:string, type:number): Promise<{like:number, dislike:number}> => {
+    return await reviewLikes(productReviewID, type);
 };

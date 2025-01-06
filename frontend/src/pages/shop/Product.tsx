@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getProductDetail_s } from "../../services/product";
-import { ProductDescription, ProductInfo, ProductReviews, SellerInfo } from "../../components";
+import { ProductDescription, ProductInfo, ProductReviews, ProductSaleButtons, SellerInfo } from "../../components";
 
 const Product:React.FC = () => {
   const [productDetail, setProductDetail] = useState<productDetail | undefined>(undefined);
@@ -22,12 +22,18 @@ const Product:React.FC = () => {
   useEffect(() => {
     getProductDetail(); // 비동기 함수 호출
   }, [getProductDetail]);
+  if(!productDetail || !productSeller){
+    return(
+      <div></div>
+    )
+  }
   return (
     <div>
-      <ProductInfo/>
-      <ProductDescription/>
+      <ProductInfo productInfo={productDetail}/>
+      <ProductSaleButtons productId={productDetail.productID}/>
+      <ProductDescription content={productDetail.description}/>
       <ProductReviews/>
-      <SellerInfo/>
+      <SellerInfo productSellerInfo={productSeller}/>
     </div>
   );
 }
