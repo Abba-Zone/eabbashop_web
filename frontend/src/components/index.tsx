@@ -87,3 +87,8 @@ export {default as AdminRegularOrderMemberInfo} from "./admin/regularOrderDetail
 /* Home */
 export {default as Banner} from "./shop/home/Banner";
 export {default as HomeProductList} from "./shop/home/HomeProductList";
+/* Shop Product Detail */
+export {default as ProductDescription} from "./shop/product/ProductDescription";
+export {default as ProductInfo} from "./shop/product/ProductInfo";
+export {default as ProductReviews} from "./shop/product/ProductReviews";
+export {default as SellerInfo} from "./shop/product/SellerInfo";
