@@ -259,3 +259,24 @@ export const googleLoginWithCode = async (code: string): Promise<loginSuccess | 
     return null;
   }
 };
+
+export const kakaoLoginWithCode = async (code: string): Promise<loginSuccess | null> => {
+    try {
+        const response = await postData<loginSuccess>('member/oauth/kakao/code', { code });
+        console.log(response);
+        if (response.status === 200) {
+            updateAccessTokenAxios(response.data.accessToken, response.data.refreshToken);
+            updateUserInfo('', response.data.lastName, response.data.role);
+            return response.data;
+        } else if (response.status === 201) {
+            alert('신규회원입니다.');
+            const { email, password, firstName, lastName, provider } = response.data.signup_response;
+            Cookies.set('signupData', JSON.stringify({ email, password, firstName, lastName, provider }));
+            window.location.href = '/socialsignup';
+        }
+        return null;
+    } catch (error) {
+        console.error('Kakao login error:', error);
+        return null;
+    }
+};

@@ -76,8 +76,10 @@ const SocialSignup:React.FC = () => {
 
     const signupData = JSON.parse(Cookies.get('signupData') as string);
 
+    const firstName = signupData.firstName ? signupData.firstName : '';
+    
     const signupUser = {
-      firstName: signupData.firstName,
+      firstName: firstName,
       lastName: signupData.lastName,
       password: signupData.password,
       email: signupData.email,

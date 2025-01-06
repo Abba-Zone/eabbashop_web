@@ -65,3 +65,4 @@ export { default as AdminBoardDetail } from "./admin/AdminBoardDetail";
 export { default as AdminRefundDetail } from "./admin/AdminRefundDetail";
 export { default as GoogleLogin } from "./shop/GoogleLogin";
 export { default as SocialSignup } from "./shop/SocialSignup";
+export { default as KakaoLogin } from "./shop/KakaoLogin";
