@@ -110,7 +110,7 @@ export const getProductReviewList = (pageNo:number, pageSize:number, sort:number
         totalCount: 123,
         list : [
             {
-                comment : "이 제품을 먹었더니 머리가 났어요.",
+                comment : "<h2>이 제품을 먹었더니 머리가 났어요.</h2>",
                 createdDateTime : "2024-11-12 17:38:22",
                 dislike : 5,
                 like : 2,
@@ -121,4 +121,15 @@ export const getProductReviewList = (pageNo:number, pageSize:number, sort:number
         ]
     };
     return result;
+}
+
+export const  reviewLikes = (productReviewID:string, type:number) : {like:number, dislike:number} =>{
+    /* real code*/
+    // postData<{like:number, dislike:number}>('/review/like?', {productReviewID:productReviewID, type:type})
+    //     .then((data) => {
+    //         return data;
+    //     }
+    // );
+    /* make for test*/
+    return{"like" : 123123123,"dislike" : 21312};
 }

@@ -83,7 +83,6 @@ export {default as AdminRegularOrderListComponent} from "./admin/regularOrderLis
 export {default as AdminRegularOrderAddressInfo} from "./admin/regularOrderDetail/AdminRegularOrderAddressInfo";
 export {default as AdminRegularOrderInfo} from "./admin/regularOrderDetail/AdminRegularOrderInfo";
 export {default as AdminRegularOrderMemberInfo} from "./admin/regularOrderDetail/AdminRegularOrderMemberInfo";
-
 /* Home */
 export {default as Banner} from "./shop/home/Banner";
 export {default as HomeProductList} from "./shop/home/HomeProductList";
@@ -92,3 +91,4 @@ export {default as ProductDescription} from "./shop/product/ProductDescription";
 export {default as ProductInfo} from "./shop/product/ProductInfo";
 export {default as ProductReviews} from "./shop/product/ProductReviews";
 export {default as SellerInfo} from "./shop/product/SellerInfo";
+export {default as ProductSaleButtons} from "./shop/product/ProductSaleButtons";

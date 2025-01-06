@@ -5,7 +5,7 @@ interface Props{
     content:string,
 }
 
-const ProductDescription:React.FC<Props> = ({content}) => {
+const ReviewViewer:React.FC<Props> = ({content}) => {
     const modules = useMemo(() => {
         return {
             toolbar: false,
@@ -20,4 +20,4 @@ const ProductDescription:React.FC<Props> = ({content}) => {
     );
 }
     
-export default ProductDescription;
+export default ReviewViewer;
