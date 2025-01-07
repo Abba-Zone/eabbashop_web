@@ -92,3 +92,6 @@ export {default as ProductInfo} from "./shop/product/ProductInfo";
 export {default as ProductReviews} from "./shop/product/ProductReviews";
 export {default as SellerInfo} from "./shop/product/SellerInfo";
 export {default as ProductSaleButtons} from "./shop/product/ProductSaleButtons";
+/* Shop Cart */
+export {default as CartList} from "./shop/cart/CartList";
+export {default as CartSelectMoney} from "./shop/cart/CartSelectMoney";
