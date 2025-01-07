@@ -61,6 +61,8 @@ public class Cart {
         if(this.modifiedDateTime == null) this.modifiedDateTime = LocalDateTime.now();
 
         if(this.deleteYn == null) this.deleteYn = "N";
+
+        if(this.selectYn == null) this.selectYn = "N";
     }
 
     @PreUpdate
