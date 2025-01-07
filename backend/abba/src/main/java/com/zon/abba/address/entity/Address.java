@@ -86,4 +86,9 @@ public class Address {
 
         if(this.deleteYN == null) this.deleteYN = "N";
     }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.modifiedId = UUID.randomUUID().toString(); // 업데이트 시 새로운 UUID 할당
+    }
 }
