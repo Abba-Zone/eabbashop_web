@@ -17,7 +17,7 @@ public interface BoardRepository extends JpaRepository<Board, String> {
     Optional<Board> findByBoardId(String boardId);
 
     @Query(value = """
-        SELECT b.BoardID AS boardId, b.Title AS title, CONCAT(m.LastName, ' ', m.FirstName) AS name,
+        SELECT b.BoardID AS boardId, b.Title AS title, b.Contents AS contents, CONCAT(m.LastName, ' ', m.FirstName) AS name,
         b.ShowYN AS showYN, b.TopYN AS topYN, b.CreatedDateTime AS createdDateTime
         FROM Board b
         LEFT JOIN Members m ON b.MemberID = m.MemberID
