@@ -1,24 +1,36 @@
 package com.zon.abba.member.service;
 
+import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.exception.NoSellerException;
 import com.zon.abba.common.request.RequestList;
+import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
+import com.zon.abba.common.security.JwtTokenProvider;
 import com.zon.abba.member.dto.SellerDto;
 import com.zon.abba.member.dto.SellerListDto;
+import com.zon.abba.member.entity.ChangeRequestLog;
 import com.zon.abba.member.mapping.SellerList;
+import com.zon.abba.member.repository.ChangeRequestLogRepository;
 import com.zon.abba.member.repository.SellerRepository;
+import com.zon.abba.member.request.registeradmin.RegisterAdminResultRequest;
 import com.zon.abba.member.request.seller.SellerDetailRequest;
 import com.zon.abba.member.response.SellerDetailResponse;
+import com.zon.abba.member.response.registeradmin.RegisterAdminListResponse;
+import com.zon.abba.product.entity.Product;
+import com.zon.abba.product.request.ProductRegisterRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,6 +38,11 @@ import java.util.List;
 public class SellerService {
     private static final Logger logger = LoggerFactory.getLogger(SellerService.class);
     private final SellerRepository sellerRepository;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private ChangeRequestLogRepository changeRequestLogRepository;
 
     @Transactional
     public SellerDto getSeller(String memberId){
@@ -77,5 +94,75 @@ public class SellerService {
 
         return sellerDetailResponse;
     }
+
+
+    @Transactional
+    public ResponseListBody requestResultAdminList() {
+        logger.info("로그인한 유저의 대리점을 신청 정보를 가져옵니다.");
+
+        logger.info("유저 정보를 가져옵니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        List<ChangeRequestLog> ChangeRequestLogList = changeRequestLogRepository.findByMemberId(memberId);
+        //List<ChangeRequestLog> ChangeRequestLogList = changeRequestLogRepository.findByMemberIdAndDeleteYN(memberId, "N");
+
+        List<RegisterAdminListResponse> result = new ArrayList<>();
+
+        for(ChangeRequestLog log : ChangeRequestLogList){
+            result.add(new RegisterAdminListResponse(log.getChangeRequestLogId(), log.getStatus()));
+        }
+
+        logger.info("대리점 신청을 완료했습니다.");
+
+        return new ResponseListBody((long) result.size(), result);
+
+    }
+
+    public ResponseBody requestResultAdmin() {
+        logger.info("대리점을 신청합니다.");
+
+        logger.info("유저 정보를 가져옵니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        ChangeRequestLog log = ChangeRequestLog.builder()
+                .memberId(memberId)
+                .afterValue("B") // 대리점
+                .status("1")
+                .createdId(memberId)
+                .modifiedId(memberId)
+                .createdDateTime(LocalDateTime.now()) // 현재 시간 설정
+                .modifiedDateTime(LocalDateTime.now()) // 현재 시간 설정
+                .build();
+        changeRequestLogRepository.save(log);
+
+        logger.info("대리점 신청을 완료했습니다.");
+
+        return new ResponseBody("성공했습니다.");
+    }
+
+    @Transactional
+    public ResponseBody updateResultAdmin(RegisterAdminResultRequest resultRequest) {
+        logger.info("대리점을 결과를 설정합니다.");
+
+        logger.info("유저 정보를 가져옵니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        ChangeRequestLog log = changeRequestLogRepository.findById(resultRequest.getChangeRequestId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 신청입니다."));
+
+        log.setAfterValue(resultRequest.getValue());
+        log.setModifiedId(memberId);    // 설정한 사람 (로그인한 유저)
+        log.setModifiedDateTime(LocalDateTime.now()); // 수정 시간 설정
+
+        changeRequestLogRepository.save(log);
+
+        logger.info("대리점 신청결과 설정을 완료했습니다.");
+
+        return new ResponseBody("성공했습니다.");
+    }
+
 }
 
