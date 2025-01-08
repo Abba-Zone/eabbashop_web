@@ -23,6 +23,42 @@ export const getBoardList = (pageNo:number, pageSize:number, filter:number, filt
     return result;
 }
 
+export const getPostList = (pageNo:number, pageSize:number, title:string, type:number):shopBoardList => {
+    /* real code*/
+    // getData<boardList>('/list?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
+    //     .then((data:APIResponse<boardList>) => {
+    //         return data.result;
+    //     }
+    // );
+    // return null as unknown as boardList;
+
+    /* make for test*/
+    if(type==100){
+    var result :shopBoardList = {
+        totalCount : 10003,
+        list:[
+            {boardID : "1q23q3e2311tt43y3423", title : "정경훈1", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22", contents:"<h6>게시글 내용입니다.<h6>"},
+            {boardID : "2q23q3e2311tt43y3423", title : "정경훈2", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22", contents:"<h6>게시글 내용입니다.<h6>"},
+            {boardID : "3q23q3e2311tt43y3423", title : "정경훈3", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22", contents:"<h6>게시글 내용입니다.<h6>"},
+            {boardID : "4q23q3e2311tt43y3423", title : "정경훈4", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22", contents:"<h6>게시글 내용입니다.<h6>"},
+            {boardID : "5q23q3e2311tt43y3423", title : "정경훈5", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22", contents:"<h6>게시글 내용입니다.<h6>"},
+        ]
+    };
+    return result;}
+    else{
+        var result :shopBoardList = {
+            totalCount : 1000,
+            list:[
+                {boardID : "1q23q3e2311tt43y34231", title : "정경훈6", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22", contents:"<h6>게시글 내용입니다.<h6>"},
+                {boardID : "2q23q3e2311tt43y34231", title : "정경훈7", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22", contents:"<h6>게시글 내용입니다.<h6>"},
+                {boardID : "3q23q3e2311tt43y34231", title : "정경훈8", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22", contents:"<h6>게시글 내용입니다.<h6>"},
+                {boardID : "4q23q3e2311tt43y34231", title : "정경훈9", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22", contents:"<h6>게시글 내용입니다.<h6>"},
+                {boardID : "5q23q3e2311tt43y34231", title : "정경훈10", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22", contents:"<h6>게시글 내용입니다.<h6>"},
+            ]
+        };
+        return result;}
+}
+
 export const getBoardDetail = (boardID:string):boardDetail => {
     // getData<boardDetail>('/info?inquiryID='+ inquiryID)
     //     .then((data:APIResponse<boardDetail>) => {

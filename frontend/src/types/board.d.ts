@@ -12,6 +12,15 @@ interface boardList{
     list : board[],
 }
 
+interface shopBoard extends board{
+    contents : string
+}
+
+interface shopBoardList{
+    totalCount : number,
+    list : shopBoard[],
+}
+
 interface boardDetail extends board{
     type : number,
     contents : string

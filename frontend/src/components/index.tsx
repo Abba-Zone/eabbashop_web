@@ -95,3 +95,8 @@ export {default as ProductSaleButtons} from "./shop/product/ProductSaleButtons";
 /* Shop Cart */
 export {default as CartList} from "./shop/cart/CartList";
 export {default as CartSelectMoney} from "./shop/cart/CartSelectMoney";
+/* Shop Board */
+export {default as SelectBoardType} from "./shop/board/SelectBoardType";
+export {default as SearchBoardWord} from "./shop/board/SearchBoardWord";
+export {default as BoardList} from "./shop/board/BoardList";
+
