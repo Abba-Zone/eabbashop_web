@@ -18,6 +18,8 @@ public class BoardDto {
     private String boardId;
     @JsonProperty("title")
     private String title;
+    @JsonProperty("contents")
+    private String contents;
     @JsonProperty("name")
     private String name;
     @JsonProperty("showYN")
@@ -30,6 +32,7 @@ public class BoardDto {
     public BoardDto(BoardList boardList){
         this.boardId = boardList.getBoardId();
         this.title = boardList.getTitle();
+        this.contents = boardList.getContents();
         this.name = boardList.getName();
         this.showYN = boardList.getShowYN().equals("Y");
         this.topYN = boardList.getTopYN().equals("Y");
