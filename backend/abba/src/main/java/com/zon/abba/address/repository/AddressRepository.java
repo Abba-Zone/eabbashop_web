@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface AddressRepository extends JpaRepository<Address, String> {
-    @Query(value = "SELECT * FROM address " +
+    @Query(value = "SELECT * FROM Address " +
             "WHERE MemberID = :memberId AND DeleteYN = 'N' " +
             "ORDER BY " +
             "CASE " +
