@@ -1,6 +1,6 @@
 import { getBoardList, getBoardDetail, registerBoard, modifyBoard } from '../apis/board'
 
-export const getBoardList_s = async (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string, type:string): Promise<boardList> => {
+export const getBoardList_s = async (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string, type:number): Promise<boardList> => {
     return await getBoardList(pageNo, pageSize, filter, filterValue, sort, sortValue, type);
 };
 

@@ -27,10 +27,17 @@ const AdminBoardRegistModal:React.FC<Props> = ({type, setModalOpen}) => {
       content : content,
       showYN : show,
       topYN : top,
-      type : type
+      type : changeType(type)
     }
     await registBoard_s(boardInfo);
     setModalOpen(false);
+  }
+  const changeType = (stringType:string):number =>{
+    if(stringType === "공지사항")
+      return 100;
+    else if(stringType === "아빠의편지")
+      return 200;
+    return 0;
   }
   const changeUrls = (imageUrls:{preUrl:string[], lastUrl:string[]}, videoUrls:{preUrl:string[], lastUrl:string[]}) =>{
     for(let i = 0 ; i < imageUrls.preUrl.length; i++){

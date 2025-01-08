@@ -13,7 +13,7 @@ interface boardList{
 }
 
 interface boardDetail extends board{
-    type : string,
+    type : number,
     contents : string
 }
 
@@ -22,7 +22,7 @@ interface registBoard {
     content : string,
     showYN : string,
     topYN : string,
-    type : string
+    type : number
 }
 
 interface modifyBoard {

@@ -46,7 +46,7 @@ const RoutePath:React.FC = () => {
         <Route path="/productdetail/:id" element={<Product />}/>        
         <Route path="/checkout" element={<Checkout />}/>        
         <Route path="/completecheckout" element={<CompleteCheckout />}/>        
-        <Route path="/post" element={<Post />}/>
+        <Route path="/post/:type" element={<Post />}/>
         <Route path="/postdetail" element={<PostDetail />}/>
         {/* Admin Routes */}
         <Route path="/admin/login" element={<AdminLogin />} />
