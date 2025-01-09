@@ -12,5 +12,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BoardIdRequest {
     @JsonProperty("boardID")
-    private String boardId;
+    private String boardID;
 }
