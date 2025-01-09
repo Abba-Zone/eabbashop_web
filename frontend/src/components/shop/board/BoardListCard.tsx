@@ -12,7 +12,7 @@ const BoardListCard:React.FC<Props> = ({board, selectID, setSelectID}) => {
             <h2>{board.title}</h2>
             <div>{board.createDateTime}</div>
         </div>
-        {selectID === board.boardID ? <BoardViewer content={board.name}/> : null}
+        {selectID === board.boardID ? <BoardViewer content={board.contents}/> : null}
     </div>
     );
 }
