@@ -26,25 +26,19 @@ export const getPostList = async(pageNo:number, pageSize:number, title:string, t
     }
 }
 
-export const getBoardDetail = (boardID:string):boardDetail => {
-    // getData<boardDetail>('/info?inquiryID='+ inquiryID)
-    //     .then((data:APIResponse<boardDetail>) => {
-    //         return data.result;
-    //     }
-    // );
-    // return null as unknown as boardDetail;
-    
-    var result:boardDetail= {
-        boardID : "123123141d2ewww",
-        name : "정경훈",
-        type : 100 ,
-        title : "테스트제목입니다.",
-        contents : "d아~~ 청춘이여~",
-        showYN : "Y",
-        topYN : "N",
-        createDateTime : "2024-11-15 17:13:22"
-    };
-    return result;
+export const getBoardDetail = async(boardID:string):Promise<boardDetail> => {
+    try {
+        const response = await getData<boardDetail>(
+            '/board/detail?boardID='+ boardID
+        );
+        if(response.data.toString() === "게시글이 없습니다."){
+            return null as unknown as boardDetail;
+        }
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching board detail:', error);
+        throw error;
+    }
 }
 
 export const registerBoard = async (boardInfo:registBoard) => {
@@ -58,11 +52,14 @@ export const registerBoard = async (boardInfo:registBoard) => {
     }
 }
 
-export const modifyBoard = (boardInfo:modifyBoard) => {
+export const modifyBoard = async (boardInfo:modifyBoard) => {
     /* real code*/
-    postData<reviewList>('/board/update', boardInfo)
-        .then((data:any) => {
-            // return data.result;
-        }
-    );
+    try {
+        console.log(boardInfo);
+        const data = await postData<reviewList>('/board/update', boardInfo);
+        console.log(data);
+    } catch (error) {
+        console.error('Signup error:', error);
+        return false;
+    }
 }
