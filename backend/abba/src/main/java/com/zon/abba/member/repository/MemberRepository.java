@@ -20,6 +20,7 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 
     // ID로 member 조회
     Optional<Member> findOneByMemberId(String memberID);
+    Optional<Member> findOneByMemberIdAndRole(String memberID,String Role);
 
     // phone로 member 조회
     Optional<Member> findByPhone(String phone);
