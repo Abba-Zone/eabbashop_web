@@ -1,5 +1,21 @@
 .App {
-  text-align: center;
+  display: flex;
+  transition: margin-left 0.3s ease;
+}
+
+.content {
+  margin-top: 50px;
+  flex-grow: 1;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+.menu-open {
+  margin-left: 0; /* 메뉴가 열렸을 때 */
+}
+
+.menu-closed {
+  margin-left: 300px; /* 메뉴가 닫혔을 때 */
 }
 
 .App-logo {

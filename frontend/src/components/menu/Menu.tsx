@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MenuCard1 from "./MenuCard1";
 import MenuCard2 from "./MenuCard2";
 import { useTranslation } from "react-i18next";
+interface MenuProps {
+    toggleMenu: () => void;
+}
 
-const Menu: React.FC = () => {
-    const { t } = useTranslation();
+const Menu: React.FC<MenuProps> = ({ toggleMenu }) => {
+    const { t , i18n } = useTranslation();
 
     const menuList: menu[] = [
         {
@@ -92,6 +95,11 @@ const Menu: React.FC = () => {
         },
     ];
 
+    const changeLanguage = (lng: string) => {
+        i18n.changeLanguage(lng);
+        localStorage.setItem('language', lng);
+    }
+
     const rendering = (): JSX.Element[] => {
         const result = [];
         for (let i = 0; i < menuList.length; i++) {
@@ -105,6 +113,15 @@ const Menu: React.FC = () => {
 
     return (
         <div className="admin-sidebar">
+            <div className="admin-sidebar-menu-button" onClick={toggleMenu}>햄버거</div>
+            <div className="admin-sidebar-logo">
+            </div>
+                <select onChange={(e) => changeLanguage(e.target.value)} className="language-select" value={i18n.language}>
+                    <option value="ko">{t("Common:Language.Korean")}</option>
+                    <option value="en">{t("Common:Language.English")}</option>
+                    <option value="zh">{t("Common:Language.Chinese")}</option>
+                    <option value="ja">{t("Common:Language.Japanese")}</option>
+                </select>
             {rendering()}
         </div>
     );

@@ -19,19 +19,17 @@ const NavBar:React.FC = () => {
     }
     
     return (
-        <div>
-            <div>
+        <div className="nav-bar">
+            <div className="nav-item-container">
                 {isAdminRole(Cookies.get('role')) && (
-                    <div onClick={handleGoAdmin}>
+                    <div className="nav-item" onClick={handleGoAdmin}>
                         어드민페이지
                     </div>
                 )}
-                <div onClick={handleGoShop}>
+                <div className="nav-item" onClick={handleGoShop}>
                     샵페이지
                 </div>
-            </div>
-            <div>
-                <div onClick={handleGoRegistAdmin}>
+                <div className="nav-item" onClick={handleGoRegistAdmin}>
                     판매점 등록하기
                 </div>
             </div>

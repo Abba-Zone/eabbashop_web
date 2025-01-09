@@ -1,9 +1,9 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { Home, Login, Signup, Cart, Profile, 
   Wallet, ToMasterCard, Account, MemberModify, Address, 
   Orders, OrderDetail, RegularOrder, Review, Wishlist, 
   FindInfo, Category, Search, Product, Checkout, 
-  CompleteCheckout, Post, PostDetail, MemberTest,
+  CompleteCheckout, Post, PostDetail, 
   AdminLogin, AdminSignup, AdminFindInfo, AdminDashboard,
   AdminMemberList, AdminMemberDetail, AdminWalletHistory,
   AdminProductList, AdminProductDetail, AdminProductReview,
@@ -20,35 +20,13 @@ import { Home, Login, Signup, Cart, Profile,
   AdminRegistAdmin} from '../pages';
 
 const RoutePath:React.FC = () => {
+  const location = useLocation();
+  const isAdminPage = location.pathname.startsWith('/admin');
+
   return (
     <Routes>
-        <Route path="/" element={<Home />}/>
-        <Route path="/login" element={<Login />}/>
-        <Route path="/code/google" element={<GoogleLogin />}/>
-        <Route path="/code/kakao" element={<KakaoLogin />}/>
-        <Route path="/signup" element={<Signup />}/>
-        <Route path="/socialsignup" element={<SocialSignup />}/>
-        <Route path="/cart" element={<Cart />}/>        
-        <Route path="/profile" element={<Profile />}/>        
-        <Route path="/wallet" element={<Wallet />}/>        
-        <Route path="/tomastercard" element={<ToMasterCard />}/>        
-        <Route path="/account" element={<Account />}/>        
-        <Route path="/membermodify" element={<MemberModify />}/>        
-        <Route path="/address" element={<Address />}/>        
-        <Route path="/orders" element={<Orders />}/>        
-        <Route path="/orderdetail" element={<OrderDetail />}/>        
-        <Route path="/regularorder" element={<RegularOrder />}/>        
-        <Route path="/review" element={<Review />}/>        
-        <Route path="/wishlist" element={<Wishlist />}/>        
-        <Route path="/findinfo" element={<FindInfo />}/>        
-        <Route path="/category" element={<Category />}/>        
-        <Route path="/search" element={<Search />}/>        
-        <Route path="/productdetail/:id" element={<Product />}/>        
-        <Route path="/checkout" element={<Checkout />}/>        
-        <Route path="/completecheckout" element={<CompleteCheckout />}/>        
-        <Route path="/post" element={<Post />}/>
-        <Route path="/postdetail" element={<PostDetail />}/>
-        {/* Admin Routes */}
+      {isAdminPage ? (
+        <>
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/signup" element={<AdminSignup />} />
         <Route path="/admin/findinfo" element={<AdminFindInfo />} />
@@ -107,6 +85,37 @@ const RoutePath:React.FC = () => {
 
         {/* Settings */}
         <Route path="/admin/setting" element={<AdminSetting />} />
+        </>
+      ) : (
+        <>
+        <Route path="/" element={<Home />}/>
+        <Route path="/login" element={<Login />}/>
+        <Route path="/code/google" element={<GoogleLogin />}/>
+        <Route path="/code/kakao" element={<KakaoLogin />}/>
+        <Route path="/signup" element={<Signup />}/>
+        <Route path="/socialsignup" element={<SocialSignup />}/>
+        <Route path="/cart" element={<Cart />}/>        
+        <Route path="/profile" element={<Profile />}/>        
+        <Route path="/wallet" element={<Wallet />}/>        
+        <Route path="/tomastercard" element={<ToMasterCard />}/>        
+        <Route path="/account" element={<Account />}/>        
+        <Route path="/membermodify" element={<MemberModify />}/>        
+        <Route path="/address" element={<Address />}/>        
+        <Route path="/orders" element={<Orders />}/>        
+        <Route path="/orderdetail" element={<OrderDetail />}/>        
+        <Route path="/regularorder" element={<RegularOrder />}/>        
+        <Route path="/review" element={<Review />}/>        
+        <Route path="/wishlist" element={<Wishlist />}/>        
+        <Route path="/findinfo" element={<FindInfo />}/>        
+        <Route path="/category" element={<Category />}/>        
+        <Route path="/search" element={<Search />}/>        
+        <Route path="/productdetail/:id" element={<Product />}/>        
+        <Route path="/checkout" element={<Checkout />}/>        
+        <Route path="/completecheckout" element={<CompleteCheckout />}/>        
+        <Route path="/post" element={<Post />}/>
+        <Route path="/postdetail" element={<PostDetail />}/>
+        </>
+      )}
     </Routes>
   );
 }

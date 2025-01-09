@@ -1,6 +1,13 @@
 .admin-header{
     display: flex;
     justify-content: space-between;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 89.5%;
 }
 .admin-header>*>*{
     margin: 10px;
@@ -11,9 +18,26 @@
 .admin-header-right{
     display: flex;
 }
+.admin-header-menu-button{
+    cursor: pointer;
+    padding: 5px;
+    transition: font-weight 0.3s ease;
+}
+.admin-header-menu-button:hover{
+    background-color: #34495e;
+    font-weight: bold;
+}
+
 .shop-header{
     display: flex;
     justify-content: space-between;
+    background-color: #F4D03F;
+    color: #2c3e50;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 89.49%;
 }
 .shop-header>*>*{
     margin: 10px;
@@ -23,4 +47,51 @@
 }
 .shop-header-right{
     display: flex;
+}
+
+.left-nav {
+    width: 250px;
+    height: 100vh;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease;
+}
+
+.left-nav a {
+    color: #ecf0f1;
+    text-decoration: none;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.left-nav a:hover {
+    background-color: #34495e;
+}
+
+.left-nav .logo {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .left-nav {
+        width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .left-nav {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
 }
