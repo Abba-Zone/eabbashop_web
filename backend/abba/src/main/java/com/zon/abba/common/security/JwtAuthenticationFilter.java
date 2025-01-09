@@ -38,6 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String jwt = getJwtFromRequest(request);
+        logger.info("jwt 토큰을 검사합니다. : " + jwt);
 
         if(jwt != null && tokenProvider.validateToken(jwt)){
             logger.info("인증 정보를 만듭니다.");
