@@ -4,19 +4,12 @@ import Menu from "../menu/Menu";
 import "./style.css"
 import { useNavigate } from "react-router-dom";
 
-const AdminHaeder:React.FC = () => {
+const AdminHaeder:React.FC<{ toggleMenu: () => void, menuVisible: boolean }> = ({ toggleMenu, menuVisible }) => {
     const Cookies = require('js-cookie');
     const { i18n, t } = useTranslation();
     const navigate = useNavigate();
-    const [visible, setVisible] = useState<boolean>(false)
     const [userInfo, setUserInfo] = useState<{ firstName: string, lastName: string, role: string } | null>(null);
-    const openMenu = () => {
-        setVisible(!visible);
-    }
-    const changeLanguage = (lng: string) => {
-        i18n.changeLanguage(lng);
-        localStorage.setItem('language', lng);
-    }
+
     const handleGoLogin = () =>{
         navigate("/admin/login");
     }
@@ -89,22 +82,20 @@ const AdminHaeder:React.FC = () => {
         window.location.reload();
     };
 
+    const checkMenuVisible = () => {
+        console.log(menuVisible);
+    }
+    
     return (
         <div className="admin-header-and-menu">
             <div className="admin-header">
                 <div className="admin-header-left">
-                    <div className="admin-header-menu-button" onClick={openMenu}>햄버거</div> 
-                    <div className="admin-header-logo">로고</div>
-                    <select onChange={(e) => changeLanguage(e.target.value)} className="language-select" value={i18n.language}>
-                        <option value="ko">{t("Common:Language.Korean")}</option>
-                        <option value="en">{t("Common:Language.English")}</option>
-                        <option value="zh">{t("Common:Language.Chinese")}</option>
-                        <option value="ja">{t("Common:Language.Japanese")}</option>
-                    </select>
+                    <div className="admin-header-menu-button" onClick={toggleMenu}>햄버거</div> 
                 </div>
                 <div className="admin-header-right">
                     <div>도움말</div>
                     <div>프로필</div>
+                    <div onClick={checkMenuVisible}>check</div>
                     {userInfo ? (
                         <div>
                             {renderUserName()} ({userInfo.role}) &nbsp;
@@ -124,7 +115,7 @@ const AdminHaeder:React.FC = () => {
                     )}
                 </div>
             </div>
-            {visible?<Menu/>:<></>}
+            {menuVisible?<Menu toggleMenu={toggleMenu}/>:<></>}
         </div>
     );
   }
