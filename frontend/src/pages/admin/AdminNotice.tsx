@@ -26,7 +26,8 @@ const AdminNotice: React.FC = () => {
 
   const getNoticeList = useCallback (async () => {
     try {
-      const totalAndBoardList : boardList = await getBoardList_s(pageNo, pageSize, filter, filterValue, sort, sortValue, 100);
+      const filterName = selectList[filter].select;
+      const totalAndBoardList : boardList = await getBoardList_s(pageNo, pageSize, filterName, filterValue, sort, sortValue, 100);
       setNotices(totalAndBoardList.list);
       setLastPage(totalAndBoardList.totalCount === 0? 1:Math.floor((totalAndBoardList.totalCount - 1)/pageSize) + 1);
     } catch (error) {

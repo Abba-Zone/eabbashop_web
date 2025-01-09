@@ -1,36 +1,39 @@
+import { AxiosResponse } from 'axios';
 import { getData, postData } from './mainApi'
 
-export const getBoardList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string, type:number):boardList => {
+export const getBoardList = (pageNo:number, pageSize:number, filter:string, filterValue:string, sort:string, sortValue:string, type:number):boardList => {
     /* real code*/
-    // getData<boardList>('/list?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
-    //     .then((data:APIResponse<boardList>) => {
-    //         return data.result;
-    //     }
-    // );
-    // return null as unknown as boardList;
+    getData<boardList>('board/list/admin?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&sort='+ sort + '&sortValue='+ sortValue +  '&filter='+ filter + '&filterValue='+ filterValue + '&type='+ type)
+        .then((data:AxiosResponse<boardList>) => {
+            console.log(data);
+            return data.data;
+        }
+    );
+    return null as unknown as boardList;
 
     /* make for test*/
-    var result :boardList = {
-        totalCount : 10003,
-        list:[
-            {boardID : "1q23q3e2311tt43y3423", title : "정경훈", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22"},
-            {boardID : "2q23q3e2311tt43y3423", title : "정경훈", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22"},
-            {boardID : "3q23q3e2311tt43y3423", title : "정경훈", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22"},
-            {boardID : "4q23q3e2311tt43y3423", title : "정경훈", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22"},
-            {boardID : "5q23q3e2311tt43y3423", title : "정경훈", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22"},
-        ]
-    };
-    return result;
+    // var result :boardList = {
+    //     totalCount : 10003,
+    //     list:[
+    //         {boardID : "1q23q3e2311tt43y3423", title : "정경훈", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22"},
+    //         {boardID : "2q23q3e2311tt43y3423", title : "정경훈", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22"},
+    //         {boardID : "3q23q3e2311tt43y3423", title : "정경훈", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22"},
+    //         {boardID : "4q23q3e2311tt43y3423", title : "정경훈", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22"},
+    //         {boardID : "5q23q3e2311tt43y3423", title : "정경훈", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22"},
+    //     ]
+    // };
+    // return result;
 }
 
-export const getPostList = (pageNo:number, pageSize:number, title:string, type:number):shopBoardList => {
+export const getPostList = async(pageNo:number, pageSize:number, title:string, type:number):Promise<shopBoardList> => {
     /* real code*/
-    // getData<boardList>('/list?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
-    //     .then((data:APIResponse<boardList>) => {
-    //         return data.result;
-    //     }
-    // );
-    // return null as unknown as boardList;
+    await getData<shopBoardList>(`/board/list?pageNo=${pageNo}&pageSize=${pageSize}&filter=title&filterValue=${title}&type=${type}`)
+        .then((data:AxiosResponse<shopBoardList>) => {
+            console.log(data)
+            return data.data;
+        }
+    );
+    return null as unknown as shopBoardList;
 
     /* make for test*/
     if(type==100){

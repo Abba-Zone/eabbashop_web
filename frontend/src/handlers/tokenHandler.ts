@@ -6,7 +6,7 @@ export const getNewConfig = (): AxiosRequestConfig => {
     const accessToken = Cookies.get("access-token");
       const config: AxiosRequestConfig = {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          AccessToken: `Bearer ${accessToken}`,
         },
       };
       return config;
