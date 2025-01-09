@@ -4,11 +4,16 @@ import com.zon.abba.address.entity.Address;
 import com.zon.abba.address.repository.AddressRepository;
 import com.zon.abba.common.exception.NoDataException;
 import com.zon.abba.common.exception.NoMemberException;
+import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
+import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.common.security.JwtTokenProvider;
+import com.zon.abba.order.dto.OrderDetailDto;
+import com.zon.abba.order.dto.OrderDto;
 import com.zon.abba.order.dto.ProductDto;
 import com.zon.abba.order.entity.Orders;
 import com.zon.abba.order.entity.OrderDetail;
+import com.zon.abba.order.mapping.OrderedProduct;
 import com.zon.abba.order.repository.OrderDetailRepository;
 import com.zon.abba.order.repository.OrderRepository;
 import com.zon.abba.order.request.RegisterOrderRequest;
@@ -18,6 +23,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -34,6 +43,7 @@ public class OrderService {
     private final AddressRepository addressRepository;
     private final ProductRepository productRepository;
     private final JwtTokenProvider jwtTokenProvider;
+
 
     @Transactional
     public ResponseBody registerOrder(RegisterOrderRequest request){
@@ -69,6 +79,7 @@ public class OrderService {
                 .build();
 
         orderRepository.save(orders);
+
 
         // 총 금액 계산 하고 나머지 입력
         BigDecimal LP = new BigDecimal("0.0");
@@ -109,17 +120,55 @@ public class OrderService {
 
         logger.info("연산 결과를 db에 저장합니다.");
 
-        // orderDetail 넣기
-        orderDetailRepository.saveAll(orderDetails);
         // 계산된 금액 order에 넣기
         orders.setLpPrice(LP);
         orders.setSpPrice(SP);
         // AK 자리
-        orderRepository.save(orders);
+
+        // orderDetail 넣기
+        orderDetailRepository.saveAll(orderDetails);
 
         logger.info("주문하기가 완료되었습니다.");
         return new ResponseBody("성공했습니다.");
     }
 
+    @Transactional
+    public ResponseListBody orderList(RequestList requestList, String year){
+        logger.info("주문 내역을 가져옵니다.");
 
+        logger.info("확인할 유저 정보를 가져옵니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        // 최신순 정렬 추가
+        Pageable pageable = PageRequest.of(
+                requestList.getPageNo(),
+                requestList.getPageSize(),
+                Sort.by(Sort.Direction.DESC, "createdDateTime"));
+
+        // member에 맞는 order 데이터 가져오기
+        Page<Orders> orders = orderRepository.findByMemberIdAndYearPaged(memberId, "N", year, pageable);
+
+        List<OrderDto> list = orders.stream()
+                .map(order -> {
+                    OrderDto orderDto = new OrderDto();
+                    orderDto.setOrderId(order.getOrderId());
+                    orderDto.setCreatedDateTime(order.getCreatedDateTime());
+
+                    // orderDetail 가져오기
+                    List<OrderedProduct> ops = orderDetailRepository.findOrderedProductsByOrderId(order.getOrderId());
+                    List<OrderDetailDto> orderDetails = ops.stream()
+                            .map(OrderDetailDto::new)
+                            .toList();
+
+                    orderDto.setOrderDetails(orderDetails);
+
+                    return orderDto;
+                })
+                .toList();
+
+
+        return new ResponseListBody(orders.getTotalElements(), list);
+
+    }
 }

@@ -1,6 +1,8 @@
 package com.zon.abba.order.controller;
 
+import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
+import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.order.request.RegisterOrderRequest;
 import com.zon.abba.order.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +29,15 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @GetMapping("/list")
+    @Operation(summary = "고객 주문 조회", description = "고객이 자신의 주문 내역 리스트를 볼 수 있다.")
+    public ResponseEntity<Object> orderList(@ModelAttribute RequestList requestList,
+                                            @RequestParam(value = "year", required = false) String year){
+
+        ResponseListBody response = orderService.orderList(requestList, year);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
     
 
 }

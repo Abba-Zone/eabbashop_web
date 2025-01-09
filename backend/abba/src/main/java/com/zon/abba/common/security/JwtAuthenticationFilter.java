@@ -53,11 +53,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String getJwtFromRequest(HttpServletRequest request) {
 
         // 모든 헤더의 키를 로그로 출력
-        Enumeration<String> headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
-            logger.info("Header Key: " + headerName + ", Value: " + request.getHeader(headerName));
-        }
+//        Enumeration<String> headerNames = request.getHeaderNames();
+//        while (headerNames.hasMoreElements()) {
+//            String headerName = headerNames.nextElement();
+//            logger.info("Header Key: " + headerName + ", Value: " + request.getHeader(headerName));
+//        }
         String bearerToken = request.getHeader("Access-Token");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
