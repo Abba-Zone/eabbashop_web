@@ -4,7 +4,7 @@ interface board{
     name : string,
     showYN : string,
     topYN : string,
-    createdDateTime : string
+    createDateTime : string
 }
 
 interface boardList{
@@ -12,17 +12,26 @@ interface boardList{
     list : board[],
 }
 
+interface shopBoard extends board{
+    contents : string
+}
+
+interface shopBoardList{
+    totalCount : number,
+    list : shopBoard[],
+}
+
 interface boardDetail extends board{
-    type : string,
+    type : number,
     contents : string
 }
 
 interface registBoard {
     title : string,
     content : string,
-    showYN : string,
-    topYN : string,
-    type : string
+    show : string,
+    top : string,
+    type : number
 }
 
 interface modifyBoard {

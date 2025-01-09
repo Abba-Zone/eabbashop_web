@@ -9,7 +9,7 @@ const AdminBoardInfo:React.FC<Props> = ({board}) => {
       <div>
         <div><div>{t("AdminBoard:Detail.Item01.Attribute01")}</div><div>{board.type}</div></div>
         <div><div>{t("AdminBoard:Detail.Item01.Attribute02")}</div><div>{board.name}</div></div>
-        <div><div>{t("AdminBoard:Detail.Item01.Attribute03")}</div><div>{board.createdDateTime}</div></div>
+        <div><div>{t("AdminBoard:Detail.Item01.Attribute03")}</div><div>{board.createDateTime}</div></div>
         <div><div>{t("AdminBoard:Detail.Item01.Attribute04")}</div><div>{board.contents}</div></div>
         <div><div>{t("AdminBoard:Detail.Item01.Attribute05")}</div><div>{board.topYN}</div></div>
         <div><div>{t("AdminBoard:Detail.Item01.Attribute06")}</div><div>{board.showYN}</div></div>

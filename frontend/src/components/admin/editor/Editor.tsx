@@ -10,14 +10,12 @@ Quill.register('modules/imageFormats', ImageFormats);
 
 interface Props{
   content:string,
-  images:IFile[],
-  videos:IFile[],
-  setImages(imageList:IFile[]):void,
-  setVideos(videoList:IFile[]):void,
+  inputImageFile(imagefile:IFile[]):void,
+  inputVideoFile(videoList:IFile[]):void,
   setContent(contnet:string):void;
 }
 
-const Editor:React.FC<Props> = ({content, images, videos, setImages, setVideos, setContent}) => {
+const Editor:React.FC<Props> = ({content, inputImageFile, inputVideoFile, setContent}) => {
   const { t } = useTranslation();
   const QuillRef = useRef<ReactQuill | null>(null);
   const imageHandler = () => {
@@ -42,7 +40,8 @@ const Editor:React.FC<Props> = ({content, images, videos, setImages, setVideos, 
         return { name: id, previewURL, file: imageFile };
       });
       const resizedImages = await Promise.all(resizePromises);
-      setImages([...images, ...resizedImages]);
+      inputImageFile([...resizedImages]);
+      input.value = "";
     };
   };
   const videoHandler = () => {
@@ -67,7 +66,7 @@ const Editor:React.FC<Props> = ({content, images, videos, setImages, setVideos, 
           editor.insertEmbed(range?.index as number, "video", previewURL);
         }
       });
-      setVideos([...videos, ...vidoeFileObjects]);
+      inputVideoFile([ ...vidoeFileObjects]);
     };
   };
   const modules = useMemo(() => {

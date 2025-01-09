@@ -12,8 +12,8 @@ const AdminNotice: React.FC = () => {
   const [lastPage, setLastPage] = useState<number>(1);
   const [filter, setFilter] = useState<number>(1);
   const [filterValue, setFilterValue] = useState<string>("");
-  const [sort, setSort] = useState<string>("createdDateTime");
-  const [sortValue, setSortValue] = useState<string>("DESC");
+  const [sort, setSort] = useState<string>("DESC");
+  const [sortValue, setSortValue] = useState<string>("createdDateTime");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
     {selectName:t("AdminBoard:List.Filter01"), select:'title', selectType:'text', itemList:[]},
@@ -26,7 +26,8 @@ const AdminNotice: React.FC = () => {
 
   const getNoticeList = useCallback (async () => {
     try {
-      const totalAndBoardList : boardList = await getBoardList_s(pageNo, pageSize, filter, filterValue, sort, sortValue, "공지사항");
+      const filterName = selectList[filter].select;
+      const totalAndBoardList : boardList = await getBoardList_s(pageNo, pageSize, filterName, filterValue, sort, sortValue, 100);
       setNotices(totalAndBoardList.list);
       setLastPage(totalAndBoardList.totalCount === 0? 1:Math.floor((totalAndBoardList.totalCount - 1)/pageSize) + 1);
     } catch (error) {
@@ -40,12 +41,12 @@ const AdminNotice: React.FC = () => {
   const changeSort = (sortName:string) => {
     if (sortName === sort){
       if(sortValue ==='ASC')
-        setSortValue('DESC')
+        setSort('DESC')
       else
-      setSortValue('ASC')
+        setSort('ASC')
     } else {
-      setSort(sortName);
-      setSortValue('ASC');
+      setSortValue(sortName);
+      setSort('ASC');
     }
   }
   const changeFilter = (key:number, value:string) =>{

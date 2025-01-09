@@ -41,7 +41,7 @@ const AdminProductModifyModal:React.FC<Props> = ({productDetail, setModalOpen}) 
     await deleteFiles_s(productDetail.description, description);
     const imageUrls = await registImageFiles_s(description, images);
     const videoUrls = await registVideoFiles_s(description, videos);
-    changeUrls(imageUrls, videoUrls);
+    const newDescription = await changeUrls(imageUrls, videoUrls);
     const productInfo : modifyProduct = {
         productID: productDetail.productID,
         name : name, 
@@ -50,7 +50,7 @@ const AdminProductModifyModal:React.FC<Props> = ({productDetail, setModalOpen}) 
         SPPrice: SPPrice,
         stock: stock,
         summary : summary,
-        description : description,
+        description : newDescription,
         paybackRatio : paybackRate,
         allowNation : allowNation,
         categories : registCategories	,
@@ -62,13 +62,17 @@ const AdminProductModifyModal:React.FC<Props> = ({productDetail, setModalOpen}) 
     setModalOpen(false);
   }
 
-  const changeUrls = (imageUrls:{preUrl:string[], lastUrl:string[]}, videoUrls:{preUrl:string[], lastUrl:string[]}) =>{
-    for(let i = 0 ; i < imageUrls.preUrl.length; i++){
-      setDescription(description.replace(imageUrls.preUrl[i], imageUrls.lastUrl[i]));
+  const changeUrls = (imageUrls:{preUrl:string[], lastUrl:string[]}, videoUrls:{preUrl:string[], lastUrl:string[]}):string =>{
+    console.log(imageUrls.preUrl);
+    console.log(imageUrls.lastUrl);
+    let updatedDescription = description;
+    for (let i = 0; i < imageUrls.preUrl.length; i++) {
+      updatedDescription = updatedDescription.replace(imageUrls.preUrl[i], imageUrls.lastUrl[i]);
     }
-    for(let i = 0 ; i < videoUrls.preUrl.length; i++){
-      setDescription(description.replace(videoUrls.preUrl[i], videoUrls.lastUrl[i]));
+    for (let i = 0; i < videoUrls.preUrl.length; i++) {
+      updatedDescription = updatedDescription.replace(videoUrls.preUrl[i], videoUrls.lastUrl[i]);
     }
+    return updatedDescription;
   }
 
   const changeNation =(event: React.ChangeEvent<HTMLSelectElement>) =>{
@@ -138,6 +142,16 @@ const AdminProductModifyModal:React.FC<Props> = ({productDetail, setModalOpen}) 
     }
   };
 
+  const inputImageFile = (imagefile: IFile[]) => {
+    setImages((prevImages) => {
+      return [...prevImages, ...imagefile];
+    });
+  };
+  const inputVideoFile = (videofile: IFile[]) => {
+    setVideos((prevVideos) => {
+      return [...prevVideos, ...videofile];
+    });
+  };
   return (
     <div style={{backgroundColor:"white", overflow : "scroll"}}>
       <h2>{t("AdminProduct:Regist.Title")}</h2>
@@ -200,7 +214,7 @@ const AdminProductModifyModal:React.FC<Props> = ({productDetail, setModalOpen}) 
         <input type='radio' name='top' value='Y' onChange={() => {setActiveYN("Y")}} checked={activeYN==="Y"}/>{t("AdminProduct:Regist.Option12.Attribute01")}
         <input type='radio' name='top' value='N' onChange={() => {setActiveYN("N")}} checked={activeYN==="N"}/>{t("AdminProduct:Regist.Option12.Attribute02")}
       </div>
-      {preview? <ViewEditor content={description}/>: <Editor images={images} setImages={setImages} videos={videos} setVideos={setVideos} content={description} setContent={setDescription}></Editor>}
+      {preview? <ViewEditor content={description}/>: <Editor inputImageFile={inputImageFile} inputVideoFile={inputVideoFile} content={description} setContent={setDescription}></Editor>}
       {!preview && <button onClick={() => setModalOpen(false)}>{t("AdminProduct:Regist.Button01")}</button>}
       <button onClick={() => setPreview(!preview)}>{preview? t("AdminProduct:Regist.Button02"):t("AdminProduct:Regist.Button03")}</button>
       <button onClick={modifyProduct}>{t("AdminProduct:Regist.Button04")}</button>
