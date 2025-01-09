@@ -11,5 +11,7 @@ import java.util.Optional;
 public interface ChangeRequestLogRepository extends JpaRepository<ChangeRequestLog, String> {
     //List<ChangeRequestLog> findByMemberIdAndDeleteYN(String memberId, String deleteYN);
     List<ChangeRequestLog> findByMemberId(String memberId);
+    List<ChangeRequestLog> findByMemberIdAndType(String memberId,String type);
+    List<ChangeRequestLog> findByType(String type);
 
 }

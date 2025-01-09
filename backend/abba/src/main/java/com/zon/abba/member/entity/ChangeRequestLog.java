@@ -33,6 +33,9 @@ public class ChangeRequestLog {
     @Column(name = "Status", columnDefinition = "CHAR(1)", nullable = false)
     private String status;
 
+    @Column(name = "Type", columnDefinition = "CHAR(5)", nullable = true)
+    private String type;
+
     @Column(name = "CreatedID", columnDefinition = "CHAR(36)", nullable = false)
     private String createdId;
 

@@ -33,7 +33,14 @@ public class RegistAdminController {
     @GetMapping("/request/list")
     @Operation(summary = "대리점 신청 리스트", description = "대리점 신청 리스트")
     public ResponseEntity<Object> registerAdminRequestList(){
-        ResponseListBody response = sellerService.requestResultAdminList();
+        ResponseListBody response = sellerService.requestResultAdminList("");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/request/list/all")
+    @Operation(summary = "대리점 신청 리스트", description = "대리점 신청 리스트")
+    public ResponseEntity<Object> registerAdminRequestAllList(){
+        ResponseListBody response = sellerService.requestResultAdminList("all");
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
