@@ -42,7 +42,7 @@ export const getBoardDetail = (boardID:string):boardDetail => {
         contents : "d아~~ 청춘이여~",
         showYN : "Y",
         topYN : "N",
-        createdDateTime : "2024-11-15 17:13:22"
+        createDateTime : "2024-11-15 17:13:22"
     };
     return result;
 }

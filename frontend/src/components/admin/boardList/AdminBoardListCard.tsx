@@ -12,7 +12,7 @@ interface Props{
           <td>{board.name}</td>
           <td>{board.topYN?"ON":"OFF"}</td>
           <td>{board.showYN?"ON":"OFF"}</td>
-          <td>{board.createdDateTime}</td>
+          <td>{board.createDateTime}</td>
         </tr>
       );
 }

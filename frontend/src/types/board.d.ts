@@ -4,7 +4,7 @@ interface board{
     name : string,
     showYN : string,
     topYN : string,
-    createdDateTime : string
+    createDateTime : string
 }
 
 interface boardList{

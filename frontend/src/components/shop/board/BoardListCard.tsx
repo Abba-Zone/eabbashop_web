@@ -10,7 +10,7 @@ const BoardListCard:React.FC<Props> = ({board, selectID, setSelectID}) => {
     <div>
         <div onClick={() => setSelectID(selectID === board.boardID? "":board.boardID)}>
             <h2>{board.title}</h2>
-            <div>{board.createdDateTime}</div>
+            <div>{board.createDateTime}</div>
         </div>
         {selectID === board.boardID ? <BoardViewer content={board.name}/> : null}
     </div>
