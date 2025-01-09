@@ -31,14 +31,13 @@ const AdminProductRegistModal:React.FC<Props> = ({setModalOpen}) => {
   const category = [{ID:"1234qwea1", name:"이름1"}, {ID:"1234qwea2", name:"이름2"}, {ID:"1234qwea3", name:"이름3"}, {ID:"1234qwea4", name:"이름4"}, {ID:"1234qwea5", name:"이름5"}];
   
   const registProduct = async () =>{
-    
     const registCategories: string[] = categories.map(item => item.ID);
     if(thumbnail === null)
       return;
     const thumnailUrl = await registThumbnail_s(thumbnail);
     const imageUrls = await registImageFiles_s(description, images);
     const videoUrls = await registVideoFiles_s(description, videos);
-    changeUrls(imageUrls, videoUrls);
+    const newDescription = await changeUrls(imageUrls, videoUrls);
     const productInfo : registProduct = {
       name : name, 
       thumbnail: thumnailUrl,
@@ -46,7 +45,7 @@ const AdminProductRegistModal:React.FC<Props> = ({setModalOpen}) => {
       SPPrice: SPPrice,
       stock: stock,
       summary : summary,
-      description : description,
+      description : newDescription,
       paybackRatio : paybackRate,
       allowNation : allowNation,
       categories : registCategories	,
@@ -57,13 +56,17 @@ const AdminProductRegistModal:React.FC<Props> = ({setModalOpen}) => {
     await registProduct_s(productInfo);
     setModalOpen(false);
   }
-  const changeUrls = (imageUrls:{preUrl:string[], lastUrl:string[]}, videoUrls:{preUrl:string[], lastUrl:string[]}) =>{
-    for(let i = 0 ; i < imageUrls.preUrl.length; i++){
-      setDescription(description.replace(imageUrls.preUrl[i], imageUrls.lastUrl[i]));
+  const changeUrls = (imageUrls:{preUrl:string[], lastUrl:string[]}, videoUrls:{preUrl:string[], lastUrl:string[]}):string =>{
+    console.log(imageUrls.preUrl);
+    console.log(imageUrls.lastUrl);
+    let updatedDescription = description;
+    for (let i = 0; i < imageUrls.preUrl.length; i++) {
+      updatedDescription = updatedDescription.replace(imageUrls.preUrl[i], imageUrls.lastUrl[i]);
     }
-    for(let i = 0 ; i < videoUrls.preUrl.length; i++){
-      setDescription(description.replace(videoUrls.preUrl[i], videoUrls.lastUrl[i]));
+    for (let i = 0; i < videoUrls.preUrl.length; i++) {
+      updatedDescription = updatedDescription.replace(videoUrls.preUrl[i], videoUrls.lastUrl[i]);
     }
+    return updatedDescription;
   }
   const changeNation =(event: React.ChangeEvent<HTMLSelectElement>) =>{
     const targeIdx = Number(event.target.value);
@@ -123,6 +126,16 @@ const AdminProductRegistModal:React.FC<Props> = ({setModalOpen}) => {
       const imageFile = file;
       setThumbnail({name:id, previewURL:previewURL, file:imageFile});
     }
+  };
+  const inputImageFile = (imagefile: IFile[]) => {
+    setImages((prevImages) => {
+      return [...prevImages, ...imagefile];
+    });
+  };
+  const inputVideoFile = (videofile: IFile[]) => {
+    setVideos((prevVideos) => {
+      return [...prevVideos, ...videofile];
+    });
   };
   return (
     <div style={{backgroundColor:"white", overflow : "scroll"}}>
@@ -186,7 +199,7 @@ const AdminProductRegistModal:React.FC<Props> = ({setModalOpen}) => {
         <input type='radio' name='top' value='Y' onChange={() => {setActiveYN("Y")}} checked={activeYN==="Y"}/>{t("AdminProduct:Regist.Option12.Attribute01")}
         <input type='radio' name='top' value='N' onChange={() => {setActiveYN("N")}} checked={activeYN==="N"}/>{t("AdminProduct:Regist.Option12.Attribute02")}
       </div>
-      {preview? <ViewEditor content={description}/>: <Editor images={images} setImages={setImages} videos={videos} setVideos={setVideos} content={description} setContent={setDescription}></Editor>}
+      {preview? <ViewEditor content={description}/>: <Editor inputImageFile={inputImageFile} inputVideoFile={inputVideoFile} content={description} setContent={setDescription}></Editor>}
       {!preview && <button onClick={() => setModalOpen(false)}>{t("AdminProduct:Regist.Button01")}</button>}
       <button onClick={() => setPreview(!preview)}>{preview? t("AdminProduct:Regist.Button02"):t("AdminProduct:Regist.Button03")}</button>
       <button onClick={registProduct}>{t("AdminProduct:Regist.Button04")}</button>

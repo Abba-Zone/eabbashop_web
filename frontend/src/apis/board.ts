@@ -1,65 +1,29 @@
 import { AxiosResponse } from 'axios';
 import { getData, postData } from './mainApi'
 
-export const getBoardList = (pageNo:number, pageSize:number, filter:string, filterValue:string, sort:string, sortValue:string, type:number):boardList => {
+export const getBoardList = async(pageNo:number, pageSize:number, filter:string, filterValue:string, sort:string, sortValue:string, type:number):Promise<boardList> => {
     /* real code*/
-    getData<boardList>('board/list/admin?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&sort='+ sort + '&sortValue='+ sortValue +  '&filter='+ filter + '&filterValue='+ filterValue + '&type='+ type)
-        .then((data:AxiosResponse<boardList>) => {
-            console.log(data);
-            return data.data;
-        }
-    );
-    return null as unknown as boardList;
-
-    /* make for test*/
-    // var result :boardList = {
-    //     totalCount : 10003,
-    //     list:[
-    //         {boardID : "1q23q3e2311tt43y3423", title : "정경훈", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22"},
-    //         {boardID : "2q23q3e2311tt43y3423", title : "정경훈", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22"},
-    //         {boardID : "3q23q3e2311tt43y3423", title : "정경훈", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22"},
-    //         {boardID : "4q23q3e2311tt43y3423", title : "정경훈", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22"},
-    //         {boardID : "5q23q3e2311tt43y3423", title : "정경훈", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22"},
-    //     ]
-    // };
-    // return result;
+    try {
+        const response = await getData<boardList>(
+            `/board/list/admin?pageNo=${pageNo}&pageSize=${pageSize}&sort=${sort}&sortValue=${sortValue}&filter=${filter}&filterValue=${filterValue}&type=${type}`
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching board list:', error);
+        throw error;
+    }
 }
 
 export const getPostList = async(pageNo:number, pageSize:number, title:string, type:number):Promise<shopBoardList> => {
-    /* real code*/
-    await getData<shopBoardList>(`/board/list?pageNo=${pageNo}&pageSize=${pageSize}&filter=title&filterValue=${title}&type=${type}`)
-        .then((data:AxiosResponse<shopBoardList>) => {
-            console.log(data)
-            return data.data;
-        }
-    );
-    return null as unknown as shopBoardList;
-
-    /* make for test*/
-    if(type==100){
-    var result :shopBoardList = {
-        totalCount : 10003,
-        list:[
-            {boardID : "1q23q3e2311tt43y3423", title : "정경훈1", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22", contents:"<h6>게시글 내용입니다.<h6>"},
-            {boardID : "2q23q3e2311tt43y3423", title : "정경훈2", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22", contents:"<h6>게시글 내용입니다.<h6>"},
-            {boardID : "3q23q3e2311tt43y3423", title : "정경훈3", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22", contents:"<h6>게시글 내용입니다.<h6>"},
-            {boardID : "4q23q3e2311tt43y3423", title : "정경훈4", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22", contents:"<h6>게시글 내용입니다.<h6>"},
-            {boardID : "5q23q3e2311tt43y3423", title : "정경훈5", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22", contents:"<h6>게시글 내용입니다.<h6>"},
-        ]
-    };
-    return result;}
-    else{
-        var result :shopBoardList = {
-            totalCount : 1000,
-            list:[
-                {boardID : "1q23q3e2311tt43y34231", title : "정경훈6", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22", contents:"<h6>게시글 내용입니다.<h6>"},
-                {boardID : "2q23q3e2311tt43y34231", title : "정경훈7", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22", contents:"<h6>게시글 내용입니다.<h6>"},
-                {boardID : "3q23q3e2311tt43y34231", title : "정경훈8", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22", contents:"<h6>게시글 내용입니다.<h6>"},
-                {boardID : "4q23q3e2311tt43y34231", title : "정경훈9", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22", contents:"<h6>게시글 내용입니다.<h6>"},
-                {boardID : "5q23q3e2311tt43y34231", title : "정경훈10", name: "전현태", showYN : "Y", topYN : "N", createdDateTime : "2024-11-15 17:13:22", contents:"<h6>게시글 내용입니다.<h6>"},
-            ]
-        };
-        return result;}
+    try {
+        const response = await getData<shopBoardList>(
+            `/board/list?pageNo=${pageNo}&pageSize=${pageSize}&filter=title&filterValue=${title}&type=${!type ? '' : type}`
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching post list:', error);
+        throw error;
+    }
 }
 
 export const getBoardDetail = (boardID:string):boardDetail => {
@@ -83,13 +47,15 @@ export const getBoardDetail = (boardID:string):boardDetail => {
     return result;
 }
 
-export const registerBoard = (boardInfo:registBoard) => {
-    /* real code*/
-    postData<reviewList>('/board/register', boardInfo)
-        .then((data:any) => {
-            // return data.result;
-        }
-    );
+export const registerBoard = async (boardInfo:registBoard) => {
+    try {
+        console.log(boardInfo);
+        const data = await postData<reviewList>('/board/register', boardInfo);
+        console.log(data);
+    } catch (error) {
+        console.error('Signup error:', error);
+        return false;
+    }
 }
 
 export const modifyBoard = (boardInfo:modifyBoard) => {

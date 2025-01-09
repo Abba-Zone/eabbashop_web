@@ -24,27 +24,37 @@ const AdminBoardModifyModal:React.FC<Props> = ({boardDetail, setModalOpen}) => {
     await deleteFiles_s(boardDetail.contents, content);
     const imageUrls = await registImageFiles_s(content, images);
     const videoUrls = await registVideoFiles_s(content, videos);
-    changeUrls(imageUrls, videoUrls);
+    const newContents = changeUrls(imageUrls, videoUrls);
     const boardInfo:modifyBoard = {
       boardID : boardDetail.boardID,
       title : title,
-      content : content,
+      content : newContents,
       showYN : show,
       topYN : top,
     }
     await modifyBoard_s(boardInfo);
     setModalOpen(false);
   }
-
-  const changeUrls = (imageUrls:{preUrl:string[], lastUrl:string[]}, videoUrls:{preUrl:string[], lastUrl:string[]}) =>{
-    for(let i = 0 ; i < imageUrls.preUrl.length; i++){
-      setContent(content.replace(imageUrls.preUrl[i], imageUrls.lastUrl[i]));
+  const changeUrls = (imageUrls:{preUrl:string[], lastUrl:string[]}, videoUrls:{preUrl:string[], lastUrl:string[]}):string =>{
+    let updatedContent = content;
+    for (let i = 0; i < imageUrls.preUrl.length; i++) {
+      updatedContent = updatedContent.replace(imageUrls.preUrl[i], imageUrls.lastUrl[i]);
     }
-    for(let i = 0 ; i < videoUrls.preUrl.length; i++){
-      setContent(content.replace(videoUrls.preUrl[i], videoUrls.lastUrl[i]));
+    for (let i = 0; i < videoUrls.preUrl.length; i++) {
+      updatedContent = updatedContent.replace(videoUrls.preUrl[i], videoUrls.lastUrl[i]);
     }
+    return updatedContent;
   }
-
+  const inputImageFile = (imagefile: IFile[]) => {
+    setImages((prevImages) => {
+      return [...prevImages, ...imagefile];
+    });
+  };
+  const inputVideoFile = (videofile: IFile[]) => {
+    setVideos((prevVideos) => {
+      return [...prevVideos, ...videofile];
+    });
+  };
   return (
     <div style={{backgroundColor:"white", overflow : "scroll"}}>
       <h2>{boardDetail.type}</h2>
@@ -62,7 +72,7 @@ const AdminBoardModifyModal:React.FC<Props> = ({boardDetail, setModalOpen}) => {
         <input type='radio' name='top' value='Y' onChange={() => {setTop("Y")}} checked={top==="Y"}/>{t("AdminBoard:Regist.Option03.Attribute01")}
         <input type='radio' name='top' value='N' onChange={() => {setTop("N")}} checked={top==="N"}/>{t("AdminBoard:Regist.Option03.Attribute02")}
       </div>
-      {preview? <ViewEditor content={content}/>: <Editor images={images} setImages={setImages} videos={videos} setVideos={setVideos} content={content} setContent={setContent}></Editor>}
+      {preview? <ViewEditor content={content}/>: <Editor inputImageFile={inputImageFile} inputVideoFile={inputVideoFile} content={content} setContent={setContent}></Editor>}
       {!preview && <button onClick={() => setModalOpen(false)}>{t("AdminBoard:Regist.Button01")}</button>}
       <button onClick={() => setPreview(!preview)}>{preview? t("AdminBoard:Regist.Button02"):t("AdminBoard:Regist.Button03")}</button>
       <button onClick={modifyBoard}>{t("AdminBoard:Regist.Button04")}</button>

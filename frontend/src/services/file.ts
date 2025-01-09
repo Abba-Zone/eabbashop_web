@@ -1,39 +1,36 @@
 import { registFiles, deleteFiles, getBannerList } from '../apis/file'
 
 export const registThumbnail_s = async (thumbnail:IFile): Promise<string> => {
-    const formDatas:FormData[] = [];
     const formData = new FormData();
-    formData.append("file", thumbnail.file);
-    const resultLastUrl = await registFiles(formDatas);
+    formData.append("files", thumbnail.file);
+    const resultLastUrl = await registFiles(formData);
     return resultLastUrl[0];
 };
 
 export const modifyThumbnail_s = async (preThumnail:string, modifyThumbnail:IFile): Promise<string> => {
     await deleteFiles([preThumnail]);
-    const formDatas:FormData[] = [];
     const formData = new FormData();
-    formData.append("file", modifyThumbnail.file);
-    const resultLastUrl = await registFiles(formDatas);
+    formData.append("files", modifyThumbnail.file);
+    const resultLastUrl = await registFiles(formData);
     return resultLastUrl[0];
 };
 
 export const registImageFiles_s = async (content:string, images:IFile[]): Promise<{preUrl:string[], lastUrl:string[]}> => {
     const gainSource = /<img[^>]+src=["']([^'">]+)['"]/gi;
-    const resultPreUrl = [];
-    const formDatas:FormData[] = [];
+    const resultPreUrl:string[] = [];
+    console.log(images);
+    const formDatas:FormData = new FormData();
     const matches = content.matchAll(gainSource);
     for (const match of matches) {
         for(let i = 0 ; i < images.length; i++){
             if(images[i].previewURL === match[1]){
                 resultPreUrl.push(match[1]);
-                let formData = new FormData();
-                formData.append("file", images[i].file);
-                formDatas.push(formData);
+                formDatas.append("files", images[i].file);
                 break;
             }
         }
     }
-    if(formDatas.length === 0)
+    if(resultPreUrl.length === 0)
         return {preUrl:[], lastUrl:[]};
     const resultLastUrl = await registFiles(formDatas);
     return {preUrl:resultPreUrl, lastUrl:resultLastUrl};
@@ -42,20 +39,19 @@ export const registImageFiles_s = async (content:string, images:IFile[]): Promis
 export const registVideoFiles_s = async (content:string, videos:IFile[]): Promise<{preUrl:string[], lastUrl:string[]}> => {
     const gainSource = /<iframe[^>]+src=["']([^'">]+)['"]/gi;
     const resultPreUrl = [];
-    const formDatas:FormData[] = [];
+    const formDatas:FormData = new FormData();
     const matches = content.matchAll(gainSource);
     for (const match of matches) {
         for(let i = 0 ; i < videos.length; i++){
             if(videos[i].previewURL === match[1]){
                 resultPreUrl.push(match[1]);
                 let formData = new FormData();
-                formData.append("file", videos[i].file);
-                formDatas.push(formData);
+                formData.append("files", videos[i].file);
                 break;
             }
         }
     }
-    if(formDatas.length === 0)
+    if(resultPreUrl.length === 0)
         return {preUrl:[], lastUrl:[]};
     const resultLastUrl = await registFiles(formDatas);
     return {preUrl:resultPreUrl, lastUrl:resultLastUrl};

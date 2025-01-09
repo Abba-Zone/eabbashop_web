@@ -4,13 +4,24 @@ const Cookies = require('js-cookie');
 /*config에 access토큰 설정*/
 export const getNewConfig = (): AxiosRequestConfig => {
     const accessToken = Cookies.get("access-token");
-      const config: AxiosRequestConfig = {
-        headers: {
-          AccessToken: `Bearer ${accessToken}`,
-        },
-      };
-      return config;
-  }
+    const config: AxiosRequestConfig = {
+      headers: {
+        'Access-Token': `Bearer ${accessToken}`,
+      },
+    };
+    return config;
+}
+
+export const getNewConfigForFile = (): AxiosRequestConfig => {
+  const accessToken = Cookies.get("access-token");
+  const config: AxiosRequestConfig = {
+    headers: {
+      'Access-Token': `Bearer ${accessToken}`,
+      'Content-Type': `multipart/form-data`,
+    },
+  };
+  return config;
+}
 
 // 쿠키에 토큰 저장하기
 export const updateAccessTokenAxios = (newAccessToken: string, newRefreshToken: string) => {

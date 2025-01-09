@@ -1,6 +1,6 @@
 import axios, { Axios, AxiosRequestConfig, AxiosResponse } from 'axios' // 추가
 import { handleError } from "../handlers/ErrorHandler"
-import { getNewConfig } from "../handlers/tokenHandler"
+import { getNewConfig, getNewConfigForFile } from "../handlers/tokenHandler"
 
 // axios 인스턴스 생성
 const client: Axios = axios.create({
@@ -18,6 +18,7 @@ export const getData = async <T>(url: string): Promise<AxiosResponse<T>> => {
     return response;
   } catch (error) {
     handleError(error);
+    console.log(error)
     throw error;
   }
 };
@@ -26,6 +27,18 @@ export const getData = async <T>(url: string): Promise<AxiosResponse<T>> => {
 export const postData = async <T>(url: string, data?: any): Promise<AxiosResponse<T>> => {
   try {
     const newConfig: AxiosRequestConfig = getNewConfig();
+    const response = await client.post<T>(url, data, newConfig);
+    return response;
+  } catch (error) {    
+    handleError(error);
+    throw error;
+  }
+};
+
+//TODO: POST 메서드(파일업로드)
+export const postFiles = async <T>(url: string, data?: any): Promise<AxiosResponse<T>> => {
+  try {
+    const newConfig: AxiosRequestConfig = getNewConfigForFile();
     const response = await client.post<T>(url, data, newConfig);
     return response;
   } catch (error) {    

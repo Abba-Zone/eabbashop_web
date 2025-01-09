@@ -29,8 +29,8 @@ interface boardDetail extends board{
 interface registBoard {
     title : string,
     content : string,
-    showYN : string,
-    topYN : string,
+    show : string,
+    top : string,
     type : number
 }
 
