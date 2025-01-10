@@ -202,7 +202,7 @@ const Signup:React.FC = () => {
       if (authCode) {
         alert(t('Alert.authCodeSuccess'));
         setIsAuthCodeSent(true);
-        setTimeLeft(10);
+        setTimeLeft(180);
         setAuthCodeMessage('');
         setIsAuthCodeVerified(false);
       } else {
