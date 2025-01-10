@@ -70,5 +70,13 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, String
             Pageable pageable
     );
 
+    @Query(
+            value = "SELECT * FROM OrderDetail " +
+                    "WHERE OrderDetailID IN :orderDetailIds " +
+                    "AND DeleteYN = 'N'",
+            nativeQuery = true
+    )
+    List<OrderDetail> findByOrderDetailIds(@Param("orderDetailIds") List<String> orderDetailIds);
+
 
 }

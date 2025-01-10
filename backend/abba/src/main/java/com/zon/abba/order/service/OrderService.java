@@ -18,6 +18,7 @@ import com.zon.abba.order.mapping.OrderList;
 import com.zon.abba.order.mapping.OrderedProduct;
 import com.zon.abba.order.repository.OrderDetailRepository;
 import com.zon.abba.order.repository.OrderRepository;
+import com.zon.abba.order.request.OrderDetailIdRequest;
 import com.zon.abba.order.request.RegisterOrderRequest;
 import com.zon.abba.product.entity.Product;
 import com.zon.abba.product.repository.ProductRepository;
@@ -199,5 +200,24 @@ public class OrderService {
         logger.info("관리자 주문 내역 반환 완료");
         return new ResponseListBody(orderListPage.getTotalElements(), list);
 
+    }
+
+    @Transactional
+    public ResponseBody cancelOrder(List<OrderDetailIdRequest> request){
+        logger.info("주문을 취소합니다.");
+
+        List<String> ids = request.stream()
+                .map(OrderDetailIdRequest::getOrderDetailID)
+                .toList();
+        List<OrderDetail> list = orderDetailRepository.findByOrderDetailIds(ids);
+
+        // 400 : 취소
+        list.forEach(od -> od.setStatus(400));
+
+        // 업데이트 내용 저장
+        orderDetailRepository.saveAll(list);
+
+        logger.info("주문 취소 처리가 완료되었습니다.");
+        return new ResponseBody("성공했습니다.");
     }
 }

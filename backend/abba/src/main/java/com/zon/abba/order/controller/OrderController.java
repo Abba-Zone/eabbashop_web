@@ -3,6 +3,7 @@ package com.zon.abba.order.controller;
 import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
+import com.zon.abba.order.request.OrderDetailIdRequest;
 import com.zon.abba.order.request.RegisterOrderRequest;
 import com.zon.abba.order.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,6 +50,14 @@ public class OrderController {
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-    
+
+    @PostMapping("/cancel")
+    @Operation(summary = "주문 취소", description = "주문한 상품을 취소할 수 있다.")
+    public ResponseEntity<Object> cancelOrder(@RequestBody List<OrderDetailIdRequest> request){
+
+        ResponseBody response = orderService.cancelOrder(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
 }
