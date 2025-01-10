@@ -19,13 +19,22 @@ import com.zon.abba.product.response.DetailProductResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 @Service
 @RequiredArgsConstructor
@@ -41,15 +50,68 @@ public class ProductService {
     public ResponseListBody listProduct(ProductListRequest request){
 
         //logger.info("상품 리스트를 가져옵니다.");
+        // 클라이언트에서 전달받은 요청 데이터를 기반으로 필터링
+        String sellerId = request.getSellerID();
+        String viewSite = request.getViewSite();
+        String showYN = request.getShowYN();
+        String deleteYN = request.getDeleteYN();
+        String activeYN = request.getActiveYN();
+        String nation = request.getNation();
+        String name = request.getName();
+        String categoryId = request.getCategoryID();
 
-        List<Product> productList = productRepository.findBySellerIdAndViewSiteAndShowYNAndDeleteYNAndActiveYNAndAllowNationContaining(
-                request.getSellerID(),request.getViewSite(),request.getShowYN(), request.getDeleteYN(), request.getActiveYN(), request.getNation());
+        BigDecimal startPrice = request.getStartPrice();
+        BigDecimal endPrice = request.getEndPrice();
+
+        // 페이지네이션 및 정렬 처리
+        int page = request.getPage();  // 페이지 번호 (0-based index)
+        int size = request.getSize(); // 페이지 크기
+        String orderBy = request.getOrderBy();
+        String orderByType = request.getOrderByType();
+
+        // 정렬 방향 설정
+        Sort.Direction direction = "desc".equalsIgnoreCase(orderByType) ? Sort.Direction.DESC : Sort.Direction.ASC;
+
+        // Pageable 객체 생성
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, orderBy));
+
+        // Repository 호출
+        Page<Product> productPage = productRepository.findProductsByCriteria(
+                sellerId,
+                viewSite,
+                name,
+                categoryId,
+                showYN,
+                deleteYN,
+                activeYN,
+                nation,
+                startPrice,
+                endPrice,
+                pageable
+        );
+
+        // Product -> ProductDto 변환
+        List<ProductDto> productList = productPage.getContent().stream()
+                .map(ProductDto::new)
+                .collect(Collectors.toList());
+
+        /*List<Product> productList = productRepository.findProductsByCriteria(
+                sellerId,
+                viewSite,
+                name,
+                showYN,
+                deleteYN,
+                activeYN,
+                nation,
+                startPrice,
+                endPrice
+        );
 
         List<ProductDto> list =  new ArrayList<>();
 
         for(int i = 0 ; i < productList.size(); i++){
             list.add(new ProductDto(productList.get(i)));
-        }
+        }*/
 
         return new ResponseListBody((long) productList.size(), productList);
 
@@ -119,6 +181,15 @@ public class ProductService {
             }
             if (registerProductRequest.getViewSite() != null) {
                 existingProduct.setViewSite(registerProductRequest.getViewSite());
+            }
+            if (registerProductRequest.getShowYN() != null) {
+                existingProduct.setShowYN(registerProductRequest.getShowYN());
+            }
+            if (registerProductRequest.getDeleteYN() != null) {
+                existingProduct.setDeleteYN(registerProductRequest.getDeleteYN());
+            }
+            if (registerProductRequest.getActiveYN() != null) {
+                existingProduct.setActiveYN(registerProductRequest.getActiveYN());
             }
 
             existingProduct.setModifiedId(memberId);

@@ -1,7 +1,5 @@
 package com.zon.abba.product.controller;
 
-import com.zon.abba.board.request.RegisterBoardRequest;
-import com.zon.abba.board.response.DetailBoardResponse;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.product.request.ProductListRequest;
@@ -21,15 +19,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/product")
 @RequiredArgsConstructor
-public class ProducttController {
-    private static final Logger logger = LoggerFactory.getLogger(ProducttController.class);
+public class ProductController {
+    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
     private final ProductService productService;
 
     @GetMapping("/list")
     @Operation(summary = "상품 내역 조회", description = "상품 내역을 볼 수 있다.")
-    public ResponseEntity<Object> getProductHistory(ProductListRequest request){
-
-
+    public ResponseEntity<Object> getProduct(@RequestBody ProductListRequest request){
         ResponseListBody response = productService.listProduct(request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -45,7 +41,7 @@ public class ProducttController {
     }
 
     @PostMapping("/register")
-    @Operation(description = "상품 등록", summary = "상품 등록")
+    @Operation(description = "상품 등록/수정", summary = "상품 등록/수정")
     public ResponseEntity<Object> registerBoard(@RequestBody ProductRegisterRequest registerProductRequest){
 
         ResponseBody response = productService.registerProduct(registerProductRequest);
