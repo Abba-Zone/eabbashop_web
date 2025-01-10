@@ -38,6 +38,15 @@ public class OrderController {
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    @GetMapping("/list/admin")
+    @Operation(summary = "고객 주문 조회", description = "고객이 자신의 주문 내역 리스트를 볼 수 있다.")
+    public ResponseEntity<Object> orderAdminList(@ModelAttribute RequestList requestList){
+
+        ResponseListBody response = orderService.orderAdminList(requestList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
     
 
 }

@@ -128,7 +128,7 @@ public class BoardService {
     public DetailBoardResponse detailBoard(BoardIdRequest boardIdRequest){
 
         logger.info("게시글 정보를 가져옵니다.");
-        Board board = boardRepository.findByBoardId(boardIdRequest.getBoardId())
+        Board board = boardRepository.findByBoardId(boardIdRequest.getBoardID())
                 .orElseThrow(() -> new NoDataException("게시글이 없습니다."));
 
         logger.info("게시글 작성자 정보를 가져옵니다.");
@@ -163,7 +163,7 @@ public class BoardService {
     @Transactional
     public ResponseBody deleteBoard(BoardIdRequest boardIdRequest){
         logger.info("삭제할 게시글 정보를 가져옵니다.");
-        Board board = boardRepository.findByBoardId(boardIdRequest.getBoardId())
+        Board board = boardRepository.findByBoardId(boardIdRequest.getBoardID())
                 .orElseThrow(() -> new NoDataException("게시글이 없습니다."));
 
         logger.info("삭제를 시도합니다.");
