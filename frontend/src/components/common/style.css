@@ -1,4 +1,6 @@
 .admin-header{
+    max-width: 1500px;
+    min-width: 400px;
     display: flex;
     justify-content: space-between;
     background-color: #2c3e50;
@@ -8,6 +10,7 @@
     top: 0;
     left: 0;
     width: 89.5%;
+    z-index: 1000;
 }
 .admin-header>*>*{
     margin: 10px;
@@ -29,15 +32,18 @@
 }
 
 .shop-header{
+    max-width: 1500px;
+    min-width: 400px;
     display: flex;
     justify-content: space-between;
     background-color: #F4D03F;
     color: #2c3e50;
-    padding: 10px;
+    padding: 1px;
     position: fixed;
     top: 0;
     left: 0;
-    width: 89.49%;
+    width: 90.5%;
+    z-index: 1000;
 }
 .shop-header>*>*{
     margin: 10px;
@@ -80,6 +86,20 @@
 .left-nav .logo {
     font-size: 1.5em;
     margin-bottom: 20px;
+}
+
+.nav-bar{
+    display: flex;
+    justify-content: flex-end;
+    background-color: #000000;
+    color: #ecf0f1;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: auto;
+    max-width: 300px;
+    z-index: 1000;
 }
 
 @media (max-width: 768px) {

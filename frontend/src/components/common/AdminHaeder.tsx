@@ -82,9 +82,6 @@ const AdminHaeder:React.FC<{ toggleMenu: () => void, menuVisible: boolean }> = (
         window.location.reload();
     };
 
-    const checkMenuVisible = () => {
-        console.log(menuVisible);
-    }
     
     return (
         <div className="admin-header-and-menu">
@@ -95,7 +92,6 @@ const AdminHaeder:React.FC<{ toggleMenu: () => void, menuVisible: boolean }> = (
                 <div className="admin-header-right">
                     <div>도움말</div>
                     <div>프로필</div>
-                    <div onClick={checkMenuVisible}>check</div>
                     {userInfo ? (
                         <div>
                             {renderUserName()} ({userInfo.role}) &nbsp;

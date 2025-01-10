@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import './App.css';
 import RoutePath from './routes/RoutePath';
 import { Header, NavBar, Footer } from './components';
@@ -12,7 +12,9 @@ const App: React.FC = () => {
         <div className="App">
           <NavBar />
           <Header />
-          <Content />
+          <div className='content'>
+            <Content />
+          </div>
           <Footer />
         </div>
       </Router>
@@ -22,9 +24,12 @@ const App: React.FC = () => {
 
 const Content: React.FC = () => {
   const { menuVisible } = useMenu();
+  const location = useLocation();
+
+  const isAdminPage = location.pathname.startsWith('/admin');
 
   return (
-    <div className={`content ${menuVisible ? 'menu-closed' : 'menu-open'}`}>
+    <div className={`content ${isAdminPage && menuVisible ? 'menu-open' : 'menu-closed'}`}>
       <RoutePath />
     </div>
   );

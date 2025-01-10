@@ -1,0 +1,85 @@
+.shop-signup-container {
+    max-width: 500px;
+    min-width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .shop-signup-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .shop-signup-form h1 {
+    text-align: center;
+  }
+  
+  .shop-signup-form input[type="text"],
+  .shop-signup-form input[type="password"],
+  .shop-signup-form input[type="email"] {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .shop-signup-form button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #157dec;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .shop-signup-form button:disabled {
+    background-color: #ccc;
+    color: #000000;
+    cursor: not-allowed;
+  }
+
+  .shop-signup-form button:hover {
+    background-color: #0e4c8d;
+    color: #ffffff;
+  }
+  
+  .shop-signup-form-success {
+    text-align: left;
+    color: blue;
+    font-size: 16px;
+  }
+
+  .shop-signup-form-error {
+    text-align: left;
+    font-size: 16px;
+    color: red;
+  }
+
+  .shop-signup-timestamp {
+    text-align: left;
+    color: #000000;
+    font-size: 12px;
+    margin-top: 10px;
+    color: red;
+  }
+
+  .shop-checkbox-group {
+    text-align: left;
+    margin-top: 20px;
+  }
+  
+  .shop-checkbox-item {
+    margin-left: 20px;
+  }
+  
+  .shop-checkbox-item input {
+    margin-right: 5px;
+  }
+  
+  .shop-signup-container a {
+    color: #007bff;
+    text-decoration: none;
+  }

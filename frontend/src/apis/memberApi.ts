@@ -280,3 +280,14 @@ export const kakaoLoginWithCode = async (code: string): Promise<loginSuccess | n
         return null;
     }
 };
+
+export const findID = async (findIDParam:findIDParam): Promise<findIDResult | null> => {
+  try {
+    const response = await postData<findIDResult>('member/find', findIDParam);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error('Find ID error:', error);
+    return null;
+  }
+}

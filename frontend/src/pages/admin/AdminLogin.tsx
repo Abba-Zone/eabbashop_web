@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { login_s } from "../../services/member";
 import { useTranslation } from "react-i18next";
-
+import "./AdminLogin.css";
 const googleOauthClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID_PROD;
 const kakaoOauthClientId = process.env.REACT_APP_KAKAO_CLIENT_ID_PROD;
 
@@ -12,6 +12,7 @@ const AdminLogin: React.FC = () => {
   const [inputPw, setInputPw] = useState<string>('');
   const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
   const navigate = useNavigate();
+  localStorage.setItem('menuVisible', 'false');
 
   const handleInputId = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputId(event.target.value);
@@ -27,7 +28,7 @@ const AdminLogin: React.FC = () => {
     const loginResult = await login_s(loginUser);
     setIsLoggingIn(false);
     if (loginResult) {
-      navigate("/");
+      navigate("/admin");
       window.location.reload();
     } else {
       alert(t('Alert.LoginFailed'));
@@ -73,30 +74,42 @@ const AdminLogin: React.FC = () => {
     const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?${params.toString()}`;
     window.location.href = kakaoAuthUrl;
   }
+  const redirectSignup = () => {
+    navigate("/signup");
+  }
+
   return (
-    <div>
-      <h2>관리자 로그인</h2>
-      <div>
-          <label htmlFor='input_id'>{t('Attribute01') + ' : '}</label>
-          <input type='text' name='input_id' value={inputId} onChange = {handleInputId} />
+    <div className="admin-login-container">
+      <form className="admin-login-form">
+        <div className="admin-login-logo"/>
+        <div className="admin-login-input-group">
+          <input type="text"  name='input_email' placeholder={t('Attribute01')} value={inputId} onChange={handleInputId} />
+        </div>
+        <div className="admin-login-input-group">
+          <input type="password" name='input_pw' placeholder={t('Attribute02')} value={inputPw} onChange={handleInputPw} />
+        </div>
+        <div className="admin-login-button" onClick={onClickLogin}><button disabled={isLoggingIn}>{t('Button.login')}</button></div>
+        <div className="admin-login-links">
+          <a href="/findidpw">{t('Button.findId')}</a> | <a href="/findidpw">{t('Button.resetPw')}</a>
+        </div>
+      </form>
+      <div className="admin-login-simple-login-container">
+        <div className="admin-login-simple-login-title">
+          {t('Button.simpleLogin')}
+        </div>
+        <div className="admin-login-simple-login-button-container">
+          <div className="admin-login-google-button" onClick={handleGoogleLogin}>
+            <div className="admin-login-google-button-icon"/>
+          </div>
+          <div className="admin-login-kakao-button" onClick={handleKakaoLogin}>
+            <div className="admin-login-kakao-button-icon"/>
+          </div>
       </div>
-      <div>
-          <label htmlFor='input_pw'>{t('Attribute02') + ' : '}</label>
-          <input type='password' name='input_pw' value={inputPw} onChange = {handleInputPw} />
-      </div>
-      <div>
-        <button type='button' onClick={onClickLogin} disabled={isLoggingIn}>
-          {isLoggingIn ? t('Button.loggingIn') : t('Button.login')}
-        </button>
-      </div>
-      <div>
-        <button type='button' onClick={handleGoogleLogin}>{t('Button.googleOauthLogin')}</button>
-      </div>
-      <div>
-        <button type='button' onClick={handleKakaoLogin}>{t('Button.kakaoOauthLogin')}</button>
-      </div>
-    </div>
+    </div>  
+    <button className="admin-login-signup-button" onClick={redirectSignup}>{t('Button.signup')}</button>
+    <footer>©Abbazon Corp. All rights reserved.</footer>
+  </div>
   );
-};
+}
 
 export default AdminLogin;
