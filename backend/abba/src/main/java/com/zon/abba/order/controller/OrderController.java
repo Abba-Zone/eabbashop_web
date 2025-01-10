@@ -60,4 +60,13 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PostMapping("/delete")
+    @Operation(summary = "주문 내역 삭제", description = "주문 내역을 삭제할 수 있다.")
+    public ResponseEntity<Object> deleteOrder(@RequestBody List<OrderDetailIdRequest> request){
+
+        ResponseBody response = orderService.cancelOrder(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
 }

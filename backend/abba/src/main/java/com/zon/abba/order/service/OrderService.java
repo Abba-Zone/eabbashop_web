@@ -220,4 +220,23 @@ public class OrderService {
         logger.info("주문 취소 처리가 완료되었습니다.");
         return new ResponseBody("성공했습니다.");
     }
+
+    @Transactional
+    public ResponseBody deleteOrder(List<OrderDetailIdRequest> request){
+        logger.info("주문 내역을 삭제합니다.");
+
+        List<String> ids = request.stream()
+                .map(OrderDetailIdRequest::getOrderDetailID)
+                .toList();
+        List<OrderDetail> list = orderDetailRepository.findByOrderDetailIds(ids);
+
+        // 삭제 처리
+        list.forEach(od -> od.setDeleteYn("Y"));
+
+        // 업데이트 내용 저장
+        orderDetailRepository.saveAll(list);
+
+        logger.info("주문 삭제 처리가 완료되었습니다.");
+        return new ResponseBody("성공했습니다.");
+    }
 }
