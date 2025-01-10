@@ -9,13 +9,14 @@ const KakaoLogin:React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const isAdminPage = location.pathname.startsWith('/admin');
   const handleKakaoCallback = async (code: string) => {
     const loginResult = await kakaoLoginWithCode_s(code);
-    if (loginResult) {
+    if (loginResult && !isAdminPage) {
       navigate("/");
       window.dispatchEvent(new Event('user-info-updated'));
     } else {
-
+      navigate("/admin");
     }
   };
 

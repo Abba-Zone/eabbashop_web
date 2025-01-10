@@ -17,7 +17,7 @@ import { Home, Login, Signup, Cart, Profile,
   AdminStoreManage, AdminNotice, AdminLetter, AdminDonation,
   AdminSetting, AdminInquiryList, AdminInquiryDetail, 
   AdminBoardDetail, AdminRefundDetail, GoogleLogin, SocialSignup, KakaoLogin,
-  AdminRegistAdmin} from '../pages';
+  RegistAdmin, FindIDPW} from '../pages';
 
 const RoutePath:React.FC = () => {
   const location = useLocation();
@@ -31,7 +31,6 @@ const RoutePath:React.FC = () => {
         <Route path="/admin/signup" element={<AdminSignup />} />
         <Route path="/admin/findinfo" element={<AdminFindInfo />} />
         <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/admin/registadmin" element={<AdminRegistAdmin />} />
         
         {/* Customer Management */}
         <Route path="/admin/member" element={<AdminMemberList />} />
@@ -94,6 +93,7 @@ const RoutePath:React.FC = () => {
         <Route path="/code/kakao" element={<KakaoLogin />}/>
         <Route path="/signup" element={<Signup />}/>
         <Route path="/socialsignup" element={<SocialSignup />}/>
+        <Route path="/findidpw" element={<FindIDPW />}/>
         <Route path="/cart" element={<Cart />}/>        
         <Route path="/profile" element={<Profile />}/>        
         <Route path="/wallet" element={<Wallet />}/>        
@@ -114,6 +114,9 @@ const RoutePath:React.FC = () => {
         <Route path="/completecheckout" element={<CompleteCheckout />}/>        
         <Route path="/post/:type" element={<Post />}/>
         <Route path="/postdetail" element={<PostDetail />}/>
+
+        {/* Regist */}
+        <Route path="/regist/registadmin" element={<RegistAdmin />} />
         </>
       )}
     </Routes>

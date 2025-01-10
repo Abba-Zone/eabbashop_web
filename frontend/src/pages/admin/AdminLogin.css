@@ -1,0 +1,170 @@
+.admin-login-container {
+  max-width: 400px;
+  min-width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.admin-login-title {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #ff5722;
+}
+
+.admin-login-logo {
+  content: url('../../static/img/AbbazonLogo.png');
+  width: 100%;
+  height: auto;
+}
+
+.admin-login-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.admin-login-tabs button {
+  background: none;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.admin-login-tabs .active {
+  border-bottom: 2px solid #007bff;
+}
+
+.admin-login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-login-input-group {
+  padding-top: 10px;
+  position: relative;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.admin-login-input-group input {
+  width: 97%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  height: 30px;
+}
+
+.admin-login-input-group .icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.admin-login-checkbox-group {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.admin-login-button {
+  margin-top: 10px;
+  background-color: #007bff;
+  color: white;
+  margin-bottom: 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 20px;
+  width: 100%;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.admin-login-button button{
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 50px;
+  width: 100%;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.admin-login-signup-button {
+  background-color: transparent;
+  width: 30%;
+  color: #007bff;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+footer {
+  font-size: 0.8em;
+  color: #777;
+}
+
+.admin-login-simple-login-container {
+  margin-top: 20px;
+  border-top: 1px solid #ccc;
+  padding-top: 30px;
+}
+
+.admin-login-simple-login-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.admin-login-simple-login-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly; /* 간격을 줄임 */
+  margin-top: 10px;
+}
+
+.admin-login-google-button {
+  cursor: pointer;
+  margin-bottom: 10px;
+  height: 70px;
+  width: auto;
+  border-radius: 100px;
+  content: url('../../static/img/google_logo.svg');
+}
+
+.admin-login-kakao-button {
+  cursor: pointer;
+  margin-bottom: 10px;
+  height: 70px;
+  width: auto;
+  border-radius: 100px;
+  content: url('../../static/img/kakao_logo.png');
+}
+
+.admin-login-links {
+  margin-top: 20px;
+  font-size: 0.9em;
+  color: #555;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.admin-login-links a {
+  color: #555;
+  text-decoration: none;
+}
+
+.admin-login-links a:hover {
+  text-decoration: underline;
+}

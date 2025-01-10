@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login_s } from "../../services/member";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
-
+import "./Login.css";
 
 const googleOauthClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID_PROD;
 const kakaoOauthClientId = process.env.REACT_APP_KAKAO_CLIENT_ID_PROD;
@@ -76,29 +75,41 @@ const Login: React.FC = () => {
     window.location.href = kakaoAuthUrl;
   }
 
+  const redirectSignup = () => {
+    navigate("/signup");
+  }
+
   return (
-    <div>
-      <h2>{t('Title')}</h2>
-      <div>
-          <label htmlFor='input_id'>{t('Attribute01') + ' : '}</label>
-          <input type='text' name='input_id' value={inputId} onChange = {handleInputId} />
+    <div className="shop-login-container">
+      <form className="shop-login-form">
+        <div className="shop-login-logo"/>
+        <div className="shop-login-input-group">
+          <input type="text"  name='input_email' placeholder={t('Attribute01')} value={inputId} onChange={handleInputId} />
+        </div>
+        <div className="shop-login-input-group">
+          <input type="password" name='input_pw' placeholder={t('Attribute02')} value={inputPw} onChange={handleInputPw} />
+        </div>
+        <div className="shop-login-button"><button disabled={isLoggingIn} onClick={onClickLogin}>{t('Button.login')}</button></div>
+        <div className="shop-login-links">
+          <a href="/FindIDPW">아이디 찾기 / 비밀번호 재설정</a> 
+        </div>
+      </form>
+      <div className="shop-login-simple-login-container">
+        <div className="shop-login-simple-login-title">
+          간편 로그인
+        </div>
+        <div className="shop-login-simple-login-button-container">
+          <div className="shop-login-google-button" onClick={handleGoogleLogin}>
+            <div className="shop-login-google-button-icon"/>
+          </div>
+          <div className="shop-login-kakao-button" onClick={handleKakaoLogin}>
+            <div className="shop-login-kakao-button-icon"/>
+          </div>
       </div>
-      <div>
-          <label htmlFor='input_pw'>{t('Attribute02') + ' : '}</label>
-          <input type='password' name='input_pw' value={inputPw} onChange = {handleInputPw} />
-      </div>
-      <div>
-        <button type='button' onClick={onClickLogin} disabled={isLoggingIn}>
-          {isLoggingIn ? t('Button.loggingIn') : t('Button.login')}
-        </button>
-      </div>
-      <div>
-        <button type='button' onClick={handleGoogleLogin}>{t('Button.googleOauthLogin')}</button>
-      </div>
-      <div>
-        <button type='button' onClick={handleKakaoLogin}>{t('Button.kakaoOauthLogin')}</button>
-      </div>
-    </div>
+    </div>  
+    <button className="shop-login-signup-button" onClick={redirectSignup}>{t('Button.signup')}</button>
+    <footer>©Abbazon Corp. All rights reserved.</footer>
+  </div>
   );
 }
 

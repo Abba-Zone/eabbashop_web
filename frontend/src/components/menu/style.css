@@ -78,9 +78,9 @@
 
 .admin-sidebar-logo{
     display: flex;
-    justify-content: center;
-    align-items: center;
-    content: url(../../static/img/logo.png);
+    justify-content: left;
+    align-items: left;
+    content: url(../../static/img/AbbazonLogo.png);
     margin-top: 20px;
     width: 100%;
 }

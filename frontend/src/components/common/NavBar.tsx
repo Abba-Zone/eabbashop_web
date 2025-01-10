@@ -15,7 +15,7 @@ const NavBar:React.FC = () => {
         navigate("/");
     }
     const handleGoRegistAdmin = () =>{
-        navigate("/admin/registadmin");
+        navigate("regist/registadmin");
     }
     
     return (

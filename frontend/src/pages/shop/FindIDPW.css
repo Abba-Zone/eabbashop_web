@@ -1,0 +1,84 @@
+.find-idpw-container {
+    max-width: 600px;
+    min-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+  }
+
+  .tabs {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  
+  .tab {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .tab.active {
+    border-bottom: 2px solid #007bff;
+    font-weight: bold;
+  }
+  
+  .info {
+    margin-bottom: 20px;
+    color: #555;
+  }
+  
+  .info label{
+    margin-top: 5px;
+  }
+  
+  .form-container {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .form-row label {
+    flex: 1;
+    padding-right: 10px;
+  }
+  
+  .form-row input {
+    flex: 2;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  .method {
+    margin-bottom: 20px;
+  }
+  
+  .radio-group {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+  }
+  
+  .find-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+  }

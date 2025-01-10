@@ -106,3 +106,13 @@ interface testuser {
 interface authEmail{
 	code : string,
 }
+
+interface findIDParam{
+	firstName : string,
+	lastName : string,
+	phone : string
+}
+
+interface findIDResult{
+	email : string,
+}

@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react"
 import { signup_s, login_s, authEmail_s, checkAuthCode_s, checkRecommendEmail_s } from '../../services/member'
 import { useTranslation } from 'react-i18next';
+import "./Signup.css";
 
 const Signup:React.FC = () => {
-  const Cookies = require('js-cookie');
   const { t } = useTranslation('SignUp');
   const [inputFn, setInputFirstName] = useState<string>('')
   const [inputLn, setInputLastName] = useState<string>('')
-  // const [inputId, setInputId] = useState<string>('')
   const [inputPw, setInputPw] = useState<string>('')
   const [inputEm, setInputEmail] = useState<string>('')
   const [inputPn, setInputPhone] = useState<string>('')
@@ -35,9 +34,10 @@ const Signup:React.FC = () => {
 
   useEffect(() => {
     let timer: NodeJS.Timeout | undefined; // timer 변수를 선언
-    if (isAuthCodeSent && timeLeft > 0) {
+    if (isAuthCodeSent && timeLeft > 0 && !isAuthCodeVerified) {
       timer = setInterval(() => {
         setTimeLeft((prevTime) => prevTime - 1);
+        console.log(timeLeft);
       }, 1000);
     } else if (timeLeft === 0) {
       clearInterval(timer);
@@ -202,7 +202,7 @@ const Signup:React.FC = () => {
       if (authCode) {
         alert(t('Alert.authCodeSuccess'));
         setIsAuthCodeSent(true);
-        setTimeLeft(180);
+        setTimeLeft(10);
         setAuthCodeMessage('');
         setIsAuthCodeVerified(false);
       } else {
@@ -237,7 +237,7 @@ const Signup:React.FC = () => {
   };
 
   const validatePassword = (password: string) => {
-    const passwordRegex = /^(?=.*[A-Z])(?=.*[!\"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~])[A-Za-z0-9!\"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]{8,16}$/;
+    const passwordRegex = /^(?=.*[!\"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~])[A-Za-z0-9!\"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]{8,15}$/;
     return passwordRegex.test(password);
   };
 
@@ -259,23 +259,22 @@ const Signup:React.FC = () => {
   };
 
   return (
-    <h2>
-      <div>
-        <h2>{t('Title')}</h2>
+    <div className="shop-signup-container">
+      <div className="shop-signup-form">
+        <h1>{t('Title')}</h1>
         {/* <div>
             <label htmlFor='input_id'>ID : </label>
             <input type='text' name='input_id' value={inputId} onChange = {handleInputId} />
         </div> */}
-        <div>
-          <label htmlFor='input_em'>{t('Attribute01')}* : </label>
           <input
             type='text'
             name='input_em'
+            placeholder={t('Attribute01')}
             value={inputEm}
             onChange={handleInputEm}
             disabled={isAuthCodeVerified && !isEmailEditable}
           />
-          {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>}
+          {errors.email && <div className="shop-signup-form-error">{errors.email}</div>}
           {isAuthCodeSent ? (
             <button type='button' onClick={sendAuthCode}>{t('Button.authCodeResend')}</button>
           ) : (
@@ -284,72 +283,49 @@ const Signup:React.FC = () => {
           {isAuthCodeVerified && (
             <button type="button" onClick={handleModifyEmail}>{t('Button.modifyEmail')}</button>
           )}
-        </div>
         {isAuthCodeSent && !isAuthCodeVerified && (
-          <div>
-            <label htmlFor='auth_code'>{t('Attribute08')} : </label>
-            <input type='text' name='auth_code' value={inputAuth} onChange={handleAuthCodeInput} />
+          <>
+            <input type='text' name='auth_code' placeholder={t('Attribute08')} value={inputAuth} onChange={handleAuthCodeInput} />
             <button type='button' onClick={handleAuthCodeVerification}>{t('Button.authCodeVerify')}</button>
-            <div>{t('Alert.remainingTime', { minutes: Math.floor(timeLeft / 60), seconds: ('0' + (timeLeft % 60)).slice(-2) })}</div>
-          </div>
+            <div className="shop-signup-timestamp">{t('Alert.remainingTime', { minutes: Math.floor(timeLeft / 60), seconds: ('0' + (timeLeft % 60)).slice(-2) })}</div>
+          </>
         )}
         {authCodeMessage && (
-          <div style={{ color: 'red' }}>{authCodeMessage}</div>
+          <div className="shop-signup-form-error">{authCodeMessage}</div>
         )}
         {isAuthCodeVerified && (
-          <div style={{ color: 'blue' }}>{t('Alert.authCodeSuccess')}</div>
+          <div className="shop-signup-form-success">{t('Alert.authCodeSuccess')}</div>
         )}
-        <div>
-          <label htmlFor='input_pw'>{t('Attribute02')}* : </label>
-          <input type='password' name='input_pw' value={inputPw} onChange={handleInputPw} />
-          {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
-          <div style={{ fontSize: '12px' }}>
-            {t('Alert.passwordFormat')}
+          <input type='password' name='input_pw' placeholder={t('Attribute02')} value={inputPw} onChange={handleInputPw} />
+          {errors.password && <div className="shop-signup-form-error">{errors.password}</div>}
+          <input type='password' name='input_pw_confirm' placeholder={t('Attribute03')} value={inputPwConfirm} onChange={handleInputPwConfirm} />
+          {passwordMatchError && <div className="shop-signup-form-error">{passwordMatchError}</div>}
+          <input type='text' name='input_last' placeholder={t('Attribute04')} value={inputLn} onChange={handleInputLn} />
+          {errors.lastName && <div className="shop-signup-form-error">{errors.lastName}</div>}
+          <input type='text' name='input_first' placeholder={t('Attribute05')} value={inputFn} onChange={handleInputFn} />
+          {errors.firstName && <div className="shop-signup-form-error">{errors.firstName}</div>}
+          <input type='text' name='input_pn' placeholder={t('Attribute06')} value={inputPn} onChange={handleInputPn} />
+          {errors.phone && <div className="shop-signup-form-error">{errors.phone}</div>}
+          <div style={{ fontSize: '14px' }}>{t('Alert.phoneFormat')}</div>
+          <input type='text' name='recommend' placeholder={t('Attribute07')} value={inputRm} onChange={handleInputRm} />
+          <div>
+            {errors.recommend && <div className="shop-signup-form-error">{errors.recommend}</div>}
+            {recommendStatus === 200 && (
+              <div className="shop-signup-form-success">
+                {t('Alert.recommendSuccess')}
+              </div>
+            )}
+            {recommendStatus === 204 && (
+              <div className="shop-signup-form-error">
+                {t('Alert.recommendFail')}
+              </div>
+            )}
           </div>
-        </div>
-        <div>
-          <label htmlFor='input_pw_confirm'>{t('Attribute03')}* : </label>
-          <input type='password' name='input_pw_confirm' value={inputPwConfirm} onChange={handleInputPwConfirm} />
-          {passwordMatchError && <div style={{ color: 'red' }}>{passwordMatchError}</div>}
-        </div>
-        <div>
-          <label htmlFor='last_name'>{t('Attribute04')}* : </label>
-          <input type='text' name='input_last' value={inputLn} onChange={handleInputLn} />
-          {errors.lastName && <div style={{ color: 'red' }}>{errors.lastName}</div>}
-        </div>
-        <div>
-          <label htmlFor='fisrt_name'>{t('Attribute05')}* : </label>
-          <input type='text' name='input_first' value={inputFn} onChange={handleInputFn} />
-          {errors.firstName && <div style={{ color: 'red' }}>{errors.firstName}</div>}
-        </div>
-        <div>
-          <label htmlFor='input_pn'>{t('Attribute06')}* : </label>
-          <input type='text' name='input_pn' value={inputPn} onChange={handleInputPn} />
-          {errors.phone && <div style={{ color: 'red' }}>{errors.phone}</div>}
-        </div>
-        <div style={{ fontSize: '12px' }}>{t('Alert.phoneFormat')}</div>
-        <div>
-          <label htmlFor='recommend'>{t('Attribute07')}*: </label>
-          <input type='text' name='recommend' value={inputRm} onChange={handleInputRm} />
-          {errors.recommend && <div style={{ color: 'red' }}>{errors.recommend}</div>}
-          {recommendStatus === 200 && (
-            <div style={{ color: 'blue' }}>
-              {t('Alert.recommendSuccess')}
-            </div>
-          )}
-          {recommendStatus === 204 && (
-            <div style={{ color: 'red' }}>
-              {t('Alert.recommendFail')}
-            </div>
-          )}
-        </div>
-        <div>
-          <button type="button" onClick={onClickSignUp} disabled={isSigningUp}>
+          <button className="shop-signup-button" type="button" onClick={onClickSignUp} disabled={isSigningUp}>
             {t('Button.signup')}
-          </button>
-        </div>
+      </button>
       </div>
-    </h2>
+    </div>
   );
 }
 

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
   const Cookies = require('js-cookie');
-
+  localStorage.setItem('menuVisible', 'true');
   const isAdminRole = (role: string): boolean => {
     const roleHierarchy = ['A', 'B', 'C', 'D', 'E'];
     return roleHierarchy.indexOf(role) >= roleHierarchy.indexOf('B');
@@ -13,7 +13,7 @@ const AdminDashboard: React.FC = () => {
   useEffect(() => {
     if(!isAdminRole(Cookies.get('role'))){  
       alert('관리자가 아닙니다.');
-      navigate('/admin/registadmin');
+      navigate('/admin/login');
     }
   }, [Cookies]);
 

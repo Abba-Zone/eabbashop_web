@@ -1,0 +1,62 @@
+.signup-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .signup-form input[type="text"],
+  .signup-form input[type="password"],
+  .signup-form input[type="email"] {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .signup-form button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #ccc;
+    border: none;
+    border-radius: 5px;
+    cursor: not-allowed;
+  }
+  
+  .checkbox-group {
+    text-align: left;
+    margin-top: 20px;
+  }
+  
+  .checkbox-item {
+    margin-left: 20px;
+  }
+  
+  .checkbox-item input {
+    margin-right: 5px;
+  }
+  
+  .signup-container a {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+.logo-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logo-container img{
+  width: auto;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+  content: url(../../static/img/AbbazonLogo.png);
+}
