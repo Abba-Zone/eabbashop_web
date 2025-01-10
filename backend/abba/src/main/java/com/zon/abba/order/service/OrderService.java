@@ -8,11 +8,13 @@ import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.common.security.JwtTokenProvider;
+import com.zon.abba.order.dto.OrderAdminDto;
 import com.zon.abba.order.dto.OrderDetailDto;
 import com.zon.abba.order.dto.OrderDto;
 import com.zon.abba.order.dto.ProductDto;
 import com.zon.abba.order.entity.Orders;
 import com.zon.abba.order.entity.OrderDetail;
+import com.zon.abba.order.mapping.OrderList;
 import com.zon.abba.order.mapping.OrderedProduct;
 import com.zon.abba.order.repository.OrderDetailRepository;
 import com.zon.abba.order.repository.OrderRepository;
@@ -167,8 +169,35 @@ public class OrderService {
                 })
                 .toList();
 
-
+        logger.info("고객 주문 내역 반환 완료");
         return new ResponseListBody(orders.getTotalElements(), list);
+
+    }
+
+    @Transactional
+    public ResponseListBody orderAdminList(RequestList requestList){
+        logger.info("관리자용 주문 내역을 가져옵니다.");
+
+        // 최신순 정렬 추가
+        Pageable pageable = PageRequest.of(
+                requestList.getPageNo(),
+                requestList.getPageSize(),
+                Sort.by(requestList.getSort().equals("ASC") ?
+                                Sort.Direction.ASC : Sort.Direction.DESC,
+                        requestList.getSortValue()));
+
+        // member에 맞는 order 데이터 가져오기
+        Page<OrderList> orderListPage = orderDetailRepository.findOrderListByFilter(
+                requestList.getFilter(),
+                requestList.getFilterValue(),
+                pageable);
+
+        List<OrderAdminDto> list = orderListPage.stream()
+                .map(OrderAdminDto::new)
+                .toList();
+
+        logger.info("관리자 주문 내역 반환 완료");
+        return new ResponseListBody(orderListPage.getTotalElements(), list);
 
     }
 }
