@@ -49,6 +49,15 @@ public class ProductRegisterRequest {
     @JsonProperty("allowNation")
     private String allowNation;
 
+    @JsonProperty("showYN")
+    private String showYN;
+
+    @JsonProperty("deleteYN")
+    private String deleteYN;
+
+    @JsonProperty("activeYN")
+    private String activeYN;
+
     @JsonProperty("viewSite")
     private String viewSite;
 }
