@@ -24,7 +24,7 @@ const Menu: React.FC<MenuProps> = ({ toggleMenu }) => {
                 { name: t("Menu02.SubMenu01"), url: "/admin/member" },
                 { name: t("Menu02.SubMenu02"), url: "/admin/customer-inquiry" },
                 { name: t("Menu02.SubMenu03"), url: "/admin/change-referral" },
-                { name: '등급업', url: "/admin/member-grade" }
+                { name: '등급업', url: "/admin/registadmin" }
             ]
         },
         {
