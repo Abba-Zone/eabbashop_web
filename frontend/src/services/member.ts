@@ -1,8 +1,7 @@
 import { login, signup, authEmail, checkAuthCode, 
     checkRecommendEmail, getUserList, getMemberList, getMemberDetail, 
-    googleLogin, googleLoginWithCode, kakaoLoginWithCode, findID 
+    googleLogin, googleLoginWithCode, kakaoLoginWithCode, findID, requestAdmin, requestAdminList 
 } from '../apis/memberApi'
-
 /*데이터 가공 */
 export const login_s = async (loginUser:emailAndPassword): Promise<loginSuccess> => {
     return await login(loginUser);
@@ -50,4 +49,12 @@ export const kakaoLoginWithCode_s = async (code: string): Promise<loginSuccess |
 
 export const findID_s = async (findIDParam: findIDParam): Promise<findIDResult | null> => {
     return await findID(findIDParam);
+};
+
+export const requestAdmin_s = async (): Promise<boolean> => {
+    return await requestAdmin();
+};
+
+export const requestAdminList_s = async (): Promise<requestAdminRegistList> => {
+    return await requestAdminList();
 };

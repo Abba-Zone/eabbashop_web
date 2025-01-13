@@ -291,3 +291,24 @@ export const findID = async (findIDParam:findIDParam): Promise<findIDResult | nu
     return null;
   }
 }
+
+export const requestAdmin = async (): Promise<boolean> => {
+  try {
+    const response = await postData('/registeradmin/request');
+    console.log(response);
+    return true;
+  } catch (error) {
+    console.error('Request admin error:', error);
+    return false;
+  }
+}
+
+export const requestAdminList = async (): Promise<requestAdminRegistList> => {
+    try {
+        const response = await getData('/registeradmin/request/list');
+        return response.data as requestAdminRegistList;
+    } catch (error) {
+        console.error('Request admin list error:', error);
+        return null as unknown as requestAdminRegistList;
+    }
+}
