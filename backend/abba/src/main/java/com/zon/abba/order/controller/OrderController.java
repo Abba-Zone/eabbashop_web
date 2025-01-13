@@ -5,6 +5,7 @@ import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.order.request.OrderDetailIdRequest;
 import com.zon.abba.order.request.RegisterOrderRequest;
+import com.zon.abba.order.response.DetailOrderResponse;
 import com.zon.abba.order.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -65,6 +66,23 @@ public class OrderController {
     public ResponseEntity<Object> deleteOrder(@RequestBody List<OrderDetailIdRequest> request){
 
         ResponseBody response = orderService.cancelOrder(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/detail")
+    @Operation(summary = "고객 주문 상세", description = "고객이 자신의 주문 내역 상세를 볼 수 있다.")
+    public ResponseEntity<Object> detailOrder(@ModelAttribute RequestList requestList){
+
+        ResponseListBody response = orderService.orderAdminList(requestList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+    @GetMapping("/detail/admin")
+    @Operation(summary = "관리자 주문 조회", description = "관리자가 고객의 주문 내역 상세를 볼 수 있다.")
+    public ResponseEntity<Object> detailAdminOrder(OrderDetailIdRequest request){
+
+        DetailOrderResponse response = orderService.detailAdminOrder(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

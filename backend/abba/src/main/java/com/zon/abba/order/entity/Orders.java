@@ -55,6 +55,18 @@ public class Orders {
     @Column(name = "DetailAddress", length = 100, nullable = true)
     private String detailAddress;
 
+    @Column(name = "Comment", length = 100, nullable = true)
+    private String comment;
+
+    @Column(name = "FirstName", length = 100, nullable = false)
+    private String firstName;
+
+    @Column(name = "LastName", length = 100, nullable = false)
+    private String lastName;
+
+    @Column(name = "Phone", length = 100, nullable = false)
+    private String phone;
+
     @Column(name = "CreatedID", length = 36, nullable = false)
     private String createdId;
 
