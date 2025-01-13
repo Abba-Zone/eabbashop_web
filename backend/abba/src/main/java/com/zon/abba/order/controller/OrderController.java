@@ -4,7 +4,9 @@ import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.order.request.OrderDetailIdRequest;
+import com.zon.abba.order.request.OrderIdRequest;
 import com.zon.abba.order.request.RegisterOrderRequest;
+import com.zon.abba.order.response.DetailAdminOrderResponse;
 import com.zon.abba.order.response.DetailOrderResponse;
 import com.zon.abba.order.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -65,16 +67,16 @@ public class OrderController {
     @Operation(summary = "주문 내역 삭제", description = "주문 내역을 삭제할 수 있다.")
     public ResponseEntity<Object> deleteOrder(@RequestBody List<OrderDetailIdRequest> request){
 
-        ResponseBody response = orderService.cancelOrder(request);
+        ResponseBody response = orderService.deleteOrder(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/detail")
     @Operation(summary = "고객 주문 상세", description = "고객이 자신의 주문 내역 상세를 볼 수 있다.")
-    public ResponseEntity<Object> detailOrder(@ModelAttribute RequestList requestList){
+    public ResponseEntity<Object> detailOrder(OrderIdRequest request){
 
-        ResponseListBody response = orderService.orderAdminList(requestList);
+        DetailOrderResponse response = orderService.detailOrder(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -82,7 +84,7 @@ public class OrderController {
     @Operation(summary = "관리자 주문 조회", description = "관리자가 고객의 주문 내역 상세를 볼 수 있다.")
     public ResponseEntity<Object> detailAdminOrder(OrderDetailIdRequest request){
 
-        DetailOrderResponse response = orderService.detailAdminOrder(request);
+        DetailAdminOrderResponse response = orderService.detailAdminOrder(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

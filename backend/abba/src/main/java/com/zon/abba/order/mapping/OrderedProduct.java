@@ -11,6 +11,7 @@ public interface OrderedProduct {
     Integer getQuantity();
     Integer getStatus();
     String getThumbnail();
+    BigDecimal getRealPrice();
     BigDecimal getLP();
     BigDecimal getSP();
 

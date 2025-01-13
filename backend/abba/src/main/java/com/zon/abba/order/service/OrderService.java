@@ -18,8 +18,10 @@ import com.zon.abba.order.mapping.OrderedProduct;
 import com.zon.abba.order.repository.OrderDetailRepository;
 import com.zon.abba.order.repository.OrderRepository;
 import com.zon.abba.order.request.OrderDetailIdRequest;
+import com.zon.abba.order.request.OrderIdRequest;
 import com.zon.abba.order.request.RegisterOrderRequest;
 import com.zon.abba.order.response.DetailAdminOrderResponse;
+import com.zon.abba.order.response.DetailOrderResponse;
 import com.zon.abba.product.entity.Product;
 import com.zon.abba.product.repository.ProductRepository;
 import jakarta.transaction.Transactional;
@@ -107,8 +109,10 @@ public class OrderService {
                     .findFirst()
                     .orElse(0);
 
-            LP = LP.add(product.getTaxFreePrice());
-            SP = SP.add(product.getSpPrice());
+            BigDecimal newLP = product.getTaxFreePrice().multiply(new BigDecimal(quantity));
+            BigDecimal newSP = product.getSpPrice().multiply(new BigDecimal(quantity));
+            LP = LP.add(newLP);
+            SP = SP.add(newSP);
             // AK 로직 작성 후 집어넣기
 
             // 객체 만들기
@@ -118,8 +122,8 @@ public class OrderService {
                     .productId(product.getProductId())
                     .quantity(quantity)
                     .status(100)
-                    .lpPrice(product.getTaxFreePrice())
-                    .spPrice(product.getSpPrice())
+                    .lpPrice(newLP)
+                    .spPrice(newSP)
                     .akPrice(BigDecimal.valueOf(0.0))
                     .build();
 
@@ -273,5 +277,32 @@ public class OrderService {
 
         logger.info("주문 상세 반환이 완료되었습니다.");
         return new DetailAdminOrderResponse(productInfoDto, orderInfoDto, addressInfoDto, memberInfoDto);
+    }
+
+    @Transactional
+    public DetailOrderResponse detailOrder(OrderIdRequest request){
+        logger.info("고객용 주문 내용을 불러옵니다.");
+        Orders orders = orderRepository.findById(request.getOrderID())
+                .orElseThrow(() -> new NoDataException("없는 주문 목록입니다."));
+
+        logger.info("고객용 주문 상세 내용을 불러옵니다.");
+        List<OrderedProduct> list = orderDetailRepository.findOrderedProductsByOrderId(request.getOrderID());
+
+        // order detail list 만들기
+        List<OrderDetailDto> orderDetails = list.stream()
+                .map(OrderDetailDto::new)
+                .toList();
+
+        // real price sum
+        BigDecimal realPrice = list.stream()
+                .map(op -> op.getRealPrice().multiply(new BigDecimal(op.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        DetailOrderResponse response = new DetailOrderResponse(orders);
+        response.setTotalRealPrice(realPrice);
+        response.setOrderDetails(orderDetails);
+
+        logger.info("고객용 주문 상세 반환이 완료되었습니다.");
+        return response;
     }
 }
