@@ -10,7 +10,7 @@ const Header: React.FC = () => {
   const rendering = (): JSX.Element[] => {
     const result = [];
     switch (pathname.pathname) {
-      case "/login": case "/signup": case "/admin/login": case "/admin/signup": case "/admin/registadmin":
+      case "/login": case "/signup": case "/admin/login": case "/admin/signup":
         result.push(<></>);
         return result;
       default:

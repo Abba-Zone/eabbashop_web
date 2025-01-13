@@ -2,13 +2,24 @@ import React, { useState, useEffect } from "react";
 import "./RegistAdmin.css";
 import { requestAdmin_s, requestAdminList_s } from "../../services/member";
 
+const Cookies = require('js-cookie');
+
+const isLogined = (): boolean => {
+  if (Cookies.get('access-token') === undefined) {
+    alert('로그인 후 이용해주세요.');
+    window.location.href = '/login';
+    return false;
+  }
+  return true;
+}
+
 const requestAdmin = async (adminList: requestAdminRegistList | null) => {
   if (adminList?.totalCount === 0) { // adminList가 null일 때만 요청
-    const response = await requestAdmin_s();
-    console.log('requestAdmin', response);
     window.location.reload();
   } else {
-    alert('대리점 요청처리 중입니다. abbazon@gmail.com으로 문의해주세요.');
+    if (isLogined()) {
+      alert('대리점 요청처리 중입니다. abbazon@gmail.com으로 문의해주세요.');
+    }
   }
 };
 
@@ -18,8 +29,10 @@ const RegistAdmin: React.FC = () => {
   useEffect(() => {
     const fetchAdminList = async () => {
       try {
-        const list = await requestAdminList_s();
-        setAdminList(list);
+        if (isLogined()) {
+          const list = await requestAdminList_s();
+          setAdminList(list);
+        }
       } catch (error) {
         console.error('Failed to fetch admin list:', error);
       }

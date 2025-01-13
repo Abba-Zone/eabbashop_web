@@ -312,3 +312,24 @@ export const requestAdminList = async (): Promise<requestAdminRegistList> => {
         return null as unknown as requestAdminRegistList;
     }
 }
+
+export const requestAdminListAll = async (): Promise<requestAdminRegistList> => {
+  try {
+      const response = await getData('/registeradmin/request/list/all');
+      return response.data as requestAdminRegistList;
+  } catch (error) {
+      console.error('Request admin list all error:', error);
+      return null as unknown as requestAdminRegistList;
+  }
+}
+
+export const requestAdminResult = async (changeRequestId: string, value: string): Promise<boolean> => {
+  try {
+    const requestBody = { changerequestid: changeRequestId, value };
+    const response = await postData('/registeradmin/result', requestBody);
+    return response.status === 200;
+  } catch (error) {
+    console.error('Request admin update error:', error);
+    return false;
+  }
+}
