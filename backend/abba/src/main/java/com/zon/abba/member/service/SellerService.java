@@ -32,6 +32,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,8 +121,18 @@ public class SellerService {
 
         List<RegisterAdminListResponse> result = new ArrayList<>();
 
-        for(ChangeRequestLog log : ChangeRequestLogList){
-            result.add(new RegisterAdminListResponse(log.getChangeRequestLogId(), log.getStatus()));
+        for (ChangeRequestLog log : ChangeRequestLogList) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            String createdDateTime = log.getCreatedDateTime().format(formatter);
+            String modifiedDateTime = log.getModifiedDateTime().format(formatter);
+
+            result.add(new RegisterAdminListResponse(
+                    log.getChangeRequestLogId(),
+                    log.getStatus(),
+                    createdDateTime,
+                    modifiedDateTime
+            ));
         }
 
 
@@ -164,7 +175,7 @@ public class SellerService {
         ChangeRequestLog log = changeRequestLogRepository.findById(resultRequest.getChangeRequestId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 신청입니다."));
 
-        log.setAfterValue(resultRequest.getValue());
+        log.setStatus(resultRequest.getValue());
         log.setModifiedId(memberId);    // 설정한 사람 (로그인한 유저)
         log.setModifiedDateTime(LocalDateTime.now()); // 수정 시간 설정
 
