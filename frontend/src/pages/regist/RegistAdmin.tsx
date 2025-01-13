@@ -1,34 +1,59 @@
+import React, { useState, useEffect } from "react";
 import "./RegistAdmin.css";
-const RegistAdmin: React.FC = () => {  
-  localStorage.setItem('menuVisible', 'false');
+import { requestAdmin_s, requestAdminList_s } from "../../services/member";
+
+const requestAdmin = async (adminList: requestAdminRegistList | null) => {
+  if (adminList?.totalCount === 0) { // adminList가 null일 때만 요청
+    const response = await requestAdmin_s();
+    console.log('requestAdmin', response);
+    window.location.reload();
+  } else {
+    alert('대리점 요청처리 중입니다. abbazon@gmail.com으로 문의해주세요.');
+  }
+};
+
+const RegistAdmin: React.FC = () => {
+  const [adminList, setAdminList] = useState<requestAdminRegistList | null>(null);
+
+  useEffect(() => {
+    const fetchAdminList = async () => {
+      try {
+        const list = await requestAdminList_s();
+        setAdminList(list);
+      } catch (error) {
+        console.error('Failed to fetch admin list:', error);
+      }
+    };
+
+    fetchAdminList();
+  }, []);
+
   return (
     <div className="signup-container">
       <div className="logo-container">
-        <img></img>
+        <img />
       </div>
       <h1>AbbaFamily가 되어보세요!</h1>
       <form className="signup-form">
-        <input type="text" placeholder="아이디" required />
-        <input type="password" placeholder="비밀번호 (영문+숫자+특수문자, 8-15자)" required />
-        <input type="password" placeholder="비밀번호 확인" required />
-        <input type="text" placeholder="이름" required />
-        <input type="email" placeholder="이메일" required />
-        <input type="text" placeholder="핸드폰번호(-제외)" required />
-        <button type="button">인증요청</button>
-      <div className="checkbox-group">
-        <input type="checkbox" id="agree-all" />
-        <label htmlFor="agree-all">모두 동의합니다</label>
-        <p>모두 동의에는 필수 및 선택...</p>
-        <div className="checkbox-item">
-          <input type="checkbox" id="agree1" />
-          <label htmlFor="agree1">[필수] 19세 이상입니다</label>
-        </div>
-      </div>
-      <button type="submit" disabled>약관 동의하고 가입하기</button>
+        <button type="button" onClick={() => requestAdmin(adminList)}>대리점 신청</button>
       </form>
-  <p>이미 계정이 있나요? <a href="#">로그인</a></p>
-  <p>해외 사업자분들은 <a href="#">글로벌 셀러 가입하기</a></p>
-  </div>
+      <div className="admin-list">
+        <h2>신청 내역</h2>
+        {adminList ? (
+          adminList.totalCount > 0 ? (
+            <ul>
+              {adminList.list.map((admin, index) => (
+                <li key={index}> {admin.status_value}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>신청 내역이 없습니다.</p>
+          )
+        ) : (
+          <p>신청 내역을 불러오는 중입니다.</p>
+        )}
+      </div>
+    </div>
   );
 };
 

@@ -116,3 +116,14 @@ interface findIDParam{
 interface findIDResult{
 	email : string,
 }
+
+interface requestAdminRegistList {
+	totalCount : number,
+	list : requestAdminRegist[]
+}
+
+interface requestAdminRegist {
+	change_request_id : string,
+	status : string,
+	status_value : string,
+}

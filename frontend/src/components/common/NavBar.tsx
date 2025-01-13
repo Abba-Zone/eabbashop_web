@@ -29,9 +29,11 @@ const NavBar:React.FC = () => {
                 <div className="nav-item" onClick={handleGoShop}>
                     샵페이지
                 </div>
-                <div className="nav-item" onClick={handleGoRegistAdmin}>
-                    판매점 등록하기
-                </div>
+                {!isAdminRole(Cookies.get('role')) && (
+                    <div className="nav-item" onClick={handleGoRegistAdmin}>
+                        판매점 등록하기
+                    </div>
+                )}
             </div>
         </div>
     );
