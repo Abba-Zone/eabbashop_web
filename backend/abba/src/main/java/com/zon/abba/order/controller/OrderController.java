@@ -72,6 +72,15 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PostMapping("/confirm")
+    @Operation(summary = "구매 확정", description = "고객이 상품을 받은 이후 확정할 수 있다.")
+    public ResponseEntity<Object> confirmOrder(@RequestBody OrderDetailIdRequest request){
+
+        ResponseBody response = orderService.confirmOrder(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
     @GetMapping("/detail")
     @Operation(summary = "고객 주문 상세", description = "고객이 자신의 주문 내역 상세를 볼 수 있다.")
     public ResponseEntity<Object> detailOrder(OrderIdRequest request){

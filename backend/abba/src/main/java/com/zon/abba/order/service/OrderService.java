@@ -250,6 +250,23 @@ public class OrderService {
     }
 
     @Transactional
+    public ResponseBody confirmOrder(OrderDetailIdRequest request){
+        logger.info("구매를 확정합니다.");
+
+        OrderDetail orderDetail = orderDetailRepository.findById(request.getOrderDetailID())
+                .orElseThrow(() -> new NoDataException("없는 주문 목록입니다."));
+
+        // 삭제 처리
+        orderDetail.setStatus(500);
+
+        // 업데이트 내용 저장
+        orderDetailRepository.save(orderDetail);
+
+        logger.info("구매 확정 처리가 완료되었습니다.");
+        return new ResponseBody("성공했습니다.");
+    }
+
+    @Transactional
     public DetailAdminOrderResponse detailAdminOrder(OrderDetailIdRequest request){
         logger.info("관리자용 주문 상세 내용을 불러옵니다.");
         OrderDetail orderDetail = orderDetailRepository.findById(request.getOrderDetailID())
