@@ -8,17 +8,20 @@ import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.common.security.JwtTokenProvider;
-import com.zon.abba.order.dto.OrderAdminDto;
-import com.zon.abba.order.dto.OrderDetailDto;
-import com.zon.abba.order.dto.OrderDto;
-import com.zon.abba.order.dto.ProductDto;
+import com.zon.abba.member.entity.Member;
+import com.zon.abba.member.repository.MemberRepository;
+import com.zon.abba.order.dto.*;
 import com.zon.abba.order.entity.Orders;
 import com.zon.abba.order.entity.OrderDetail;
 import com.zon.abba.order.mapping.OrderList;
 import com.zon.abba.order.mapping.OrderedProduct;
 import com.zon.abba.order.repository.OrderDetailRepository;
 import com.zon.abba.order.repository.OrderRepository;
+import com.zon.abba.order.request.OrderDetailIdRequest;
+import com.zon.abba.order.request.OrderIdRequest;
 import com.zon.abba.order.request.RegisterOrderRequest;
+import com.zon.abba.order.response.DetailAdminOrderResponse;
+import com.zon.abba.order.response.DetailOrderResponse;
 import com.zon.abba.product.entity.Product;
 import com.zon.abba.product.repository.ProductRepository;
 import jakarta.transaction.Transactional;
@@ -44,6 +47,7 @@ public class OrderService {
     private final OrderDetailRepository orderDetailRepository;
     private final AddressRepository addressRepository;
     private final ProductRepository productRepository;
+    private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
 
@@ -78,6 +82,10 @@ public class OrderService {
                 .billZipCode(billAddress.getZipCode())
                 .billBaseAddress(billAddress.getBaseAddress())
                 .billDetailAddress(billAddress.getDetailAddress())
+                .comment(address.getComment())
+                .firstName(address.getFirstName())
+                .lastName(address.getLastName())
+                .phone(address.getPhone())
                 .build();
 
         orderRepository.save(orders);
@@ -101,8 +109,10 @@ public class OrderService {
                     .findFirst()
                     .orElse(0);
 
-            LP = LP.add(product.getTaxFreePrice());
-            SP = SP.add(product.getSpPrice());
+            BigDecimal newLP = product.getTaxFreePrice().multiply(new BigDecimal(quantity));
+            BigDecimal newSP = product.getSpPrice().multiply(new BigDecimal(quantity));
+            LP = LP.add(newLP);
+            SP = SP.add(newSP);
             // AK 로직 작성 후 집어넣기
 
             // 객체 만들기
@@ -112,8 +122,8 @@ public class OrderService {
                     .productId(product.getProductId())
                     .quantity(quantity)
                     .status(100)
-                    .lpPrice(product.getTaxFreePrice())
-                    .spPrice(product.getSpPrice())
+                    .lpPrice(newLP)
+                    .spPrice(newSP)
                     .akPrice(BigDecimal.valueOf(0.0))
                     .build();
 
@@ -199,5 +209,117 @@ public class OrderService {
         logger.info("관리자 주문 내역 반환 완료");
         return new ResponseListBody(orderListPage.getTotalElements(), list);
 
+    }
+
+    @Transactional
+    public ResponseBody cancelOrder(List<OrderDetailIdRequest> request){
+        logger.info("주문을 취소합니다.");
+
+        List<String> ids = request.stream()
+                .map(OrderDetailIdRequest::getOrderDetailID)
+                .toList();
+        List<OrderDetail> list = orderDetailRepository.findByOrderDetailIds(ids);
+
+        // 400 : 취소
+        list.forEach(od -> od.setStatus(400));
+
+        // 업데이트 내용 저장
+        orderDetailRepository.saveAll(list);
+
+        logger.info("주문 취소 처리가 완료되었습니다.");
+        return new ResponseBody("성공했습니다.");
+    }
+
+    @Transactional
+    public ResponseBody deleteOrder(List<OrderDetailIdRequest> request){
+        logger.info("주문 내역을 삭제합니다.");
+
+        List<String> ids = request.stream()
+                .map(OrderDetailIdRequest::getOrderDetailID)
+                .toList();
+        List<OrderDetail> list = orderDetailRepository.findByOrderDetailIds(ids);
+
+        // 삭제 처리
+        list.forEach(od -> od.setDeleteYn("Y"));
+
+        // 업데이트 내용 저장
+        orderDetailRepository.saveAll(list);
+
+        logger.info("주문 삭제 처리가 완료되었습니다.");
+        return new ResponseBody("성공했습니다.");
+    }
+
+    @Transactional
+    public ResponseBody confirmOrder(OrderDetailIdRequest request){
+        logger.info("구매를 확정합니다.");
+
+        OrderDetail orderDetail = orderDetailRepository.findById(request.getOrderDetailID())
+                .orElseThrow(() -> new NoDataException("없는 주문 목록입니다."));
+
+        // 삭제 처리
+        orderDetail.setStatus(500);
+
+        // 업데이트 내용 저장
+        orderDetailRepository.save(orderDetail);
+
+        logger.info("구매 확정 처리가 완료되었습니다.");
+        return new ResponseBody("성공했습니다.");
+    }
+
+    @Transactional
+    public DetailAdminOrderResponse detailAdminOrder(OrderDetailIdRequest request){
+        logger.info("관리자용 주문 상세 내용을 불러옵니다.");
+        OrderDetail orderDetail = orderDetailRepository.findById(request.getOrderDetailID())
+                        .orElseThrow(() -> new NoDataException("없는 주문 목록입니다."));
+
+        logger.info("상품 정보를 불러옵니다.");
+        // product 목록 불러오기
+        Product product = productRepository.findById(orderDetail.getProductId())
+                .orElseThrow(() -> new NoDataException("없는 상품 목록입니다."));
+
+        logger.info("주문 목록을 불러옵니다.");
+        Orders order = orderRepository.findById(orderDetail.getOrderId())
+                        .orElseThrow(() -> new NoDataException("없는 주문 목록입니다."));
+
+        logger.info("고객 정보를 가져옵니다.");
+        Member member = memberRepository.findOneByMemberId(orderDetail.getMemberId())
+                .orElseThrow(() -> new NoMemberException("없는 고객입니다."));
+
+        // dto 형성
+        ProductInfoDto productInfoDto = new ProductInfoDto(product);
+        OrderInfoDto orderInfoDto = new OrderInfoDto(orderDetail, product.getName());
+        AddressInfoDto addressInfoDto = new AddressInfoDto(order);
+        MemberInfoDto memberInfoDto = new MemberInfoDto(member);
+
+
+        logger.info("주문 상세 반환이 완료되었습니다.");
+        return new DetailAdminOrderResponse(productInfoDto, orderInfoDto, addressInfoDto, memberInfoDto);
+    }
+
+    @Transactional
+    public DetailOrderResponse detailOrder(OrderIdRequest request){
+        logger.info("고객용 주문 내용을 불러옵니다.");
+        Orders orders = orderRepository.findById(request.getOrderID())
+                .orElseThrow(() -> new NoDataException("없는 주문 목록입니다."));
+
+        logger.info("고객용 주문 상세 내용을 불러옵니다.");
+        List<OrderedProduct> list = orderDetailRepository.findOrderedProductsByOrderId(request.getOrderID());
+
+        // order detail list 만들기
+        List<OrderDetailDto> orderDetails = list.stream()
+                .map(OrderDetailDto::new)
+                .toList();
+
+        // real price sum
+        BigDecimal realPrice = list.stream()
+                .map(op -> op.getRealPrice().multiply(new BigDecimal(op.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        DetailOrderResponse response = new DetailOrderResponse(orders);
+        response.setTotalRealPrice(realPrice);
+        response.setOrderDetails(orderDetails);
+
+        logger.info("고객용 주문 상세 반환이 완료되었습니다.");
+        return response;
     }
 }

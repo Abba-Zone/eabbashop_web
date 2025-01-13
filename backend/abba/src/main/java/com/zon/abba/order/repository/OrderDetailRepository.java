@@ -24,6 +24,7 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, String
                     "od.Quantity AS quantity, " +
                     "od.Status AS status, " +
                     "p.Thumbnail AS thumbnail, " +
+                    "p.RealPrice AS realPrice, " +
                     "od.LPPrice AS LP, " +
                     "od.SPPrice AS SP " +
                     "FROM OrderDetail od " +
@@ -69,6 +70,14 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, String
             @Param("filterValue") String filterValue,
             Pageable pageable
     );
+
+    @Query(
+            value = "SELECT * FROM OrderDetail " +
+                    "WHERE OrderDetailID IN :orderDetailIds " +
+                    "AND DeleteYN = 'N'",
+            nativeQuery = true
+    )
+    List<OrderDetail> findByOrderDetailIds(@Param("orderDetailIds") List<String> orderDetailIds);
 
 
 }

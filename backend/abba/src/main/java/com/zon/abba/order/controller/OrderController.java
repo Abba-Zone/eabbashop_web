@@ -3,7 +3,11 @@ package com.zon.abba.order.controller;
 import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
+import com.zon.abba.order.request.OrderDetailIdRequest;
+import com.zon.abba.order.request.OrderIdRequest;
 import com.zon.abba.order.request.RegisterOrderRequest;
+import com.zon.abba.order.response.DetailAdminOrderResponse;
+import com.zon.abba.order.response.DetailOrderResponse;
 import com.zon.abba.order.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,6 +53,49 @@ public class OrderController {
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-    
+
+    @PostMapping("/cancel")
+    @Operation(summary = "주문 취소", description = "주문한 상품을 취소할 수 있다.")
+    public ResponseEntity<Object> cancelOrder(@RequestBody List<OrderDetailIdRequest> request){
+
+        ResponseBody response = orderService.cancelOrder(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/delete")
+    @Operation(summary = "주문 내역 삭제", description = "주문 내역을 삭제할 수 있다.")
+    public ResponseEntity<Object> deleteOrder(@RequestBody List<OrderDetailIdRequest> request){
+
+        ResponseBody response = orderService.deleteOrder(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/confirm")
+    @Operation(summary = "구매 확정", description = "고객이 상품을 받은 이후 확정할 수 있다.")
+    public ResponseEntity<Object> confirmOrder(@RequestBody OrderDetailIdRequest request){
+
+        ResponseBody response = orderService.confirmOrder(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/detail")
+    @Operation(summary = "고객 주문 상세", description = "고객이 자신의 주문 내역 상세를 볼 수 있다.")
+    public ResponseEntity<Object> detailOrder(OrderIdRequest request){
+
+        DetailOrderResponse response = orderService.detailOrder(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+    @GetMapping("/detail/admin")
+    @Operation(summary = "관리자 주문 조회", description = "관리자가 고객의 주문 내역 상세를 볼 수 있다.")
+    public ResponseEntity<Object> detailAdminOrder(OrderDetailIdRequest request){
+
+        DetailAdminOrderResponse response = orderService.detailAdminOrder(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
 }
