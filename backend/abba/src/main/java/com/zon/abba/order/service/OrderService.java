@@ -19,7 +19,7 @@ import com.zon.abba.order.repository.OrderDetailRepository;
 import com.zon.abba.order.repository.OrderRepository;
 import com.zon.abba.order.request.OrderDetailIdRequest;
 import com.zon.abba.order.request.RegisterOrderRequest;
-import com.zon.abba.order.response.DetailOrderResponse;
+import com.zon.abba.order.response.DetailAdminOrderResponse;
 import com.zon.abba.product.entity.Product;
 import com.zon.abba.product.repository.ProductRepository;
 import jakarta.transaction.Transactional;
@@ -246,7 +246,7 @@ public class OrderService {
     }
 
     @Transactional
-    public DetailOrderResponse detailAdminOrder(OrderDetailIdRequest request){
+    public DetailAdminOrderResponse detailAdminOrder(OrderDetailIdRequest request){
         logger.info("관리자용 주문 상세 내용을 불러옵니다.");
         OrderDetail orderDetail = orderDetailRepository.findById(request.getOrderDetailID())
                         .orElseThrow(() -> new NoDataException("없는 주문 목록입니다."));
@@ -272,6 +272,6 @@ public class OrderService {
 
 
         logger.info("주문 상세 반환이 완료되었습니다.");
-        return new DetailOrderResponse(productInfoDto, orderInfoDto, addressInfoDto, memberInfoDto);
+        return new DetailAdminOrderResponse(productInfoDto, orderInfoDto, addressInfoDto, memberInfoDto);
     }
 }

@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DetailOrderResponse {
+public class DetailAdminOrderResponse {
     @JsonProperty("product")
     private ProductInfoDto product;
     @JsonProperty("order")
