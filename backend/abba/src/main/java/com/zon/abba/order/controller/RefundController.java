@@ -1,6 +1,7 @@
 package com.zon.abba.order.controller;
 
 import com.zon.abba.common.response.ResponseBody;
+import com.zon.abba.order.request.ApproveRefundRequest;
 import com.zon.abba.order.request.RegisterRefundRequest;
 import com.zon.abba.order.service.RefundService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,8 +34,11 @@ public class RefundController {
 
     @PostMapping("/approve")
     @Operation(summary = "반품 / 교환 승인", description = "반품, 교환 요청을 승인 또는 거절 할 수 있다.")
-    public ResponseEntity<Object> approveAfterService(){
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+    public ResponseEntity<Object> approveAfterService(@RequestBody ApproveRefundRequest request){
+
+        ResponseBody response = refundService.approveRefund(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping("/list")
