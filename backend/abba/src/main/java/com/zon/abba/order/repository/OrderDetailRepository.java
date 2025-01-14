@@ -79,5 +79,15 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, String
     )
     List<OrderDetail> findByOrderDetailIds(@Param("orderDetailIds") List<String> orderDetailIds);
 
-
+    @Query(
+            value = "SELECT p.SellerID " +
+                    "FROM OrderDetail od " +
+                    "JOIN Product p ON od.ProductID = p.ProductID " +
+                    "WHERE od.OrderDetailID = :orderDetailID " +
+                    "AND od.DeleteYN = 'N' " +
+                    "AND p.DeleteYN = 'N' " +
+                    "AND p.ActiveYN = 'Y'",
+            nativeQuery = true
+    )
+    String findSellerIdByOrderDetailId(@Param("orderDetailID") String orderDetailID);
 }
