@@ -127,11 +127,17 @@ public class SellerService {
             String createdDateTime = log.getCreatedDateTime().format(formatter);
             String modifiedDateTime = log.getModifiedDateTime().format(formatter);
 
+            Member member = memberRepository.findOneByMemberId(log.getMemberId())
+                    .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
             result.add(new RegisterAdminListResponse(
                     log.getChangeRequestLogId(),
                     log.getStatus(),
                     createdDateTime,
-                    modifiedDateTime
+                    modifiedDateTime,
+                    member.getMemberId(),
+                    member.getFirstName() + member.getLastName(),
+                    member.getPhone()
             ));
         }
 

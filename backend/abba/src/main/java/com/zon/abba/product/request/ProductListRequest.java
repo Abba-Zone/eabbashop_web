@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,7 +27,13 @@ public class ProductListRequest {
     @JsonProperty("orderByType")
     private String orderByType;
 
+    @JsonProperty("params")
+    List<String> params;
 
+    @JsonProperty("values")
+    List<String> values;
+
+/*
     @JsonProperty("SellerID")
     private String SellerID;
 
@@ -56,7 +63,7 @@ public class ProductListRequest {
 
     @JsonProperty("EndPrice")
     private BigDecimal EndPrice;
-
+*/
 
 }
 

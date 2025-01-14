@@ -1,7 +1,4 @@
 package com.zon.abba.product.service;
-import com.zon.abba.board.entity.Board;
-import com.zon.abba.board.request.RegisterBoardRequest;
-import com.zon.abba.board.response.DetailBoardResponse;
 import com.zon.abba.category.entity.Category;
 import com.zon.abba.category.repository.CategoryRepository;
 import com.zon.abba.common.exception.NoDataException;
@@ -10,12 +7,17 @@ import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.common.security.JwtTokenProvider;
 import com.zon.abba.member.entity.Member;
+import com.zon.abba.member.repository.MemberRepository;
 import com.zon.abba.product.dto.ProductDto;
 import com.zon.abba.product.entity.Product;
+import com.zon.abba.product.entity.ProductReview;
 import com.zon.abba.product.repository.ProductRepository;
+import com.zon.abba.product.repository.ProductReviewRepository;
 import com.zon.abba.product.request.ProductListRequest;
 import com.zon.abba.product.request.ProductRegisterRequest;
 import com.zon.abba.product.response.DetailProductResponse;
+import com.zon.abba.product.response.ProductListResponseAdmin;
+import com.zon.abba.product.response.ProductListResponseShop;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +32,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 
 @Service
 @RequiredArgsConstructor
@@ -43,15 +44,18 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ProductReviewRepository productReviewRepository;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Transactional
-    public ResponseListBody listProduct(ProductListRequest request){
+    public ResponseListBody listProductShop(ProductListRequest request, String type){
 
         //logger.info("상품 리스트를 가져옵니다.");
         // 클라이언트에서 전달받은 요청 데이터를 기반으로 필터링
-        String sellerId = request.getSellerID();
+       /* String sellerId = request.getSellerID();
         String viewSite = request.getViewSite();
         String showYN = request.getShowYN();
         String deleteYN = request.getDeleteYN();
@@ -61,7 +65,7 @@ public class ProductService {
         String categoryId = request.getCategoryID();
 
         BigDecimal startPrice = request.getStartPrice();
-        BigDecimal endPrice = request.getEndPrice();
+        BigDecimal endPrice = request.getEndPrice();*/
 
         // 페이지네이션 및 정렬 처리
         int page = request.getPage();  // 페이지 번호 (0-based index)
@@ -75,8 +79,11 @@ public class ProductService {
         // Pageable 객체 생성
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, orderBy));
 
+        List<String> params = request.getParams();
+        List<String> values = request.getValues();
+
         // Repository 호출
-        Page<Product> productPage = productRepository.findProductsByCriteria(
+       /* Page<Product> productPage = productRepository.findProductsByCriteria(
                 sellerId,
                 viewSite,
                 name,
@@ -88,32 +95,55 @@ public class ProductService {
                 startPrice,
                 endPrice,
                 pageable
-        );
+        );*/
+
+        Page<Product> productPage = productRepository.findProductsByDynamicCriteria(params, values, pageable);
+
 
         // Product -> ProductDto 변환
         List<ProductDto> productList = productPage.getContent().stream()
                 .map(ProductDto::new)
                 .collect(Collectors.toList());
 
-        /*List<Product> productList = productRepository.findProductsByCriteria(
-                sellerId,
-                viewSite,
-                name,
-                showYN,
-                deleteYN,
-                activeYN,
-                nation,
-                startPrice,
-                endPrice
-        );
+        if(type == "admin"){
+            List<ProductListResponseAdmin> adminList = new ArrayList<>();
 
-        List<ProductDto> list =  new ArrayList<>();
+            for(Product productDto : productPage){
+                ProductListResponseAdmin newProduct = new ProductListResponseAdmin();
+                Member seller = memberRepository.findByMemberId(productDto.getSellerId());
 
-        for(int i = 0 ; i < productList.size(); i++){
-            list.add(new ProductDto(productList.get(i)));
-        }*/
+                newProduct.setProductName(productDto.getName());
+                newProduct.setSellerName(seller.getFirstName() + " " + seller.getLastName());
+                newProduct.setStock(productDto.getStock());
+                newProduct.setActiveYN(productDto.getActiveYN());
 
-        return new ResponseListBody((long) productList.size(), productList);
+                adminList.add(newProduct);
+            }
+
+            return new ResponseListBody((long) adminList.size(), adminList);
+        }
+        else{
+            List<ProductListResponseShop> shopList = new ArrayList<>();
+
+            for(Product productDto : productPage){
+                ProductListResponseShop newProduct = new ProductListResponseShop();
+                newProduct.setThumbnail(productDto.getThumbnail());
+                newProduct.setProductName(productDto.getName());
+                newProduct.setPrice(productDto.getRealPrice());
+
+                List<ProductReview> reiviews = productReviewRepository.findByProductId(productDto.getProductId());
+                OptionalDouble averageScore = reiviews.stream()
+                        .mapToInt(ProductReview::getScore) // Score 필드를 int로 매핑
+                        .average(); // 평균 계산
+
+                newProduct.setAverageScore(averageScore.orElse(0.0));
+
+                shopList.add(newProduct);
+            }
+
+            return new ResponseListBody((long) shopList.size(), shopList);
+        }
+
 
     }
 
