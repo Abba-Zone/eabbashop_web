@@ -159,7 +159,7 @@ public class SellerService {
                 .build();
         changeRequestLogRepository.save(log);
 
-        logger.info("대리점 신청을 완료했습니다.");
+        logger.info("대리점 신청을 완료했습니다..");
 
         return new ResponseBody("성공했습니다.");
     }
