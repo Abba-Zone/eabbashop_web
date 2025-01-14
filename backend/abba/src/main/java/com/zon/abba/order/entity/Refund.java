@@ -27,6 +27,9 @@ public class Refund {
     @Column(name = "MemberID", length = 36, nullable = false)
     private String memberId;
 
+    @Column(name = "SellerID", length = 36, nullable = false)
+    private String sellerId;
+
     @Column(name = "Quantity", nullable = false)
     private Integer quantity;
 

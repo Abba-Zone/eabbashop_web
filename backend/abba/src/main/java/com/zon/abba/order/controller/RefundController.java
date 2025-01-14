@@ -1,6 +1,8 @@
 package com.zon.abba.order.controller;
 
+import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
+import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.order.request.ApproveRefundRequest;
 import com.zon.abba.order.request.RegisterRefundRequest;
 import com.zon.abba.order.service.RefundService;
@@ -43,7 +45,10 @@ public class RefundController {
 
     @PostMapping("/list")
     @Operation(summary = "반품 / 교환 리스트", description = "반품, 교환 요청 목록을 볼 수 있다.")
-    public ResponseEntity<Object> afterServiceList(){
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+    public ResponseEntity<Object> afterServiceList(@RequestBody RequestList request){
+
+        ResponseListBody response = refundService.refundList(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
