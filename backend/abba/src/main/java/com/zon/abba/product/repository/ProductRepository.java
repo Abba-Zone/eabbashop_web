@@ -1,6 +1,8 @@
 package com.zon.abba.product.repository;
 
 import com.zon.abba.product.entity.Product;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, String> {
+public interface ProductRepository extends JpaRepository<Product, String>, ProductRepositoryCustom  {
     List<Product> findBySellerIdAndViewSiteAndShowYNAndDeleteYNAndActiveYNAndAllowNationContaining(String SellerID, String ViewSite, String ShowYN, String DeleteYN, String ActiveYn, String AllowNationContaining);
 
     boolean existsByProductId(String productId);
@@ -22,7 +24,8 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     @Query(value = "SELECT * FROM Product p WHERE p.ProductID IN :productIds AND p.DeleteYN = 'N'", nativeQuery = true)
     List<Product> findByProductIds(@Param("productIds") List<String> productIds);
 
-    @Query("SELECT p FROM Product p WHERE " +
+    @Query("SELECT p FROM Product p " +
+            "WHERE " +
             "(:sellerId IS NULL OR p.sellerId = :sellerId) " +
             "AND (:viewSite IS NULL OR p.viewSite = :viewSite) " +
             "AND (:showYN IS NULL OR p.showYN = :showYN) " +
@@ -46,4 +49,6 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             @Param("endPrice") BigDecimal endPrice,
             Pageable pageable
     );
+
+
 }

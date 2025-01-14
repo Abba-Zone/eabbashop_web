@@ -1,9 +1,7 @@
 package com.zon.abba.member.repository;
 
 import com.zon.abba.member.entity.Member;
-import lombok.NonNull;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,6 +19,7 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     // ID로 member 조회
     Optional<Member> findOneByMemberId(String memberID);
     Optional<Member> findOneByMemberIdAndRole(String memberID,String Role);
+    Member findByMemberId(String memberID);
 
     // phone로 member 조회
     Optional<Member> findByPhone(String phone);
