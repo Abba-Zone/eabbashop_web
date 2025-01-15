@@ -18,6 +18,7 @@ import com.zon.abba.member.repository.RecommendedMemberRepository;
 import com.zon.abba.member.repository.RecommendedMembersAlterLogRepository;
 import com.zon.abba.member.request.recommend.AlterRecommendRequest;
 import com.zon.abba.member.request.email.EmailRequest;
+import com.zon.abba.member.request.recommend.ChangeRecommendRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -175,5 +176,28 @@ public class RecommendService {
         logger.info("변경 요청 리스트 반환 완료");
 
         return new ResponseListBody(page.getTotalElements(), list);
+    }
+
+    @Transactional
+    public ResponseBody changeRecommend(ChangeRecommendRequest request){
+
+        logger.info("추천인을 변경합니다.");
+        // 2. referId의 현재 추천인 정보 가져오기
+        RecommendedMember currentRecommendedMember = recommendedMemberRepository.findByReferId(request.getReferID())
+                .orElseThrow(() -> new NoDataException("없는 추천인 정보입니다."));
+
+        logger.info("기존의 추천인 로그를 기록합니다.");
+        // 로그는 기존의 내용을 그대로 넣고 변경 내용을 적용
+        RecommendedMembersAlterLog recommendedMembersAlterLog = new RecommendedMembersAlterLog(currentRecommendedMember, "M");
+        recommendedMembersAlterLogRepository.save(recommendedMembersAlterLog);
+
+        logger.info("추천인 정보를 업데이트 합니다.");
+        // 현재 추천인 정보 변경
+        currentRecommendedMember.setReferredId(request.getReferredID());
+        recommendedMemberRepository.save(currentRecommendedMember);
+
+        logger.info("추천인 변경 완료.");
+        // 이후 activeType이랑 activeDateTime 넣기
+        return new ResponseBody("성공했습니다.");
     }
 }
