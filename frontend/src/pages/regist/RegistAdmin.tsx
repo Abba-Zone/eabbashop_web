@@ -15,7 +15,10 @@ const isLogined = (): boolean => {
 
 const requestAdmin = async (adminList: requestAdminRegistList | null) => {
   if (adminList?.totalCount === 0) { // adminList가 null일 때만 요청
-    window.location.reload();
+    const response = await requestAdmin_s();
+    if (response) {
+      window.location.reload();
+    }
   } else {
     if (isLogined()) {
       alert('대리점 요청처리 중입니다. abbazon@gmail.com으로 문의해주세요.');

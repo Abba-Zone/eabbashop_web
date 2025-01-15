@@ -1,6 +1,6 @@
 import { login, signup, authEmail, checkAuthCode, 
     checkRecommendEmail, getUserList, getMemberList, getMemberDetail, 
-    googleLogin, googleLoginWithCode, kakaoLoginWithCode, findID, requestAdmin, requestAdminList, requestAdminListAll, requestAdminResult
+    googleLogin, googleLoginWithCode, kakaoLoginWithCode, findID, requestAdmin, requestAdminList, requestAdminListAll, requestAdminResult, updateRole
 } from '../apis/memberApi'
 /*데이터 가공 */
 export const login_s = async (loginUser:emailAndPassword): Promise<loginSuccess> => {
@@ -65,4 +65,8 @@ export const requestAdminListAll_s = async (): Promise<requestAdminRegistList> =
 
 export const requestAdminResult_s = async (changeRequestId:string, value:string): Promise<boolean> => {
     return await requestAdminResult(changeRequestId, value);
+};
+
+export const updateRole_s = async (memberID:string, role:string): Promise<boolean> => {
+    return await updateRole(memberID, role);
 };

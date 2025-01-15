@@ -316,6 +316,7 @@ export const requestAdminList = async (): Promise<requestAdminRegistList> => {
 export const requestAdminListAll = async (): Promise<requestAdminRegistList> => {
   try {
       const response = await getData('/registeradmin/request/list/all');
+      console.log(response);
       return response.data as requestAdminRegistList;
   } catch (error) {
       console.error('Request admin list all error:', error);
@@ -330,6 +331,18 @@ export const requestAdminResult = async (changeRequestId: string, value: string)
     return response.status === 200;
   } catch (error) {
     console.error('Request admin update error:', error);
+    return false;
+  }
+}
+
+export const updateRole = async (memberID:string, role:string): Promise<boolean> => {
+  try {
+    console.log(memberID, role);
+    const response = await postData('member/update/role', { memberID, role });
+    console.log(response);
+    return response.status === 200;
+  } catch (error) {
+    console.error('Update role error:', error);
     return false;
   }
 }

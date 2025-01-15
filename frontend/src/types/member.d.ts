@@ -126,4 +126,10 @@ interface requestAdminRegist {
 	change_request_id : string,
 	status : string,
 	status_value : string,
+	member_id : string,
+	member_name : string,
+	member_email : string,
+	member_phone : string,
+	created_time : string,
+	after_value : string,
 }
