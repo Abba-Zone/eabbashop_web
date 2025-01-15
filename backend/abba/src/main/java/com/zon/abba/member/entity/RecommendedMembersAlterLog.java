@@ -37,9 +37,11 @@ public class RecommendedMembersAlterLog {
     @Column(name = "ModifiedID", columnDefinition = "CHAR(36)", nullable = false)
     private String modifiedId;
 
+    @CreationTimestamp
     @Column(name = "CreatedDateTime", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", nullable = false, updatable = false)
     private LocalDateTime createdDateTime;
 
+    @UpdateTimestamp
     @Column(name = "ModifiedDateTime", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP", nullable = false)
     private LocalDateTime modifiedDateTime;
 
@@ -55,6 +57,25 @@ public class RecommendedMembersAlterLog {
     @CreationTimestamp
     @Column(name = "ActiveDateTime", columnDefinition = "DATETIME")
     private LocalDateTime activeDateTime;
+
+    @PrePersist
+    public void perPersist(){
+
+        if (this.createdId == null) this.createdId = UUID.randomUUID().toString();
+        if (this.modifiedId == null) this.modifiedId = UUID.randomUUID().toString();
+
+        if(this.createdDateTime == null) this.createdDateTime = LocalDateTime.now();
+        if(this.modifiedDateTime == null) this.modifiedDateTime = LocalDateTime.now();
+
+        if(this.deleteYN == null) this.deleteYN = "N";
+        if(this.activeYN == null) this.activeYN = "Y";
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        // 업데이트 시 새로운 UUID 할당
+        this.modifiedId = UUID.randomUUID().toString();
+    }
 
     public RecommendedMembersAlterLog(RecommendedMember recommendedMember, String activeType){
         this.recommendedMemberId = recommendedMember.getRecommendedMemberId();

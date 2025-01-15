@@ -5,6 +5,7 @@ import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.member.request.email.EmailRequest;
 import com.zon.abba.member.request.recommend.AlterRecommendRequest;
+import com.zon.abba.member.request.recommend.ChangeRecommendRequest;
 import com.zon.abba.member.service.RecommendService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +48,15 @@ public class RecommendController {
     public ResponseEntity<Object> listRecommend(RequestList listRecommendRequest){
 
         ResponseListBody response = recommendService.listRecommend(listRecommendRequest);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/change")
+    @Operation(summary = "추천인 강제 변경", description = "강제로 추천인 변경 해버릴 수 있음.")
+    public ResponseEntity<Object> changeRecommend(@RequestBody ChangeRecommendRequest request){
+
+        ResponseBody response = recommendService.changeRecommend(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

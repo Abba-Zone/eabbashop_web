@@ -62,4 +62,9 @@ public class ChangeRecommendedMembers {
         if(this.deleteYn == null) this.deleteYn = "N";
         if(this.activeYn == null) this.activeYn = "Y";
     }
+    @PreUpdate
+    public void preUpdate() {
+        // 업데이트 시 새로운 UUID 할당
+        this.modifiedId = UUID.randomUUID().toString();
+    }
 }
