@@ -68,4 +68,10 @@ public class Seller {
 
         if(this.deleteYN == null) this.deleteYN = "N";
     }
+
+    @PreUpdate
+    public void preUpdate() {
+        // 업데이트 시 새로운 UUID 할당
+        this.modifiedId = UUID.randomUUID().toString();
+    }
 }
