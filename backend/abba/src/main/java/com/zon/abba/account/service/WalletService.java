@@ -1,7 +1,9 @@
 package com.zon.abba.account.service;
 
 import com.zon.abba.account.dto.WalletDto;
+import com.zon.abba.account.entity.ABZPointsHistory;
 import com.zon.abba.account.entity.Wallet;
+import com.zon.abba.account.repository.ABZPointsHistoryRepository;
 import com.zon.abba.account.repository.WalletRepository;
 import com.zon.abba.account.response.WalletResponse;
 import com.zon.abba.address.service.AddressService;
@@ -9,11 +11,17 @@ import com.zon.abba.common.exception.NoDataException;
 import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.common.security.JwtTokenProvider;
+import com.zon.abba.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +29,8 @@ public class WalletService {
     private static final Logger logger = LoggerFactory.getLogger(WalletService.class);
 
     private final WalletRepository walletRepository;
+
+    private final ABZPointsHistoryRepository abzPointsHistoryRepository;
     private JwtTokenProvider jwtTokenProvider;
 
     @Transactional
@@ -51,5 +61,46 @@ public class WalletService {
 
 
         return null;
+    }
+
+    /// 대리점 신청시 ABZ 전송
+    @Transactional
+    public ABZPointsHistory saveABZPointsHistory(String myMemberId, String receiverMemberId, String myWalletId, String receiverWalletId,
+                                                    BigDecimal abz) {
+
+        // 내 지갑에서 돈 뺴고
+        Wallet myWallet = walletRepository.getWalletByWalletId(myWalletId);
+        BigDecimal my = myWallet.getAbz().subtract(abz);
+        myWallet.setAbz(my);
+        myWallet.setModifiedDateTime(LocalDateTime.now());
+        myWallet.setModifiedId(myMemberId);
+        //walletRepository.save(myWallet);
+
+        // 받는사람 지갑에 돈 넣고
+        Wallet rWallet = walletRepository.getWalletByWalletId(receiverWalletId);
+        rWallet.setAbz(rWallet.getAbz().add(abz));
+        rWallet.setModifiedDateTime(LocalDateTime.now());
+        rWallet.setModifiedId(myMemberId);
+        //walletRepository.save(rWallet);
+
+        // 거래내역 생성
+        ABZPointsHistory abzPointsHistory = new ABZPointsHistory();
+        abzPointsHistory.setHistoryId(UUID.randomUUID().toString() );
+        abzPointsHistory.setSenderWalletId(myWalletId);
+        abzPointsHistory.setReceiverWalletId(receiverWalletId);
+        abzPointsHistory.setMessage("ABZ를 전송했습니다.");
+        abzPointsHistory.setAbz(abz);
+        abzPointsHistory.setSenderAbzBalance(myWallet.getAbz());
+        abzPointsHistory.setReceiverAbzBalance(rWallet.getAbz());
+        abzPointsHistory.setStatus("C");    // 해당건은 바로 완료
+        abzPointsHistory.setType("A");  // 일단 기본
+        abzPointsHistory.setCreatedDateTime(LocalDateTime.now());
+        abzPointsHistory.setModifiedDateTime(LocalDateTime.now());
+        abzPointsHistory.setCreatedId(myMemberId);
+        abzPointsHistory.setModifiedId(myMemberId);
+        abzPointsHistory.setDeleteYn("N");
+
+        walletRepository.saveAll(List.of(myWallet, rWallet));
+        return abzPointsHistoryRepository.save(abzPointsHistory);
     }
 }
