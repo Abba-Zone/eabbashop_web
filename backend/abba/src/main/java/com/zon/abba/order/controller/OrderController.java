@@ -3,9 +3,7 @@ package com.zon.abba.order.controller;
 import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
-import com.zon.abba.order.request.OrderDetailIdRequest;
-import com.zon.abba.order.request.OrderIdRequest;
-import com.zon.abba.order.request.RegisterOrderRequest;
+import com.zon.abba.order.request.*;
 import com.zon.abba.order.response.DetailAdminOrderResponse;
 import com.zon.abba.order.response.DetailOrderResponse;
 import com.zon.abba.order.service.OrderService;
@@ -54,11 +52,20 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @PostMapping("/cancel")
-    @Operation(summary = "주문 취소", description = "주문한 상품을 취소할 수 있다.")
-    public ResponseEntity<Object> cancelOrder(@RequestBody List<OrderDetailIdRequest> request){
+    @PostMapping("/list/change/status")
+    @Operation(summary = "주문 리스트 상태 바꾸기", description = "여러개의 주문 내역의 상태를 바꿀 수 있다.")
+    public ResponseEntity<Object> cancelOrder(@RequestBody ChangeStatusListRequest request){
 
-        ResponseBody response = orderService.cancelOrder(request);
+        ResponseBody response = orderService.changeOrderListStatus(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/change/status")
+    @Operation(summary = "하나의 주문 상태 바꾸기", description = "하나의 주문 내역의 상태를 바꿀 수 있다.")
+    public ResponseEntity<Object> confirmOrder(@RequestBody ChangeStatusRequest request){
+
+        ResponseBody response = orderService.changeOrderStatus(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -68,15 +75,6 @@ public class OrderController {
     public ResponseEntity<Object> deleteOrder(@RequestBody List<OrderDetailIdRequest> request){
 
         ResponseBody response = orderService.deleteOrder(request);
-
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
-
-    @PostMapping("/confirm")
-    @Operation(summary = "구매 확정", description = "고객이 상품을 받은 이후 확정할 수 있다.")
-    public ResponseEntity<Object> confirmOrder(@RequestBody OrderDetailIdRequest request){
-
-        ResponseBody response = orderService.confirmOrder(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
