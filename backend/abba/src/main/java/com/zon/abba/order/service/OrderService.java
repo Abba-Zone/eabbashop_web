@@ -17,9 +17,7 @@ import com.zon.abba.order.mapping.OrderList;
 import com.zon.abba.order.mapping.OrderedProduct;
 import com.zon.abba.order.repository.OrderDetailRepository;
 import com.zon.abba.order.repository.OrderRepository;
-import com.zon.abba.order.request.OrderDetailIdRequest;
-import com.zon.abba.order.request.OrderIdRequest;
-import com.zon.abba.order.request.RegisterOrderRequest;
+import com.zon.abba.order.request.*;
 import com.zon.abba.order.response.DetailAdminOrderResponse;
 import com.zon.abba.order.response.DetailOrderResponse;
 import com.zon.abba.product.entity.Product;
@@ -212,16 +210,16 @@ public class OrderService {
     }
 
     @Transactional
-    public ResponseBody cancelOrder(List<OrderDetailIdRequest> request){
+    public ResponseBody changeOrderListStatus(ChangeStatusListRequest request){
         logger.info("주문을 취소합니다.");
 
-        List<String> ids = request.stream()
+        List<String> ids = request.getOrderDetailIDs().stream()
                 .map(OrderDetailIdRequest::getOrderDetailID)
                 .toList();
         List<OrderDetail> list = orderDetailRepository.findByOrderDetailIds(ids);
 
         // 400 : 취소
-        list.forEach(od -> od.setStatus(400));
+        list.forEach(od -> od.setStatus(request.getStatus()));
 
         // 업데이트 내용 저장
         orderDetailRepository.saveAll(list);
@@ -250,14 +248,14 @@ public class OrderService {
     }
 
     @Transactional
-    public ResponseBody confirmOrder(OrderDetailIdRequest request){
+    public ResponseBody changeOrderStatus(ChangeStatusRequest request){
         logger.info("구매를 확정합니다.");
 
         OrderDetail orderDetail = orderDetailRepository.findById(request.getOrderDetailID())
                 .orElseThrow(() -> new NoDataException("없는 주문 목록입니다."));
 
         // 삭제 처리
-        orderDetail.setStatus(500);
+        orderDetail.setStatus(request.getStatus());
 
         // 업데이트 내용 저장
         orderDetailRepository.save(orderDetail);
