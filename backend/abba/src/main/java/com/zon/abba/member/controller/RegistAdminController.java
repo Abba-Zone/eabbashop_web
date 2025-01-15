@@ -1,6 +1,7 @@
 package com.zon.abba.member.controller;
 
 import com.zon.abba.common.response.ResponseBody;
+import com.zon.abba.common.response.ResponseDataBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.member.request.email.CodeRequest;
 import com.zon.abba.member.request.registeradmin.RegisterAdminResultRequest;
@@ -22,6 +23,14 @@ public class RegistAdminController {
     private static final Logger logger = LoggerFactory.getLogger(RegistAdminController.class);
     private final SellerService sellerService;
 
+
+    @PostMapping("/request_old")
+    @Operation(summary = "대리점 신청", description = "대리점 신청")
+    public ResponseEntity<Object> registerAdminRequestOld(){
+        ResponseBody response = sellerService.requestResultAdminOld();
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
     @PostMapping("/request")
     @Operation(summary = "대리점 신청", description = "대리점 신청")
@@ -47,7 +56,7 @@ public class RegistAdminController {
     @PostMapping("/result")
     @Operation(summary = "대리점 신청 결과 업데이트", description = "대리점 신청 결과 업데이트")
     public ResponseEntity<Object> registerAdminResult(@RequestBody RegisterAdminResultRequest resultRequest){
-        ResponseBody response = sellerService.updateResultAdmin(resultRequest);
+        ResponseDataBody response = sellerService.updateResultAdmin(resultRequest);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

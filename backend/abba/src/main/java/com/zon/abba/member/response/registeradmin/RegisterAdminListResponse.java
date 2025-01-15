@@ -20,19 +20,23 @@ public class RegisterAdminListResponse {
     private String moditiedTime;
 
     private String memberID;
-    private String memberName;
+    private String memberFirstName;
+    private String memberLastName;
     private String memberPhone;
 
+    private String memberEmail;
 
     public RegisterAdminListResponse(String changeRequestId, String status, String createdTime, String moditiedTime,
-                                     String memberId, String memberName, String memberPhone) {
+                                     String memberId, String memberFirstName, String memberLastName, String memberPhone, String memberEmail) {
         this.changeRequestId = changeRequestId;
         this.status = status;
         this.createdTime = createdTime;
         this.moditiedTime = moditiedTime;
         this.memberID = memberId;
-        this.memberName = memberName;
+        this.memberFirstName = memberFirstName;
+        this.memberLastName = memberLastName;
         this.memberPhone = memberPhone;
+        this.memberEmail = memberEmail;
 
         switch (status){
             default: 

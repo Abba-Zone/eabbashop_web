@@ -1,11 +1,17 @@
 package com.zon.abba.member.service;
 
+import com.zon.abba.account.entity.Wallet;
+import com.zon.abba.account.repository.WalletRepository;
+import com.zon.abba.account.service.WalletService;
 import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.exception.NoSellerException;
 import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
+import com.zon.abba.common.response.ResponseDataBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.common.security.JwtTokenProvider;
+import com.zon.abba.commonCode.entity.CommonCode;
+import com.zon.abba.commonCode.repository.CommonCodeRepository;
 import com.zon.abba.member.dto.SellerDto;
 import com.zon.abba.member.dto.SellerListDto;
 import com.zon.abba.member.entity.ChangeRequestLog;
@@ -18,8 +24,7 @@ import com.zon.abba.member.request.registeradmin.RegisterAdminResultRequest;
 import com.zon.abba.member.request.seller.SellerDetailRequest;
 import com.zon.abba.member.response.SellerDetailResponse;
 import com.zon.abba.member.response.registeradmin.RegisterAdminListResponse;
-import com.zon.abba.product.entity.Product;
-import com.zon.abba.product.request.ProductRegisterRequest;
+import com.zon.abba.member.response.registeradmin.UpdateResultAdminResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -31,6 +36,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -42,6 +48,9 @@ public class SellerService {
     private static final Logger logger = LoggerFactory.getLogger(SellerService.class);
     private final SellerRepository sellerRepository;
     private final MemberRepository memberRepository;
+    private final WalletRepository walletRepository;
+    private final CommonCodeRepository commonCodeRepository;
+    private final WalletService walletService;
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
@@ -136,8 +145,10 @@ public class SellerService {
                     createdDateTime,
                     modifiedDateTime,
                     member.getMemberId(),
-                    member.getFirstName() + member.getLastName(),
-                    member.getPhone()
+                    member.getFirstName() ,
+                    member.getLastName(),
+                    member.getPhone(),
+                    member.getEmail()
             ));
         }
 
@@ -146,7 +157,7 @@ public class SellerService {
 
     }
 
-    public ResponseBody requestResultAdmin() {
+    public ResponseBody requestResultAdminOld() {
         logger.info("대리점을 신청합니다.");
 
         logger.info("유저 정보를 가져옵니다.");
@@ -170,8 +181,58 @@ public class SellerService {
         return new ResponseBody("성공했습니다.");
     }
 
+    public ResponseBody requestResultAdmin() {
+        logger.info("대리점을 신청합니다.");
+
+        logger.info("유저 정보를 가져옵니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        Member member = memberRepository.findByMemberId(memberId);
+        CommonCode abzValue = commonCodeRepository.getByCodeGroupAndCode("Setting","001");
+        Wallet wallet = walletRepository.findOneByMemberId(memberId)
+                .orElseThrow(() -> new NoMemberException("지갑이 없는 회원입니다."));
+
+        BigDecimal abz_min = BigDecimal.ZERO;
+
+        if(abzValue.getCodeValue() != null && abzValue.getCodeValue() != ""){
+            abz_min = new BigDecimal(abzValue.getCodeValue());
+        }
+
+        if(wallet.getAbz().compareTo(abz_min) < 0){
+            throw new NoMemberException("601", "대리점 신청에 필요한 ABZ포인트가 부족합니다.");
+        }
+
+        CommonCode admin = commonCodeRepository.getByCodeGroupAndCode("Setting","002");
+        CommonCode adminWallet = commonCodeRepository.getByCodeGroupAndCode("Setting","003");
+
+        walletService.saveABZPointsHistory(memberId, admin.getCodeValue(),  wallet.getWalletId(), adminWallet.getCodeValue(),
+                abz_min);
+
+        member.setRole("B");
+        member.setModifiedId(memberId);
+        member.setModifiedDateTime(LocalDateTime.now());
+        memberRepository.save(member);
+
+        ChangeRequestLog log = ChangeRequestLog.builder()
+                .memberId(memberId)
+                .afterValue("B") // 대리점
+                .type("A") // 대리점 신청
+                .status("1")
+                .createdId(memberId)
+                .modifiedId(memberId)
+                .createdDateTime(LocalDateTime.now()) // 현재 시간 설정
+                .modifiedDateTime(LocalDateTime.now()) // 현재 시간 설정
+                .build();
+        changeRequestLogRepository.save(log);
+
+        logger.info("대리점 신청을 완료했습니다..");
+
+        return new ResponseBody("성공했습니다.");
+    }
+
     @Transactional
-    public ResponseBody updateResultAdmin(RegisterAdminResultRequest resultRequest) {
+    public ResponseDataBody updateResultAdmin(RegisterAdminResultRequest resultRequest) {
         logger.info("대리점을 결과를 설정합니다.");
 
         logger.info("유저 정보를 가져옵니다.");
@@ -189,7 +250,11 @@ public class SellerService {
 
         logger.info("대리점 신청결과 설정을 완료했습니다.");
 
-        return new ResponseBody("성공했습니다.");
+        UpdateResultAdminResponse response = new UpdateResultAdminResponse();
+        response.setChangeRequestLogId(log.getChangeRequestLogId());
+        response.setAfterValue(log.getAfterValue());
+
+        return new ResponseDataBody("성공했습니다.", response );
     }
 
 }
