@@ -95,6 +95,34 @@ public class RecommendService {
     }
 
     @Transactional
+    public long requestAlterRecommendReturnID(EmailRequest emailRequest){
+
+        logger.info("테이블 변경 요청을 넣습니다. 대상자 : {}", emailRequest.getEmail());
+        // 테이블 추가시 변경 예정
+        // 현재 유저 정보
+        logger.info("referID를 가져옵니다.");
+        String referID = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        // 바뀔 추천인 정보
+        logger.info("새로운 referredID를 가져옵니다.");
+        String newReferredID = memberRepository.findByEmail(emailRequest.getEmail())
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."))
+                .getMemberId();
+
+        logger.info("변경 요청을 신청합니다.");
+        ChangeRecommendedMembers changeRecommendedMembers = ChangeRecommendedMembers.builder()
+                .newReferredId(newReferredID)
+                .referId(referID)
+                .status("A")
+                .build();
+
+        changeRecommendedMembersRepository.save(changeRecommendedMembers);
+
+        return changeRecommendedMembers.getChangeRecommendedMemberId();
+    }
+
+    @Transactional
     public ResponseBody deleteRecommend(){
         logger.info("상위 추천인을 삭제를 시작합니다.");
 

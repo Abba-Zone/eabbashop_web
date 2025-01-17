@@ -14,12 +14,17 @@ import com.zon.abba.commonCode.entity.CommonCode;
 import com.zon.abba.commonCode.repository.CommonCodeRepository;
 import com.zon.abba.member.dto.SellerDto;
 import com.zon.abba.member.dto.SellerListDto;
+import com.zon.abba.member.entity.ChangeRecommendedMembers;
 import com.zon.abba.member.entity.ChangeRequestLog;
 import com.zon.abba.member.entity.Member;
 import com.zon.abba.member.mapping.SellerList;
+import com.zon.abba.member.repository.ChangeRecommendedMembersRepository;
 import com.zon.abba.member.repository.ChangeRequestLogRepository;
 import com.zon.abba.member.repository.MemberRepository;
 import com.zon.abba.member.repository.SellerRepository;
+import com.zon.abba.member.request.email.EmailRequest;
+import com.zon.abba.member.request.recommend.AlterRecommendRequest;
+import com.zon.abba.member.request.registeradmin.RegisterAdminRequest;
 import com.zon.abba.member.request.registeradmin.RegisterAdminResultRequest;
 import com.zon.abba.member.request.seller.SellerDetailRequest;
 import com.zon.abba.member.response.SellerDetailResponse;
@@ -51,7 +56,7 @@ public class SellerService {
     private final WalletRepository walletRepository;
     private final CommonCodeRepository commonCodeRepository;
     private final WalletService walletService;
-
+    private final RecommendService recommendService;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
     @Autowired
@@ -157,31 +162,37 @@ public class SellerService {
 
     }
 
-    public ResponseBody requestResultAdminOld() {
+    public ResponseDataBody requestResultAdminOld(RegisterAdminRequest request) {
         logger.info("대리점을 신청합니다.");
 
         logger.info("유저 정보를 가져옵니다.");
         String memberId = jwtTokenProvider.getCurrentMemberId()
                 .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
 
+        // 추천인 변경
+        long changeID = recommendService.requestAlterRecommendReturnID(new EmailRequest(request.getRefferedID()));
+
+        // 신청
         ChangeRequestLog log = ChangeRequestLog.builder()
                 .memberId(memberId)
-                .afterValue("B") // 대리점
+                .afterValue(request.getWantRole()) // 원하는 등급
                 .type("A") // 대리점 신청
                 .status("1")
+                .EtcValue1(Long.toString(changeID))
                 .createdId(memberId)
                 .modifiedId(memberId)
                 .createdDateTime(LocalDateTime.now()) // 현재 시간 설정
                 .modifiedDateTime(LocalDateTime.now()) // 현재 시간 설정
                 .build();
+
         changeRequestLogRepository.save(log);
 
         logger.info("대리점 신청을 완료했습니다..");
 
-        return new ResponseBody("성공했습니다.");
+        return new ResponseDataBody("성공했습니다.", log.getChangeRequestLogId());
     }
 
-    public ResponseBody requestResultAdmin() {
+    public ResponseDataBody requestResultAdmin() {
         logger.info("대리점을 신청합니다.");
 
         logger.info("유저 정보를 가져옵니다.");
@@ -189,17 +200,14 @@ public class SellerService {
                 .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
 
         Member member = memberRepository.findByMemberId(memberId);
-        CommonCode abzValue = commonCodeRepository.getByCodeGroupAndCode("Setting","001");
         Wallet wallet = walletRepository.findOneByMemberId(memberId)
                 .orElseThrow(() -> new NoMemberException("지갑이 없는 회원입니다."));
 
         BigDecimal abz_min = BigDecimal.ZERO;
 
-        if(abzValue.getCodeValue() != null && abzValue.getCodeValue() != ""){
-            abz_min = new BigDecimal(abzValue.getCodeValue());
-        }
+        String code = "001";
 
-        if(wallet.getAbz().compareTo(abz_min) < 0){
+        if(IsABZEnough(memberId, code, abz_min) == false){
             throw new NoMemberException("601", "대리점 신청에 필요한 ABZ포인트가 부족합니다.");
         }
 
@@ -228,7 +236,7 @@ public class SellerService {
 
         logger.info("대리점 신청을 완료했습니다..");
 
-        return new ResponseBody("성공했습니다.");
+        return new ResponseDataBody("성공했습니다.", log.getChangeRequestLogId());
     }
 
     @Transactional
@@ -242,19 +250,69 @@ public class SellerService {
         ChangeRequestLog log = changeRequestLogRepository.findById(resultRequest.getChangeRequestId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 신청입니다."));
 
-        log.setStatus(resultRequest.getValue());
-        log.setModifiedId(memberId);    // 설정한 사람 (로그인한 유저)
+        // 1. ABZ 확인
+        BigDecimal abz_min = BigDecimal.ZERO;
+
+        String code = log.getAfterValue() == "C" ? "001" : "004";
+
+        if(IsABZEnough(memberId, code, abz_min) == false){
+            throw new NoMemberException("601", "대리점 신청에 필요한 ABZ포인트가 부족합니다.");
+        }
+
+        // 2. 신청 로그 업데이트
+        log.setStatus(resultRequest.getStatus());
+        log.setModifiedId(memberId);    // 설정한 사람 (로그인한 유저 : Admin)
         log.setModifiedDateTime(LocalDateTime.now()); // 수정 시간 설정
 
         changeRequestLogRepository.save(log);
 
-        logger.info("대리점 신청결과 설정을 완료했습니다.");
-
+        String result = "거절에 ";
         UpdateResultAdminResponse response = new UpdateResultAdminResponse();
-        response.setChangeRequestLogId(log.getChangeRequestLogId());
-        response.setAfterValue(log.getAfterValue());
 
-        return new ResponseDataBody("성공했습니다.", response );
+        // 승인이면
+        if(resultRequest.getStatus().equals("2")){
+            result = "승인에 ";
+            // 3. 사용자 role 업데이트
+            Member member = memberRepository.findByMemberId(memberId);
+            member.setRole(log.getAfterValue());
+            member.setModifiedId(memberId);
+            member.setModifiedDateTime(LocalDateTime.now());
+
+            // 4. 추천인 변경
+            ResponseBody changeRecc = recommendService.alterRecommend(new AlterRecommendRequest(Long.parseLong(log.getEtcValue1()), "2" ));
+
+            if(changeRecc.getMessage() != "성공했습니다."){
+                return new ResponseDataBody("실패했습니다.", null);
+            }
+
+            logger.info("대리점 신청결과 설정을 완료했습니다.");
+
+            response.setChangeRequestLogId(log.getChangeRequestLogId());
+            response.setAfterValue(log.getAfterValue());
+        }
+
+
+        return new ResponseDataBody(result + "성공했습니다.", response );
+    }
+
+    /// 해당 멤버가 충분한 ABZ 가지고 있는지
+    public boolean IsABZEnough(String memberId,String Code, BigDecimal abz_min){
+        Member member = memberRepository.findByMemberId(memberId);
+        CommonCode abzValue = commonCodeRepository.getByCodeGroupAndCode("Setting",Code);
+        Wallet wallet = walletRepository.findOneByMemberId(memberId)
+                .orElseThrow(() -> new NoMemberException("지갑이 없는 회원입니다."));
+
+        abz_min = BigDecimal.ZERO;
+
+        if(abzValue.getCodeValue() != null && abzValue.getCodeValue() != ""){
+            abz_min = new BigDecimal(abzValue.getCodeValue());
+        }
+
+        if(wallet.getAbz().compareTo(abz_min) < 0){
+            return false;
+        }
+
+        return true;
     }
 
 }
