@@ -10,11 +10,10 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterAdminResultRequest {
-    @JsonProperty("Changerequestid")
-    private String changeRequestId;
-    
-    // 상태
-    @JsonProperty("Status")
-    private String status;
+public class RegisterAdminRequest {
+    @JsonProperty("WantRole")
+    private String WantRole;
+
+    @JsonProperty("RefferedID")
+    private String RefferedID;
 }

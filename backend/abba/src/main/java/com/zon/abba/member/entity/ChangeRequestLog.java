@@ -36,6 +36,18 @@ public class ChangeRequestLog {
     @Column(name = "Type", columnDefinition = "CHAR(5)", nullable = true)
     private String type;
 
+    @Column(name = "EtcValue1", length = 50, nullable = true)
+    private String EtcValue1;
+
+    @Column(name = "EtcValue2", length = 50, nullable = true)
+    private String EtcValue2;
+
+    @Column(name = "EtcValue3", length = 50, nullable = true)
+    private String EtcValue3;
+
+    @Column(name = "EtcValue4", length = 50, nullable = true)
+    private String EtcValue4;
+
     @Column(name = "CreatedID", columnDefinition = "CHAR(36)", nullable = false)
     private String createdId;
 

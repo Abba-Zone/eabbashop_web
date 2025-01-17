@@ -4,6 +4,7 @@ import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseDataBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.member.request.email.CodeRequest;
+import com.zon.abba.member.request.registeradmin.RegisterAdminRequest;
 import com.zon.abba.member.request.registeradmin.RegisterAdminResultRequest;
 import com.zon.abba.member.service.EmailService;
 import com.zon.abba.member.service.SellerService;
@@ -24,18 +25,26 @@ public class RegistAdminController {
     private final SellerService sellerService;
 
 
-    @PostMapping("/request_old")
+    @PostMapping("/request")
     @Operation(summary = "대리점 신청", description = "대리점 신청")
-    public ResponseEntity<Object> registerAdminRequestOld(){
-        ResponseBody response = sellerService.requestResultAdminOld();
+    public ResponseEntity<Object> registerAdminRequest(@RequestBody RegisterAdminRequest request){
+        ResponseDataBody response = sellerService.requestResultAdminOld(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @PostMapping("/request")
+    @PostMapping("/result")
+    @Operation(summary = "대리점 신청 결과 업데이트", description = "대리점 신청 결과 업데이트")
+    public ResponseEntity<Object> registerAdminResult(@RequestBody RegisterAdminResultRequest resultRequest){
+        ResponseDataBody response = sellerService.updateResultAdmin(resultRequest);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/requestAuto")
     @Operation(summary = "대리점 신청", description = "대리점 신청")
-    public ResponseEntity<Object> registerAdminRequest(){
-        ResponseBody response = sellerService.requestResultAdmin();
+    public ResponseEntity<Object> registerAdminRequestAuto(){
+        ResponseDataBody response = sellerService.requestResultAdmin();
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -53,11 +62,4 @@ public class RegistAdminController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @PostMapping("/result")
-    @Operation(summary = "대리점 신청 결과 업데이트", description = "대리점 신청 결과 업데이트")
-    public ResponseEntity<Object> registerAdminResult(@RequestBody RegisterAdminResultRequest resultRequest){
-        ResponseDataBody response = sellerService.updateResultAdmin(resultRequest);
-
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
 }
