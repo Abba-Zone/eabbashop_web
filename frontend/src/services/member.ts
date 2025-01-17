@@ -1,6 +1,6 @@
 import { login, signup, authEmail, checkAuthCode, 
     checkRecommendEmail, getUserList, getMemberList, getMemberDetail, 
-    googleLogin, googleLoginWithCode, kakaoLoginWithCode, findID, requestAdmin, requestAdminList, requestAdminListAll, requestAdminResult, updateRole
+    googleLogin, googleLoginWithCode, kakaoLoginWithCode, findID, requestAdmin, requestAdminList, requestAdminListAll, requestAdminResult, updateRole, updateRecommendEmail, changeRecommendEmail
 } from '../apis/memberApi'
 /*데이터 가공 */
 export const login_s = async (loginUser:emailAndPassword): Promise<loginSuccess> => {
@@ -21,6 +21,10 @@ export const checkAuthCode_s = async (email: string, code: string): Promise<{ st
 
 export const checkRecommendEmail_s = async (email: string): Promise<{ status: number}> => {
     return await checkRecommendEmail(email);
+};
+
+export const changeRecommendEmail_s = async (referID: string, referredID: string): Promise<boolean> => {
+    return await changeRecommendEmail(referID, referredID);
 };
 
 export const getMemberList_s = async (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string): Promise<memberList> => {
@@ -51,8 +55,8 @@ export const findID_s = async (findIDParam: findIDParam): Promise<findIDResult |
     return await findID(findIDParam);
 };
 
-export const requestAdmin_s = async (): Promise<boolean> => {
-    return await requestAdmin();
+export const requestAdmin_s = async (requestRole: string): Promise<boolean> => {
+    return await requestAdmin(requestRole);
 };
 
 export const requestAdminList_s = async (): Promise<requestAdminRegistList> => {
@@ -69,4 +73,8 @@ export const requestAdminResult_s = async (changeRequestId:string, value:string)
 
 export const updateRole_s = async (memberID:string, role:string): Promise<boolean> => {
     return await updateRole(memberID, role);
+};
+
+export const updateRecommendEmail_s = async (recommendEmail: string): Promise<boolean> => {
+    return await updateRecommendEmail(recommendEmail);
 };

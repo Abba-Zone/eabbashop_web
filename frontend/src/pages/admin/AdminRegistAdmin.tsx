@@ -69,7 +69,7 @@ const AdminRegistAdmin: React.FC = () => {
 
   useEffect(() => {
     if (adminList) {
-      const filtered = adminList.list.filter(admin => admin.status === '1');
+      const filtered = adminList.list.filter(admin => admin.status === '1' || admin.status === '3');
       setFilteredData(filtered);
       setLastPage(filtered.length === 0 ? 1 : Math.ceil(filtered.length / pageSize));
       setCurrentPageData(filtered.slice((pageNo - 1) * pageSize, pageNo * pageSize));
@@ -104,7 +104,7 @@ const AdminRegistAdmin: React.FC = () => {
               <td>
                 <button onClick={() => requestAdminApprove(admin.change_request_id, '2', admin.member_id, 'B')}>승인</button> 
                 {/* admin.Aftervalue값 활용하는 형태로 변경 필요 */}
-                <button onClick={() => requestAdminReject(admin.change_request_id, '3')}>거절</button>
+                <button onClick={() => requestAdminReject(admin.change_request_id, '3')}>반려</button>
               </td>
             </tr>
           ))}
