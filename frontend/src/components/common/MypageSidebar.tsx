@@ -4,12 +4,12 @@ import "./style.css";
 
 const MypageSidebar: React.FC = () => {
   return (
-    <div className="sidebar">
+    <div className="mypage-sidebar">
       <h2>EABBASHOP 관리</h2>
       <ul>
         <li><Link to="/transactions">입출금내역</Link></li>
-        <li><Link to="/recommendations">추천정보</Link></li>
-        <li><Link to="/recharge">충전/환급</Link></li>
+        <li><Link to="/recommendations">추천인 정보</Link></li>
+        <li><Link to="/recharge">요청(출금,환급,충전)</Link></li>
         <li><Link to="/withdraw">이체하기</Link></li>
         <li><Link to="/account-registration">계좌등록</Link></li>
         <li><Link to="/billing">정기요금납부</Link></li>

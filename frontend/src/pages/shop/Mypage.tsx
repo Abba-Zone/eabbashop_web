@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Mypage.css";
 import { useTranslation } from 'react-i18next';
-import MypageSidebar from "../../components/common/Sidebar";
+import MypageSidebar from "../../components/common/MypageSidebar";
 
 const Cookies = require("js-cookie");
 

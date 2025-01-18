@@ -94,15 +94,15 @@ const ShopHeader: React.FC = () => {
   return (
     <div className="shop-header">
       <div className="shop-header-left">
+        <div onClick={handleGoShop} className="shop-header-left-logo">
+          <img src={require("../../static/img/AbbazonLogo.png")} alt="logo" />
+        </div>
         <select onChange={(e) => changeLanguage(e.target.value)} className="language-select" value={i18n.language}>
           <option value="ko">{t("Common:Language.Korean")}</option>
           <option value="en">{t("Common:Language.English")}</option>
           <option value="zh">{t("Common:Language.Chinese")}</option>
           <option value="ja">{t("Common:Language.Japanese")}</option>
         </select>
-        <div onClick={handleGoShop} className="shop-header-left-logo">
-          <img src='logo.png' alt="logo" />
-        </div>
       </div>
       <div className="shop-header-right">
         {userInfo ? (
