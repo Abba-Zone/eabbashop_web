@@ -47,7 +47,7 @@ const AdminHaeder:React.FC<{ toggleMenu: () => void, menuVisible: boolean }> = (
         const { firstName, lastName } = userInfo;
         const currentLanguage = i18n.language;
         if (currentLanguage === 'ko') {
-            return `${lastName} ${firstName} 님 안녕하세요!`;
+            return `${lastName}${firstName} 님 안녕하세요!`;
         } else {
             return `${firstName} ${lastName} 님 안녕하세요!!`;
         }

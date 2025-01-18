@@ -9,6 +9,7 @@ const ShopHeader: React.FC = () => {
   const { i18n, t } = useTranslation();
   const [visible, setVisible] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<{ firstName: string, lastName: string, role: string } | null>(null);
+  const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
   const Cookies = require('js-cookie');
 
   useEffect(() => {
@@ -48,6 +49,7 @@ const ShopHeader: React.FC = () => {
     Cookies.remove('role');
     alert(t('Common:Alert.LogoutSuccess'));
     window.location.reload();
+    setDropdownVisible(false);
     navigate('/');
   }
 
@@ -64,17 +66,30 @@ const ShopHeader: React.FC = () => {
     navigate("/signup");
   }
 
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+  }
+
   const renderUserName = () => {
     if (!userInfo) return null;
     const { firstName, lastName } = userInfo;
     const currentLanguage = i18n.language;
 
     if (currentLanguage === 'ko') {
-      return `${lastName} ${firstName} 님 안녕하세요!`;
+      return `${lastName}${firstName} 님 안녕하세요!`;
     } else {
       return `${firstName} ${lastName} 님 안녕하세요!!`;
     }
   };
+
+  const handleMypage = () => {
+    setDropdownVisible(false);
+    navigate("/mypage");
+  }
+
+  const handleGoShop = () => {
+    navigate("/");
+  }
 
   return (
     <div className="shop-header">
@@ -85,14 +100,34 @@ const ShopHeader: React.FC = () => {
           <option value="zh">{t("Common:Language.Chinese")}</option>
           <option value="ja">{t("Common:Language.Japanese")}</option>
         </select>
+        <div onClick={handleGoShop} className="shop-header-left-logo">
+          <img src='logo.png' alt="logo" />
+        </div>
       </div>
       <div className="shop-header-right">
         {userInfo ? (
-          <div>
-            {renderUserName()} ({userInfo.role}) &nbsp;
-            <span>
-              <button onClick={handleLogout}>{t("Common:Header.Logout")}</button>
-            </span>
+          <div className="shop-header-profile-header">
+            <h2>
+              {renderUserName()}
+            </h2>
+            <div className="shop-header-profile-container">
+              <div className="shop-header-profile-container-left" onClick={toggleDropdown} style={{ position: 'relative' }}>
+                <img
+                  src={require("../../static/img/user.png")}
+                  alt="Profile"
+                  className="shop-header-profile-image"
+                />
+                <div className="shop-header-profile-container-left-text">나의 ABBA</div>
+                {dropdownVisible && (
+                  <div className="dropdown-container">
+                    <div className="dropdown-menu">
+                      <button onClick={handleMypage}>{t("Common:Header.Mypage")}</button>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <button className="shop-header-profile-logout" onClick={handleLogout}>{t("Common:Header.Logout")}</button>
+            </div>
           </div>
         ) : (
           <>
