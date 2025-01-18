@@ -17,7 +17,7 @@ import { Home, Login, Signup, Cart, Profile,
   AdminStoreManage, AdminNotice, AdminLetter, AdminDonation,
   AdminSetting, AdminInquiryList, AdminInquiryDetail, 
   AdminBoardDetail, AdminRefundDetail, GoogleLogin, SocialSignup, KakaoLogin,
-  RegistAdmin, FindIDPW, AdminRegistAdmin} from '../pages';
+  RegistAdmin, FindIDPW, AdminRegistAdmin, Mypage} from '../pages';
 
 const RoutePath:React.FC = () => {
   const location = useLocation();
@@ -114,7 +114,7 @@ const RoutePath:React.FC = () => {
         <Route path="/completecheckout" element={<CompleteCheckout />}/>        
         <Route path="/post/:type" element={<Post />}/>
         <Route path="/postdetail" element={<PostDetail />}/>
-
+        <Route path="/mypage" element={<Mypage />}/>
         {/* Regist */}
         <Route path="/regist/registadmin" element={<RegistAdmin />} />
         </>
