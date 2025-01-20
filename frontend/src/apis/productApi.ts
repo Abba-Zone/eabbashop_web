@@ -1,4 +1,4 @@
-import { getData, postData, getTestData} from './mainApi'
+import { getData, postData, getTestData, getDataWithBody} from './mainApi'
 
 export const getMainProductLists = (nation:string, viewSite:string):mainProductList => {
     /* real code*/
@@ -14,6 +14,28 @@ export const getMainProductLists = (nation:string, viewSite:string):mainProductL
         result.newProducts.push({productID : "aasg564olvizxhncb32", thumbnail : "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT4is8rP6vgN2j1gBkrHpjZepJvJisJcdS9c5qjIzkeMZusSlpdY0xIEplzTvQZtJQksvL5ljEvnrXDD1Hk_dTgSM4xis4RiDWx6H5Baz8", name : `상품이름test`+i, realPrice : 14, AP : 5, AW : 3, AK : 5, averageScore:4.5, reviewCnt:50});
         result.randomProducts.push({productID : "aasg564olvizxhncb32", thumbnail : "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT4is8rP6vgN2j1gBkrHpjZepJvJisJcdS9c5qjIzkeMZusSlpdY0xIEplzTvQZtJQksvL5ljEvnrXDD1Hk_dTgSM4xis4RiDWx6H5Baz8", name : `상품이름test`+i, realPrice : 14, AP : 5, AW : 3, AK : 5, averageScore:4.5, reviewCnt:50});
     }
+    return result;
+}
+
+export const getSearchProductList = async (params:searchParams):Promise<shopProductList> => {
+    /* real code*/
+    try {
+        console.log(JSON.stringify(params));
+        const response = await getDataWithBody<shopProductList>(`/product/list/shop`, JSON.stringify(params));
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching board list:', error);
+        throw error;
+    }
+    /* make for test*/
+    const result :shopProductList = {
+        list:[],
+        totalCount:15,
+    };
+    for(let i = 0 ; i < 15 ; i++){
+        result.list.push({productID : "aasg564olvizxhncb32", thumbnail : "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT4is8rP6vgN2j1gBkrHpjZepJvJisJcdS9c5qjIzkeMZusSlpdY0xIEplzTvQZtJQksvL5ljEvnrXDD1Hk_dTgSM4xis4RiDWx6H5Baz8", name : `상품이름test`+i, realPrice : 14, AP : 5, AW : 3, AK : 5, averageScore:4.5, reviewCnt:50});
+    }
+    console.log(result);
     return result;
 }
 
@@ -133,3 +155,12 @@ export const  reviewLikes = (productReviewID:string, type:number) : {like:number
     /* make for test*/
     return{"like" : 123123123,"dislike" : 21312};
 }
+
+const buildQueryParams = (params: searchParams): string => {
+    return "page=" + params.page.toString()
+        + "&size=" + params.size.toString()
+        + "&orderBy=" + params.orderBy
+        + "&orderByType=" + params.orderByType
+        + "&params=" + encodeURIComponent(JSON.stringify(params.params))  // params 배열을 JSON 문자열로 변환
+        + "&values=" + encodeURIComponent(JSON.stringify(params.values));   // values 배열을 JSON 문자열로 변환
+};

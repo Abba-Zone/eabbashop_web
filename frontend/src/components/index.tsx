@@ -99,4 +99,7 @@ export {default as CartSelectMoney} from "./shop/cart/CartSelectMoney";
 export {default as SelectBoardType} from "./shop/board/SelectBoardType";
 export {default as SearchBoardWord} from "./shop/board/SearchBoardWord";
 export {default as BoardList} from "./shop/board/BoardList";
+/* Shop Search */
+export {default as SearchProductList} from "./shop/search/SearchProductList";
+export {default as SearchFilter} from "./shop/search/SearchFilter";
 
