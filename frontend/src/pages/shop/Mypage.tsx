@@ -1,31 +1,27 @@
 import React, { useState, useEffect } from "react";
 import "./Mypage.css";
 import { useTranslation } from 'react-i18next';
-import MypageSidebar from "../../components/common/MypageSidebar";
+import MypageSidebar from "../../components/shop/mypage/MypageSidebar";
+import { getMemberDetailMe_s } from "../../services/member";
 
 const Cookies = require("js-cookie");
 
 const Mypage: React.FC = () => {
   const [userInfo, setUserInfo] = useState<{ firstName: string, lastName: string, role: string } | null>(null);
   const { i18n } = useTranslation();
+  const [memberDetail, setMemberDetail] = useState<memberDetailInfo | null>(null);
+
+  const wallet = memberDetail?.wallet || { AK: 0, AP: 0, ABZ: 0, LP: 0, SP: 0 };
+  const lpValue = wallet.LP;
+  const spValue = wallet.SP;
+  const akValue = wallet.AK;
+  const abzValue = wallet.ABZ;
 
   const walletInfo = {
-    AW: "100",
-    SP: "100",
-    AK: "100",
-    ABZ: "100",
-    };
-
-  const updateUserInfo = () => {
-    const accessToken = Cookies.get('access-token');
-    if (accessToken) {
-      const firstName = Cookies.get('first-name');
-      const lastName = Cookies.get('last-name');
-      const role = Cookies.get('role');
-      if (lastName && role) {
-        setUserInfo({ firstName, lastName, role });
-      }
-    }
+    LP: lpValue,
+    SP: spValue,
+    AK: akValue,
+    ABZ: abzValue,
   };
 
   const renderUserName = () => {
@@ -42,6 +38,12 @@ const Mypage: React.FC = () => {
 
 
   useEffect(() => {
+    const fetchMemberDetail = async () => {
+      const memberDetail = await getMemberDetailMe_s();
+      setMemberDetail(memberDetail);
+    };
+    fetchMemberDetail();
+
     const updateUserInfo = () => {
       const accessToken = Cookies.get('access-token');
       if (accessToken) {
@@ -74,7 +76,7 @@ const Mypage: React.FC = () => {
         <div className="wallet-info">
           <div className="wallet-info-title">내 지갑 잔액</div>
           <div className="wallet-info-details">
-            <div className="wallet-item">AW: {walletInfo.AW}</div>
+            <div className="wallet-item">AW: {walletInfo.LP}</div>
             <div className="wallet-item">SP: {walletInfo.SP}</div>
             <div className="wallet-item">AK: {walletInfo.AK}</div>
             <div className="wallet-item">ABZ: {walletInfo.ABZ}</div>
@@ -82,14 +84,15 @@ const Mypage: React.FC = () => {
         </div>
       </header>
       <div className="mypage-content">
-        <aside className="mypage-sidebar">
+        <div className="mypage-sidebar">
             <h2 className="profile-header">
-                <img src={require("../../static/img/user.png")} alt="Profile" className="profile-image" /> {renderUserName()}
+                <img src={require("../../static/img/user.png")} alt="Profile" className="profile-image" /> 
+                <div className="profile-name">{renderUserName()}</div>
             </h2>
             <MypageSidebar />
-        </aside>
+        </div>
         <main className="mypage-main">
-            
+
         </main>
       </div>
     </div>
