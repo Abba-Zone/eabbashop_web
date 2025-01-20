@@ -25,11 +25,12 @@ const RegistAdmin: React.FC = () => {
     return true;
   }
   
-  const requestAdmin = async (adminList: requestAdminRegistList | null, recommendEmail: string, requestRole: string) => {
+  const requestAdmin = async (adminList: requestAdminRegistList | null, refferedID: string, requestRole: string) => {
     if (requestRole === 'B') {
       console.log('자동');
       if (adminList?.totalCount === 0) {
-        const response = await requestAdminAuto_s(requestRole, recommendEmail); // 등급에 따른 추천 분할된 API로 변경하면서 requestRole 사용하기
+        console.log(refferedID);
+        const response = await requestAdminAuto_s(refferedID); // 등급에 따른 추천 분할된 API로 변경하면서 requestRole 사용하기
         console.log(response);
         if (response) {
           window.location.reload();
@@ -38,7 +39,7 @@ const RegistAdmin: React.FC = () => {
     } else {
       console.log('요청');
       if (adminList?.totalCount === 0) {
-        const response = await requestAdmin_s(requestRole, recommendEmail); // 등급에 따른 추천 분할된 API로 변경하면서 requestRole 사용하기
+        const response = await requestAdmin_s(requestRole, refferedID); // 등급에 따른 추천 분할된 API로 변경하면서 requestRole 사용하기
         console.log(response);
         if (response) {
           window.location.reload();
@@ -194,7 +195,7 @@ const RegistAdmin: React.FC = () => {
               <img src={require(`../../static/img/lv${index + 1}.png`)} alt={plan} />
               <h2>{plan}</h2>
               <p>월 평균 수익: {planIndex === 'B' ? '42.5' : planIndex === 'C' ? '170' : '340'} 만원/월</p>
-              <p>등록 비용: {planIndex === 'B' ? '150,000' : planIndex === 'C' ? '300,000' : '500,000'} ABZ</p>
+              <p>등록 비용: {planIndex === 'B' ? '300' : planIndex === 'C' ? '500' : '700'} ABZ</p>
               {!isRequesting ? (
                 <button onClick={() => {
                   setIsRequesting(true);

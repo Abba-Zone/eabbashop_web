@@ -59,8 +59,8 @@ export const requestAdmin_s = async (WantRole: string, RefferedID: string): Prom
     return await requestAdmin(WantRole, RefferedID);
 };
 
-export const requestAdminAuto_s = async (WantRole: string, RefferedID: string): Promise<boolean> => {
-    return await requestAdminAuto(WantRole, RefferedID);
+export const requestAdminAuto_s = async (refferedID: string): Promise<boolean> => {
+    return await requestAdminAuto(refferedID);
 };
 
 export const requestAdminList_s = async (): Promise<requestAdminRegistList> => {
@@ -71,8 +71,8 @@ export const requestAdminListAll_s = async (): Promise<requestAdminRegistList> =
     return await requestAdminListAll();
 };
 
-export const requestAdminResult_s = async (ChangeRequestId:string, Status:string): Promise<boolean> => {
-    return await requestAdminResult(ChangeRequestId, Status);
+export const requestAdminResult_s = async (Changerequestid:string, Status:string): Promise<boolean> => {
+    return await requestAdminResult(Changerequestid, Status);
 };
 
 export const updateRole_s = async (memberID:string, role:string): Promise<boolean> => {

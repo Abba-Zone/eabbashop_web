@@ -312,9 +312,9 @@ export const requestAdmin = async (WantRole: string, RefferedID: string): Promis
 }
 
 
-export const requestAdminAuto = async (WantRole: string, RefferedID: string): Promise<boolean> => {
+export const requestAdminAuto = async (refferedID: string): Promise<boolean> => {
   try {
-    const response = await postData('/registeradmin/requestAuto', { WantRole, RefferedID });
+    const response = await postData('/registeradmin/requestAuto', { refferedID });
     return response.status === 200;
   } catch (error) {
     console.error('Request admin auto error:', error);
@@ -342,9 +342,9 @@ export const requestAdminListAll = async (): Promise<requestAdminRegistList> => 
   }
 }
 
-export const requestAdminResult = async (ChangeRequestId: string, Status: string): Promise<boolean> => {
+export const requestAdminResult = async (Changerequestid: string, Status: string): Promise<boolean> => {
   try {
-    const response = await postData('/registeradmin/result', {ChangeRequestId: ChangeRequestId, Status: Status});
+    const response = await postData('/registeradmin/result', { Changerequestid, Status });
     return response.status === 200;
   } catch (error) {
     console.error('Request admin update error:', error);  
@@ -364,7 +364,7 @@ export const updateRole = async (memberID:string, role:string): Promise<boolean>
 
 export const updateRecommendEmail = async (recommendEmail: string): Promise<boolean> => {
   try {
-    const response = await postData('member/update/recommend', { recommendEmail }); // 경훈이가 만들어주는 URL로 변경
+    const response = await postData('member/update/recommend', { recommendEmail });
     return response.status === 200;
   } catch (error) {
     console.error('Update recommend email error:', error);
