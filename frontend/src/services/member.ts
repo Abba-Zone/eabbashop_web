@@ -1,7 +1,7 @@
 import { login, signup, authEmail, checkAuthCode, checkRecommendEmail, 
     getUserList, getMemberList, getMemberDetail, getMemberDetailMe, googleLogin, 
     googleLoginWithCode, kakaoLoginWithCode, findID, requestAdmin, requestAdminList, 
-    requestAdminListAll, requestAdminResult, updateRole
+    requestAdminListAll, requestAdminResult, updateRole, changeRecommendEmail, requestAdminAuto
 } from '../apis/memberApi'
 /*데이터 가공 */
 export const login_s = async (loginUser:emailAndPassword): Promise<loginSuccess> => {
