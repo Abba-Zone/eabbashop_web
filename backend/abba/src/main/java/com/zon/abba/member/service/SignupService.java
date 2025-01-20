@@ -45,8 +45,12 @@ public class SignupService {
 
         // 추천인 등록
         // 추천인 email에 맞는 refered를 찾는다.
+        logger.info("추천인 ID를 가져옵니다.");
         String referredId = memberRepository.findMemberIDByEmail(signupRequest.getRecommend())
                 .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        member.setRecommendID(referredId);
+
         // 현재 토큰에서 유저 정보를 가져온다.
         String referId = member.getMemberId();
 
