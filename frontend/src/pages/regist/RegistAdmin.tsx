@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./RegistAdmin.css";
-import { requestAdmin_s, requestAdminList_s, checkRecommendEmail_s, requestAdminAuto_s } from "../../services/member";
+import { requestAdmin_s, requestAdminList_s, checkRecommendEmail_s, requestAdminAuto_s, getMemberDetailMe_s } from "../../services/member";
+import { updateUserInfo } from "../../handlers/tokenHandler";
 
 const Cookies = require('js-cookie');
 
@@ -15,6 +16,19 @@ const RegistAdmin: React.FC = () => {
   const [recommendStatus, setRecommendStatus] = useState<number | null>(null);
   const [isAccepted, setIsAccepted] = useState<boolean>(false);
   const [isRequesting, setIsRequesting] = useState<boolean>(false);
+  const [memberDetail, setMemberDetail] = useState<memberDetailInfo | null>(null);
+
+  useEffect(() => {
+    const fetchMemberDetail = async () => {
+      const memberDetail = await getMemberDetailMe_s();
+      setMemberDetail(memberDetail);
+      setInputRecommend(memberDetail?.memberInfo.recommend || '');
+      setRecommendStatus(200);
+      setIsAccepted(true);
+    };
+    fetchMemberDetail();
+  }, []);
+  
 
   const isLogined = (): boolean => {
     if (Cookies.get('access-token') === undefined) {
@@ -27,29 +41,28 @@ const RegistAdmin: React.FC = () => {
   
   const requestAdmin = async (adminList: requestAdminRegistList | null, refferedID: string, requestRole: string) => {
     if (requestRole === 'B') {
-      console.log('자동');
-      if (adminList?.totalCount === 0) {
-        console.log(refferedID);
-        const response = await requestAdminAuto_s(refferedID); // 등급에 따른 추천 분할된 API로 변경하면서 requestRole 사용하기
-        console.log(response);
-        if (response) {
-          window.location.reload();
-        }
+        if (adminList?.list.filter(admin => admin.status === '1').length === 0) {
+          const response = await requestAdminAuto_s(refferedID); // 등급에 따른 추천 분할된 API로 변경하면서 requestRole 사용하기
+          if (response) {
+            window.location.reload();
+          }
+        alert('대리점 요청 완료!')
+      } else {
+        alert('대리점 요청 중입니다. abbazon@gmail.com으로 문의해주세요.');
+        setIsRequesting(false);
       }
     } else {
-      console.log('요청');
-      if (adminList?.totalCount === 0) {
-        const response = await requestAdmin_s(requestRole, refferedID); // 등급에 따른 추천 분할된 API로 변경하면서 requestRole 사용하기
-        console.log(response);
+      if (adminList?.list.filter(admin => admin.status === '1').length === 0) {
+        const response = await requestAdminAuto_s(refferedID); // 등급에 따른 추천 분할된 API로 변경하면서 requestRole 사용하기
         if (response) {
           window.location.reload();
         }
+        alert('대리점 요청 완료!')
       } else {
-        if (isLogined()) {
-          alert('대리점 요청처리 중입니다. abbazon@gmail.com으로 문의해주세요.');
-        }
+        alert('대리점 요청 중입니다. abbazon@gmail.com으로 문의해주세요.');
+        setIsRequesting(false);
       }
-    }
+    } 
   };
   
   useEffect(() => {
@@ -87,24 +100,22 @@ const RegistAdmin: React.FC = () => {
       }
     })();
     if(isAccepted) {
-      setInputRecommend('');
-      setRecommendStatus(null);
-      setIsAccepted(false);
+      setInputRecommend(memberDetail?.memberInfo.recommend || '');
+      setRecommendStatus(200);
+      setIsAccepted(true);
       const updatedQuestions = [...showReferralQuestions];
       updatedQuestions[index] = false;
       setShowReferralQuestions(updatedQuestions);
-      alert('추천인이 변경되었습니다.');
-      const response = await requestAdmin(adminList, inputRm, requestRole);
-      console.log(response);
+      requestAdmin(adminList, inputRm, requestRole);
     } else {
       alert('추천인 확인을 진행해주세요.');
     }
   }
 
   const handleReferralReject = (index: number) => {
-    setInputRecommend('');
-    setRecommendStatus(null);
-    setIsAccepted(false);
+    setInputRecommend(memberDetail?.memberInfo.recommend || '');
+    setRecommendStatus(200);
+    setIsAccepted(true);
     setIsRequesting(false);
     const updatedQuestions = [...showReferralQuestions];
     updatedQuestions[index] = false;
@@ -206,7 +217,7 @@ const RegistAdmin: React.FC = () => {
                   {showReferralQuestions[index] && (
                     <div className="referral-question">
                       <div className="referral-question-container">추천인을 변경하시겠습니까?</div>
-                      <div className="referral-question-subtext"> 변경을 원치 않으시면 비워두세요.</div>
+                      <div className="referral-question-subtext"> 변경을 원치 않으시면 변경 없이 신청해주세요.</div>
                       <input type="text" placeholder="추천인 이름을 입력해주세요." value={inputRm} onChange={handleInputRm} disabled={isAccepted}/>
                       <div className="referral-question-form-button-container">
                         {recommendStatus === 200 && (
@@ -218,7 +229,9 @@ const RegistAdmin: React.FC = () => {
                               isAccepted ? (
                                 <button onClick={() => {
                                   setIsAccepted(false);
-                                }}>취소</button>
+                                  setInputRecommend('');
+                                  setRecommendStatus(null);
+                                }}>변경하기</button>
                               ) : (
                                 <button onClick={() => {
                                   setIsAccepted(true);

@@ -116,7 +116,7 @@
 .plans-container input[type="text"],
 .plans-container input[type="password"],
 .plans-container input[type="email"] {
-  margin-bottom: 10px;
+  margin-top: 10px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -204,7 +204,7 @@
 }
 .referral-question-subtext {
   color: red;
-  font-size: 10px;
+  font-size: 12px;
   margin-bottom: 10px;
 }
 
