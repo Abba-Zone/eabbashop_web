@@ -60,11 +60,11 @@ public class GlobalExceptionHandler {
                 .body(ex.getMessage()); // 에러 메시지 반환
     }
 
-    @ExceptionHandler(InvalidMemberException.class)
-    public ResponseEntity<String> handleInvalidMemberException(InvalidMemberException ex){
-        logger.info("InvalidMemberException 발생 : 205");
+    @ExceptionHandler(InvalidException.class)
+    public ResponseEntity<String> handleInvalidException(InvalidException ex){
+        logger.info("InvalidException 발생 : 205");
         return ResponseEntity
-                .status(205) // 205 회원 정보 불일치
+                .status(205) // 205 정보 불일치
                 .body(ex.getMessage()); // 에러 메시지 반환
     }
 

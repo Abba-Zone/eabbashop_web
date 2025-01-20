@@ -4,7 +4,7 @@ import com.zon.abba.account.dto.WalletDto;
 import com.zon.abba.account.service.WalletService;
 import com.zon.abba.address.dto.AddressDto;
 import com.zon.abba.address.service.AddressService;
-import com.zon.abba.common.exception.InvalidMemberException;
+import com.zon.abba.common.exception.InvalidException;
 import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
@@ -194,7 +194,7 @@ public class MemberService {
 
         if(!member.getFirstName().equals(findEmailRequest.getFirstName()) ||
         !member.getLastName().equals(findEmailRequest.getLastName())){
-            throw new InvalidMemberException("회원 정보가 일치하지 않습니다.");
+            throw new InvalidException("회원 정보가 일치하지 않습니다.");
         }
         // valid 체크가 끝난다면 회원 정보 리턴
         logger.info("유저 이메일 찾기 완료");
