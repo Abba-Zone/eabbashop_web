@@ -63,6 +63,8 @@ public class SellerService {
     @Autowired
     private ChangeRequestLogRepository changeRequestLogRepository;
 
+    private BigDecimal abz_min;
+
     @Transactional
     public SellerDto getSeller(String memberId){
         logger.info("member에 맞는 가게를 찾습니다.");
@@ -205,11 +207,11 @@ public class SellerService {
         Wallet wallet = walletRepository.findOneByMemberId(memberId)
                 .orElseThrow(() -> new NoMemberException("지갑이 없는 회원입니다."));
 
-        BigDecimal abz_min = BigDecimal.ZERO;
+        abz_min = BigDecimal.ZERO;
 
         String code = "001";
 
-        if(IsABZEnough(memberId, code, abz_min) == false){
+        if(IsABZEnough(memberId, code) == false){
             throw new NoMemberException("601", "대리점 신청에 필요한 ABZ포인트가 부족합니다.");
         }
 
@@ -228,7 +230,7 @@ public class SellerService {
                 .memberId(memberId)
                 .afterValue("B") // 대리점
                 .type("A") // 대리점 신청
-                .status("1")
+                .status("2")
                 .createdId(memberId)
                 .modifiedId(memberId)
                 .createdDateTime(LocalDateTime.now()) // 현재 시간 설정
@@ -262,11 +264,11 @@ public class SellerService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 신청입니다."));
 
         // 1. ABZ 확인
-        BigDecimal abz_min = BigDecimal.ZERO;
+        abz_min = BigDecimal.ZERO;
 
         String code = log.getAfterValue() == "C" ? "001" : "004";
 
-        if(IsABZEnough(log.getMemberId(), code, abz_min) == false){
+        if(IsABZEnough(log.getMemberId(), code) == false){
             throw new NoMemberException("601", "대리점 신청에 필요한 ABZ포인트가 부족합니다.");
         }
 
@@ -307,7 +309,7 @@ public class SellerService {
     }
 
     /// 해당 멤버가 충분한 ABZ 가지고 있는지
-    public boolean IsABZEnough(String memberId,String Code, BigDecimal abz_min){
+    public boolean IsABZEnough(String memberId,String Code){
         Member member = memberRepository.findByMemberId(memberId);
         CommonCode abzValue = commonCodeRepository.getByCodeGroupAndCode("Setting",Code);
         Wallet wallet = walletRepository.findOneByMemberId(memberId)
