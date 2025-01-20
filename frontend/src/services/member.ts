@@ -24,6 +24,10 @@ export const checkRecommendEmail_s = async (email: string): Promise<{ status: nu
     return await checkRecommendEmail(email);
 };
 
+export const changeRecommendEmail_s = async (referID: string, referredID: string): Promise<boolean> => {
+    return await changeRecommendEmail(referID, referredID);
+};
+
 export const getMemberList_s = async (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string): Promise<memberList> => {
     return await getMemberList(pageNo, pageSize, filter, filterValue, sort, sortValue);
 };
@@ -56,8 +60,12 @@ export const findID_s = async (findIDParam: findIDParam): Promise<findIDResult |
     return await findID(findIDParam);
 };
 
-export const requestAdmin_s = async (): Promise<boolean> => {
-    return await requestAdmin();
+export const requestAdmin_s = async (WantRole: string, RefferedID: string): Promise<boolean> => {
+    return await requestAdmin(WantRole, RefferedID);
+};
+
+export const requestAdminAuto_s = async (refferedID: string): Promise<boolean> => {
+    return await requestAdminAuto(refferedID);
 };
 
 export const requestAdminList_s = async (): Promise<requestAdminRegistList> => {
@@ -68,8 +76,8 @@ export const requestAdminListAll_s = async (): Promise<requestAdminRegistList> =
     return await requestAdminListAll();
 };
 
-export const requestAdminResult_s = async (changeRequestId:string, value:string): Promise<boolean> => {
-    return await requestAdminResult(changeRequestId, value);
+export const requestAdminResult_s = async (Changerequestid:string, Status:string): Promise<boolean> => {
+    return await requestAdminResult(Changerequestid, Status);
 };
 
 export const updateRole_s = async (memberID:string, role:string): Promise<boolean> => {

@@ -12,8 +12,12 @@ const AdminDashboard: React.FC = () => {
 
   useEffect(() => {
     if(!isAdminRole(Cookies.get('role'))){  
-      alert('관리자가 아닙니다.');
-      navigate('/admin/login');
+      alert('관리자가 아닙니다.\n대리점 신청페이지로 이동합니다.');
+      if(Cookies.get('access-token') === undefined){
+        navigate('/admin/login');
+      } else {
+        navigate('/regist/registadmin');
+      }
     }
   }, [Cookies]);
 

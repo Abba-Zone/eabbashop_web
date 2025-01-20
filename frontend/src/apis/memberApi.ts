@@ -78,6 +78,16 @@ export const checkRecommendEmail = async (email: string): Promise<{ status: numb
   }
 };
 
+export const changeRecommendEmail = async (referID: string, referredID: string): Promise<boolean> => {
+  try {
+    const response = await postData('/member/update/change', { referID, referredID });
+    return response.status === 200;
+  } catch (error) {
+    console.error('Error changing recommend email:', error);
+    return false;
+  }
+}
+
 export const changeRole = (memberidAndRole:memberIDAndRole) => {
     postData('/role/update', memberidAndRole).then(() => {});
 }
@@ -289,7 +299,6 @@ export const kakaoLoginWithCode = async (code: string): Promise<loginSuccess | n
 export const findID = async (findIDParam:findIDParam): Promise<findIDResult | null> => {
   try {
     const response = await postData<findIDResult>('member/find', findIDParam);
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error('Find ID error:', error);
@@ -297,13 +306,23 @@ export const findID = async (findIDParam:findIDParam): Promise<findIDResult | nu
   }
 }
 
-export const requestAdmin = async (): Promise<boolean> => {
+export const requestAdmin = async (WantRole: string, RefferedID: string): Promise<boolean> => {
   try {
-    const response = await postData('/registeradmin/request');
-    console.log(response);
-    return true;
+    const response = await postData('/registeradmin/request', { WantRole, RefferedID });
+    return response.status === 200;
   } catch (error) {
     console.error('Request admin error:', error);
+    return false;
+  }
+}
+
+
+export const requestAdminAuto = async (refferedID: string): Promise<boolean> => {
+  try {
+    const response = await postData('/registeradmin/requestAuto', { refferedID });
+    return response.status === 200;
+  } catch (error) {
+    console.error('Request admin auto error:', error);
     return false;
   }
 }
@@ -321,7 +340,6 @@ export const requestAdminList = async (): Promise<requestAdminRegistList> => {
 export const requestAdminListAll = async (): Promise<requestAdminRegistList> => {
   try {
       const response = await getData('/registeradmin/request/list/all');
-      console.log(response);
       return response.data as requestAdminRegistList;
   } catch (error) {
       console.error('Request admin list all error:', error);
@@ -329,25 +347,32 @@ export const requestAdminListAll = async (): Promise<requestAdminRegistList> => 
   }
 }
 
-export const requestAdminResult = async (changeRequestId: string, value: string): Promise<boolean> => {
+export const requestAdminResult = async (Changerequestid: string, Status: string): Promise<boolean> => {
   try {
-    const requestBody = { changerequestid: changeRequestId, value };
-    const response = await postData('/registeradmin/result', requestBody);
+    const response = await postData('/registeradmin/result', { Changerequestid, Status });
     return response.status === 200;
   } catch (error) {
-    console.error('Request admin update error:', error);
+    console.error('Request admin update error:', error);  
     return false;
   }
 }
 
 export const updateRole = async (memberID:string, role:string): Promise<boolean> => {
   try {
-    console.log(memberID, role);
     const response = await postData('member/update/role', { memberID, role });
-    console.log(response);
     return response.status === 200;
   } catch (error) {
     console.error('Update role error:', error);
+    return false;
+  }
+}
+
+export const updateRecommendEmail = async (recommendEmail: string): Promise<boolean> => {
+  try {
+    const response = await postData('member/update/recommend', { recommendEmail });
+    return response.status === 200;
+  } catch (error) {
+    console.error('Update recommend email error:', error);
     return false;
   }
 }
