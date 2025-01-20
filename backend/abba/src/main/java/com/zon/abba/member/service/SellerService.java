@@ -230,7 +230,7 @@ public class SellerService {
                 .memberId(memberId)
                 .afterValue("B") // 대리점
                 .type("A") // 대리점 신청
-                .status("1")
+                .status("2")
                 .createdId(memberId)
                 .modifiedId(memberId)
                 .createdDateTime(LocalDateTime.now()) // 현재 시간 설정
