@@ -234,6 +234,15 @@ public class SellerService {
                 .build();
         changeRequestLogRepository.save(log);
 
+        // 추천인 변경
+        long changeID = recommendService.requestAlterRecommendReturnID(new EmailRequest(request.getRefferedID()));
+
+        ResponseBody changeRecc = recommendService.alterRecommend(new AlterRecommendRequest(changeID, "2" ));
+
+        if(changeRecc.getMessage() != "성공했습니다."){
+            return new ResponseDataBody("실패했습니다.", null);
+        }
+
         logger.info("대리점 신청을 완료했습니다..");
 
         return new ResponseDataBody("성공했습니다.", log.getChangeRequestLogId());
@@ -244,7 +253,7 @@ public class SellerService {
         logger.info("대리점을 결과를 설정합니다.");
 
         logger.info("유저 정보를 가져옵니다.");
-        String memberId = jwtTokenProvider.getCurrentMemberId()
+        String adminID = jwtTokenProvider.getCurrentMemberId()
                 .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
 
         ChangeRequestLog log = changeRequestLogRepository.findById(resultRequest.getChangeRequestId())
@@ -255,13 +264,13 @@ public class SellerService {
 
         String code = log.getAfterValue() == "C" ? "001" : "004";
 
-        if(IsABZEnough(memberId, code, abz_min) == false){
+        if(IsABZEnough(log.getMemberId(), code, abz_min) == false){
             throw new NoMemberException("601", "대리점 신청에 필요한 ABZ포인트가 부족합니다.");
         }
 
         // 2. 신청 로그 업데이트
         log.setStatus(resultRequest.getStatus());
-        log.setModifiedId(memberId);    // 설정한 사람 (로그인한 유저 : Admin)
+        log.setModifiedId(adminID);    // 설정한 사람 (로그인한 유저 : Admin)
         log.setModifiedDateTime(LocalDateTime.now()); // 수정 시간 설정
 
         changeRequestLogRepository.save(log);
@@ -273,9 +282,9 @@ public class SellerService {
         if(resultRequest.getStatus().equals("2")){
             result = "승인에 ";
             // 3. 사용자 role 업데이트
-            Member member = memberRepository.findByMemberId(memberId);
+            Member member = memberRepository.findByMemberId(log.getMemberId());
             member.setRole(log.getAfterValue());
-            member.setModifiedId(memberId);
+            member.setModifiedId(log.getMemberId());
             member.setModifiedDateTime(LocalDateTime.now());
 
             // 4. 추천인 변경
