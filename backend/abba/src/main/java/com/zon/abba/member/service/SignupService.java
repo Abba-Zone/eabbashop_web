@@ -1,5 +1,7 @@
 package com.zon.abba.member.service;
 
+import com.zon.abba.account.service.WalletService;
+import com.zon.abba.common.exception.InvalidException;
 import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.member.dto.MemberDto;
 import com.zon.abba.member.dto.RecommendDto;
@@ -19,6 +21,7 @@ public class SignupService {
 
     private static final Logger logger = LoggerFactory.getLogger(SignupService.class);
     private final MemberRepository memberRepository;
+    private final WalletService walletService;
     private final LoginService loginService;
     private final RecommendService recommendService;
 
@@ -48,6 +51,11 @@ public class SignupService {
         String referId = member.getMemberId();
 
         recommendService.registRecommend(new RecommendDto(referredId, referId));
+
+        // 지갑 생성
+        if(!walletService.registerWallet(member.getMemberId())){
+            throw new InvalidException("지갑 생성 중 에러가 발생했습니다.");
+        }
 
         logger.info("회원 정보 저장 완료");
         // 로그인 정보를 담아서 로그인 신호를 보낸다.
