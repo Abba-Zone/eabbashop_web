@@ -25,6 +25,7 @@ import com.zon.abba.member.repository.SellerRepository;
 import com.zon.abba.member.request.email.EmailRequest;
 import com.zon.abba.member.request.recommend.AlterRecommendRequest;
 import com.zon.abba.member.request.registeradmin.RegisterAdminRequest;
+import com.zon.abba.member.request.registeradmin.RegisterAdminRequestAutoRequest;
 import com.zon.abba.member.request.registeradmin.RegisterAdminResultRequest;
 import com.zon.abba.member.request.seller.SellerDetailRequest;
 import com.zon.abba.member.response.SellerDetailResponse;
@@ -153,7 +154,8 @@ public class SellerService {
                     member.getFirstName() ,
                     member.getLastName(),
                     member.getPhone(),
-                    member.getEmail()
+                    member.getEmail(),
+                    log.getAfterValue()
             ));
         }
 
@@ -192,7 +194,7 @@ public class SellerService {
         return new ResponseDataBody("성공했습니다.", log.getChangeRequestLogId());
     }
 
-    public ResponseDataBody requestResultAdmin() {
+    public ResponseDataBody requestResultAdmin(RegisterAdminRequestAutoRequest request) {
         logger.info("대리점을 신청합니다.");
 
         logger.info("유저 정보를 가져옵니다.");

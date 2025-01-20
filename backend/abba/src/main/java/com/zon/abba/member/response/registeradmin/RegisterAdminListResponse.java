@@ -25,9 +25,10 @@ public class RegisterAdminListResponse {
     private String memberPhone;
 
     private String memberEmail;
+    private String afterValue;
 
     public RegisterAdminListResponse(String changeRequestId, String status, String createdTime, String moditiedTime,
-                                     String memberId, String memberFirstName, String memberLastName, String memberPhone, String memberEmail) {
+                                     String memberId, String memberFirstName, String memberLastName, String memberPhone, String memberEmail, String afterValue) {
         this.changeRequestId = changeRequestId;
         this.status = status;
         this.createdTime = createdTime;
@@ -37,6 +38,8 @@ public class RegisterAdminListResponse {
         this.memberLastName = memberLastName;
         this.memberPhone = memberPhone;
         this.memberEmail = memberEmail;
+        this.afterValue = afterValue;
+
 
         switch (status){
             default: 
