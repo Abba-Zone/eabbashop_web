@@ -15,6 +15,11 @@ interface mainProductList{
     randomProducts:shopProduct[]
 }
 
+interface shopProductList{
+    totalCount : number,
+    list : shopProduct[]
+}
+
 interface product{
     productID : string,
     name : string,
@@ -98,4 +103,13 @@ interface review{
     dislike : number,
     createdDateTime : string,
     name : string
+}
+
+interface searchParams{
+    page: number,
+    size: number,
+    orderBy: string,
+    orderByType: string,
+    params : string[],
+    values : string[],
 }
