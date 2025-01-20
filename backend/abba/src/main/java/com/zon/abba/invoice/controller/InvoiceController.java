@@ -3,7 +3,9 @@ package com.zon.abba.invoice.controller;
 import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
+import com.zon.abba.invoice.request.InvoiceIdRequest;
 import com.zon.abba.invoice.request.RegisterInvoiceRequest;
+import com.zon.abba.invoice.response.InvoiceDetailResponse;
 import com.zon.abba.invoice.service.InvoiceService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -41,8 +43,11 @@ public class InvoiceController {
 
     @GetMapping("/detail")
     @Operation(summary = "송장 상세", description = "송장 내용을 확인할 수 있다.")
-    public ResponseEntity<Object> detailInvoice(){
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+    public ResponseEntity<Object> detailInvoice(InvoiceIdRequest request){
+
+        InvoiceDetailResponse response = invoiceService.detailInvoice(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping("/update")
@@ -53,7 +58,7 @@ public class InvoiceController {
 
     @PostMapping("/delete")
     @Operation(summary = "송장 삭제", description = "송장 내용을 삭제할 수 있다.")
-    public ResponseEntity<Object> deleteInvoice(){
+    public ResponseEntity<Object> deleteInvoice(InvoiceIdRequest request){
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 }

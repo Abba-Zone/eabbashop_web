@@ -40,6 +40,29 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, String
     @Query(
             value = "SELECT " +
                     "od.OrderDetailID AS orderDetailId, " +
+                    "od.ProductID AS productId, " +
+                    "p.Name AS name, " +
+                    "p.AllowNation AS allowNation, " +
+                    "p.ViewSite AS viewSite, " +
+                    "od.Quantity AS quantity, " +
+                    "od.Status AS status, " +
+                    "p.Thumbnail AS thumbnail, " +
+                    "p.RealPrice AS realPrice, " +
+                    "od.LPPrice AS LP, " +
+                    "od.SPPrice AS SP " +
+                    "FROM OrderDetail od " +
+                    "JOIN Product p ON od.ProductID = p.ProductID " +
+                    "WHERE od.DeleteYN = 'N' " +
+                    "AND p.DeleteYN = 'N' " +
+                    "AND p.ActiveYN = 'Y' " +
+                    "AND od.OrderDetailID IN :orderDetailIds ",
+            nativeQuery = true
+    )
+    List<OrderedProduct> findOrderedProductsByOrderDetailIds(@Param("orderDetailIds") List<String> orderDetailIds);
+
+    @Query(
+            value = "SELECT " +
+                    "od.OrderDetailID AS orderDetailId, " +
                     "CONCAT(m.LastName, ' ', m.FirstName) AS memberName, " +
                     "p.Name AS productName, " +
                     "od.CreatedDateTime AS createdDateTime, " +
