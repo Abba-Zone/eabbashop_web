@@ -36,7 +36,7 @@ public class Member {
     private String password;
 
     // 최종 추천인
-    @Column(name = "RecommendID", length = 50, nullable = false)
+    @Column(name = "RecommendID", length = 50)
     private String RecommendID;
 
     @Column(name = "Phone", length = 50, nullable = false)
