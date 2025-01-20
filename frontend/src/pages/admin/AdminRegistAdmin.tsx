@@ -3,9 +3,8 @@ import { requestAdminListAll_s, requestAdminResult_s, updateRole_s } from '../..
 import { BottomButton, SearchSet } from '../../components';
 import { useTranslation } from 'react-i18next';
 
-const requestAdminApprove = async (Changerequestid: string, status: string) => {
-  console.log(Changerequestid, status);
-  const response = await requestAdminResult_s(Changerequestid, status);
+const requestAdminApprove = async (Changerequestid: string, Status: string) => {
+  const response = await requestAdminResult_s(Changerequestid, Status);
   alert(`${Changerequestid}에 대한 요청 승인 완료`);
   if (response) {
     window.location.reload();
@@ -13,8 +12,8 @@ const requestAdminApprove = async (Changerequestid: string, status: string) => {
   return response;
 }
 
-const requestAdminReject = async (Changerequestid: string, status: string) => {
-  const response = await requestAdminResult_s(Changerequestid, status);
+const requestAdminReject = async (Changerequestid: string, Status: string) => {
+  const response = await requestAdminResult_s(Changerequestid, Status);
   alert(`${Changerequestid}에 대한 요청 반려 완료`);
   if (response) {
     window.location.reload();
