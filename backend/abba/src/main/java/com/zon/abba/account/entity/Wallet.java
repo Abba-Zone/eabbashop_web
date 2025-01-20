@@ -77,4 +77,9 @@ public class Wallet {
         if(this.deleteYN == null) this.deleteYN = "N";
         if(this.activeYN == null) this.activeYN = "Y";
     }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.modifiedId = UUID.randomUUID().toString(); // 업데이트 시 새로운 UUID 할당
+    }
 }

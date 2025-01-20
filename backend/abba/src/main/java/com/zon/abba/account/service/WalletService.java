@@ -53,6 +53,30 @@ public class WalletService {
     }
 
     @Transactional
+    public Boolean registerWallet(String memberId){
+        logger.info("지갑을 등록합니다.");
+        try {
+            Wallet wallet = Wallet.builder()
+                    .memberId(memberId)
+                    .ap(new BigDecimal("0.0"))
+                    .lp(new BigDecimal("0.0"))
+                    .ak(new BigDecimal("0.0"))
+                    .sp(new BigDecimal("0.0"))
+                    .abz(new BigDecimal("0.0"))
+                    .abzPoint(new BigDecimal("0.0"))
+                    .build();
+
+            walletRepository.save(wallet);
+            logger.info("지갑 생성 완료.");
+            return true; // 성공적으로 저장되었을 때 true 반환
+        } catch (Exception e) {
+            logger.error("지갑 등록 중 에러 발생: ", e); // 에러 로그 출력
+            return false; // 에러 발생 시 false 반환
+        }
+
+    }
+
+    @Transactional
     public ResponseListBody getWalletList(){
         logger.info("내역 조회를 시작합니다.");
         logger.info("내역 조회용 회원 정보를 가져옵니다.");
