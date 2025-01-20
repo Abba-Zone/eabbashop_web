@@ -209,7 +209,7 @@ public class SellerService {
 
         abz_min = BigDecimal.ZERO;
 
-        String code = "001";
+        String code = "ABZ_B";
 
         if(IsABZEnough(memberId, code) == false){
             throw new NoMemberException("601", "대리점 신청에 필요한 ABZ포인트가 부족합니다.");
@@ -266,11 +266,27 @@ public class SellerService {
         // 1. ABZ 확인
         abz_min = BigDecimal.ZERO;
 
-        String code = log.getAfterValue() == "C" ? "001" : "004";
+        //
+        String code = "ABZ_B";
+        //log.getAfterValue() == "C" ? "001" : "004";
+        code = code.replace("_B","_" + log.getAfterValue());
+
 
         if(IsABZEnough(log.getMemberId(), code) == false){
             throw new NoMemberException("601", "대리점 신청에 필요한 ABZ포인트가 부족합니다.");
         }
+
+        // ABZ 값 업데이트
+
+        CommonCode admin = commonCodeRepository.getByCodeGroupAndCode("Setting","002");
+        CommonCode adminWallet = commonCodeRepository.getByCodeGroupAndCode("Setting","003");
+
+        Wallet wallet = walletRepository.findOneByMemberId(log.getMemberId())
+                .orElseThrow(() -> new NoMemberException("지갑이 없는 회원입니다."));
+
+        walletService.saveABZPointsHistory(log.getMemberId(), admin.getCodeValue(),  wallet.getWalletId(), adminWallet.getCodeValue(),
+                abz_min);
+
 
         // 2. 신청 로그 업데이트
         log.setStatus(resultRequest.getStatus());
