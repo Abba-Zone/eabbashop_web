@@ -1,6 +1,6 @@
 import { login, signup, authEmail, checkAuthCode, 
     checkRecommendEmail, getUserList, getMemberList, getMemberDetail, 
-    googleLogin, googleLoginWithCode, kakaoLoginWithCode, findID, requestAdmin, requestAdminList, requestAdminListAll, requestAdminResult, updateRole, updateRecommendEmail, changeRecommendEmail
+    googleLogin, googleLoginWithCode, kakaoLoginWithCode, findID, requestAdmin, requestAdminList, requestAdminListAll, requestAdminResult, updateRole, changeRecommendEmail, requestAdminAuto
 } from '../apis/memberApi'
 /*데이터 가공 */
 export const login_s = async (loginUser:emailAndPassword): Promise<loginSuccess> => {
@@ -55,8 +55,12 @@ export const findID_s = async (findIDParam: findIDParam): Promise<findIDResult |
     return await findID(findIDParam);
 };
 
-export const requestAdmin_s = async (requestRole: string): Promise<boolean> => {
-    return await requestAdmin(requestRole);
+export const requestAdmin_s = async (WantRole: string, RefferedID: string): Promise<boolean> => {
+    return await requestAdmin(WantRole, RefferedID);
+};
+
+export const requestAdminAuto_s = async (WantRole: string, RefferedID: string): Promise<boolean> => {
+    return await requestAdminAuto(WantRole, RefferedID);
 };
 
 export const requestAdminList_s = async (): Promise<requestAdminRegistList> => {
@@ -67,14 +71,10 @@ export const requestAdminListAll_s = async (): Promise<requestAdminRegistList> =
     return await requestAdminListAll();
 };
 
-export const requestAdminResult_s = async (changeRequestId:string, value:string): Promise<boolean> => {
-    return await requestAdminResult(changeRequestId, value);
+export const requestAdminResult_s = async (ChangeRequestId:string, Status:string): Promise<boolean> => {
+    return await requestAdminResult(ChangeRequestId, Status);
 };
 
 export const updateRole_s = async (memberID:string, role:string): Promise<boolean> => {
     return await updateRole(memberID, role);
-};
-
-export const updateRecommendEmail_s = async (recommendEmail: string): Promise<boolean> => {
-    return await updateRecommendEmail(recommendEmail);
 };

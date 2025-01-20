@@ -3,18 +3,12 @@ import { requestAdminListAll_s, requestAdminResult_s, updateRole_s } from '../..
 import { BottomButton, SearchSet } from '../../components';
 import { useTranslation } from 'react-i18next';
 
-const requestAdminApprove = async (changeRequestId: string, value: string, memberID: string, grade: string) => {
-  const response = await requestAdminResult_s(changeRequestId, value);
-  userRoleUpdate(memberID, grade);
+const requestAdminApprove = async (changeRequestId: string, status: string) => {
+  const response = await requestAdminResult_s(changeRequestId, status);
   alert(`${changeRequestId}에 대한 요청 승인 완료`);
   if (response) {
     window.location.reload();
   }
-  return response;
-}
-
-const userRoleUpdate = async (memberID: string, value: string) => {
-  const response = await updateRole_s(memberID, value);
   return response;
 }
 
@@ -31,17 +25,10 @@ const AdminRegistAdmin: React.FC = () => {
   const { t } = useTranslation();
   const [adminList, setAdminList] = useState<requestAdminRegistList | null>(null);
   const [filteredData, setFilteredData] = useState<any[]>([]);
-  const [currentPageData, setCurrentPageData] = useState<any[]>([]);
+  const [currentPageData, setCurrentPageData] = useState<requestAdminRegist[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(5);
   const [lastPage, setLastPage] = useState<number>(1);
-  const [filter, setFilter] = useState<number>(1);
-  const [filterValue, setFilterValue] = useState<string>("");
-  const selectList = [
-    { selectName: t("AdminManagerMember:List.Filter01"), select: 'name', selectType: 'text', itemList: [] },
-    { selectName: t("AdminManagerMember:List.Filter02"), select: 'email', selectType: 'text', itemList: [] },
-    // 필요한 필터 추가
-  ];
 
   const fetchAdminList = useCallback(async () => {
     try {
@@ -58,9 +45,13 @@ const AdminRegistAdmin: React.FC = () => {
     setPageNo(move);
   }
 
-  const changeFilter = (key: number, value: string) => {
-    setFilter(key);
-    setFilterValue(value);
+
+  const renderUserName = (admin: requestAdminRegist) => {
+    if (localStorage.getItem('language') === 'ko' || localStorage.getItem('language') === null) {
+      return `${admin.member_last_name}${admin.member_first_name}`;
+    } else {
+      return `${admin.member_first_name}${admin.member_last_name}`;
+    }
   }
 
   useEffect(() => {
@@ -79,31 +70,27 @@ const AdminRegistAdmin: React.FC = () => {
   return (
     <div>
       <h1>AdminRegistAdmin</h1>
-      <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <table>
         <thead>
           <tr>
-            <th>Status</th>
-            <th>ChangeRequestId</th>
-            <th>MemberEmail</th>
-            <th>MemberName</th>
-            <th>MemberPhone</th>
-            <th>날짜</th>
+            <th>이름</th>
+            <th>이메일</th>
+            <th>전화번호</th>
+            <th>신청 날짜</th>
+            <th>상태</th>
             <th>요청</th>
           </tr>
         </thead>
         <tbody>
           {currentPageData.map((admin, index) => (
             <tr key={index}>
-              <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{admin.status_value}</td>
-              <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{admin.change_request_id}</td>
-              <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{admin.member_id}</td>
-              <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{admin.member_name}</td>
-              <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{admin.member_phone}</td>
-              <td style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{admin.created_time}</td>
+              <td>{renderUserName(admin)}</td>
+              <td>{admin.member_email}</td>
+              <td>{admin.member_phone}</td>
+              <td>{admin.created_time}</td>
+              <td>{admin.status_value}</td>
               <td>
-                <button onClick={() => requestAdminApprove(admin.change_request_id, '2', admin.member_id, 'B')}>승인</button> 
-                {/* admin.Aftervalue값 활용하는 형태로 변경 필요 */}
+                <button onClick={() => requestAdminApprove(admin.change_request_id, '2')}>승인</button> 
                 <button onClick={() => requestAdminReject(admin.change_request_id, '3')}>반려</button>
               </td>
             </tr>

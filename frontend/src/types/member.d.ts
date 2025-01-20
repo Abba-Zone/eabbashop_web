@@ -123,13 +123,14 @@ interface requestAdminRegistList {
 }
 
 interface requestAdminRegist {
-	change_request_id : string,
-	status : string,
-	status_value : string,
-	member_id : string,
-	member_name : string,
-	member_email : string,
-	member_phone : string,
-	created_time : string,
-	after_value : string,
+	change_request_id: string,
+	status: string,
+	status_value: string,
+	created_time: string,
+	moditied_time: string,
+	member_id: string,
+	member_first_name: string,
+	member_last_name: string,
+	member_phone: string,
+	member_email: string
 }

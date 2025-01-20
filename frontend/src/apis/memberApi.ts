@@ -301,13 +301,23 @@ export const findID = async (findIDParam:findIDParam): Promise<findIDResult | nu
   }
 }
 
-export const requestAdmin = async (requestRole: string): Promise<boolean> => {
+export const requestAdmin = async (WantRole: string, RefferedID: string): Promise<boolean> => {
   try {
-    const response = await postData('/registeradmin/request', { requestRole });
-    console.log(response);
-    return true;
+    const response = await postData('/registeradmin/request', { WantRole, RefferedID });
+    return response.status === 200;
   } catch (error) {
     console.error('Request admin error:', error);
+    return false;
+  }
+}
+
+
+export const requestAdminAuto = async (WantRole: string, RefferedID: string): Promise<boolean> => {
+  try {
+    const response = await postData('/registeradmin/requestAuto', { WantRole, RefferedID });
+    return response.status === 200;
+  } catch (error) {
+    console.error('Request admin auto error:', error);
     return false;
   }
 }
@@ -332,13 +342,12 @@ export const requestAdminListAll = async (): Promise<requestAdminRegistList> => 
   }
 }
 
-export const requestAdminResult = async (changeRequestId: string, value: string): Promise<boolean> => {
+export const requestAdminResult = async (ChangeRequestId: string, Status: string): Promise<boolean> => {
   try {
-    const requestBody = { changerequestid: changeRequestId, value };
-    const response = await postData('/registeradmin/result', requestBody);
+    const response = await postData('/registeradmin/result', {ChangeRequestId: ChangeRequestId, Status: Status});
     return response.status === 200;
   } catch (error) {
-    console.error('Request admin update error:', error);
+    console.error('Request admin update error:', error);  
     return false;
   }
 }

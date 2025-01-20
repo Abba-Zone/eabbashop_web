@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./RegistAdmin.css";
-import { requestAdmin_s, requestAdminList_s, checkRecommendEmail_s, updateRecommendEmail_s, changeRecommendEmail_s } from "../../services/member";
+import { requestAdmin_s, requestAdminList_s, checkRecommendEmail_s, requestAdminAuto_s } from "../../services/member";
 
 const Cookies = require('js-cookie');
 
@@ -26,23 +26,31 @@ const RegistAdmin: React.FC = () => {
   }
   
   const requestAdmin = async (adminList: requestAdminRegistList | null, recommendEmail: string, requestRole: string) => {
-    if (adminList?.totalCount !== 0) {
-      const response = await requestAdmin_s(requestRole); // 등급에 따른 추천 분할된 API로 변경하면서 requestRole 사용하기
-      const referID = Cookies.get('access-token');
-      updateRecommendEmail(referID, recommendEmail); 
-      if (response) {
-        // window.location.reload();
+    if (requestRole === 'B') {
+      console.log('자동');
+      if (adminList?.totalCount === 0) {
+        const response = await requestAdminAuto_s(requestRole, recommendEmail); // 등급에 따른 추천 분할된 API로 변경하면서 requestRole 사용하기
+        console.log(response);
+        if (response) {
+          window.location.reload();
+        }
       }
     } else {
-      if (isLogined()) {
-        alert('대리점 요청처리 중입니다. abbazon@gmail.com으로 문의해주세요.');
+      console.log('요청');
+      if (adminList?.totalCount === 0) {
+        const response = await requestAdmin_s(requestRole, recommendEmail); // 등급에 따른 추천 분할된 API로 변경하면서 requestRole 사용하기
+        console.log(response);
+        if (response) {
+          window.location.reload();
+        }
+      } else {
+        if (isLogined()) {
+          alert('대리점 요청처리 중입니다. abbazon@gmail.com으로 문의해주세요.');
+        }
       }
     }
   };
   
-  const updateRecommendEmail = (referID: string, referredID: string) => {
-    changeRecommendEmail_s(referID, referredID); 
-  };
   useEffect(() => {
     const fetchAdminList = async () => {
       try {
