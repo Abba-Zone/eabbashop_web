@@ -5,6 +5,7 @@ import com.zon.abba.common.response.ResponseDataBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.member.request.email.CodeRequest;
 import com.zon.abba.member.request.registeradmin.RegisterAdminRequest;
+import com.zon.abba.member.request.registeradmin.RegisterAdminRequestAutoRequest;
 import com.zon.abba.member.request.registeradmin.RegisterAdminResultRequest;
 import com.zon.abba.member.service.EmailService;
 import com.zon.abba.member.service.SellerService;
@@ -43,8 +44,8 @@ public class RegistAdminController {
 
     @PostMapping("/requestAuto")
     @Operation(summary = "대리점 신청", description = "대리점 신청")
-    public ResponseEntity<Object> registerAdminRequestAuto(){
-        ResponseDataBody response = sellerService.requestResultAdmin();
+    public ResponseEntity<Object> registerAdminRequestAuto(@RequestBody RegisterAdminRequestAutoRequest request){
+        ResponseDataBody response = sellerService.requestResultAdmin(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
