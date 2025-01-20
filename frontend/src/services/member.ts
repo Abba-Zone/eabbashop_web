@@ -1,6 +1,7 @@
-import { login, signup, authEmail, checkAuthCode, 
-    checkRecommendEmail, getUserList, getMemberList, getMemberDetail, 
-    googleLogin, googleLoginWithCode, kakaoLoginWithCode, findID, requestAdmin, requestAdminList, requestAdminListAll, requestAdminResult, updateRole, changeRecommendEmail, requestAdminAuto
+import { login, signup, authEmail, checkAuthCode, checkRecommendEmail, 
+    getUserList, getMemberList, getMemberDetail, getMemberDetailMe, googleLogin, 
+    googleLoginWithCode, kakaoLoginWithCode, findID, requestAdmin, requestAdminList, 
+    requestAdminListAll, requestAdminResult, updateRole
 } from '../apis/memberApi'
 /*데이터 가공 */
 export const login_s = async (loginUser:emailAndPassword): Promise<loginSuccess> => {
@@ -33,6 +34,10 @@ export const getMemberList_s = async (pageNo:number, pageSize:number, filter:num
 
 export const getMemberDetail_s = async (memberId:string): Promise<memberDetailInfo> => {
     return await getMemberDetail(memberId);
+};
+
+export const getMemberDetailMe_s = async (): Promise<memberDetailInfo> => {
+    return await getMemberDetailMe();
 };
 
 export const getUserList_s = async (): Promise<testuser[]> => {

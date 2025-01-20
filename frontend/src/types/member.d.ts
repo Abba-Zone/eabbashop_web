@@ -84,7 +84,7 @@ interface wallet{
 	AK : number,
 	AP : number,
 	ABZ : number,
-	AW : number,
+	LP : number,
 	SP : number,
 }
 

@@ -1,0 +1,187 @@
+.mypage-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f5f5f5;
+    max-width: 1200px;
+    min-width: 300px;
+  }
+  
+  .mypage-header {
+    text-align: center;
+    margin-bottom: 20px;
+    background-color: #e0f7fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mypage-header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .mypage-header p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    margin-top: 0px;
+  }
+  
+  .wallet-info {
+    margin-top: 10px;
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: 80%;
+  }
+
+  .wallet-info-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 18px;
+  }
+  .wallet-info-details {
+    display: flex;
+    justify-content: space-around;
+    font-size: 14px;
+    color: #333;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .wallet-info div {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    
+  }
+  
+  .wallet-item {
+    background-color: #90caf9;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    flex: 1 1 100px;
+    margin: 5px;
+    color: white;
+    min-width: 80px;
+  }
+  
+  .mypage-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+  }
+
+  .mypage-sidebar {
+    padding: 20px;
+    width: 30%;
+    border-right: 1px solid #ccc;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .profile-image {
+    width: 40%;
+    border-radius: 50%;
+  }
+
+  .profile-name {
+    font-size: 25px;
+    font-weight: bold;
+    width: 60%;
+    text-align: center;
+  }
+
+  .profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  .mypage-sidebar-container {
+    padding: 15px;
+    background-color: #f0efef;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mypage-sidebar-container h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #bcbcbc;
+    width: 70%;
+  }
+  
+  .mypage-sidebar-container ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .mypage-sidebar-container li {
+    margin-bottom: 10px;
+  }
+  
+  .mypage-sidebar-container a {
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .mypage-sidebar-container a:hover {
+    color: #007bff;
+  }
+
+  .mypage-content {
+    display: flex;
+    width: 100%;
+    padding: 20px;
+  }
+  
+  .mypage-main {
+    flex: 1;
+    padding: 20px;
+    width: auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-left: 20px;
+  }
+  
+  .coupon-section, .benefits-section {
+    margin-bottom: 20px;
+  }
+  
+  .coupon-section button {
+    background-color: #ff5722;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .coupon-section button:hover {
+    background-color: #e64a19;
+  }
+
+  .profile-header {
+    display: flex;
+    align-items: center;
+  }

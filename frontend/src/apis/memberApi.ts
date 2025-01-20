@@ -149,7 +149,7 @@ export const getMemberDetail = (memberID:string):memberDetailInfo => {
           AK : 1.0,
           AP : 1.0,
           SP : 1.0,
-          AW : 1.0,
+          LP : 1.0,
           ABZ : 1.0,
         },
         address : [
@@ -188,6 +188,11 @@ export const getMemberDetail = (memberID:string):memberDetailInfo => {
         }
     };
     return result;
+}
+
+export const getMemberDetailMe = async (): Promise<memberDetailInfo> => {
+    const response = await getData<memberDetailInfo>('member/detail/me');
+    return response.data as memberDetailInfo;
 }
 
 export const updateInfo = (updateInfo:updateInfo) => {

@@ -26,6 +26,7 @@ export { default as ToMasterCard } from "./shop/ToMasterCard";
 export { default as MemberModify } from "./shop/MemberModify";
 export { default as Wallet } from "./shop/Wallet";
 export { default as Wishlist } from "./shop/Wishlist";
+export { default as Mypage } from "./shop/Mypage";
 export { default as MemberTest } from "./admin/MemberTest";
 export { default as AdminLogin } from "./admin/AdminLogin";
 export { default as AdminSignup } from "./admin/AdminSignup";

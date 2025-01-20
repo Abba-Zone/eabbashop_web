@@ -89,7 +89,11 @@ const Login: React.FC = () => {
         <div className="shop-login-input-group">
           <input type="password" name='input_pw' placeholder={t('Attribute02')} value={inputPw} onChange={handleInputPw} />
         </div>
-        <div className="shop-login-button"><button disabled={isLoggingIn} onClick={onClickLogin}>{t('Button.login')}</button></div>
+        <div className="shop-login-button">
+          <button disabled={isLoggingIn} onClick={onClickLogin}>
+            {t('Button.login')}
+          </button>
+        </div>
         <div className="shop-login-links">
           <a href="/FindIDPW">아이디 찾기 / 비밀번호 재설정</a> 
         </div>

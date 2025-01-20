@@ -23,6 +23,24 @@ export const getData = async <T>(url: string): Promise<AxiosResponse<T>> => {
   }
 };
 
+//TODO: GET 메서드 + requestBody
+export const getDataWithBody = async <T>(url: string, body?: any): Promise<AxiosResponse<T>> => {
+  try {
+    const newConfig: AxiosRequestConfig = getNewConfig();
+    const response = await client.request<T>({
+      method: 'GET',
+      url,
+      params: body,
+      ...newConfig,
+    });
+    return response;
+  } catch (error) {
+    handleError(error);
+    console.error(error);
+    throw error;
+  }
+};
+
 //TODO: POST 메서드
 export const postData = async <T>(url: string, data?: any): Promise<AxiosResponse<T>> => {
   try {

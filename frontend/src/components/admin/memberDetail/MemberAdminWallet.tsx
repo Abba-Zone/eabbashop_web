@@ -11,7 +11,7 @@ const MemberAdminWallet:React.FC<Props> = ({wallet}) => {
           <div><div>AK</div><div>{wallet.AK.toFixed(3)}</div></div>
           <div><div>AP</div><div>{wallet.AP.toFixed(3)}</div></div>
           <div><div>SP</div><div>{wallet.SP.toFixed(3)}</div></div>
-          <div><div>AW</div><div>{wallet.AW.toFixed(3)}</div></div>
+          <div><div>LP</div><div>{wallet.LP.toFixed(3)}</div></div>
           <div><div>ABZ</div><div>{wallet.ABZ.toFixed(3)}</div></div>
       </div>
     );
