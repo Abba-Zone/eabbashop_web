@@ -186,4 +186,16 @@ public class InvoiceService {
                 .products(productDtos)
                 .build();
     }
+
+    @Transactional
+    public ResponseBody deleteInvoice(InvoiceIdRequest request){
+        logger.info("송장을 삭제 처리합니다.");
+        Invoice invoice = invoiceRepository.findById(request.getInvoiceID())
+                .orElseThrow(() -> new NoDataException("없는 송장 정보입니다."));
+
+        invoice.setDeleteYn("Y");
+        invoiceRepository.save(invoice);
+        logger.info("삭제처리가 완료되었습니다.");
+        return new ResponseBody("성공했습니다.");
+    }
 }

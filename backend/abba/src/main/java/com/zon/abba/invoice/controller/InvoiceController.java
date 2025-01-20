@@ -59,6 +59,9 @@ public class InvoiceController {
     @PostMapping("/delete")
     @Operation(summary = "송장 삭제", description = "송장 내용을 삭제할 수 있다.")
     public ResponseEntity<Object> deleteInvoice(InvoiceIdRequest request){
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+
+        ResponseBody response = invoiceService.deleteInvoice(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
