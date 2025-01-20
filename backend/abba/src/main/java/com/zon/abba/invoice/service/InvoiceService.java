@@ -5,7 +5,9 @@ import com.zon.abba.common.exception.NoDataException;
 import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
+import com.zon.abba.invoice.dto.InvoiceListDto;
 import com.zon.abba.invoice.entity.Invoice;
+import com.zon.abba.invoice.mapping.InvoiceList;
 import com.zon.abba.invoice.repository.InvoiceRepository;
 import com.zon.abba.invoice.request.InvoiceIdRequest;
 import com.zon.abba.invoice.request.RegisterInvoiceRequest;
@@ -19,10 +21,15 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.StringTokenizer;
 
 @Service
 @RequiredArgsConstructor
@@ -96,8 +103,21 @@ public class InvoiceService {
     @Transactional
     public ResponseListBody invoiceList(RequestList request){
         // 주문 아이디 어떻게 할지 이야기 해보기
+        Pageable pageable = PageRequest.of(
+                request.getPageNo(),
+                request.getPageSize(),
+                Sort.by(request.getSort().equals("ASC") ?
+                                Sort.Direction.ASC : Sort.Direction.DESC,
+                        request.getSortValue())
+        );
 
-        return null;
+        logger.info("송장 정보를 가져옵니다.");
+        Page<InvoiceList> pages = invoiceRepository.findFilteredInvoices(request.getFilter(), request.getFilterValue(), pageable);
+        List<InvoiceListDto> list = pages.stream()
+                .map(InvoiceListDto::new)
+                .toList();
+
+        return new ResponseListBody(pages.getTotalElements(), list);
     }
 
     @Transactional

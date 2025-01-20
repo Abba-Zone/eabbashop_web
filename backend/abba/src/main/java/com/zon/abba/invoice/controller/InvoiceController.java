@@ -2,6 +2,7 @@ package com.zon.abba.invoice.controller;
 
 import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
+import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.invoice.request.RegisterInvoiceRequest;
 import com.zon.abba.invoice.service.InvoiceService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +33,10 @@ public class InvoiceController {
     @GetMapping("/list")
     @Operation(summary = "송장 조회", description = "송장 리스트를 확인할 수 있다.")
     public ResponseEntity<Object> invoiceList(RequestList request){
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+
+        ResponseListBody response = invoiceService.invoiceList(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/detail")
