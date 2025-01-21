@@ -25,10 +25,19 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/register")
-    @Operation(summary = "주문하기", description = "다양한 상품을 주문할 수 있다.")
+    @Operation(summary = "바로 주문하기", description = "바로 상품을 주문할 수 있다.")
     public ResponseEntity<Object> registerOrder(@RequestBody RegisterOrderRequest request){
 
         ResponseBody response = orderService.registerOrder(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/cart/register")
+    @Operation(summary = "장바구니에서 주문하기", description = "장바구니에 추가한 상품을 주문할 수 있다.")
+    public ResponseEntity<Object> registerCartOrder(@RequestBody RegisterCartOrderRequest request){
+
+        ResponseBody response = orderService.registerCartOrder(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
