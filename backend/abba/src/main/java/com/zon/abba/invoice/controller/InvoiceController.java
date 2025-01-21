@@ -5,6 +5,7 @@ import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.invoice.request.InvoiceIdRequest;
 import com.zon.abba.invoice.request.RegisterInvoiceRequest;
+import com.zon.abba.invoice.request.UpdateInvoiceRequest;
 import com.zon.abba.invoice.response.InvoiceDetailResponse;
 import com.zon.abba.invoice.service.InvoiceService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -52,13 +53,16 @@ public class InvoiceController {
 
     @PostMapping("/update")
     @Operation(summary = "송장 수정", description = "송장 내용을 수정할 수 있다.")
-    public ResponseEntity<Object> updateInvoice(){
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+    public ResponseEntity<Object> updateInvoice(@RequestBody UpdateInvoiceRequest request){
+
+        ResponseBody response = invoiceService.updateInvoice(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping("/delete")
     @Operation(summary = "송장 삭제", description = "송장 내용을 삭제할 수 있다.")
-    public ResponseEntity<Object> deleteInvoice(InvoiceIdRequest request){
+    public ResponseEntity<Object> deleteInvoice(@RequestBody InvoiceIdRequest request){
 
         ResponseBody response = invoiceService.deleteInvoice(request);
 

@@ -15,6 +15,7 @@ import com.zon.abba.invoice.mapping.InvoiceList;
 import com.zon.abba.invoice.repository.InvoiceRepository;
 import com.zon.abba.invoice.request.InvoiceIdRequest;
 import com.zon.abba.invoice.request.RegisterInvoiceRequest;
+import com.zon.abba.invoice.request.UpdateInvoiceRequest;
 import com.zon.abba.invoice.response.InvoiceDetailResponse;
 import com.zon.abba.member.entity.Member;
 import com.zon.abba.member.repository.MemberRepository;
@@ -185,6 +186,24 @@ public class InvoiceService {
                 .member(memberDto)
                 .products(productDtos)
                 .build();
+    }
+
+    @Transactional
+    public ResponseBody updateInvoice(UpdateInvoiceRequest request){
+        logger.info("송장 정보를 수정합니다.");
+        Invoice invoice = invoiceRepository.findById(request.getInvoiceID())
+                .orElseThrow(() -> new NoDataException("없는 송장 정보입니다."));
+
+        invoice.setInvoiceNo(request.getInvoiceNo());
+        invoice.setStatus(request.getStatus());
+        invoice.setIp(request.getIP());
+        invoice.setTotalLp(request.getTotalLP());
+        invoice.setTotalAk(request.getTotalAK());
+        invoice.setTotalSp(request.getTotalSP());
+
+        invoiceRepository.save(invoice);
+        logger.info("수정이 완료되었습니다.");
+        return new ResponseBody("성공했습니다.");
     }
 
     @Transactional
