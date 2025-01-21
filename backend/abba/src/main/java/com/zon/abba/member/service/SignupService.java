@@ -38,13 +38,16 @@ public class SignupService {
                 .password(signupRequest.getPassword())
                 .platform(signupRequest.getPlatform())
                 .country(signupRequest.getCountry())
+                .createdId("1")
+                .modifiedId("1")
                 .build();
 
-        member.setCreatedId(member.getMemberId());
-        member.setModifiedId(member.getMemberId());
+
 //        member.perPersist();
         member = memberRepository.save(member);
 
+        member.setCreatedId(member.getMemberId());
+        member.setModifiedId(member.getMemberId());
         // 추천인 등록
         // 추천인 email에 맞는 refered를 찾는다.
         logger.info("추천인 ID를 가져옵니다.");
