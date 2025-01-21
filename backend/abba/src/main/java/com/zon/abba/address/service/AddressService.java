@@ -119,6 +119,8 @@ public class AddressService {
                 .phone(registerAddressRequest.getPhone())
                 .firstName(registerAddressRequest.getFirstName())
                 .lastName(registerAddressRequest.getLastName())
+                .createdId(memberId)
+                .modifiedId(memberId)
                 .build();
 
         addressRepository.save(address);
@@ -137,8 +139,13 @@ public class AddressService {
         Address address = addressRepository.findByAddressId(addressRequest.getAddressId())
                 .orElseThrow(() -> new NoDataException("없는 데이터입니다."));
 
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
         logger.info("삭제 설정 이후 저장합니다.");
         address.setDeleteYN("Y");
+        address.setModifiedId(memberId);
+
         addressRepository.save(address);
 
         List<AddressDto> list = getAddressList(address.getMemberId());
@@ -156,6 +163,9 @@ public class AddressService {
         Address address = addressRepository.findByAddressId(updateAddressRequest.getAddressId())
                 .orElseThrow(() -> new NoDataException("없는 데이터입니다."));
 
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
         logger.info("수정할 내용을 저장합니다.");
         address.setAddressName(updateAddressRequest.getName());
         address.setFirstName(updateAddressRequest.getFirstName());
@@ -166,6 +176,8 @@ public class AddressService {
         address.setBaseAddress(updateAddressRequest.getBaseAddress());
         address.setDetailAddress(updateAddressRequest.getDetailAddress());
         address.setComment(updateAddressRequest.getComment());
+        address.setModifiedId(memberId);
+
         addressRepository.save(address);
 
 
@@ -183,6 +195,9 @@ public class AddressService {
 
         logger.info("main 또는 bill을 수정합니다.");
 
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
         logger.info("바꿀 주소를 불러옵니다.");
         Address address = addressRepository.findByAddressId(setAddressRequest.getAddressId())
                 .orElseThrow(() -> new NoDataException("없는 데이터입니다."));
@@ -196,15 +211,17 @@ public class AddressService {
             logger.info("메인 주소지를 변경합니다.");
             address.setMainAddress(true);
             preAddress.setMainAddress(false);
-            addressRepository.save(address);
-            addressRepository.save(preAddress);
         }else{ // bill 주소지 변경
             logger.info("청구 주소지를 변경합니다.");
             address.setBillAddress(true);
             preAddress.setMainAddress(false);
-            addressRepository.save(address);
-            addressRepository.save(preAddress);
+
         }
+        address.setModifiedId(memberId);
+        preAddress.setModifiedId(memberId);
+
+        addressRepository.save(address);
+        addressRepository.save(preAddress);
 
         List<AddressDto> list = getAddressList(address.getMemberId());
         logger.info("주소 설정 후 리스트 반환을 완료했습니다.");
