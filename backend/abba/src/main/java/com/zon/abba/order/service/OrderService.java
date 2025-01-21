@@ -2,6 +2,9 @@ package com.zon.abba.order.service;
 
 import com.zon.abba.address.entity.Address;
 import com.zon.abba.address.repository.AddressRepository;
+import com.zon.abba.cart.entity.Cart;
+import com.zon.abba.cart.repository.CartRepository;
+import com.zon.abba.cart.request.CartIdRequest;
 import com.zon.abba.common.exception.NoDataException;
 import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.request.RequestList;
@@ -42,12 +45,39 @@ public class OrderService {
     private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
 
     private final OrderRepository orderRepository;
+    private final CartRepository cartRepository;
     private final OrderDetailRepository orderDetailRepository;
     private final AddressRepository addressRepository;
     private final ProductRepository productRepository;
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
+    @Transactional
+    public ResponseBody registerCartOrder(RegisterCartOrderRequest request){
+        logger.info("장바구니 내역을 가져옵니다.");
+        List<String> cartIds = request.getCarts().stream()
+                .map(CartIdRequest::getCartId)
+                .toList();
+
+        List<Cart> carts = cartRepository.findByCartIdIn(cartIds);
+
+        List<ProductDto> products = carts.stream()
+                .map(c -> new ProductDto(c.getProductId(), c.getQuantity()))
+                .toList();
+
+        RegisterOrderRequest ror = new RegisterOrderRequest(
+                request.getAddressId(),
+                request.getBillAddressId(),
+                products
+        );
+        ResponseBody response = registerOrder(ror);
+
+        logger.info("장바구니 목록 업데이트 진행합니다.");
+        carts.forEach(c -> c.setDeleteYn("Y"));
+        cartRepository.saveAll(carts);
+
+        return response;
+    }
 
     @Transactional
     public ResponseBody registerOrder(RegisterOrderRequest request){
@@ -87,7 +117,6 @@ public class OrderService {
                 .billFirstName(billAddress.getFirstName())
                 .billLastName(billAddress.getLastName())
                 .billPhone(billAddress.getPhone())
-                .billComment(billAddress.getComment())
                 .build();
 
         orderRepository.save(orders);

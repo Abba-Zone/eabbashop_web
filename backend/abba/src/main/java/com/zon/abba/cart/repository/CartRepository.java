@@ -14,6 +14,7 @@ import java.util.Optional;
 public interface CartRepository extends JpaRepository<Cart, String> {
 
     Optional<Cart> findByCartId(String cartId);
+    List<Cart> findByCartIdIn(List<String> cartIds);
 
     @Query(value = """
         SELECT
