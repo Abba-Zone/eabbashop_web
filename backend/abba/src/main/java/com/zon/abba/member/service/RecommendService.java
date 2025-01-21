@@ -59,6 +59,8 @@ public class RecommendService {
         RecommendedMember recommendedMember = RecommendedMember.builder()
                 .referredId(recommendDto.getReferredId())
                 .referId(recommendDto.getReferId())
+                .createdId(recommendDto.getReferId())
+                .modifiedId(recommendDto.getReferId())
                 .build();
 
         recommendedMemberRepository.save(recommendedMember);
@@ -87,6 +89,8 @@ public class RecommendService {
                 .newReferredId(newReferredID)
                 .referId(referID)
                 .status("A")
+                .createdId(referID)
+                .modifiedId(referID)
                 .build();
 
         changeRecommendedMembersRepository.save(changeRecommendedMembers);
@@ -115,6 +119,8 @@ public class RecommendService {
                 .newReferredId(newReferredID)
                 .referId(referID)
                 .status("A")
+                .createdId(referID)
+                .modifiedId(referID)
                 .build();
 
         changeRecommendedMembersRepository.save(changeRecommendedMembers);
@@ -126,18 +132,23 @@ public class RecommendService {
     public ResponseBody deleteRecommend(){
         logger.info("상위 추천인을 삭제를 시작합니다.");
 
+        String memberID = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
         logger.info("상위 추천인 정보를 가져옵니다.");
-        RecommendedMember recommendedMember = jwtTokenProvider.getCurrentMemberId()
-                .flatMap(recommendedMemberRepository::findByReferId)
+        RecommendedMember recommendedMember = recommendedMemberRepository.findByReferId(memberID)
                 .orElseThrow(() -> new NoDataException("없는 데이터입니다."));
 
         logger.info("추천인 삭제 로그를 기록합니다.");
         // 로그는 기존의 내용을 그대로 넣고 변경 내용을 적용
         RecommendedMembersAlterLog recommendedMembersAlterLog = new RecommendedMembersAlterLog(recommendedMember, "D");
+        recommendedMembersAlterLog.setCreatedId(memberID);
+        recommendedMembersAlterLog.setModifiedId(memberID);
         recommendedMembersAlterLogRepository.save(recommendedMembersAlterLog);
 
         logger.info("삭제 처리를 합니다.");
         recommendedMember.setReferredId(null);
+        recommendedMember.setModifiedId(memberID);
         recommendedMemberRepository.save(recommendedMember);
 
         return new ResponseBody("성공했습니다.");
@@ -145,8 +156,11 @@ public class RecommendService {
 
     @Transactional
     public ResponseBody alterRecommend(AlterRecommendRequest alterRecommendRequest){
-
         logger.info("변경 정보를 업데이트합니다.");
+
+        String memberID = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
         // 1. 변경 정보 가져오기
         ChangeRecommendedMembers changeRecommendedMember =
                 changeRecommendedMembersRepository.findByChangeRecommendedMemberId(alterRecommendRequest.getChangeRecommendedMemberID())
@@ -159,16 +173,20 @@ public class RecommendService {
         logger.info("추천인 변경 로그를 기록합니다.");
         // 로그는 기존의 내용을 그대로 넣고 변경 내용을 적용
         RecommendedMembersAlterLog recommendedMembersAlterLog = new RecommendedMembersAlterLog(currentRecommendedMember, "M");
+        recommendedMembersAlterLog.setCreatedId(memberID);
+        recommendedMembersAlterLog.setModifiedId(memberID);
         recommendedMembersAlterLogRepository.save(recommendedMembersAlterLog);
 
         logger.info("현재 추천인 정보를 업데이트 합니다.");
         // 현재 추천인 정보 변경
         currentRecommendedMember.setReferredId(changeRecommendedMember.getNewReferredId());
+        currentRecommendedMember.setModifiedId(memberID);
         recommendedMemberRepository.save(currentRecommendedMember);
 
         logger.info("변경 신청 내역 정보를 업데이트 합니다.");
         // 변경 신청 내역 정보 변경
         changeRecommendedMember.setStatus(alterRecommendRequest.getStatus());
+        changeRecommendedMember.setModifiedId(memberID);
         changeRecommendedMembersRepository.save(changeRecommendedMember);
 
         logger.info("변경 정보를 업데이트 완료.");
@@ -210,6 +228,10 @@ public class RecommendService {
     public ResponseBody changeRecommend(ChangeRecommendRequest request){
 
         logger.info("추천인을 변경합니다.");
+
+        String memberID = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
         // 2. referId의 현재 추천인 정보 가져오기
         RecommendedMember currentRecommendedMember = recommendedMemberRepository.findByReferId(request.getReferID())
                 .orElseThrow(() -> new NoDataException("없는 추천인 정보입니다."));
@@ -217,11 +239,14 @@ public class RecommendService {
         logger.info("기존의 추천인 로그를 기록합니다.");
         // 로그는 기존의 내용을 그대로 넣고 변경 내용을 적용
         RecommendedMembersAlterLog recommendedMembersAlterLog = new RecommendedMembersAlterLog(currentRecommendedMember, "M");
+        recommendedMembersAlterLog.setCreatedId(memberID);
+        recommendedMembersAlterLog.setModifiedId(memberID);
         recommendedMembersAlterLogRepository.save(recommendedMembersAlterLog);
 
         logger.info("추천인 정보를 업데이트 합니다.");
         // 현재 추천인 정보 변경
         currentRecommendedMember.setReferredId(request.getReferredID());
+        currentRecommendedMember.setModifiedId(memberID);
         recommendedMemberRepository.save(currentRecommendedMember);
 
         logger.info("추천인 변경 완료.");

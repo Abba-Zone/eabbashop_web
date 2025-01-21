@@ -90,8 +90,8 @@ public class Member {
     public void perPersist(){
         if(this.lastLoginTime == null) this.lastLoginTime = LocalDateTime.now();
         if(this.receiveConsentYN == null) this.receiveConsentYN = "Y";
-        if (this.createdId == null) this.createdId = UUID.randomUUID().toString();
-        if (this.modifiedId == null) this.modifiedId = UUID.randomUUID().toString();
+//        if (this.createdId == null) this.createdId = UUID.randomUUID().toString();
+//        if (this.modifiedId == null) this.modifiedId = UUID.randomUUID().toString();
         if (this.failCount == null) this.failCount = 0;
         if(this.createdDateTime == null) this.createdDateTime = LocalDateTime.now();
         if(this.modifiedDateTime == null) this.modifiedDateTime = LocalDateTime.now();
@@ -99,12 +99,6 @@ public class Member {
         if(this.role == null) this.role = "A";
         if(this.deleteYN == null) this.deleteYN = "N";
         if(this.activeYN == null) this.activeYN = "Y";
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        // 업데이트 시 새로운 UUID 할당
-        this.modifiedId = UUID.randomUUID().toString();
     }
 
 }

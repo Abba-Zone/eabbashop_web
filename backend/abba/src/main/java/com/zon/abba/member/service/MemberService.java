@@ -130,6 +130,7 @@ public class MemberService {
         member.setLastName(memberInfoRequest.getLastName());
         member.setPhone(memberInfoRequest.getPhone());
         member.setPassword(memberInfoRequest.getPassword());
+        member.setModifiedId(member.getMemberId());
 
         memberRepository.save(member);
 
@@ -144,8 +145,12 @@ public class MemberService {
         Member member = memberRepository.findOneByMemberId(memberRoleRequest.getMemberID())
                 .orElseThrow(() -> new NoMemberException("없는 회원 정보입니다."));
 
+        String adminId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
         // 요청 정보 업데이트
         member.setRole(memberRoleRequest.getRole());
+        member.setModifiedId(adminId);
 
         memberRepository.save(member);
 
@@ -160,8 +165,12 @@ public class MemberService {
         Member member = memberRepository.findOneByMemberId(memberGradeRequest.getMemberID())
                 .orElseThrow(() -> new NoMemberException("없는 회원 정보입니다."));
 
+        String adminId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
         // 요청 정보 업데이트
         member.setGrade(memberGradeRequest.getGrade());
+        member.setModifiedId(adminId);
 
         memberRepository.save(member);
 
@@ -178,6 +187,7 @@ public class MemberService {
 
         // 요청 정보 업데이트
         member.setGrade(memberPasswordRequest.getPassword());
+        member.setModifiedId(member.getMemberId());
 
         memberRepository.save(member);
 
@@ -209,9 +219,12 @@ public class MemberService {
                 .flatMap(memberRepository::findOneByMemberId)
                 .orElseThrow(() -> new NoMemberException("없는 회원 정보입니다."));
 
+        String adminId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
         // 요청 정보 업데이트
         member.setDeleteYN("Y");
-
+        member.setModifiedId(adminId);
 
         memberRepository.save(member);
 

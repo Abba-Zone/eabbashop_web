@@ -82,6 +82,7 @@ public class LoginService {
         if(!loginRequest.getPassword().equals(member.getPassword())) {
             // 비밀번호가 틀리면 failCount를 증가시키고 저장
             member.setFailCount(member.getFailCount() + 1);
+            member.setModifiedId(member.getMemberId());
             memberRepository.save(member);
             throw new FailPasswordException("비밀번호가 틀렸습니다.");
         }
@@ -89,6 +90,7 @@ public class LoginService {
 //         3. 비밀번호 검증 성공 시 failCount 초기화 및 lastLoginTime 업데이트
         member.setFailCount(0); // 실패 횟수 초기화
         member.setLastLoginTime(LocalDateTime.now()); // 마지막 로그인 시간 갱신
+        member.setModifiedId(member.getMemberId());
 
         memberRepository.save(member);
 
@@ -118,6 +120,7 @@ public class LoginService {
 
         Member member = memberOptional.get();
         member.setLastLoginTime(LocalDateTime.now()); // 마지막 로그인 시간 갱신
+        member.setModifiedId(member.getMemberId());
 
         memberRepository.save(member);
 
@@ -146,6 +149,7 @@ public class LoginService {
 
         Member member = memberOptional.get();
         member.setLastLoginTime(LocalDateTime.now()); // 마지막 로그인 시간 갱신
+        member.setModifiedId(member.getMemberId());
 
         memberRepository.save(member);
 

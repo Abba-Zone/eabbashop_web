@@ -61,20 +61,11 @@ public class RecommendedMembersAlterLog {
     @PrePersist
     public void perPersist(){
 
-        if (this.createdId == null) this.createdId = UUID.randomUUID().toString();
-        if (this.modifiedId == null) this.modifiedId = UUID.randomUUID().toString();
-
         if(this.createdDateTime == null) this.createdDateTime = LocalDateTime.now();
         if(this.modifiedDateTime == null) this.modifiedDateTime = LocalDateTime.now();
 
         if(this.deleteYN == null) this.deleteYN = "N";
         if(this.activeYN == null) this.activeYN = "Y";
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        // 업데이트 시 새로운 UUID 할당
-        this.modifiedId = UUID.randomUUID().toString();
     }
 
     public RecommendedMembersAlterLog(RecommendedMember recommendedMember, String activeType){
