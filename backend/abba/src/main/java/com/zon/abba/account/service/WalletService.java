@@ -64,6 +64,8 @@ public class WalletService {
                     .sp(new BigDecimal("0.0"))
                     .abz(new BigDecimal("0.0"))
                     .abzPoint(new BigDecimal("0.0"))
+                    .createdId(memberId)
+                    .modifiedId(memberId)
                     .build();
 
             walletRepository.save(wallet);
