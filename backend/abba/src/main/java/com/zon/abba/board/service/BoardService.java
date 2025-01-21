@@ -116,6 +116,8 @@ public class BoardService {
                 .showYn(registerBoardRequest.getShow())
                 .topYn(registerBoardRequest.getTop())
                 .type(registerBoardRequest.getType())
+                .createdId(memberId)
+                .modifiedId(memberId)
                 .build();
 
         boardRepository.save(board);
@@ -147,12 +149,16 @@ public class BoardService {
         Board board = boardRepository.findByBoardId(detailBoardRequest.getBoardId())
                 .orElseThrow(() -> new NoDataException("게시글이 없습니다."));
 
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
         logger.info("수정 내역을 저장합니다.");
         board.setType(detailBoardRequest.getType());
         board.setTitle(detailBoardRequest.getTitle());
         board.setContents(detailBoardRequest.getContent());
         board.setShowYn(detailBoardRequest.getShow());
         board.setTopYn(detailBoardRequest.getTop());
+        board.setModifiedId(memberId);
 
         boardRepository.save(board);
 
@@ -166,8 +172,13 @@ public class BoardService {
         Board board = boardRepository.findByBoardId(boardIdRequest.getBoardID())
                 .orElseThrow(() -> new NoDataException("게시글이 없습니다."));
 
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
         logger.info("삭제를 시도합니다.");
         board.setDeleteYn("Y");
+        board.setModifiedId(memberId);
+
         boardRepository.save(board);
 
         logger.info("게시글 삭제를 완료했습니다.");
