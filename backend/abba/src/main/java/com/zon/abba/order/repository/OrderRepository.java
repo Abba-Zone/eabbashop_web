@@ -1,6 +1,7 @@
 package com.zon.abba.order.repository;
 
 import com.zon.abba.order.entity.Orders;
+import org.hibernate.query.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Orders, String> {
@@ -27,4 +29,10 @@ public interface OrderRepository extends JpaRepository<Orders, String> {
             @Param("deleteYN") String deleteYN,
             @Param("year") String year,
             Pageable pageable);
+
+    @Query(value = "SELECT o.* " +
+            "FROM Orders o " +
+            "JOIN OrderDetail od ON o.OrderID = od.OrderID " +
+            "WHERE od.OrderDetailID = :orderDetailID", nativeQuery = true)
+    Optional<Orders> findOrderByOrderDetailID(@Param("orderDetailID") String orderDetailID);
 }

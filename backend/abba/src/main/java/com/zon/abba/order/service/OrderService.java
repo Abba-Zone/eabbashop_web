@@ -84,6 +84,10 @@ public class OrderService {
                 .firstName(address.getFirstName())
                 .lastName(address.getLastName())
                 .phone(address.getPhone())
+                .billFirstName(billAddress.getFirstName())
+                .billLastName(billAddress.getLastName())
+                .billPhone(billAddress.getPhone())
+                .billComment(billAddress.getComment())
                 .build();
 
         orderRepository.save(orders);
