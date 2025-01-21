@@ -51,6 +51,8 @@ public class RefundService {
                             .sellerId(sellerId)
                             .quantity(od.getQuantity())
                             .status(request.getStatus())
+                            .createdId(memberId)
+                            .modifiedId(memberId)
                             .build();
                 })
                 .toList();
@@ -67,12 +69,15 @@ public class RefundService {
     @Transactional
     public ResponseBody approveRefund(ApproveRefundRequest request){
         logger.info("반품/환불 신청을 승인/거절 합니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
 
         logger.info("반품/환불 신청을 가져옵니다.");
         Refund refund = refundRepository.findById(request.getRefundID())
                 .orElseThrow(() -> new NoDataException("없는 신청입니다."));
 
         refund.setStatus(request.getStatus());
+        refund.setModifiedId(memberId);
 
         refundRepository.save(refund);
 

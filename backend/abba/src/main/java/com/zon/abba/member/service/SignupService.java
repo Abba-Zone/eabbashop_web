@@ -40,6 +40,8 @@ public class SignupService {
                 .country(signupRequest.getCountry())
                 .build();
 
+        member.setCreatedId(member.getMemberId());
+        member.setModifiedId(member.getMemberId());
 //        member.perPersist();
         member = memberRepository.save(member);
 

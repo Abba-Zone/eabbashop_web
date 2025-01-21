@@ -43,6 +43,8 @@ public class CartService {
                 .memberId(memberId)
                 .productId(request.getProductId())
                 .quantity(request.getQuantity())
+                .createdId(memberId)
+                .modifiedId(memberId)
                 .build();
 
         cartRepository.save(cart);
@@ -60,8 +62,12 @@ public class CartService {
         Cart cart = cartRepository.findByCartId(request.getCartId())
                 .orElseThrow(() -> new NoDataException("없는 장바구니 상품입니다."));
 
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
         logger.info("Cart 객체 값을 수정합니다.");
         cart.setQuantity(request.getQuantity());
+        cart.setModifiedId(memberId);
 
         cartRepository.save(cart);
 
@@ -78,8 +84,12 @@ public class CartService {
         Cart cart = cartRepository.findByCartId(request.getCartId())
                 .orElseThrow(() -> new NoDataException("없는 장바구니 상품입니다."));
 
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
         logger.info("Cart 객체 값을 선택처리 합니다.");
         cart.setSelectYn(request.getSelectYN() ? "Y" : "N");
+        cart.setModifiedId(memberId);
 
         cartRepository.save(cart);
 
@@ -96,8 +106,12 @@ public class CartService {
         Cart cart = cartRepository.findByCartId(request.getCartId())
                 .orElseThrow(() -> new NoDataException("없는 장바구니 상품입니다."));
 
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
         logger.info("Cart 객체 값을 삭제처리 합니다.");
         cart.setDeleteYn("Y");
+        cart.setModifiedId(memberId);
 
         cartRepository.save(cart);
 

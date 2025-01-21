@@ -6,6 +6,7 @@ import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
+import com.zon.abba.common.security.JwtTokenProvider;
 import com.zon.abba.invoice.dto.AddressDto;
 import com.zon.abba.invoice.dto.InvoiceListDto;
 import com.zon.abba.invoice.dto.MemberDto;
@@ -49,6 +50,7 @@ public class InvoiceService {
     private final OrderDetailRepository orderDetailRepository;
     private final MemberRepository memberRepository;
     private final OrderRepository orderRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public boolean areAllOrderIdsSame(List<OrderDetail> orderDetails) {
         // Stream을 사용하여 모든 OrderID가 동일한지 확인
@@ -61,6 +63,10 @@ public class InvoiceService {
     @Transactional
     public ResponseBody registerInvoice(RegisterInvoiceRequest request){
         logger.info("새로운 송장을 등록합니다.");
+
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
         // 들어온 OrderDetailID들이 같은 OrderID를 가지는지 체크하자.
         List<String> orderDetailIds = request.getOrderDetails().stream()
                 .map(OrderDetailIdRequest::getOrderDetailID)
@@ -98,12 +104,18 @@ public class InvoiceService {
                 .totalLp(totalLp)
                 .totalAk(totalAk)
                 .totalSp(totalSp)
+                .createdId(memberId)
+                .modifiedId(memberId)
                 .build();
 
         invoiceRepository.save(invoice);
 
         logger.info("등록된 주문 목록의 상태를 변경합니다.");
-        orderDetails.forEach(od -> od.setStatus(200));
+        orderDetails.forEach(od -> {
+            od.setStatus(200);
+            od.setModifiedId(memberId);
+        });
+
         orderDetailRepository.saveAll(orderDetails);
 
         logger.info("송장 등록을 완료했습니다.");
@@ -191,6 +203,10 @@ public class InvoiceService {
     @Transactional
     public ResponseBody updateInvoice(UpdateInvoiceRequest request){
         logger.info("송장 정보를 수정합니다.");
+
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
         Invoice invoice = invoiceRepository.findById(request.getInvoiceID())
                 .orElseThrow(() -> new NoDataException("없는 송장 정보입니다."));
 
@@ -200,6 +216,7 @@ public class InvoiceService {
         invoice.setTotalLp(request.getTotalLP());
         invoice.setTotalAk(request.getTotalAK());
         invoice.setTotalSp(request.getTotalSP());
+        invoice.setModifiedId(memberId);
 
         invoiceRepository.save(invoice);
         logger.info("수정이 완료되었습니다.");
@@ -209,10 +226,16 @@ public class InvoiceService {
     @Transactional
     public ResponseBody deleteInvoice(InvoiceIdRequest request){
         logger.info("송장을 삭제 처리합니다.");
+
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
         Invoice invoice = invoiceRepository.findById(request.getInvoiceID())
                 .orElseThrow(() -> new NoDataException("없는 송장 정보입니다."));
 
         invoice.setDeleteYn("Y");
+        invoice.setModifiedId(memberId);
+
         invoiceRepository.save(invoice);
         logger.info("삭제처리가 완료되었습니다.");
         return new ResponseBody("성공했습니다.");

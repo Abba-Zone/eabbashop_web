@@ -88,9 +88,6 @@ public class PointsHistory {
     @PrePersist
     public void perPersist(){
 
-        if (this.createdId == null) this.createdId = UUID.randomUUID().toString();
-        if (this.modifiedId == null) this.modifiedId = UUID.randomUUID().toString();
-
         if(this.createdDateTime == null) this.createdDateTime = LocalDateTime.now();
         if(this.modifiedDateTime == null) this.modifiedDateTime = LocalDateTime.now();
 

@@ -54,6 +54,10 @@ public class OrderService {
 
     @Transactional
     public ResponseBody registerCartOrder(RegisterCartOrderRequest request){
+        logger.info("현 유저 정보를 가져옵니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
         logger.info("장바구니 내역을 가져옵니다.");
         List<String> cartIds = request.getCarts().stream()
                 .map(CartIdRequest::getCartId)
@@ -73,7 +77,10 @@ public class OrderService {
         ResponseBody response = registerOrder(ror);
 
         logger.info("장바구니 목록 업데이트 진행합니다.");
-        carts.forEach(c -> c.setDeleteYn("Y"));
+        carts.forEach(c -> {
+            c.setDeleteYn("Y");
+            c.setModifiedId(memberId);
+        });
         cartRepository.saveAll(carts);
 
         return response;
@@ -117,6 +124,8 @@ public class OrderService {
                 .billFirstName(billAddress.getFirstName())
                 .billLastName(billAddress.getLastName())
                 .billPhone(billAddress.getPhone())
+                .createdId(memberId)
+                .modifiedId(memberId)
                 .build();
 
         orderRepository.save(orders);
@@ -156,6 +165,8 @@ public class OrderService {
                     .lpPrice(newLP)
                     .spPrice(newSP)
                     .akPrice(BigDecimal.valueOf(0.0))
+                    .createdId(memberId)
+                    .modifiedId(memberId)
                     .build();
 
             orderDetails.add(orderDetail);
@@ -245,6 +256,8 @@ public class OrderService {
     @Transactional
     public ResponseBody changeOrderListStatus(ChangeStatusListRequest request){
         logger.info("주문을 취소합니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
 
         List<String> ids = request.getOrderDetailIDs().stream()
                 .map(OrderDetailIdRequest::getOrderDetailID)
@@ -252,7 +265,10 @@ public class OrderService {
         List<OrderDetail> list = orderDetailRepository.findByOrderDetailIds(ids);
 
         // 400 : 취소
-        list.forEach(od -> od.setStatus(request.getStatus()));
+        list.forEach(od -> {
+            od.setStatus(request.getStatus());
+            od.setModifiedId(memberId);
+        });
 
         // 업데이트 내용 저장
         orderDetailRepository.saveAll(list);
@@ -264,6 +280,8 @@ public class OrderService {
     @Transactional
     public ResponseBody deleteOrder(List<OrderDetailIdRequest> request){
         logger.info("주문 내역을 삭제합니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
 
         List<String> ids = request.stream()
                 .map(OrderDetailIdRequest::getOrderDetailID)
@@ -271,7 +289,10 @@ public class OrderService {
         List<OrderDetail> list = orderDetailRepository.findByOrderDetailIds(ids);
 
         // 삭제 처리
-        list.forEach(od -> od.setDeleteYn("Y"));
+        list.forEach(od -> {
+            od.setDeleteYn("Y");
+            od.setModifiedId(memberId);
+        });
 
         // 업데이트 내용 저장
         orderDetailRepository.saveAll(list);
@@ -284,11 +305,15 @@ public class OrderService {
     public ResponseBody changeOrderStatus(ChangeStatusRequest request){
         logger.info("구매를 확정합니다.");
 
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
         OrderDetail orderDetail = orderDetailRepository.findById(request.getOrderDetailID())
                 .orElseThrow(() -> new NoDataException("없는 주문 목록입니다."));
 
         // 삭제 처리
         orderDetail.setStatus(request.getStatus());
+        orderDetail.setModifiedId(memberId);
 
         // 업데이트 내용 저장
         orderDetailRepository.save(orderDetail);
