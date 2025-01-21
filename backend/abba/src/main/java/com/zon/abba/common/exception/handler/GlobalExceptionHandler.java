@@ -108,5 +108,13 @@ public class GlobalExceptionHandler {
                 .body(ex.getMessage()); // 에러 메시지 반환
     }
 
+    @ExceptionHandler(CommonException.class)
+    public ResponseEntity<String> CommonExceptionException(CommonException ex){
+        logger.info("CommonException 발생 : {}", ex.getErrorCode());
+        return ResponseEntity
+                .status(Integer.parseInt(ex.getErrorCode())) // 공용 에러 코드
+                .body(ex.getMessage()); // 에러 메시지 반환
+    }
+
 
 }
