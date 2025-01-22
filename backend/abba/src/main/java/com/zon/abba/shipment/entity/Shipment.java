@@ -18,7 +18,7 @@ import java.util.UUID;
 public class Shipment {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "OrderID", columnDefinition = "CHAR(36)", nullable = false, updatable = false)
+    @Column(name = "ShipmentID", columnDefinition = "CHAR(36)", nullable = false, updatable = false)
     private String shipmentId;
 
     @Column(name = "InvoiceID", nullable = true, length = 36)

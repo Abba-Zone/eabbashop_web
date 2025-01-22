@@ -65,7 +65,7 @@ public class Member {
     @Column(name = "ReceiveConsentYN", length = 1, nullable = false, columnDefinition = "CHAR(1)")
     private String receiveConsentYN;
 
-    @Column(name = "CreatedID", columnDefinition = "CHAR(36)", updatable = false, nullable = false)
+    @Column(name = "CreatedID", columnDefinition = "CHAR(36)", nullable = false)
     private String createdId;
 
     @Column(name = "ModifiedID", columnDefinition = "CHAR(36)", nullable = false)

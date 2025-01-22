@@ -1,5 +1,6 @@
 package com.zon.abba.order.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zon.abba.order.mapping.RefundOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,12 +14,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RefundListDto {
+    @JsonProperty("refundID")
     private String refundID;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("phone")
     private String phone;
+    @JsonProperty("orderDetailID")
     private String orderDetailID;
+    @JsonProperty("createdDateTime")
     private LocalDateTime createdDateTime;
-    private String status;
+    @JsonProperty("status")
+    private Integer status;
 
     public RefundListDto(RefundOrder refundOrder){
         this.refundID = refundOrder.getRefundId();
