@@ -154,6 +154,7 @@ export const getMemberDetail = (memberID:string):memberDetailInfo => {
         },
         address : [
             {
+                addressID:"1234",
                 country : "KOR",
                 zipCode : "11111",
                 baseAddress : "부산시 기장군",
@@ -166,6 +167,7 @@ export const getMemberDetail = (memberID:string):memberDetailInfo => {
                 comment : "문앞에두지말고경비원옆에두지말고널판"
            },
            {
+                addressID:"5678",
                 country : "KOR5",
                 zipCode : "111115",
                 baseAddress : "부산시 기장군5",

@@ -102,4 +102,18 @@ export {default as BoardList} from "./shop/board/BoardList";
 /* Shop Search */
 export {default as SearchProductList} from "./shop/search/SearchProductList";
 export {default as SearchFilter} from "./shop/search/SearchFilter";
+/* Shop Purchase */
+export {default as PurchaseAddress} from "./shop/checkout/Address";
+export {default as PurchaseBuyer} from "./shop/checkout/Buyer";
+export {default as PurchasePayment} from "./shop/checkout/Payment";
+export {default as PurchasePrice} from "./shop/checkout/Price";
+export {default as PurchaseProductList} from "./shop/checkout/ProductList";
+
+/* Shop Order */
+export {default as ShopOrderList} from "./shop/order/ShopOrderList";
+export {default as PageMove} from "./shop/order/PageMove";
+export {default as SelectYear} from "./shop/order/SelectYear";
+
+/* Shop OrderDetail */
+export {default as OrderInfo} from "./shop/orderDetail/OrderInfo";
 

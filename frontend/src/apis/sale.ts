@@ -69,6 +69,62 @@ export const getOrderDetail = (orderID:string):orderDetail => {
     return result;
 }
 
+export const getShopOrderDetail = (orderID:string):shopOrderInfo => {
+    // getData<orderDetail>('/info?orderID='+ orderID)
+    //     .then((data:APIResponse<orderDetail>) => {
+    //         return data.result;
+    //     }
+    // );
+    // return null as unknown as orderDetail;
+    var result:shopOrderInfo= {
+       "order_id": "df391c47-b28f-4537-ba65-a07979a03ac8",
+        "created_date_time": "2025-01-10T00:39:26",
+        "name": "A BCD",
+        "phone": "010-1111-2222",
+        "zipCode": "20001",
+        "baseAddress": "123 Main St",
+        "detailAddress": "Apt 4B",
+        "billZipCode": "10117",
+        "billBaseAddress": "Unter den Linden 77",
+        "billDetailAddress": "Office 301",
+        "comment": "null",
+        "totalRealPrice": 2200.00,
+        "totalLP": 1000.00,
+        "totalAK": 0.00,
+        "totalSP": 1200.00,
+        "order_details": [
+        {
+            "orderDetailID": "2b8b49b8-a409-4eb1-8920-7e9b7d45918e",
+            "productID": "fc6ee6e7-ee5b-47d9-aae7-62ea7d653af9",
+            "name": "Change Sample Product2",
+            "allowNation": "KR,US,JP",
+            "viewSite": "A",
+            "quantity": 2,
+            "status": 400,
+            "thumbnail": "https://example.com/sample-thumbnail.jpg",
+            "LP": 1000.00,
+            "AK": 0.0,
+            "SP": 1200.00
+        },
+        {
+            "orderDetailID": "2b8b49b8-a409-4eb1-8920-7e9b7d45918e",
+            "productID": "fc6ee6e7-ee5b-47d9-aae7-62ea7d653af9",
+            "name": "Change Sample Product2",
+            "allowNation": "KR,US,JP",
+            "viewSite": "A",
+            "quantity": 2,
+            "status": 400,
+            "thumbnail": "https://example.com/sample-thumbnail.jpg",
+            "LP": 1000.00,
+            "AK": 0.0,
+            "SP": 1200.00
+        }
+    ]
+
+    };
+    return result;
+}
+
 /* Invoice */
 export const getInvoiceList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):invoiceList => {
     /* real code*/
@@ -222,6 +278,77 @@ export const getRegularOrderList = (pageNo:number, pageSize:number, filter:numbe
     var result :regularOrderList = {
         totalCount: 123412414,
         list : []
+    };
+    return result;
+}
+
+export const getShopOrderList = async (pageNo:number, pageSize:number, year:number):Promise<shopOrderList> => {
+    /* real code*/
+    // try {
+    //     const response = await getData<shopOrderList>(
+    //         `/order/list?pageNo=${pageNo}&pageSize=${pageSize}&year=${year}`
+    //     );
+    //     console.log(response.data);
+    //     return response.data;
+    // } catch (error) {
+    //     console.error('Error fetching board list:', error);
+    //     throw error;
+    // }
+
+    /* make for test*/
+    var result :shopOrderList = {
+        totalCount: 123412414,
+        list : [{
+            "order_id": "df391c47-b28f-4537-ba65-a07979a03ac8",
+            "created_date_time": "2025-01-10T00:39:26",
+            "order_details": [
+                {
+                    "orderDetailID": "2b8b49b8-a409-4eb1-8920-7e9b7d45918e",
+                    "productID": "fc6ee6e7-ee5b-47d9-aae7-62ea7d653af9",
+                    "name": "Change Sample Product",
+                    "allowNation": "KR,US,JP",
+                    "viewSite": "A",
+                    "quantity": 2,
+                    "status": 100,
+                    "thumbnail": "https://abbazonbucket.s3.ap-northeast-2.amazonaws.com/%EC%8B%B8%ED%94%BC.png",
+                    "LP": 1000.00,
+                    "AK": 0.0,
+                    "SP": 1200.00
+                },
+                {
+                    "orderDetailID": "2b8b49b8-a409-4eb1-8920-7e9b7d45918e",
+                    "productID": "fc6ee6e7-ee5b-47d9-aae7-62ea7d653af9",
+                    "name": "Change Sample Product",
+                    "allowNation": "KR,US,JP",
+                    "viewSite": "A",
+                    "quantity": 2,
+                    "status": 100,
+                    "thumbnail": "https://abbazonbucket.s3.ap-northeast-2.amazonaws.com/%EC%8B%B8%ED%94%BC.png",
+                    "LP": 1000.00,
+                    "AK": 0.0,
+                    "SP": 1200.00
+                }
+            ]
+        },
+        {
+            "order_id": "df391c47-b28f-4537-ba65-a07979a03ac8",
+            "created_date_time": "2025-01-10T00:39:26",
+            "order_details": [
+                {
+                    "orderDetailID": "2b8b49b8-a409-4eb1-8920-7e9b7d45918e",
+                    "productID": "fc6ee6e7-ee5b-47d9-aae7-62ea7d653af9",
+                    "name": "Change Sample Product",
+                    "allowNation": "KR,US,JP",
+                    "viewSite": "A",
+                    "quantity": 2,
+                    "status": 100,
+                    "thumbnail": "https://abbazonbucket.s3.ap-northeast-2.amazonaws.com/%EC%8B%B8%ED%94%BC.png",
+                    "LP": 1000.00,
+                    "AK": 0.0,
+                    "SP": 1200.00
+                }
+            ]
+        },]
     };
     return result;
 }
