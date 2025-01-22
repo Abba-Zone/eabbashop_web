@@ -8,5 +8,5 @@ public interface RefundOrder {
     String getPhone();
     String getOrderDetailID();
     LocalDateTime getCreatedDateTime();
-    String getStatus();
+    Integer getStatus();
 }
