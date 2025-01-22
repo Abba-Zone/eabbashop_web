@@ -5,6 +5,7 @@ interface address{
 	detailAddress : string,
 }
 interface addressAllInfo extends address{
+	addressID:string,
 	isMain : boolean,
 	isBill : boolean,
 	host : string,

@@ -12,6 +12,47 @@ interface orderList{
     list : order[]
 }
 
+interface shopOrderDetail{
+    orderDetailID:string,
+    productID:string,
+    name:string,
+    allowNation:string,
+    viewSite:string,
+    quantity:number,
+    status:number,
+    thumbnail:string,
+    LP:number,
+    AK:number,
+    SP:number,
+}
+
+interface shopOrderInfo extends shopOrder{
+    name:string,
+    phone:string,
+    zipCode:string,
+    baseAddress:string,
+    detailAddress:string,
+    billZipCode:string,
+    billBaseAddress:string,
+    billDetailAddress:string,
+    comment: string,
+    totalRealPrice:number,
+    totalLP:number,
+    totalAK:number,
+    totalSP:number,
+}
+
+interface shopOrder{
+    order_id : string,
+    created_date_time : string,
+    order_details :shopOrderDetail[]
+}
+
+interface shopOrderList{
+    totalCount : number,
+    list : shopOrder[]
+}
+
 interface orderDetail{
     product : orderProduct,
     order : orderOrder,

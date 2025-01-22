@@ -102,7 +102,7 @@ const RoutePath:React.FC = () => {
         <Route path="/membermodify" element={<MemberModify />}/>        
         <Route path="/address" element={<Address />}/>        
         <Route path="/orders" element={<Orders />}/>        
-        <Route path="/orderdetail" element={<OrderDetail />}/>        
+        <Route path="/orderdetail/:id" element={<OrderDetail />}/>        
         <Route path="/regularorder" element={<RegularOrder />}/>        
         <Route path="/review" element={<Review />}/>        
         <Route path="/wishlist" element={<Wishlist />}/>        
