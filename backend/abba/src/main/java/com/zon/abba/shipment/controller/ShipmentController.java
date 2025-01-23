@@ -1,6 +1,8 @@
 package com.zon.abba.shipment.controller;
 
+import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
+import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.shipment.request.RegisterShipmentRequest;
 import com.zon.abba.shipment.request.ShipmentIdRequest;
 import com.zon.abba.shipment.request.UpdateShipmentRequest;
@@ -30,9 +32,9 @@ public class ShipmentController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<Object> shipmentList(ShipmentIdRequest request){
+    public ResponseEntity<Object> shipmentList(RequestList request){
 
-        DetailShipmentResponse response = shipmentService.detailShipment(request);
+        ResponseListBody response = shipmentService.shipmentList(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
