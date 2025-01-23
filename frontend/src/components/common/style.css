@@ -9,7 +9,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 89.5%;
+    width: 100%;
     z-index: 1000;
 }
 .admin-header>*>*{
@@ -44,7 +44,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 91%;
+    width: 100%;
     z-index: 1000;
     border-bottom: 3px solid #f7f7f7;
 }

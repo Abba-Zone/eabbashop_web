@@ -9,9 +9,6 @@ const RegistAdmin: React.FC = () => {
   const [adminList, setAdminList] = useState<requestAdminRegistList | null>(null);
   const [showReferralQuestions, setShowReferralQuestions] = useState<boolean[]>([false, false, false]);
   const [inputRm, setInputRecommend] = useState<string>('');
-  const [errors, setErrors] = useState({
-    recommend: ''
-  });
   const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null);
   const [recommendStatus, setRecommendStatus] = useState<number | null>(null);
   const [isAccepted, setIsAccepted] = useState<boolean>(false);
@@ -122,18 +119,9 @@ const RegistAdmin: React.FC = () => {
     setShowReferralQuestions(updatedQuestions);
   };
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
   const handleInputRm = (event: React.ChangeEvent<HTMLInputElement>) => {
     const recommendValue = event.target.value;
     setInputRecommend(recommendValue);
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      recommend: validateEmail(recommendValue) ? '' : '추천인 이메일 형식이 올바르지 않습니다.'
-    }));
 
     if (debounceTimer) {
       clearTimeout(debounceTimer);

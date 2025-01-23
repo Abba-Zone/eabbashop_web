@@ -11,6 +11,10 @@ const ShopHeader: React.FC = () => {
   const [userInfo, setUserInfo] = useState<{ firstName: string, lastName: string, role: string } | null>(null);
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
   const Cookies = require('js-cookie');
+  const isAdminRole = (role: string): boolean => {
+    const roleHierarchy = ['A', 'B', 'C', 'D', 'E'];
+    return roleHierarchy.indexOf(role) >= roleHierarchy.indexOf('B');
+  };
 
   useEffect(() => {
     const updateUserInfo = () => {
@@ -91,6 +95,15 @@ const ShopHeader: React.FC = () => {
     navigate("/");
   }
 
+  const handleGoAdmin = () =>{
+    navigate("/admin");
+  }
+
+  const handleGoRegistAdmin = () =>{
+      navigate("regist/registadmin");
+  }
+
+
   return (
     <div className="shop-header">
       <div className="shop-header-left">
@@ -105,6 +118,16 @@ const ShopHeader: React.FC = () => {
         </select>
       </div>
       <div className="shop-header-right">
+        {isAdminRole(Cookies.get('role')) && (
+          <div className="nav-item" onClick={handleGoAdmin}>
+              어드민페이지
+          </div>
+        )}
+        {!isAdminRole(Cookies.get('role')) && (
+            <div className="nav-item" onClick={handleGoRegistAdmin}>
+                판매점 등록하기
+            </div>
+        )}
         {userInfo ? (
           <div className="shop-header-profile-header">
             <h2>
@@ -131,6 +154,11 @@ const ShopHeader: React.FC = () => {
           </div>
         ) : (
           <>
+            {isAdminRole(Cookies.get('role')) && (
+                <div className="nav-item" onClick={handleGoAdmin}>
+                    어드민페이지
+                </div>
+            )}
             <div onClick={handleGoLogin}>
               {t("Common:Header.Login")}
             </div>

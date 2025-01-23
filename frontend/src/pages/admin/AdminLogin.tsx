@@ -88,7 +88,11 @@ const AdminLogin: React.FC = () => {
         <div className="admin-login-input-group">
           <input type="password" name='input_pw' placeholder={t('Attribute02')} value={inputPw} onChange={handleInputPw} />
         </div>
-        <div className="admin-login-button" onClick={onClickLogin}><button disabled={isLoggingIn}>{t('Button.login')}</button></div>
+        <div className="admin-login-button" >
+          <button disabled={isLoggingIn} onClick={onClickLogin}>
+            {t('Button.login')}
+          </button>
+        </div>
         <div className="admin-login-links">
           <a href="/findidpw">{t('Button.findId')}</a> | <a href="/findidpw">{t('Button.resetPw')}</a>
         </div>
