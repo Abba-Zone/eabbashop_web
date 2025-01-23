@@ -10,7 +10,7 @@ const MypageSidebar: React.FC = () => {
       case "/login": case "/signup": case "/admin/login": case "/admin/signup":
         result.push(<></>);
         return result;
-      default:
+      default: //12
         if (pathname.pathname.substring(0, 7) === "/mypage")
           result.push(
           <div className="mypage-sidebar-container">

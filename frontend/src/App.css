@@ -4,10 +4,9 @@
 }
 
 .content {
-  margin-top: 55px;
   flex-grow: 1;
-  padding: 10px;
-  transition: margin-left 0.3s ease;
+  padding: 50px;
+  padding-left: 0;
   width: 100%;
 }
 

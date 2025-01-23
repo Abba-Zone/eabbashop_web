@@ -1,7 +1,7 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import { Home, Login, Signup, Cart, Profile, 
   Wallet, ToMasterCard, Account, MemberModify, Address, 
-  Orders, OrderDetail, RegularOrder, Review, Wishlist, 
+  RegularOrder, Review, Wishlist, 
   FindInfo, Category, Search, Product, Checkout, 
   CompleteCheckout, Post, PostDetail, 
   AdminLogin, AdminSignup, AdminFindInfo, AdminDashboard,
@@ -100,9 +100,7 @@ const RoutePath:React.FC = () => {
         <Route path="/tomastercard" element={<ToMasterCard />}/>        
         <Route path="/account" element={<Account />}/>        
         <Route path="/membermodify" element={<MemberModify />}/>        
-        <Route path="/address" element={<Address />}/>        
-        <Route path="/orders" element={<Orders />}/>        
-        <Route path="/orderdetail/:id" element={<OrderDetail />}/>        
+        <Route path="/address" element={<Address />}/>           
         <Route path="/regularorder" element={<RegularOrder />}/>        
         <Route path="/review" element={<Review />}/>        
         <Route path="/wishlist" element={<Wishlist />}/>        
@@ -117,6 +115,8 @@ const RoutePath:React.FC = () => {
         <Route path="/mypage" element={<Mypage />}/>
         {/* Regist */}
         <Route path="/regist/registadmin" element={<RegistAdmin />} />
+        
+        <Route path="/mypage/*" element={<Mypage />} />
         </>
       )}
     </Routes>

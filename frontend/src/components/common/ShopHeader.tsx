@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router-dom";
 import "./style.css"
@@ -7,6 +7,7 @@ import "./style.css"
 const ShopHeader: React.FC = () => {
   const navigate = useNavigate();
   const { i18n, t } = useTranslation();
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<{ firstName: string, lastName: string, role: string } | null>(null);
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
@@ -15,6 +16,19 @@ const ShopHeader: React.FC = () => {
     const roleHierarchy = ['A', 'B', 'C', 'D', 'E'];
     return roleHierarchy.indexOf(role) >= roleHierarchy.indexOf('B');
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownVisible(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     const updateUserInfo = () => {
@@ -123,7 +137,7 @@ const ShopHeader: React.FC = () => {
               어드민페이지
           </div>
         )}
-        {!isAdminRole(Cookies.get('role')) && (
+        {!isAdminRole(Cookies.get('role')) && Cookies.get('access-token') !== undefined && (
             <div className="nav-item" onClick={handleGoRegistAdmin}>
                 판매점 등록하기
             </div>
@@ -142,9 +156,11 @@ const ShopHeader: React.FC = () => {
                 />
                 <div className="shop-header-profile-container-left-text">나의 ABBA</div>
                 {dropdownVisible && (
-                  <div className="dropdown-container">
-                    <div className="dropdown-menu">
-                      <button onClick={handleMypage}>{t("Common:Header.Mypage")}</button>
+                  <div ref={dropdownRef}>
+                    <div className="dropdown-container">
+                      <div className="dropdown-menu">
+                        <button onClick={handleMypage}>{t("Common:Header.Mypage")}</button>
+                      </div>
                     </div>
                   </div>
                 )}

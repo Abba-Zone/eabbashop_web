@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./Mypage.css";
+import { Route, Routes } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import MypageSidebar from "../../components/shop/mypage/MypageSidebar";
+import { MypageOrders, MypageOrderDetail } from "../../pages";
 import { getMemberDetailMe_s } from "../../services/member";
-
 const Cookies = require("js-cookie");
 
 const Mypage: React.FC = () => {
@@ -32,10 +33,53 @@ const Mypage: React.FC = () => {
       if (currentLanguage === 'ko') {
         return `${lastName}${firstName} 님`;
       } else {
-        return `${firstName} ${lastName} 님`;
+        return `${firstName} ${lastName}`;
       }
     };
 
+
+  const RoleForImage = (role: string) => {
+    if (role === 'A') {
+      return 0;
+    } else if (role === 'B') {
+      return 1;
+    } else if (role === 'C') {
+      return 2;
+    } else if (role === 'D') {
+      return 3;
+    } else if (role === 'E') {
+      return 4;
+    }
+  }
+
+  const RoleForBadge = (role: string) => {
+    if (role === 'A') {
+      return '일반';
+    } else if (role === 'B') {
+      return '판매점';
+    } else if (role === 'C') {
+      return '대리점';
+    } else if (role === 'D') {
+      return '지점';
+    } else if (role === 'E') {
+      return '관리자';
+    }
+  }
+
+  const roleClass = (role: string) => {
+    switch (role) {
+      case 'A':
+        return 'role-a';
+      case 'B':
+        return 'role-b';
+      case 'C':
+        return 'role-c';
+      case 'D':
+        return 'role-d';
+      case 'E':
+        return 'role-e';
+    }
+  }
 
   useEffect(() => {
     const fetchMemberDetail = async () => {
@@ -86,17 +130,28 @@ const Mypage: React.FC = () => {
       <div className="mypage-content">
         <div className="mypage-sidebar">
             <h2 className="profile-header">
-                <img src={require("../../static/img/user.png")} alt="Profile" className="profile-image" /> 
-                <div className="profile-name">{renderUserName()}</div>
+                <img src={require(`../../static/img/lv${RoleForImage(userInfo?.role || 'A')}.png`)} alt="Profile" className="profile-image" /> 
+                <div className="profile-name-container">
+                  <div className="profile-name">
+                    {renderUserName()}
+                  </div>
+                </div>
+                <div className={`profile-role-container ${roleClass(userInfo?.role || 'A')}`}>
+                    <div className="profile-role">{RoleForBadge(userInfo?.role || 'A')}</div>
+                </div>
             </h2>
             <MypageSidebar />
         </div>
-        <main className="mypage-main">
-
-        </main>
+        <div className="mypage-main">
+          <Routes>
+            <Route path="orders" element={<MypageOrders />} />
+            <Route path="orderdetail/:id" element={<MypageOrderDetail />} />
+          </Routes>
+        </div>
       </div>
     </div>
   );
 };
+
 
 export default Mypage;
