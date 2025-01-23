@@ -2,6 +2,8 @@ package com.zon.abba.shipment.controller;
 
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.shipment.request.RegisterShipmentRequest;
+import com.zon.abba.shipment.request.ShipmentIdRequest;
+import com.zon.abba.shipment.response.DetailShipmentResponse;
 import com.zon.abba.shipment.service.ShipmentService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -25,4 +27,15 @@ public class ShipmentController {
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    @GetMapping("/detail")
+    public ResponseEntity<Object> detailShipment(ShipmentIdRequest request){
+
+        DetailShipmentResponse response = shipmentService.detailShipment(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<Object> updateShipment()
 }
