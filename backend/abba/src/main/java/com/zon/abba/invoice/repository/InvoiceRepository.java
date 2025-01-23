@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface InvoiceRepository extends JpaRepository<Invoice, String> {
     @Query(value = "SELECT " +
@@ -52,4 +54,6 @@ public interface InvoiceRepository extends JpaRepository<Invoice, String> {
     Page<InvoiceList> findFilteredInvoices(@Param("filter") String filter,
                                            @Param("filterValue") String filterValue,
                                            Pageable pageable);
+
+    Optional<Invoice> findByInvoiceNo(String invoiceNo);
 }

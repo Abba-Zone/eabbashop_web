@@ -1,7 +1,12 @@
 package com.zon.abba.shipment.controller;
 
+import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
+import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.shipment.request.RegisterShipmentRequest;
+import com.zon.abba.shipment.request.ShipmentIdRequest;
+import com.zon.abba.shipment.request.UpdateShipmentRequest;
+import com.zon.abba.shipment.response.DetailShipmentResponse;
 import com.zon.abba.shipment.service.ShipmentService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -22,6 +27,38 @@ public class ShipmentController {
     public ResponseEntity<Object> registerShipment(@RequestBody RegisterShipmentRequest request){
 
         ResponseBody response = shipmentService.registerShipment(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<Object> shipmentList(RequestList request){
+
+        ResponseListBody response = shipmentService.shipmentList(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/detail")
+    public ResponseEntity<Object> detailShipment(ShipmentIdRequest request){
+
+        DetailShipmentResponse response = shipmentService.detailShipment(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<Object> updateShipment(@RequestBody UpdateShipmentRequest request){
+
+        ResponseBody response = shipmentService.updateShipment(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<Object> updateShipment(@RequestBody ShipmentIdRequest request){
+
+        ResponseBody response = shipmentService.deleteShipment(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
