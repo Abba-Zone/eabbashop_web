@@ -1,3 +1,4 @@
+// shop
 export { default as Address } from "./shop/Address";
 export { default as Account } from "./shop/Account";
 export { default as Cart } from "./shop/Cart";
@@ -12,8 +13,6 @@ export { default as GoogleLogin } from "./shop/GoogleLogin";
 export { default as KakaoLogin } from "./shop/KakaoLogin";
 export { default as SocialSignup } from "./shop/SocialSignup";
 export { default as FindIDPW } from "./shop/FindIDPW";
-export { default as OrderDetail } from "./shop/OrderDetail";
-export { default as Orders } from "./shop/Orders";
 export { default as Post } from "./shop/Post";
 export { default as PostDetail } from "./shop/PostDetail";
 export { default as Product } from "./shop/Product";
@@ -26,8 +25,14 @@ export { default as ToMasterCard } from "./shop/ToMasterCard";
 export { default as MemberModify } from "./shop/MemberModify";
 export { default as Wallet } from "./shop/Wallet";
 export { default as Wishlist } from "./shop/Wishlist";
-export { default as Mypage } from "./shop/Mypage";
 export { default as MemberTest } from "./admin/MemberTest";
+
+// mypage
+export { default as Mypage } from "./shop/Mypage";
+export { default as MypageOrders } from "./shop/Orders";
+export { default as MypageOrderDetail } from "./shop/OrderDetail";
+
+// admin
 export { default as AdminLogin } from "./admin/AdminLogin";
 export { default as AdminSignup } from "./admin/AdminSignup";
 export { default as AdminFindInfo } from "./admin/AdminFindInfo";

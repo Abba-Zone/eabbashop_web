@@ -16,8 +16,6 @@ const Header: React.FC = () => {
       default:
         if (pathname.pathname.substring(0, 6) === "/admin")
           result.push(<AdminHaeder key={"admin"} toggleMenu={toggleMenu} menuVisible={menuVisible} />);
-        else if (pathname.pathname.substring(0, 7) === "/regist")
-          result.push(<></>);
         else
           result.push(<ShopHeader key={"shop"} />);
     }

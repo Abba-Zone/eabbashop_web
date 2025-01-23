@@ -19,28 +19,26 @@ const RegistAdmin: React.FC = () => {
     const fetchMemberDetail = async () => {
       const memberDetail = await getMemberDetailMe_s();
       setMemberDetail(memberDetail);
-      setInputRecommend(memberDetail?.memberInfo.recommend || '');
+      setInputRecommend(memberDetail?.memberInfo.recommend || '1');
       setRecommendStatus(200);
       setIsAccepted(true);
     };
     fetchMemberDetail();
   }, []);
-  
 
-  const isLogined = (): boolean => {
-    if (Cookies.get('access-token') === undefined) {
-      alert('로그인 후 이용해주세요.');
-      window.location.href = '/login';
-      return false;
-    }
-    return true;
+  const updateUserRole = (role: string) => {
+    Cookies.set('role', role, { secure: true, sameSite: 'Strict' });
   }
   
   const requestAdmin = async (adminList: requestAdminRegistList | null, refferedID: string, requestRole: string) => {
     if (requestRole === 'B') {
+      console.log('requestRole : ', requestRole);
         if (adminList?.list.filter(admin => admin.status === '1').length === 0) {
           const response = await requestAdminAuto_s(refferedID); // 등급에 따른 추천 분할된 API로 변경하면서 requestRole 사용하기
           if (response) {
+            const memberDetail = await getMemberDetailMe_s();
+            setMemberDetail(memberDetail);
+            updateUserRole(memberDetail?.memberInfo.role);
             window.location.reload();
           }
         alert('대리점 요청 완료!')
@@ -49,8 +47,10 @@ const RegistAdmin: React.FC = () => {
         setIsRequesting(false);
       }
     } else {
+      alert('requestRole : ' + requestRole);
       if (adminList?.list.filter(admin => admin.status === '1').length === 0) {
-        const response = await requestAdminAuto_s(refferedID); // 등급에 따른 추천 분할된 API로 변경하면서 requestRole 사용하기
+        const response = await requestAdmin_s(requestRole, refferedID); // 등급에 따른 추천 분할된 API로 변경하면서 requestRole 사용하기
+        console.log(response);
         if (response) {
           window.location.reload();
         }
@@ -65,10 +65,8 @@ const RegistAdmin: React.FC = () => {
   useEffect(() => {
     const fetchAdminList = async () => {
       try {
-        if (isLogined()) {
-          const list = await requestAdminList_s();
-          setAdminList(list);
-        }
+        const list = await requestAdminList_s();
+        setAdminList(list);
       } catch (error) {
         console.error('Failed to fetch admin list:', error);
       }
@@ -97,7 +95,7 @@ const RegistAdmin: React.FC = () => {
       }
     })();
     if(isAccepted) {
-      setInputRecommend(memberDetail?.memberInfo.recommend || '');
+      setInputRecommend(memberDetail?.memberInfo.recommend || '1');
       setRecommendStatus(200);
       setIsAccepted(true);
       const updatedQuestions = [...showReferralQuestions];
@@ -110,7 +108,7 @@ const RegistAdmin: React.FC = () => {
   }
 
   const handleReferralReject = (index: number) => {
-    setInputRecommend(memberDetail?.memberInfo.recommend || '');
+    setInputRecommend(memberDetail?.memberInfo.recommend || '1');
     setRecommendStatus(200);
     setIsAccepted(true);
     setIsRequesting(false);
