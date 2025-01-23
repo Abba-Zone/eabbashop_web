@@ -10,12 +10,11 @@ const App: React.FC = () => {
     <MenuProvider>
       <Router>
         <div className="App">
-          <NavBar />
           <Header />
           <div className='content'>
             <Content />
           </div>
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </Router>
     </MenuProvider>

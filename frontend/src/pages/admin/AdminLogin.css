@@ -74,8 +74,6 @@
 
 .admin-login-button {
   margin-top: 10px;
-  background-color: #007bff;
-  color: white;
   margin-bottom: 25px;
   border: none;
   border-radius: 5px;
@@ -84,6 +82,8 @@
   width: 100%;
   font-size: 16px;
   font-weight: bold;
+  background-color: #007bff;
+  color: white;
 }
 
 .admin-login-button button{
@@ -96,6 +96,7 @@
   width: 100%;
   font-size: 16px;
   font-weight: bold;
+  margin: 0;
 }
 
 .admin-login-signup-button {
