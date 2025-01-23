@@ -3,6 +3,7 @@ package com.zon.abba.shipment.controller;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.shipment.request.RegisterShipmentRequest;
 import com.zon.abba.shipment.request.ShipmentIdRequest;
+import com.zon.abba.shipment.request.UpdateShipmentRequest;
 import com.zon.abba.shipment.response.DetailShipmentResponse;
 import com.zon.abba.shipment.service.ShipmentService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,14 @@ public class ShipmentController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<Object> shipmentList(ShipmentIdRequest request){
+
+        DetailShipmentResponse response = shipmentService.detailShipment(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
     @GetMapping("/detail")
     public ResponseEntity<Object> detailShipment(ShipmentIdRequest request){
 
@@ -37,5 +46,18 @@ public class ShipmentController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Object> updateShipment()
+    public ResponseEntity<Object> updateShipment(@RequestBody UpdateShipmentRequest request){
+
+        ResponseBody response = shipmentService.updateShipment(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<Object> updateShipment(@RequestBody ShipmentIdRequest request){
+
+        ResponseBody response = shipmentService.deleteShipment(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 }

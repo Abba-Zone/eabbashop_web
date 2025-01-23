@@ -136,6 +136,46 @@ public class ShipmentService {
     @Transactional
     public ResponseBody updateShipment(UpdateShipmentRequest request){
 
+        logger.info("출하 정보를 수정합니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        Shipment shipment = shipmentRepository.findById(request.getShipmentID())
+                .orElseThrow(() -> new NoDataException("없는 출하 정보입니다."));
+
+        Invoice invoice = invoiceRepository.findByInvoiceNo(request.getInvoiceNo())
+                .orElseThrow(() -> new NoDataException("없는 송장 정보입니다."));
+
+        shipment.setInvoiceId(invoice.getInvoiceId());
+        shipment.setScheduledTime(request.getScheduledTime());
+        shipment.setCompletionTime(request.getCompletionTime());
+        shipment.setReference(request.getReference());
+        shipment.setModifiedId(memberId);
+
+        shipmentRepository.save(shipment);
+
+        logger.info("출하 정보 업데이트에 성공했습니다.");
+
+        return new ResponseBody("성공했습니다.");
+    }
+
+    @Transactional
+    public ResponseBody deleteShipment(ShipmentIdRequest request){
+
+        logger.info("출하 정보를 삭제합니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        Shipment shipment = shipmentRepository.findById(request.getShipmentID())
+                .orElseThrow(() -> new NoDataException("없는 출하 정보입니다."));
+
+        shipment.setDeleteYN("Y");
+        shipment.setModifiedId(memberId);
+
+        shipmentRepository.save(shipment);
+
+        logger.info("출하 삭제가 완료되었습니다.");
+
         return new ResponseBody("성공했습니다.");
     }
 }
