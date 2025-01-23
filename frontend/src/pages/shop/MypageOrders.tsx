@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { getShopOrderList_s } from "../../services/sale";
 import { PageMove, SelectYear, ShopOrderList } from "../../components";
 
-const Orders:React.FC = () => {
+const MypageOrders:React.FC = () => {
   const [orders, setPrders] = useState<shopOrder[]>([]);
   const [year, setYear] = useState<number>(new Date().getFullYear());
   const [pageNo, setPageNo] = useState<number>(1);
@@ -37,4 +37,4 @@ const Orders:React.FC = () => {
   );
 }
 
-export default Orders;
+export default MypageOrders;

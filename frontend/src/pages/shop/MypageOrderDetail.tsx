@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { getShopOrderDetail_s } from "../../services/sale";
 import { OrderInfo } from "../../components";
 
-const OrderDetail:React.FC = () => {
+const MypageOrderDetail:React.FC = () => {
   const [orderInfo, setOrderInfo] = useState<shopOrderInfo | undefined>(undefined);
   const params = useParams<{id:string}>();
   const getOrderDetail = useCallback (async () => {
@@ -32,4 +32,4 @@ const OrderDetail:React.FC = () => {
   );
 }
 
-export default OrderDetail;
+export default MypageOrderDetail;

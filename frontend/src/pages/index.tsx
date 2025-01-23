@@ -29,8 +29,8 @@ export { default as MemberTest } from "./admin/MemberTest";
 
 // mypage
 export { default as Mypage } from "./shop/Mypage";
-export { default as MypageOrders } from "./shop/Orders";
-export { default as MypageOrderDetail } from "./shop/OrderDetail";
+export { default as MypageOrders } from "./shop/MypageOrders";
+export { default as MypageOrderDetail } from "./shop/MypageOrderDetail";
 
 // admin
 export { default as AdminLogin } from "./admin/AdminLogin";
