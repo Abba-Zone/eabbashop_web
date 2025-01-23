@@ -3,7 +3,8 @@ import "./Mypage.css";
 import { Route, Routes } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import MypageSidebar from "../../components/shop/mypage/MypageSidebar";
-import { MypageOrders, MypageOrderDetail } from "../../pages";
+import { MypageOrders, MypageOrderDetail, MypageTransactions, 
+  MypageFinancial, MypageProfile, MypageDashboard } from "../../pages";
 import { getMemberDetailMe_s } from "../../services/member";
 const Cookies = require("js-cookie");
 
@@ -31,7 +32,7 @@ const Mypage: React.FC = () => {
       const currentLanguage = i18n.language;
   
       if (currentLanguage === 'ko') {
-        return `${lastName}${firstName} 님`;
+        return `${lastName}${firstName}님`;
       } else {
         return `${firstName} ${lastName}`;
       }
@@ -85,6 +86,7 @@ const Mypage: React.FC = () => {
     const fetchMemberDetail = async () => {
       const memberDetail = await getMemberDetailMe_s();
       setMemberDetail(memberDetail);
+      Cookies.set('role', memberDetail.memberInfo.role);
     };
     fetchMemberDetail();
 
@@ -130,22 +132,26 @@ const Mypage: React.FC = () => {
       <div className="mypage-content">
         <div className="mypage-sidebar">
             <h2 className="profile-header">
-                <img src={require(`../../static/img/lv${RoleForImage(userInfo?.role || 'A')}.png`)} alt="Profile" className="profile-image" /> 
+                <img src={require(`../../static/img/lv${RoleForImage(memberDetail?.memberInfo.role || 'A')}.png`)} alt="Profile" className="profile-image" /> 
                 <div className="profile-name-container">
                   <div className="profile-name">
                     {renderUserName()}
                   </div>
                 </div>
-                <div className={`profile-role-container ${roleClass(userInfo?.role || 'A')}`}>
-                    <div className="profile-role">{RoleForBadge(userInfo?.role || 'A')}</div>
+                <div className={`profile-role-container ${roleClass(memberDetail?.memberInfo.role || 'A')}`}>
+                    <div className="profile-role">{RoleForBadge(memberDetail?.memberInfo.role || 'A')}</div>
                 </div>
             </h2>
             <MypageSidebar />
         </div>
         <div className="mypage-main">
           <Routes>
+            <Route path="/" element={<MypageDashboard />} />
             <Route path="orders" element={<MypageOrders />} />
             <Route path="orderdetail/:id" element={<MypageOrderDetail />} />
+            <Route path="transactions" element={<MypageTransactions />} />
+            <Route path="financial" element={<MypageFinancial />} />
+            <Route path="profile" element={<MypageProfile />} />
           </Routes>
         </div>
       </div>

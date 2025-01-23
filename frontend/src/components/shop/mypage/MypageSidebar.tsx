@@ -14,6 +14,7 @@ const MypageSidebar: React.FC = () => {
         if (pathname.pathname.substring(0, 7) === "/mypage")
           result.push(
           <div className="mypage-sidebar-container">
+            <h1><Link to="/mypage">대시보드</Link></h1>
             <h2>EABBASHOP 관리</h2>
               <ul>
                 <li><Link to="/mypage/transactions">입출금내역</Link></li>
@@ -25,8 +26,7 @@ const MypageSidebar: React.FC = () => {
               </ul>
               <h2>내 계정</h2>
               <ul>
-                <li><Link to="/mypage/dashboard">계정 대시보드</Link></li>
-                <li><Link to="/mypage/account-info">계정 정보</Link></li>
+                <li><Link to="/mypage/profile">계정 정보 확인/수정</Link></li>
                 <li><Link to="/mypage/addresses">주소록</Link></li>
                 <li><Link to="/mypage/orders">내 주문</Link></li>
                 <li><Link to="/mypage/contract-payments">계약 결제</Link></li>
