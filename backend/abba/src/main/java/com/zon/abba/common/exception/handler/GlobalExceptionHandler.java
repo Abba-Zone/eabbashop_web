@@ -1,7 +1,7 @@
 package com.zon.abba.common.exception.handler;
 
 import com.zon.abba.common.exception.*;
-import com.zon.abba.common.exception.response.SignupErrorResponse;
+import com.zon.abba.common.exception.response.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -45,11 +45,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(SignupException.class)
-    public ResponseEntity<SignupErrorResponse> handleSignupException(SignupException ex){
+    public ResponseEntity<ErrorResponse> handleSignupException(SignupException ex){
         logger.info("SignupException 발생 : 201");
         return ResponseEntity
                 .status(201) // 201 신규 회원
-                .body(new SignupErrorResponse(ex.getMessage(), ex.getSignupResponse())); // 에러 메시지 반환
+                .body(new ErrorResponse(ex.getMessage(), ex.getSignupResponse())); // 에러 메시지 반환
     }
 
     @ExceptionHandler(NoMemberException.class)
@@ -114,6 +114,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(Integer.parseInt(ex.getErrorCode())) // 공용 에러 코드
                 .body(ex.getMessage()); // 에러 메시지 반환
+    }
+
+    @ExceptionHandler(OutOfStockException.class)
+    public ResponseEntity<ErrorResponse> handleOutOfStockException(OutOfStockException ex){
+        logger.info("OutOfStockException 발생 : 233");
+        return ResponseEntity
+                .status(233) // 233 수량 부족
+                .body(new ErrorResponse(ex.getMessage(), ex.getResponse())); // 에러 메시지 반환
     }
 
 

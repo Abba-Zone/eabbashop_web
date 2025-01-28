@@ -2,6 +2,8 @@ package com.zon.abba.account.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -76,9 +78,11 @@ public class PointsHistory {
     @Column(name = "ModifiedID", length = 36)
     private String modifiedId;
 
+    @CreationTimestamp
     @Column(name = "CreatedDateTime", nullable = false, updatable = false)
     private LocalDateTime createdDateTime;
 
+    @UpdateTimestamp
     @Column(name = "ModifiedDateTime")
     private LocalDateTime modifiedDateTime;
 
