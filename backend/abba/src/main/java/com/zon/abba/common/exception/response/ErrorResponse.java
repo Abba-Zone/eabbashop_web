@@ -1,6 +1,5 @@
 package com.zon.abba.common.exception.response;
 
-import com.zon.abba.member.response.SignupResponse;
 import lombok.*;
 
 @Data
@@ -9,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class SignupErrorResponse {
+public class ErrorResponse {
     private String message;
-    private SignupResponse signupResponse;
+    private Object response;
 }

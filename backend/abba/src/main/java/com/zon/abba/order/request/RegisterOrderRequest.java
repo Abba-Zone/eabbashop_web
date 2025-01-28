@@ -12,6 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterOrderRequest {
+    @JsonProperty("isUseAK")
+    private Boolean isUseAK;
     @JsonProperty("addressID")
     private String addressId;
     @JsonProperty("billAddressID")

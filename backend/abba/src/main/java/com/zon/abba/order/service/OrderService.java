@@ -1,12 +1,20 @@
 package com.zon.abba.order.service;
 
+import com.zon.abba.account.dto.WalletDto;
+import com.zon.abba.account.entity.PointsHistory;
+import com.zon.abba.account.entity.Wallet;
+import com.zon.abba.account.repository.PointsHistoryRepository;
+import com.zon.abba.account.repository.WalletRepository;
+import com.zon.abba.account.service.WalletService;
 import com.zon.abba.address.entity.Address;
 import com.zon.abba.address.repository.AddressRepository;
 import com.zon.abba.cart.entity.Cart;
 import com.zon.abba.cart.repository.CartRepository;
 import com.zon.abba.cart.request.CartIdRequest;
+import com.zon.abba.common.exception.CommonException;
 import com.zon.abba.common.exception.NoDataException;
 import com.zon.abba.common.exception.NoMemberException;
+import com.zon.abba.common.exception.OutOfStockException;
 import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
@@ -23,6 +31,7 @@ import com.zon.abba.order.repository.OrderRepository;
 import com.zon.abba.order.request.*;
 import com.zon.abba.order.response.DetailAdminOrderResponse;
 import com.zon.abba.order.response.DetailOrderResponse;
+import com.zon.abba.order.response.ProductStockResponse;
 import com.zon.abba.product.entity.Product;
 import com.zon.abba.product.repository.ProductRepository;
 import jakarta.transaction.Transactional;
@@ -45,12 +54,87 @@ public class OrderService {
     private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
 
     private final OrderRepository orderRepository;
+    private final WalletRepository walletRepository;
+    private final PointsHistoryRepository pointsHistoryRepository;
     private final CartRepository cartRepository;
     private final OrderDetailRepository orderDetailRepository;
     private final AddressRepository addressRepository;
     private final ProductRepository productRepository;
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
+
+    @Transactional
+    private void makePointHistory(Wallet wallet, String receiverID, String orderDetailID,
+                                  BigDecimal LP, BigDecimal AK, BigDecimal SP, boolean isUseAK){
+        logger.info("판매자의 지갑을 가져옵니다.");
+        Wallet receiverWallet = walletRepository.findOneByMemberId(receiverID)
+                .orElseThrow(() -> new NoDataException("없는 정보입니다."));
+
+        BigDecimal usePoint = LP;
+        // ak를 사용한 후 lp 사용
+        if(isUseAK) {
+            // ak가 부족한 경우
+            if(wallet.getAk().compareTo(usePoint) < 0) {
+                usePoint = usePoint.subtract(wallet.getAk());
+                wallet.setAk(BigDecimal.ZERO);
+                // ak가 충분하면 ak만 쓰고 끝.
+            }else wallet.setAk(wallet.getAk().subtract(usePoint));
+        }
+        if(wallet.getLp().compareTo(usePoint) < 0) throw new CommonException("234", "LP 금액이 부족합니다.");
+        else wallet.setLp(wallet.getLp().subtract(usePoint));
+
+        if(wallet.getSp().compareTo(SP) < 0) throw new CommonException("234", "SP 금액이 부족합니다.");
+        else wallet.setSp(wallet.getSp().subtract(SP));
+
+        // 거래 후 사용자들의 지갑에 추가
+        receiverWallet.setLp(receiverWallet.getLp().add(LP));
+        receiverWallet.setSp(receiverWallet.getSp().add(SP));
+        wallet.setAk(wallet.getAk().add(AK));
+        wallet.setModifiedId(wallet.getModifiedId());
+
+        PointsHistory pointsHistory = PointsHistory.builder()
+                .senderWalletId(wallet.getWalletId())
+                .receiverWalletId(receiverWallet.getWalletId())
+                .lp(LP)
+                .senderLpBalance(wallet.getLp())
+                .receiverLpBalance(receiverWallet.getLp())
+                .ak(BigDecimal.ZERO)
+                .senderAkBalance(wallet.getAk())
+                .receiverAkBalance(receiverWallet.getAk())
+                .sp(SP)
+                .senderSpBalance(wallet.getSp())
+                .receiverSpBalance(receiverWallet.getSp())
+                .status("C")
+                .type("O")
+                .orderDetailId(orderDetailID)
+                .createdId(wallet.getMemberId())
+                .modifiedId(wallet.getMemberId())
+                .build();
+
+        PointsHistory akHistory = PointsHistory.builder()
+                .senderWalletId(receiverWallet.getWalletId())
+                .receiverWalletId(wallet.getWalletId())
+                .lp(BigDecimal.ZERO)
+                .senderLpBalance(wallet.getLp())
+                .receiverLpBalance(receiverWallet.getLp())
+                .ak(AK)
+                .senderAkBalance(wallet.getAk())
+                .receiverAkBalance(receiverWallet.getAk())
+                .sp(BigDecimal.ZERO)
+                .senderSpBalance(wallet.getSp())
+                .receiverSpBalance(receiverWallet.getSp())
+                .status("C")
+                .type("O")
+                .orderDetailId(orderDetailID)
+                .createdId(wallet.getMemberId())
+                .modifiedId(wallet.getMemberId())
+                .build();
+
+        logger.info("거래 내역을 저장합니다.");
+        pointsHistoryRepository.save(pointsHistory);
+        pointsHistoryRepository.save(akHistory);
+
+    }
 
     @Transactional
     public ResponseBody registerCartOrder(RegisterCartOrderRequest request){
@@ -70,6 +154,7 @@ public class OrderService {
                 .toList();
 
         RegisterOrderRequest ror = new RegisterOrderRequest(
+                request.getIsUseAK(),
                 request.getAddressId(),
                 request.getBillAddressId(),
                 products
@@ -104,6 +189,11 @@ public class OrderService {
         Address billAddress = addressRepository.findByAddressId(request.getBillAddressId())
                 .orElseThrow(() -> new NoDataException("없는 청구지 주소입니다."));
 
+        logger.info("상품 정보를 가져옵니다.");
+        List<String> productIds = request.getProducts().stream().map(ProductDto::getProductId).toList();
+
+        List<Product> products = productRepository.findByProductIds(productIds);
+
         // 1. 1차 order 객체 생성
         Orders orders = Orders.builder()
                 .memberId(memberId)
@@ -136,24 +226,36 @@ public class OrderService {
         BigDecimal AK = new BigDecimal("0.0");
         BigDecimal SP = new BigDecimal("0.0");
 
-        List<String> productIds = request.getProducts().stream().map(ProductDto::getProductId).toList();
-
-        List<Product> products = productRepository.findByProductIds(productIds);
+        // 지갑에 돈이 있는지 체크
+        logger.info("지갑을 체크합니다.");
+        Wallet wallet = walletRepository.findOneByMemberId(memberId)
+                .orElseThrow(() -> new NoDataException("없는 정보입니다."));
 
         List<OrderDetail> orderDetails = new ArrayList<>();
         for (Product product : products){
             // 주문 개수 구하기
-            Integer quantity = request.getProducts().stream()
+            int quantity = request.getProducts().stream()
                     .filter(p -> p.getProductId().equals(product.getProductId()))
                     .map(ProductDto::getQuantity)
                     .findFirst()
                     .orElse(0);
 
+            // 수량 체크 - 물량이 부족하면 에러 발생
+            if(product.getStock() < quantity){
+                throw new OutOfStockException("수량이 부족합니다.", new ProductStockResponse(product.getProductId(), product.getName()));
+            }else{
+                product.setStock(product.getStock() - quantity);
+                product.setModifiedId(memberId);
+            }
+
             BigDecimal newLP = product.getTaxFreePrice().multiply(new BigDecimal(quantity));
             BigDecimal newSP = product.getSpPrice().multiply(new BigDecimal(quantity));
+            BigDecimal newAK = product.getRealPrice().multiply(BigDecimal.valueOf(product.getPaybackRatio())).multiply(new BigDecimal(quantity));
             LP = LP.add(newLP);
             SP = SP.add(newSP);
-            // AK 로직 작성 후 집어넣기
+            AK = AK.add(newAK);
+
+
 
             // 객체 만들기
             OrderDetail orderDetail = OrderDetail.builder()
@@ -164,23 +266,46 @@ public class OrderService {
                     .status(100)
                     .lpPrice(newLP)
                     .spPrice(newSP)
-                    .akPrice(BigDecimal.valueOf(0.0))
+                    .akPrice(newAK)
                     .createdId(memberId)
                     .modifiedId(memberId)
                     .build();
 
-            orderDetails.add(orderDetail);
+            orderDetailRepository.save(orderDetail);
+
+            // 거래 내역 저장
+            makePointHistory(wallet, product.getSellerId(), orderDetail.getOrderDetailId(), newLP, newAK, newSP, request.getIsUseAK());
         }
 
-        logger.info("연산 결과를 db에 저장합니다.");
 
+        BigDecimal usePoint = LP;
+
+        // ak를 사용한 후 lp 사용
+        if(request.getIsUseAK()) {
+            // ak가 부족한 경우
+            if(wallet.getAk().compareTo(usePoint) < 0) {
+                usePoint = usePoint.subtract(wallet.getAk());
+                wallet.setAk(BigDecimal.ZERO);
+            // ak가 충분하면 ak만 쓰고 끝.
+            }else wallet.setAk(wallet.getAk().subtract(usePoint));
+        }
+        if(wallet.getLp().compareTo(usePoint) < 0) throw new CommonException("234", "LP 금액이 부족합니다.");
+        else wallet.setLp(wallet.getLp().subtract(usePoint));
+
+        if(wallet.getSp().compareTo(SP) < 0) throw new CommonException("234", "SP 금액이 부족합니다.");
+        else wallet.setSp(wallet.getSp().subtract(SP));
+
+        wallet.setModifiedId(memberId);
+
+        logger.info("연산 결과를 db에 저장합니다.");
+        // 바뀐 정보들 넣기
+        walletRepository.save(wallet);
+//        orderDetailRepository.saveAll(orderDetails);
+        productRepository.saveAll(products);
         // 계산된 금액 order에 넣기
         orders.setLpPrice(LP);
         orders.setSpPrice(SP);
-        // AK 자리
-
-        // orderDetail 넣기
-        orderDetailRepository.saveAll(orderDetails);
+        orders.setAkPrice(AK);
 
         logger.info("주문하기가 완료되었습니다.");
         return new ResponseBody("성공했습니다.");
