@@ -14,10 +14,9 @@ const ShopOrderDetailCard:React.FC<Props> = ({orderDetail}) => {
         <div>{orderDetail.quantity}개</div>
       </div>
       <div>
-        <button>주문내역삭제</button>
         <button>배송조회</button>
         <button>교환, 반품 신청</button>
-        <button>리뷰작성</button>
+        <button onClick={()=>{navigate(`/mypage/reviews`)}}>리뷰작성</button>
       </div>
     </div>
   );

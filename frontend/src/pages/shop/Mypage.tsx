@@ -3,7 +3,7 @@ import "./Mypage.css";
 import { Route, Routes } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import MypageSidebar from "../../components/shop/mypage/MypageSidebar";
-import { MypageOrders, MypageOrderDetail } from "../../pages";
+import { MypageOrders, MypageOrderDetail, Review } from "../../pages";
 import { getMemberDetailMe_s } from "../../services/member";
 const Cookies = require("js-cookie");
 
@@ -146,6 +146,7 @@ const Mypage: React.FC = () => {
           <Routes>
             <Route path="orders" element={<MypageOrders />} />
             <Route path="orderdetail/:id" element={<MypageOrderDetail />} />
+            <Route path="reviews" element={<Review />} />
           </Routes>
         </div>
       </div>
