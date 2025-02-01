@@ -15,7 +15,10 @@ const ShopOrderCard:React.FC<Props> = ({order}) => {
     }
     return (
       <div>
-        <h1>{order.created_date_time} <button onClick={()=>{navigate(`/orderdetail/${order.order_id}`)}}>주문상세</button></h1>
+        <h1>{order.created_date_time}
+          <button>주문내역 삭제</button>
+          <button onClick={()=>{navigate(`/mypage/orderdetail/${order.order_id}`)}}>주문상세</button>
+        </h1>
         {rendering()}
       </div>
     );
