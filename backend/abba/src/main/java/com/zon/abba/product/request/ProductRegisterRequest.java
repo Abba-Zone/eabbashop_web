@@ -13,10 +13,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductRegisterRequest {
-    @JsonProperty("categoryId")
+    @JsonProperty("categoryID")
     private String categoryId;
 
-    @JsonProperty("productId")
+    @JsonProperty("productID")
     private String productId;
 
     @JsonProperty("name")
