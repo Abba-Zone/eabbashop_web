@@ -1,21 +1,24 @@
 import { getData, postData } from './mainApi'
 
-export const registToCart = (productId:string, quantity:number) => {
+export const registToCart = (productID:string, quantity:number) => {
     /* real code*/
-    postData<{message:string}>('/cart/register', {productId : productId, quantity : quantity})
+    postData<{message:string}>('/cart/register', {productID : productID, quantity : quantity})
         .then((data:any) => {
             console.log(data);
         }
     );
 }
-export const getCartList = ():cartList => {
+export const getCartList = async ():Promise<cartList> => {
     /* real code*/
-    getData<cartList>('/cart/list')
-        .then((data:any) => {
-            return data;
-        }
-    );
-    return null as unknown as cartList;
+    try {
+        const response = await getData<cartList>(
+            '/cart/list'
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching board detail:', error);
+        throw error;
+    }
     /* make for test*/
     // var result :cartList = {
     //     products:[

@@ -5,7 +5,7 @@ interface loginSuccess {
 	firstName : string,
 	lastName : string,
 	role: string
-	signup_response : {
+	response : {
 		email : string,
 		password : string,
 		firstName : string,

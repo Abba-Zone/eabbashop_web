@@ -2,12 +2,10 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { registToCart_s } from "../../../services/cart";
 
-interface Props{
-    productId:string
-}
-const ProductSaleButtons:React.FC<Props> = ({productId}) => {
+const ProductSaleButtons:React.FC = ({}) => {
     const [cnt, setCnt] = useState<number>(0);
     const navigate = useNavigate();
+    const params = useParams<{id:string}>();
     const checkKey = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (!/^\d$/.test(event.key) && event.key !== "Backspace") {
             event.preventDefault();
@@ -18,7 +16,8 @@ const ProductSaleButtons:React.FC<Props> = ({productId}) => {
         setCnt(value === "" ? 0 : Math.max(0, parseInt(value, 10)));
     };
     const registToCart = async() => {
-        await registToCart_s(productId, cnt);
+        if(params.id)
+            await registToCart_s(params.id, cnt);
     }
 
     return (

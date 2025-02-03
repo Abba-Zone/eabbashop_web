@@ -12,5 +12,6 @@ interface cartInfo{
 }
 
 interface cartList{
-    products : cartInfo[]
+    totalCount:number,
+    list : cartInfo[]
 }
