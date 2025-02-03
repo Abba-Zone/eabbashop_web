@@ -23,14 +23,14 @@ public class ProductController {
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
     private final ProductService productService;
 
-    @GetMapping("/list/shop")
+    @PostMapping("/list/shop")
     @Operation(summary = "상품 내역 조회", description = "상품 내역을 볼 수 있다.")
     public ResponseEntity<Object> getProductShop(@RequestBody ProductListRequest request){
         ResponseListBody response = productService.listProductShop(request,"shop");
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @GetMapping("/list/admin")
+    @PostMapping("/list/admin")
     @Operation(summary = "상품 내역 조회", description = "상품 내역을 볼 수 있다.")
     public ResponseEntity<Object> getProductAdmin(@RequestBody ProductListRequest request){
         ResponseListBody response = productService.listProductShop(request,"admin");
