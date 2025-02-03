@@ -1,4 +1,6 @@
 import ListCard from "../order/ShopOrderDetailCard";
+import PaymentInfo from "./PaymentInfo";
+import Recipient from "./Recipient";
 
 interface Props{
     orderInfo:shopOrderInfo
@@ -14,11 +16,11 @@ const OrderInfo:React.FC<Props> = ({orderInfo}) => {
     }
     return (
         <div>
-            <h2>{orderInfo.created_date_time}</h2><h6>주문번호{orderInfo.order_id}</h6>
+            <h2>{orderInfo.created_date_time}</h2><h6>주문번호{orderInfo.order_id} <button>주문내역삭제</button></h6>
             {rendering()}
-            {/*받는 사람 정보 */}
-            {/*결제 정보 */}
-            {/*주문내역삭제 */}
+            <Recipient addressInfo={orderInfo}/>
+            <PaymentInfo addressInfo={orderInfo}/>
+            <button>주문내역 삭제</button>
         </div>
     );
 }
