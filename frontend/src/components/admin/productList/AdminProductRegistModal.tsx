@@ -14,6 +14,7 @@ const AdminProductRegistModal:React.FC<Props> = ({setModalOpen}) => {
   const [preview, setPreview] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [thumbnail, setThumbnail] = useState<IFile | null>(null);
+  const [realPrice, setRealPrice] = useState<number>(0);
   const [taxFreePrice, setTaxFreePrice] = useState<number>(0);
   const [SPPrice, setSPPrice] = useState<number>(0);
   const [stock, setStock] = useState<number>(0);
@@ -31,34 +32,53 @@ const AdminProductRegistModal:React.FC<Props> = ({setModalOpen}) => {
   const category = [{ID:"1234qwea1", name:"이름1"}, {ID:"1234qwea2", name:"이름2"}, {ID:"1234qwea3", name:"이름3"}, {ID:"1234qwea4", name:"이름4"}, {ID:"1234qwea5", name:"이름5"}];
   
   const registProduct = async () =>{
-    const registCategories: string[] = categories.map(item => item.ID);
-    if(thumbnail === null)
-      return;
-    const thumnailUrl = await registThumbnail_s(thumbnail);
+    let thumnailUrl = "";
+    if(thumbnail !== null){
+      thumnailUrl = await registThumbnail_s(thumbnail);
+    }
     const imageUrls = await registImageFiles_s(description, images);
     const videoUrls = await registVideoFiles_s(description, videos);
-    const newDescription = await changeUrls(imageUrls, videoUrls);
+    const newDescription = changeUrls(imageUrls, videoUrls);
     const productInfo : registProduct = {
       name : name, 
       thumbnail: thumnailUrl,
+      realPrice: realPrice,
       taxFreePrice: taxFreePrice,
-      SPPrice: SPPrice,
+      spPrice: SPPrice,
       stock: stock,
       summary : summary,
       description : newDescription,
       paybackRatio : paybackRate,
-      allowNation : allowNation,
-      categories : registCategories	,
+      allowNation : getAllowNation(),
+      categoryId : getcategoryId(),
       viewSite : viewSite	,
       showYN : showYN,
       activeYN : activeYN
     };
+    console.log(productInfo);
     await registProduct_s(productInfo);
     setModalOpen(false);
   }
+  const getAllowNation = ():string => {
+    let result = "";
+    for(let i = 0 ; i < allowNation.length ; i++){
+      result += allowNation[i];
+      if(i !== allowNation.length - 1)
+        result +=",";
+    }
+    return result;
+  }
+  const getcategoryId = ():string => {
+    const registCategories: string[] = categories.map(item => item.ID);
+    let result = "";
+    for(let i = 0 ; i < registCategories.length ; i++){
+      result += registCategories[i];
+      if(i !== registCategories.length - 1)
+        result +=",";
+    }
+    return result;
+  }
   const changeUrls = (imageUrls:{preUrl:string[], lastUrl:string[]}, videoUrls:{preUrl:string[], lastUrl:string[]}):string =>{
-    console.log(imageUrls.preUrl);
-    console.log(imageUrls.lastUrl);
     let updatedDescription = description;
     for (let i = 0; i < imageUrls.preUrl.length; i++) {
       updatedDescription = updatedDescription.replace(imageUrls.preUrl[i], imageUrls.lastUrl[i]);
@@ -148,6 +168,10 @@ const AdminProductRegistModal:React.FC<Props> = ({setModalOpen}) => {
         <label htmlFor='thumbnail'>{t("AdminProduct:Regist.Filter02")} : </label>
         {thumbnail &&<img src={thumbnail.previewURL} alt="Preview" style={{ width: '100px', height: '100px' }}/>}
         <input type='file' accept="image/*" onChange={handleFileChange}/>
+      </div>
+      <div>
+        <label htmlFor='realPrice'>실제가격 : </label>
+        <input type='number' value={realPrice} onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{setRealPrice(Number(event.target.value))}}/>
       </div>
       <div>
         <label htmlFor='taxFreePrice'>{t("AdminProduct:Regist.Filter03")} : </label>
