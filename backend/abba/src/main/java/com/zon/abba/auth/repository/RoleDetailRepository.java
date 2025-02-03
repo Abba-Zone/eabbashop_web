@@ -1,7 +1,9 @@
 package com.zon.abba.auth.repository;
 
 import com.zon.abba.auth.entity.*;
+import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,4 +20,7 @@ public interface RoleDetailRepository extends JpaRepository<RoleDetail, String> 
 
     // 특정 authID로 RoleDetail 조회 (특정 메뉴에 속한 권한 리스트)
     List<RoleDetail> findByAuthAuthId(String authId);
+
+    @Query("SELECT rd FROM RoleDetail rd JOIN FETCH rd.auth WHERE rd.role.roleId = :roleId")
+    List<RoleDetail> findByRoleRoleIdWithAuth(@Param("roleId") String roleId);
 }
