@@ -10,7 +10,7 @@ const AdminProductList: React.FC = () => {
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
   const [lastPage, setLastPage] = useState<number>(1);
-  const [filter, setFilter] = useState<number>(1);
+  const [filter, setFilter] = useState<number>(-1);
   const [filterValue, setFilterValue] = useState<string>("");
   const [sort, setSort] = useState<string>("createdDateTime");
   const [sortValue, setSortValue] = useState<string>("DESC");
@@ -24,7 +24,13 @@ const AdminProductList: React.FC = () => {
   const modalRef = useRef<HTMLDivElement>(null); // modal에 대한 ref 추가
   const getProductList = useCallback( async () => {
       try {
-        const totalAndProductList : productList = await getProductList_s(pageNo - 1, pageSize, filter, filterValue, sort, sortValue);
+        let filterArr = [];
+        let filterValueArr = [];
+        if (filter !== -1){
+          filterArr.push(selectList[filter].select);
+          filterValueArr.push(filterValue);
+        }
+        const totalAndProductList : productList = await getProductList_s(pageNo - 1, pageSize, filterArr, filterValueArr, sort, sortValue);
         setProducts(totalAndProductList.list);
         setLastPage(totalAndProductList.totalCount === 0? 1:Math.floor((totalAndProductList.totalCount - 1)/pageSize) + 1);
       } catch (error) {
