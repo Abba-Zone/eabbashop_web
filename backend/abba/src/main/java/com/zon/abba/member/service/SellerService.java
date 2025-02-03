@@ -3,6 +3,8 @@ package com.zon.abba.member.service;
 import com.zon.abba.account.entity.Wallet;
 import com.zon.abba.account.repository.WalletRepository;
 import com.zon.abba.account.service.WalletService;
+import com.zon.abba.common.exception.CommonException;
+import com.zon.abba.common.exception.ErrorCode;
 import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.exception.NoSellerException;
 import com.zon.abba.common.request.RequestList;
@@ -121,7 +123,7 @@ public class SellerService {
     public ResponseListBody requestResultAdminList(String all) {
         logger.info("유저 정보를 가져옵니다.");
         String memberId = jwtTokenProvider.getCurrentMemberId()
-                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+                .orElseThrow(() -> new NoMemberException("204","없는 회원입니다."));
         List<ChangeRequestLog> ChangeRequestLogList = new ArrayList<>();
 
         if(all == ""){
@@ -132,7 +134,7 @@ public class SellerService {
         }
         else if (all == "all"){
             Member admin = memberRepository.findOneByMemberIdAndRole(memberId,"C")
-                    .orElseThrow(() -> new NoMemberException("본사 계정이 아닙니다."));
+                    .orElseThrow(() -> new CommonException(ErrorCode.NO_ADMIN));
             ChangeRequestLogList = changeRequestLogRepository.findByType("A");
         }
 
@@ -145,7 +147,7 @@ public class SellerService {
             String modifiedDateTime = log.getModifiedDateTime().format(formatter);
 
             Member member = memberRepository.findOneByMemberId(log.getMemberId())
-                    .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+                    .orElseThrow(() -> new NoMemberException("204","없는 회원입니다."));
 
             result.add(new RegisterAdminListResponse(
                     log.getChangeRequestLogId(),
@@ -171,7 +173,7 @@ public class SellerService {
 
         logger.info("유저 정보를 가져옵니다.");
         String memberId = jwtTokenProvider.getCurrentMemberId()
-                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+                .orElseThrow(() -> new NoMemberException("204","없는 회원입니다."));
 
         // 추천인 변경
         long changeID = recommendService.requestAlterRecommendReturnID(new EmailRequest(request.getRefferedID()));
@@ -201,18 +203,18 @@ public class SellerService {
 
         logger.info("유저 정보를 가져옵니다.");
         String memberId = jwtTokenProvider.getCurrentMemberId()
-                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+                .orElseThrow(() -> new NoMemberException("204","없는 회원입니다."));
 
         Member member = memberRepository.findByMemberId(memberId);
         Wallet wallet = walletRepository.findOneByMemberId(memberId)
-                .orElseThrow(() -> new NoMemberException("지갑이 없는 회원입니다."));
+                .orElseThrow(() -> new CommonException(ErrorCode.NO_WALLET));
 
         abz_min = BigDecimal.ZERO;
 
         String code = "ABZ_B";
 
         if(IsABZEnough(memberId, code) == false){
-            throw new NoMemberException("601", "대리점 신청에 필요한 ABZ포인트가 부족합니다.");
+            throw new CommonException(ErrorCode.INSUFFICIENT_ABZ_POINTS);
         }
 
         CommonCode admin = commonCodeRepository.getByCodeGroupAndCode("Setting","002");
@@ -244,7 +246,8 @@ public class SellerService {
         ResponseBody changeRecc = recommendService.alterRecommend(new AlterRecommendRequest(changeID, "2" ));
 
         if(changeRecc.getMessage() != "성공했습니다."){
-            return new ResponseDataBody("실패했습니다.", null);
+            throw new CommonException(ErrorCode.DATA_UPDATE_FAILED);
+            //return new ResponseDataBody("실패했습니다.", null);
         }
 
         logger.info("대리점 신청을 완료했습니다..");
@@ -261,7 +264,7 @@ public class SellerService {
                 .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
 
         ChangeRequestLog log = changeRequestLogRepository.findById(resultRequest.getChangeRequestId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 신청입니다."));
+                .orElseThrow(() -> new CommonException(ErrorCode.NO_DATA));
 
         // 1. ABZ 확인
         abz_min = BigDecimal.ZERO;
@@ -273,7 +276,7 @@ public class SellerService {
 
 
         if(IsABZEnough(log.getMemberId(), code) == false){
-            throw new NoMemberException("601", "대리점 신청에 필요한 ABZ포인트가 부족합니다.");
+            throw new CommonException(ErrorCode.INSUFFICIENT_ABZ_POINTS);
         }
 
         // ABZ 값 업데이트
@@ -282,11 +285,10 @@ public class SellerService {
         CommonCode adminWallet = commonCodeRepository.getByCodeGroupAndCode("Setting","003");
 
         Wallet wallet = walletRepository.findOneByMemberId(log.getMemberId())
-                .orElseThrow(() -> new NoMemberException("지갑이 없는 회원입니다."));
+                .orElseThrow(() -> new CommonException(ErrorCode.NO_WALLET));
 
         walletService.saveABZPointsHistory(log.getMemberId(), admin.getCodeValue(),  wallet.getWalletId(), adminWallet.getCodeValue(),
                 abz_min);
-
 
         // 2. 신청 로그 업데이트
         log.setStatus(resultRequest.getStatus());
@@ -311,7 +313,8 @@ public class SellerService {
             ResponseBody changeRecc = recommendService.alterRecommend(new AlterRecommendRequest(Long.parseLong(log.getEtcValue1()), "2" ));
 
             if(changeRecc.getMessage() != "성공했습니다."){
-                return new ResponseDataBody("실패했습니다.", null);
+                throw new CommonException(ErrorCode.DATA_UPDATE_FAILED);
+                //return new ResponseDataBody("실패했습니다.", null);
             }
 
             logger.info("대리점 신청결과 설정을 완료했습니다.");
@@ -329,7 +332,7 @@ public class SellerService {
         Member member = memberRepository.findByMemberId(memberId);
         CommonCode abzValue = commonCodeRepository.getByCodeGroupAndCode("Setting",Code);
         Wallet wallet = walletRepository.findOneByMemberId(memberId)
-                .orElseThrow(() -> new NoMemberException("지갑이 없는 회원입니다."));
+                .orElseThrow(() -> new CommonException(ErrorCode.NO_WALLET));
 
         abz_min = BigDecimal.ZERO;
 

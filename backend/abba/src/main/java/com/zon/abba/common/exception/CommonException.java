@@ -26,4 +26,19 @@ public class CommonException extends RuntimeException{
         super(message);
         this.errorCode = errorCode;
     }
+
+    public CommonException(int errorCode, String message) {
+        super(message);
+        this.errorCode = String.valueOf(errorCode);
+    }
+
+    public CommonException(ErrorCode error) {
+        super(error.getMessage());
+        this.errorCode = String.valueOf(error.getStatusCode());
+    }
+
+    public CommonException(ErrorCode error,String errorMessage) {
+        super(errorMessage);
+        this.errorCode = String.valueOf(error.getStatusCode());
+    }
 }

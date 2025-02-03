@@ -59,6 +59,9 @@ public class Member {
     @Column(name = "Platform", length = 4, nullable = false, columnDefinition = "CHAR(4)")
     private String platform;
 
+    @Column(name = "RoleID", columnDefinition = "CHAR(36)", nullable = true, length = 36)
+    private String RoleID;
+
     @Column(name = "LastLoginTime", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", nullable = false)
     private LocalDateTime lastLoginTime;
 
