@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductListResponseAdmin {
-    @JsonProperty("productId")
+    @JsonProperty("productID")
     public String ProductId;
 
     @JsonProperty("productName")

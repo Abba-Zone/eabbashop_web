@@ -19,7 +19,7 @@ public class ProductListResponseShop {
     @JsonProperty("productName")
     public String ProductName;
 
-    @JsonProperty("productId")
+    @JsonProperty("productID")
     public String ProductId;
 
     @JsonProperty("price")
