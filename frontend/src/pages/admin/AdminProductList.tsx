@@ -24,7 +24,7 @@ const AdminProductList: React.FC = () => {
   const modalRef = useRef<HTMLDivElement>(null); // modal에 대한 ref 추가
   const getProductList = useCallback( async () => {
       try {
-        const totalAndProductList : productList = await getProductList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
+        const totalAndProductList : productList = await getProductList_s(pageNo - 1, pageSize, filter, filterValue, sort, sortValue);
         setProducts(totalAndProductList.list);
         setLastPage(totalAndProductList.totalCount === 0? 1:Math.floor((totalAndProductList.totalCount - 1)/pageSize) + 1);
       } catch (error) {
