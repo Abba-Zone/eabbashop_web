@@ -31,14 +31,15 @@ interface product{
 interface registProduct{
     name : string,
     thumbnail : string,
+    realPrice:number,
     taxFreePrice : number,
-    SPPrice : number,
+    spPrice : number,
     stock : number,
     summary : string,
     description : string,
     paybackRatio : number,
-    allowNation : string[],
-    categories : string[],
+    allowNation : string,
+    categoryId : string,
     viewSite : string,
     showYN : string,
     activeYN : string
