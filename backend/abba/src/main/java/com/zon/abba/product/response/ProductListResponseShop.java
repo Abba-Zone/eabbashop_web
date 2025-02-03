@@ -19,6 +19,9 @@ public class ProductListResponseShop {
     @JsonProperty("productName")
     public String ProductName;
 
+    @JsonProperty("productId")
+    public String ProductId;
+
     @JsonProperty("price")
     public BigDecimal Price;
 

@@ -112,6 +112,7 @@ public class ProductService {
                 ProductListResponseAdmin newProduct = new ProductListResponseAdmin();
                 Member seller = memberRepository.findByMemberId(productDto.getSellerId());
 
+                newProduct.setProductId(productDto.getProductId());
                 newProduct.setProductName(productDto.getName());
                 newProduct.setSellerName(seller.getFirstName() + " " + seller.getLastName());
                 newProduct.setStock(productDto.getStock());
@@ -127,6 +128,8 @@ public class ProductService {
 
             for(Product productDto : productPage){
                 ProductListResponseShop newProduct = new ProductListResponseShop();
+
+                newProduct.setProductId(productDto.getProductId());
                 newProduct.setThumbnail(productDto.getThumbnail());
                 newProduct.setProductName(productDto.getName());
                 newProduct.setPrice(productDto.getRealPrice());
