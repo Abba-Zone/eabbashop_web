@@ -107,6 +107,7 @@ export const registerProduct = (registProduct:registProduct) => {
             // return data.result;
         }
     );
+    console.log("Test")
 }
 
 export const modifyProduct = (productInfo:modifyProduct) => {
