@@ -42,6 +42,21 @@ public class AuthFilter implements Filter { // @Component 제거
 
         String requestUri = httpRequest.getRequestURI();
 
+        // 예외처리
+        if (requestUri.startsWith("/api/member/oauth") ||
+                requestUri.startsWith("/api/member/login") ||
+                requestUri.startsWith("/api/member/signup") ||
+                requestUri.startsWith("/api/member/email") ||
+                requestUri.startsWith("/api/member/find") ||
+                requestUri.startsWith("/api/member/update/password") ||
+                requestUri.startsWith("/api/swagger-ui") ||
+                //requestUri.startsWith("/api/product/") ||
+                requestUri.startsWith("/api/v3") ) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+
         // 사용자 권한 아이디 가져오기
 
         logger.info("유저 정보를 가져옵니다.");
@@ -58,8 +73,10 @@ public class AuthFilter implements Filter { // @Component 제거
                 .map(roleDetail -> roleDetail.getAuth().getPath())
                 .collect(Collectors.toList());
 
+
         if(requestUri.contains("/api"))
             requestUri = requestUri.split("/api")[1];
+
 
         // 요청한 API가 허용된 URL인지 확인
         if (!allowedPaths.contains(requestUri)) {
