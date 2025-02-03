@@ -1,8 +1,8 @@
-import { getData, postData, getTestData, getDataWithBody} from './mainApi'
+import { getData, postData } from './mainApi'
 
 export const getMainProductLists = (nation:string, viewSite:string):mainProductList => {
     /* real code*/
-
+    
     /* make for test*/
     const result :mainProductList = {
         bestProducts:[],
@@ -20,11 +20,10 @@ export const getMainProductLists = (nation:string, viewSite:string):mainProductL
 export const getSearchProductList = async (params:searchParams):Promise<shopProductList> => {
     /* real code*/
     try {
-        console.log(JSON.stringify(params));
-        const response = await getDataWithBody<shopProductList>(`/product/list/shop`, JSON.stringify(params));
+        const response = await postData<shopProductList>(`/product/list/shop`, params);
         return response.data;
     } catch (error) {
-        console.error('Error fetching board list:', error);
+        console.error('Error fetching product list:', error);
         throw error;
     }
     /* make for test*/
@@ -39,14 +38,27 @@ export const getSearchProductList = async (params:searchParams):Promise<shopProd
     return result;
 }
 
-export const getProductList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):productList => {
+export const getProductList = async (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):Promise<productList> => {
     /* real code*/
-    // getData<productList>('/list/admin?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
-    //     .then((data:APIResponse<productList>) => {
-    //         return data.result;
-    //     }
-    // );
-    // return null as unknown as productList;
+    const data ={
+        "pageNo": pageNo,
+        "pageSize": pageSize,
+        "orderBy": sort,
+        "orderByType": sortValue,
+        "params" : [
+            filter
+        ],
+        "values" : [
+            filterValue
+        ]
+    }
+    try {
+        const response = await postData<productList>(`/product/list/admin`, data);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching product list:', error);
+        throw error;
+    }
 
     /* make for test*/
     var result :productList = {
