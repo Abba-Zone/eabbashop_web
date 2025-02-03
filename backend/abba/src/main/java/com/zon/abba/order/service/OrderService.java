@@ -20,6 +20,7 @@ import com.zon.abba.common.exception.OutOfStockException;
 import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
+import com.zon.abba.common.scheduler.SchedulerService;
 import com.zon.abba.common.security.JwtTokenProvider;
 import com.zon.abba.member.entity.Member;
 import com.zon.abba.member.repository.MemberRepository;
@@ -64,6 +65,7 @@ public class OrderService {
     private final AddressRepository addressRepository;
     private final ProductRepository productRepository;
     private final MemberRepository memberRepository;
+    private final SchedulerService schedulerService;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
@@ -121,6 +123,7 @@ public class OrderService {
                 .modifiedId(wallet.getMemberId())
                 .build();
 
+        // 이건 이야기를 해봐야 할 듯 하다...
         PointsHistory pointsHistory = PointsHistory.builder()
                 .senderWalletId(wallet.getWalletId())
                 .receiverWalletId(receiverWallet.getWalletId())
@@ -259,7 +262,7 @@ public class OrderService {
         Wallet wallet = walletRepository.findOneByMemberId(memberId)
                 .orElseThrow(() -> new NoDataException("없는 정보입니다."));
 
-        List<OrderDetail> orderDetails = new ArrayList<>();
+        List<String> orderDetailIds = new ArrayList<>();
         for (Product product : products){
             // 주문 개수 구하기
             int quantity = request.getProducts().stream()
@@ -300,6 +303,7 @@ public class OrderService {
                     .build();
 
             orderDetailRepository.save(orderDetail);
+            orderDetailIds.add(orderDetail.getOrderDetailId());
 
             // 거래 내역 저장
             makePointHistory(wallet, product.getSellerId(), orderDetail.getOrderDetailId(), newLP, newAK, newSP, request.getIsUseAK());
@@ -334,6 +338,9 @@ public class OrderService {
         orders.setLpPrice(LP);
         orders.setSpPrice(SP);
         orders.setAkPrice(AK);
+
+        // 스케줄러 추가
+        orderDetailIds.forEach(schedulerService::scheduleOrderConfirmation);
 
         logger.info("주문하기가 완료되었습니다.");
         return new ResponseBody("성공했습니다.");
