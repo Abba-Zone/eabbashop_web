@@ -378,3 +378,15 @@ export const updateRecommendEmail = async (recommendEmail: string): Promise<bool
     return false;
   }
 }
+
+export const getSellerInfo = async (sellerID:string):Promise<productSeller> => {
+  try {
+      const response = await getData<productSeller>(
+          '/member/seller/detail?sellerID='+ sellerID
+      );
+      return response.data;
+  } catch (error) {
+      console.error('Error fetching product seller detail:', error);
+      throw error;
+  }
+}

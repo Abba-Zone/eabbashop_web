@@ -8,11 +8,11 @@ export const getSearchProductList_s = async (params:searchParams): Promise<shopP
     return await getSearchProductList(params);
 };
 
-export const getProductList_s = async (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string): Promise<productList> => {
+export const getProductList_s = async (pageNo:number, pageSize:number, filter:string[], filterValue:string[], sort:string, sortValue:string): Promise<productList> => {
     return await getProductList(pageNo, pageSize, filter, filterValue, sort, sortValue);
 };
 
-export const getProductDetail_s = async (productId:string): Promise<productDetailAndSeller> => {
+export const getProductDetail_s = async (productId:string): Promise<productDetail> => {
     return await getProductDetail(productId);
 };
 

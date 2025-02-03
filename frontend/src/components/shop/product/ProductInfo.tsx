@@ -8,7 +8,7 @@ const ProductInfo:React.FC<Props> = ({productInfo}) => {
     return (
         <div >
             <img src={productInfo.thumbnail}/>
-            <div>{productInfo.name}</div>
+            <div>{productInfo.productName}</div>
             <StarMark scores={3}></StarMark>
             <span>리뷰수</span>
             <div>재고 : {productInfo.stock===0?"없음":"있음"}</div>

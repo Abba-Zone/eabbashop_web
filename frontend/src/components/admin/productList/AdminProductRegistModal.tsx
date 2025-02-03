@@ -55,7 +55,6 @@ const AdminProductRegistModal:React.FC<Props> = ({setModalOpen}) => {
       showYN : showYN,
       activeYN : activeYN
     };
-    console.log(productInfo);
     await registProduct_s(productInfo);
     setModalOpen(false);
   }

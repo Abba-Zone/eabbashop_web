@@ -1,7 +1,7 @@
 interface shopProduct{
     productID : string,
     thumbnail : string,
-    name : string,
+    productName : string,
     realPrice : number,
     AP : number,
     AW : number,
@@ -22,8 +22,8 @@ interface shopProductList{
 
 interface product{
     productID : string,
-    name : string,
-    seller : string,
+    productName : string,
+    sellerName : string,
     stock : number,
     activeYN : string
 }
@@ -45,21 +45,8 @@ interface registProduct{
     activeYN : string
 }
 
-interface modifyProduct{
+interface modifyProduct extends registProduct{
     productID : string,
-    name : string,
-    thumbnail : string,
-    taxFreePrice : number,
-    SPPrice : number,
-    stock : number,
-    summary : string,
-    description : string,
-    paybackRatio : number,
-    allowNation : string[],
-    categories : string[],
-    viewSite : string,
-    showYN : string,
-    activeYN : string
 }
 
 interface productList{
@@ -72,8 +59,11 @@ interface productDetailAndSeller{
     seller : productSeller
 }
 
-interface productDetail extends Omit<product, 'seller'>{
+interface productDetail extends Omit<product, 'sellerName'>{
     thumbnail: string,
+    categoryId:string
+    categoryName: string
+    sellerId:string,
     taxFreePrice : number,
     SPPrice : number,
     realPrice : number,
