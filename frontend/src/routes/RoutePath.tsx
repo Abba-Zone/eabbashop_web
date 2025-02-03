@@ -1,5 +1,5 @@
 import { Route, Routes, useLocation } from "react-router-dom";
-import { Home, Login, Signup, Cart, Profile, 
+import { Home, Login, Signup, Cart, 
   Wallet, ToMasterCard, Account, MemberModify, Address, 
   RegularOrder, Review, Wishlist, 
   FindInfo, Category, Search, Product, Checkout, 
@@ -95,7 +95,6 @@ const RoutePath:React.FC = () => {
         <Route path="/socialsignup" element={<SocialSignup />}/>
         <Route path="/findidpw" element={<FindIDPW />}/>
         <Route path="/cart" element={<Cart />}/>        
-        <Route path="/profile" element={<Profile />}/>        
         <Route path="/wallet" element={<Wallet />}/>        
         <Route path="/tomastercard" element={<ToMasterCard />}/>        
         <Route path="/account" element={<Account />}/>        

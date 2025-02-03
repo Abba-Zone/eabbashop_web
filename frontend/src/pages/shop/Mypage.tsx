@@ -3,7 +3,8 @@ import "./Mypage.css";
 import { Route, Routes } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import MypageSidebar from "../../components/shop/mypage/MypageSidebar";
-import { MypageOrders, MypageOrderDetail, Review } from "../../pages";
+import { MypageOrders, MypageOrderDetail, MypageTransactions, 
+  MypageFinancial, MypageProfile, MypageDashboard, Review } from "../../pages";
 import { getMemberDetailMe_s } from "../../services/member";
 const Cookies = require("js-cookie");
 
@@ -29,9 +30,8 @@ const Mypage: React.FC = () => {
       if (!userInfo) return null;
       const { firstName, lastName } = userInfo;
       const currentLanguage = i18n.language;
-  
       if (currentLanguage === 'ko') {
-        return `${lastName}${firstName} 님`;
+        return `${lastName}${firstName}님`;
       } else {
         return `${firstName} ${lastName}`;
       }
@@ -86,7 +86,6 @@ const Mypage: React.FC = () => {
       const memberDetail = await getMemberDetailMe_s();
       setMemberDetail(memberDetail);
     };
-    fetchMemberDetail();
 
     const updateUserInfo = () => {
       const accessToken = Cookies.get('access-token');
@@ -100,6 +99,7 @@ const Mypage: React.FC = () => {
       }
     };
 
+    fetchMemberDetail();
     // 초기 로드 시 사용자 정보 설정
     updateUserInfo();
 
@@ -136,16 +136,20 @@ const Mypage: React.FC = () => {
                     {renderUserName()}
                   </div>
                 </div>
-                <div className={`profile-role-container ${roleClass(userInfo?.role || 'A')}`}>
-                    <div className="profile-role">{RoleForBadge(userInfo?.role || 'A')}</div>
+                <div className={`profile-role-container ${roleClass(userInfo?.role  || 'A')}`}>
+                    <div className="profile-role">{RoleForBadge(userInfo?.role  || 'A')}</div>
                 </div>
             </h2>
             <MypageSidebar />
         </div>
         <div className="mypage-main">
           <Routes>
+            <Route path="/" element={<MypageDashboard />} />
             <Route path="orders" element={<MypageOrders />} />
             <Route path="orderdetail/:id" element={<MypageOrderDetail />} />
+            <Route path="transactions" element={<MypageTransactions />} />
+            <Route path="financial" element={<MypageFinancial />} />
+            <Route path="profile" element={<MypageProfile />} />
             <Route path="reviews" element={<Review />} />
           </Routes>
         </div>

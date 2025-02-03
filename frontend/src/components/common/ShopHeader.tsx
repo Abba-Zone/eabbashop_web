@@ -66,9 +66,9 @@ const ShopHeader: React.FC = () => {
     Cookies.remove('last-name');
     Cookies.remove('role');
     alert(t('Common:Alert.LogoutSuccess'));
+    navigate('/');
     window.location.reload();
     setDropdownVisible(false);
-    navigate('/');
   }
 
   const changeLanguage = (lng: string) => {

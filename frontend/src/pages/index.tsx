@@ -5,7 +5,6 @@ export { default as Cart } from "./shop/Cart";
 export { default as Category } from "./shop/Category";
 export { default as Checkout } from "./shop/Checkout";
 export { default as CompleteCheckout } from "./shop/CompleteCheckout";
-export { default as Financial } from "./shop/Financial";
 export { default as FindInfo } from "./shop/FindInfo";
 export { default as Home } from "./shop/Home";
 export { default as Login } from "./shop/Login";
@@ -16,7 +15,6 @@ export { default as FindIDPW } from "./shop/FindIDPW";
 export { default as Post } from "./shop/Post";
 export { default as PostDetail } from "./shop/PostDetail";
 export { default as Product } from "./shop/Product";
-export { default as Profile } from "./shop/Profile";
 export { default as RegularOrder } from "./shop/RegularOrder";
 export { default as Review } from "./shop/Review";
 export { default as Search } from "./shop/Search";
@@ -29,8 +27,12 @@ export { default as MemberTest } from "./admin/MemberTest";
 
 // mypage
 export { default as Mypage } from "./shop/Mypage";
+export { default as MypageDashboard } from "./shop/MypageDashboard";
 export { default as MypageOrders } from "./shop/MypageOrders";
 export { default as MypageOrderDetail } from "./shop/MypageOrderDetail";
+export { default as MypageTransactions } from "./shop/MypageTransactions";
+export { default as MypageFinancial } from "./shop/MypageFinancial";
+export { default as MypageProfile } from "./shop/MypageProfile";
 
 // admin
 export { default as AdminLogin } from "./admin/AdminLogin";

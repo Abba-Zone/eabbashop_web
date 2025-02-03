@@ -1,4 +1,4 @@
-const Financial:React.FC = () => {
+const MypageFinancial:React.FC = () => {
   return (
     <div>
       <h1>충전/환불/이체</h1>
@@ -6,4 +6,4 @@ const Financial:React.FC = () => {
   );
 }
 
-export default Financial;
+export default MypageFinancial;
