@@ -1,8 +1,10 @@
 package com.zon.abba.order.service;
 
 import com.zon.abba.account.dto.WalletDto;
+import com.zon.abba.account.entity.PointHolding;
 import com.zon.abba.account.entity.PointsHistory;
 import com.zon.abba.account.entity.Wallet;
+import com.zon.abba.account.repository.PointHoldingRepository;
 import com.zon.abba.account.repository.PointsHistoryRepository;
 import com.zon.abba.account.repository.WalletRepository;
 import com.zon.abba.account.service.WalletService;
@@ -56,6 +58,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final WalletRepository walletRepository;
     private final PointsHistoryRepository pointsHistoryRepository;
+    private final PointHoldingRepository pointHoldingRepository;
     private final CartRepository cartRepository;
     private final OrderDetailRepository orderDetailRepository;
     private final AddressRepository addressRepository;
@@ -87,10 +90,36 @@ public class OrderService {
         else wallet.setSp(wallet.getSp().subtract(SP));
 
         // 거래 후 사용자들의 지갑에 추가
-        receiverWallet.setLp(receiverWallet.getLp().add(LP));
-        receiverWallet.setSp(receiverWallet.getSp().add(SP));
+//        receiverWallet.setLp(receiverWallet.getLp().add(LP));
+//        receiverWallet.setSp(receiverWallet.getSp().add(SP));
         wallet.setAk(wallet.getAk().add(AK));
         wallet.setModifiedId(wallet.getModifiedId());
+
+        // 판매자가 받을 point holding 객체 생성
+        PointHolding pointHolding = PointHolding.builder()
+                .orderDetailId(orderDetailID)
+                .memberId(receiverWallet.getMemberId())
+                .lp(LP)
+                .ak(BigDecimal.ZERO)
+                .sp(SP)
+                .type("A")
+                .status("A")
+                .createdId(wallet.getMemberId())
+                .modifiedId(wallet.getMemberId())
+                .build();
+
+        // 구매자가 받을 ak 홀딩
+        PointHolding akHolding = PointHolding.builder()
+                .orderDetailId(orderDetailID)
+                .memberId(wallet.getMemberId())
+                .lp(BigDecimal.ZERO)
+                .ak(AK)
+                .sp(BigDecimal.ZERO)
+                .type("A")
+                .status("A")
+                .createdId(wallet.getMemberId())
+                .modifiedId(wallet.getMemberId())
+                .build();
 
         PointsHistory pointsHistory = PointsHistory.builder()
                 .senderWalletId(wallet.getWalletId())
@@ -104,35 +133,34 @@ public class OrderService {
                 .sp(SP)
                 .senderSpBalance(wallet.getSp())
                 .receiverSpBalance(receiverWallet.getSp())
-                .status("C")
-                .type("O")
+                .type("A")
                 .orderDetailId(orderDetailID)
                 .createdId(wallet.getMemberId())
                 .modifiedId(wallet.getMemberId())
                 .build();
 
-        PointsHistory akHistory = PointsHistory.builder()
-                .senderWalletId(receiverWallet.getWalletId())
-                .receiverWalletId(wallet.getWalletId())
-                .lp(BigDecimal.ZERO)
-                .senderLpBalance(wallet.getLp())
-                .receiverLpBalance(receiverWallet.getLp())
-                .ak(AK)
-                .senderAkBalance(wallet.getAk())
-                .receiverAkBalance(receiverWallet.getAk())
-                .sp(BigDecimal.ZERO)
-                .senderSpBalance(wallet.getSp())
-                .receiverSpBalance(receiverWallet.getSp())
-                .status("C")
-                .type("O")
-                .orderDetailId(orderDetailID)
-                .createdId(wallet.getMemberId())
-                .modifiedId(wallet.getMemberId())
-                .build();
+//        PointsHistory akHistory = PointsHistory.builder()
+//                .senderWalletId(receiverWallet.getWalletId())
+//                .receiverWalletId(wallet.getWalletId())
+//                .lp(BigDecimal.ZERO)
+//                .senderLpBalance(wallet.getLp())
+//                .receiverLpBalance(receiverWallet.getLp())
+//                .ak(AK)
+//                .senderAkBalance(wallet.getAk())
+//                .receiverAkBalance(receiverWallet.getAk())
+//                .sp(BigDecimal.ZERO)
+//                .senderSpBalance(wallet.getSp())
+//                .receiverSpBalance(receiverWallet.getSp())
+//                .type("A")
+//                .orderDetailId(orderDetailID)
+//                .createdId(wallet.getMemberId())
+//                .modifiedId(wallet.getMemberId())
+//                .build();
 
         logger.info("거래 내역을 저장합니다.");
         pointsHistoryRepository.save(pointsHistory);
-        pointsHistoryRepository.save(akHistory);
+        pointHoldingRepository.save(pointHolding);
+        pointHoldingRepository.save(akHolding);
 
     }
 

@@ -60,9 +60,6 @@ public class PointsHistory {
     @Column(name = "ReceiverSPBalance", precision = 10, scale = 2, nullable = false)
     private BigDecimal receiverSpBalance;
 
-    @Column(name = "Status", length = 1, nullable = false)
-    private String status;
-
     @Column(name = "Type", length = 1)
     private String type;
 
