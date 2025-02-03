@@ -266,7 +266,7 @@ export const googleLoginWithCode = async (code: string): Promise<loginSuccess | 
       return response.data;
     } else if (response.status === 201) {
       alert('신규회원입니다.');
-      const { email, password, firstName, lastName, provider } = response.data.signup_response;
+      const { email, password, firstName, lastName, provider } = response.data.response;
       Cookies.set('signupData', JSON.stringify({ email, password, firstName, lastName, provider }));
       window.location.href = '/socialsignup';
     }
@@ -287,7 +287,7 @@ export const kakaoLoginWithCode = async (code: string): Promise<loginSuccess | n
             return response.data;
         } else if (response.status === 201) {
             alert('신규회원입니다.');
-            const { email, password, firstName, lastName, provider } = response.data.signup_response;
+            const { email, password, firstName, lastName, provider } = response.data.response;
             Cookies.set('signupData', JSON.stringify({ email, password, firstName, lastName, provider }));
             window.location.href = '/socialsignup';
         }

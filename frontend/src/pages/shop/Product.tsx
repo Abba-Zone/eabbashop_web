@@ -27,7 +27,7 @@ const Product:React.FC = () => {
   return (
     <div>
       <ProductInfo productInfo={productDetail}/>
-      <ProductSaleButtons productId={productDetail.productID}/>
+      <ProductSaleButtons/>
       <ProductDescription content={productDetail.description}/>
       <ProductReviews/>
       <SellerInfo SellerID={productDetail.sellerId}/>

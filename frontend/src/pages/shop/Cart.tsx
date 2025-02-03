@@ -9,7 +9,8 @@ const Cart:React.FC = () => {
   const getCartList = useCallback( async () => {
     try {
       const list = await getCartList_s();
-      setCartList(list.products);
+      console.log(list);
+      setCartList(list.list);
     } catch (error) {
       console.error('Error fetching cart list:', error);
     }
@@ -25,6 +26,7 @@ const Cart:React.FC = () => {
     setCartList(tempcartList);
   }
   const deleteItemOption = (cartId : string) => {
+    console.log(cartList);
     setCartList(cartList.filter(item => item.cartID !== cartId));
   }
   const buySelect = () => {
