@@ -1,8 +1,10 @@
 package com.zon.abba.order.service;
 
 import com.zon.abba.account.dto.WalletDto;
+import com.zon.abba.account.entity.PointHolding;
 import com.zon.abba.account.entity.PointsHistory;
 import com.zon.abba.account.entity.Wallet;
+import com.zon.abba.account.repository.PointHoldingRepository;
 import com.zon.abba.account.repository.PointsHistoryRepository;
 import com.zon.abba.account.repository.WalletRepository;
 import com.zon.abba.account.service.WalletService;
@@ -18,6 +20,7 @@ import com.zon.abba.common.exception.OutOfStockException;
 import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
+import com.zon.abba.common.scheduler.SchedulerService;
 import com.zon.abba.common.security.JwtTokenProvider;
 import com.zon.abba.member.entity.Member;
 import com.zon.abba.member.repository.MemberRepository;
@@ -56,11 +59,13 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final WalletRepository walletRepository;
     private final PointsHistoryRepository pointsHistoryRepository;
+    private final PointHoldingRepository pointHoldingRepository;
     private final CartRepository cartRepository;
     private final OrderDetailRepository orderDetailRepository;
     private final AddressRepository addressRepository;
     private final ProductRepository productRepository;
     private final MemberRepository memberRepository;
+    private final SchedulerService schedulerService;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
@@ -87,11 +92,38 @@ public class OrderService {
         else wallet.setSp(wallet.getSp().subtract(SP));
 
         // 거래 후 사용자들의 지갑에 추가
-        receiverWallet.setLp(receiverWallet.getLp().add(LP));
-        receiverWallet.setSp(receiverWallet.getSp().add(SP));
+//        receiverWallet.setLp(receiverWallet.getLp().add(LP));
+//        receiverWallet.setSp(receiverWallet.getSp().add(SP));
         wallet.setAk(wallet.getAk().add(AK));
         wallet.setModifiedId(wallet.getModifiedId());
 
+        // 판매자가 받을 point holding 객체 생성
+        PointHolding pointHolding = PointHolding.builder()
+                .orderDetailId(orderDetailID)
+                .memberId(receiverWallet.getMemberId())
+                .lp(LP)
+                .ak(BigDecimal.ZERO)
+                .sp(SP)
+                .type("A")
+                .status("A")
+                .createdId(wallet.getMemberId())
+                .modifiedId(wallet.getMemberId())
+                .build();
+
+        // 구매자가 받을 ak 홀딩
+        PointHolding akHolding = PointHolding.builder()
+                .orderDetailId(orderDetailID)
+                .memberId(wallet.getMemberId())
+                .lp(BigDecimal.ZERO)
+                .ak(AK)
+                .sp(BigDecimal.ZERO)
+                .type("A")
+                .status("A")
+                .createdId(wallet.getMemberId())
+                .modifiedId(wallet.getMemberId())
+                .build();
+
+        // 이건 이야기를 해봐야 할 듯 하다...
         PointsHistory pointsHistory = PointsHistory.builder()
                 .senderWalletId(wallet.getWalletId())
                 .receiverWalletId(receiverWallet.getWalletId())
@@ -104,35 +136,34 @@ public class OrderService {
                 .sp(SP)
                 .senderSpBalance(wallet.getSp())
                 .receiverSpBalance(receiverWallet.getSp())
-                .status("C")
-                .type("O")
+                .type("A")
                 .orderDetailId(orderDetailID)
                 .createdId(wallet.getMemberId())
                 .modifiedId(wallet.getMemberId())
                 .build();
 
-        PointsHistory akHistory = PointsHistory.builder()
-                .senderWalletId(receiverWallet.getWalletId())
-                .receiverWalletId(wallet.getWalletId())
-                .lp(BigDecimal.ZERO)
-                .senderLpBalance(wallet.getLp())
-                .receiverLpBalance(receiverWallet.getLp())
-                .ak(AK)
-                .senderAkBalance(wallet.getAk())
-                .receiverAkBalance(receiverWallet.getAk())
-                .sp(BigDecimal.ZERO)
-                .senderSpBalance(wallet.getSp())
-                .receiverSpBalance(receiverWallet.getSp())
-                .status("C")
-                .type("O")
-                .orderDetailId(orderDetailID)
-                .createdId(wallet.getMemberId())
-                .modifiedId(wallet.getMemberId())
-                .build();
+//        PointsHistory akHistory = PointsHistory.builder()
+//                .senderWalletId(receiverWallet.getWalletId())
+//                .receiverWalletId(wallet.getWalletId())
+//                .lp(BigDecimal.ZERO)
+//                .senderLpBalance(wallet.getLp())
+//                .receiverLpBalance(receiverWallet.getLp())
+//                .ak(AK)
+//                .senderAkBalance(wallet.getAk())
+//                .receiverAkBalance(receiverWallet.getAk())
+//                .sp(BigDecimal.ZERO)
+//                .senderSpBalance(wallet.getSp())
+//                .receiverSpBalance(receiverWallet.getSp())
+//                .type("A")
+//                .orderDetailId(orderDetailID)
+//                .createdId(wallet.getMemberId())
+//                .modifiedId(wallet.getMemberId())
+//                .build();
 
         logger.info("거래 내역을 저장합니다.");
         pointsHistoryRepository.save(pointsHistory);
-        pointsHistoryRepository.save(akHistory);
+        pointHoldingRepository.save(pointHolding);
+        pointHoldingRepository.save(akHolding);
 
     }
 
@@ -231,7 +262,7 @@ public class OrderService {
         Wallet wallet = walletRepository.findOneByMemberId(memberId)
                 .orElseThrow(() -> new NoDataException("없는 정보입니다."));
 
-        List<OrderDetail> orderDetails = new ArrayList<>();
+        List<String> orderDetailIds = new ArrayList<>();
         for (Product product : products){
             // 주문 개수 구하기
             int quantity = request.getProducts().stream()
@@ -272,6 +303,7 @@ public class OrderService {
                     .build();
 
             orderDetailRepository.save(orderDetail);
+            orderDetailIds.add(orderDetail.getOrderDetailId());
 
             // 거래 내역 저장
             makePointHistory(wallet, product.getSellerId(), orderDetail.getOrderDetailId(), newLP, newAK, newSP, request.getIsUseAK());
@@ -306,6 +338,9 @@ public class OrderService {
         orders.setLpPrice(LP);
         orders.setSpPrice(SP);
         orders.setAkPrice(AK);
+
+        // 스케줄러 추가
+        orderDetailIds.forEach(schedulerService::scheduleOrderConfirmation);
 
         logger.info("주문하기가 완료되었습니다.");
         return new ResponseBody("성공했습니다.");

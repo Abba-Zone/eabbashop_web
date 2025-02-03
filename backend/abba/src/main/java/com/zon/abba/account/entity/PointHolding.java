@@ -21,6 +21,9 @@ public class PointHolding {
     @Column(name = "HoldingID", nullable = false, updatable = false, length = 36)
     private String holdingId;
 
+    @Column(name = "MemberID", length = 36, nullable = false)
+    private String memberId;
+
     @Column(name = "OrderDetailID", length = 36)
     private String orderDetailId;
 
