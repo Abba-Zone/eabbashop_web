@@ -10,7 +10,7 @@ interface Props{
       return (
         <tr onClick={()=>{navigate(`/admin/productdetail/${product.productID}`)}}>
           <td>선택</td>
-          <td>{product.name}</td>
+          <td>{product.productName}</td>
           <td>{product.stock}</td>
           <td>{product.activeYN? t("AdminProduct:List.Option04.Attribute01") : t("AdminProduct:List.Option04.Attribute02")}</td>
         </tr>

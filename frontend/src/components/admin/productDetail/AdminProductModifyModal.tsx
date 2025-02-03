@@ -13,9 +13,10 @@ interface Props{
 const AdminProductModifyModal:React.FC<Props> = ({productDetail, setModalOpen}) => {
   const { t } = useTranslation();
   const [preview, setPreview] = useState<boolean>(false);
-  const [name, setName] = useState<string>(productDetail.name);
+  const [name, setName] = useState<string>(productDetail.productName);
   const [thumbnail, setThumbnail] = useState<string>(productDetail.thumbnail);
   const [modifyThumbnail, setModifyThumbnail] = useState<IFile | null>(null);
+  const [realPrice, setRealPrice] = useState<number>(0);
   const [taxFreePrice, setTaxFreePrice] = useState<number>(productDetail.taxFreePrice);
   const [SPPrice, setSPPrice] = useState<number>(productDetail.SPPrice);
   const [stock, setStock] = useState<number>(productDetail.stock);
@@ -33,7 +34,6 @@ const AdminProductModifyModal:React.FC<Props> = ({productDetail, setModalOpen}) 
   const category = [{ID:"1234qwea1", name:"이름1"}, {ID:"1234qwea2", name:"이름2"}, {ID:"1234qwea3", name:"이름3"}, {ID:"1234qwea4", name:"이름4"}, {ID:"1234qwea5", name:"이름5"}];
 
   const modifyProduct = async () =>{
-    const registCategories: string[] = categories.map(item => item.ID);
     if(modifyThumbnail !== null){
        const thumbnailUrl = await modifyThumbnail_s(productDetail.thumbnail, modifyThumbnail);
        setThumbnail(thumbnailUrl);
@@ -44,22 +44,42 @@ const AdminProductModifyModal:React.FC<Props> = ({productDetail, setModalOpen}) 
     const newDescription = await changeUrls(imageUrls, videoUrls);
     const productInfo : modifyProduct = {
         productID: productDetail.productID,
+        realPrice: realPrice,
         name : name, 
         thumbnail: thumbnail,
         taxFreePrice: taxFreePrice,
-        SPPrice: SPPrice,
+        spPrice: SPPrice,
         stock: stock,
         summary : summary,
         description : newDescription,
         paybackRatio : paybackRate,
-        allowNation : allowNation,
-        categories : registCategories	,
+        allowNation : getAllowNation(),
+        categoryId : getcategoryId(),
         viewSite : viewSite	,
         showYN : showYN,
         activeYN : activeYN
     };
     await modifyProduct_s(productInfo);
     setModalOpen(false);
+  }
+  const getAllowNation = ():string => {
+    let result = "";
+    for(let i = 0 ; i < allowNation.length ; i++){
+      result += allowNation[i];
+      if(i !== allowNation.length - 1)
+        result +=",";
+    }
+    return result;
+  }
+  const getcategoryId = ():string => {
+    const registCategories: string[] = categories.map(item => item.ID);
+    let result = "";
+    for(let i = 0 ; i < registCategories.length ; i++){
+      result += registCategories[i];
+      if(i !== registCategories.length - 1)
+        result +=",";
+    }
+    return result;
   }
 
   const changeUrls = (imageUrls:{preUrl:string[], lastUrl:string[]}, videoUrls:{preUrl:string[], lastUrl:string[]}):string =>{
@@ -158,6 +178,10 @@ const AdminProductModifyModal:React.FC<Props> = ({productDetail, setModalOpen}) 
       <div>
         <label htmlFor='name'>{t("AdminProduct:Regist.Filter01")} : </label>
         <input type='text' value={name} onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{setName(event.target.value)}}/>
+      </div>
+      <div>
+        <label htmlFor='realPrice'>실제가격 : </label>
+        <input type='number' value={realPrice} onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{setRealPrice(Number(event.target.value))}}/>
       </div>
       <div>
         <label htmlFor='thumbnail'>{t("AdminProduct:Regist.Filter02")} : </label>

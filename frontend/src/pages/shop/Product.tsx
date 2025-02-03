@@ -5,15 +5,12 @@ import { ProductDescription, ProductInfo, ProductReviews, ProductSaleButtons, Se
 
 const Product:React.FC = () => {
   const [productDetail, setProductDetail] = useState<productDetail | undefined>(undefined);
-  const [productSeller, setProductSeller] = useState<productSeller | undefined>(undefined);
   const params = useParams<{id:string}>();
-  const modalRef = useRef<HTMLDivElement>(null); // modal에 대한 ref 추가
   const getProductDetail = useCallback (async () => {
     try {
       if (params.id !== undefined){
-        const productDetailAndReviewList : productDetailAndSeller = await getProductDetail_s(params.id);
-        setProductDetail(productDetailAndReviewList.product);
-        setProductSeller(productDetailAndReviewList.seller);
+        const productDetailAndReviewList : productDetail = await getProductDetail_s(params.id);
+        setProductDetail(productDetailAndReviewList);
       }
     } catch (error) {
       console.error('Error fetching productDetail:', error);
@@ -22,7 +19,7 @@ const Product:React.FC = () => {
   useEffect(() => {
     getProductDetail(); // 비동기 함수 호출
   }, [getProductDetail]);
-  if(!productDetail || !productSeller){
+  if(!productDetail){
     return(
       <div></div>
     )
@@ -33,7 +30,7 @@ const Product:React.FC = () => {
       <ProductSaleButtons productId={productDetail.productID}/>
       <ProductDescription content={productDetail.description}/>
       <ProductReviews/>
-      <SellerInfo productSellerInfo={productSeller}/>
+      <SellerInfo SellerID={productDetail.sellerId}/>
     </div>
   );
 }

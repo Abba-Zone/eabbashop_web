@@ -37,6 +37,9 @@ const Search:React.FC = () => {
         result.push("createdDateTime");
         result.push("desc");
       }
+    }else{
+      result.push("createdDateTime");
+      result.push("desc");
     }
     return result;
   };
@@ -44,7 +47,7 @@ const Search:React.FC = () => {
     const result:{params:string[], values:string[]} = {params:[] ,values:[]};
     let temp = searchParams.get("category");
     if (temp){
-      result.params.push("category");
+      result.params.push("CategoryID");
       result.values.push(temp);
     }
     temp = searchParams.get("sellerID");
@@ -64,7 +67,7 @@ const Search:React.FC = () => {
     }
     temp = searchParams.get("q");
     if (temp){
-      result.params.push("name");
+      result.params.push("Name");
       result.values.push(temp);
     }
     return result;
