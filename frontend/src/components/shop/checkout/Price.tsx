@@ -1,21 +1,12 @@
 import { useMemo, useState } from "react";
-interface buyProduct{
-  productID : string, 
-  name : string, 
-  realPrice : number, 
-  SP : number, 
-  AW : number, 
-  AK : number, 
-  cnt: number
-}
+
 interface Props{
-  productList:buyProduct[],
+  productList:cartInfo[],
 }
 const Price:React.FC<Props> = ({productList}) => {
   const [SPPrice, setSPPrice] = useState<number>(0);
   const maxSP = useMemo(() => productList.reduce((sum, product) => sum + product.SP, 0), [productList]);
   const totalRealPrice = useMemo(() => productList.reduce((sum, product) => sum + product.realPrice, 0), [productList]);
-  const totalAW = useMemo(() => productList.reduce((sum, product) => sum + product.AW, 0), [productList]);
   const checkKey = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (!/^[\d.]$/.test(event.key) && event.key !== "Backspace") {
       event.preventDefault();
@@ -60,10 +51,6 @@ const Price:React.FC<Props> = ({productList}) => {
           <tr>
             <td>실제 결제 포인트</td>
             <td>${(totalRealPrice - SPPrice).toFixed(1)}</td>
-          </tr>
-          <tr>
-            <td>AW환급포인트</td>
-            <td>${totalAW}</td>
           </tr>
         </tbody>
       </table>

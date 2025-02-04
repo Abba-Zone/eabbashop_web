@@ -7,10 +7,11 @@ interface Props{
   addressList:addressAllInfo[],
   billID: string,
   devliveryID: string,
+  setAddressList(addressList:addressAllInfo[]):void;
   setBillID(ID:string):void,
   setDevliveryID(ID:string):void,
 }
-const Address:React.FC<Props> = ({addressList, billID, devliveryID, setBillID, setDevliveryID}) => {
+const Address:React.FC<Props> = ({addressList, billID, devliveryID, setAddressList, setBillID, setDevliveryID}) => {
   const [billAddress, setBillAddress] = useState<addressAllInfo | null>(null);
   const [deliveryAddress, setDeliveryAddress] = useState<addressAllInfo | null>(null);
   const [modalOpen, setModalOpen] = useState<number>(0);
@@ -58,7 +59,7 @@ const Address:React.FC<Props> = ({addressList, billID, devliveryID, setBillID, s
           "height": "50%",
           "background": "white",
           "overflow":  "scroll"
-        }}><SelectAddressModal addressList={addressList} setModalOpen={clickModal} changeAddress={changeAddress}/></div>
+        }}><SelectAddressModal addressList={addressList} setModalOpen={clickModal} changeAddress={changeAddress} setAddressList={setAddressList}/></div>
         </div>
       }
       <Bill address={billAddress} setModalOpen={clickModal}></Bill>

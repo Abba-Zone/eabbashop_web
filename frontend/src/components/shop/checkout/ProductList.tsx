@@ -1,27 +1,17 @@
-interface buyProduct{
-  productID : string, 
-  name : string, 
-  realPrice : number, 
-  SP : number, 
-  AW : number, 
-  AK : number, 
-  cnt: number
-}
 interface Props{
-  productList:buyProduct[],
+  productList:cartInfo[],
 }
 const ProductList:React.FC<Props> = ({productList}) => {
-  const products = [ {productName:"Change Sample Product3" , cnt: 2}, {productName:"Change Sample Product2", cnt : 1}];
   const rendering = (): JSX.Element[] => {
     const result:JSX.Element[] = [];
-    for(let i = 0 ; i < products.length; i++){
+    for(let i = 0 ; i < productList.length; i++){
       result.push(
         <tr key={i}>
           <td>
-            {products[i].productName}
+            {productList[i].name}
           </td>
           <td>
-          {products[i].cnt}개
+          {productList[i].quantity}개
           </td>
         </tr>
       )

@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios';
 import { getData, postData } from './mainApi'
 
 export const getBoardList = async(pageNo:number, pageSize:number, filter:string, filterValue:string, sort:string, sortValue:string, type:number):Promise<boardList> => {
