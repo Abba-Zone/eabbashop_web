@@ -24,11 +24,8 @@ public class PointsHistory {
     @Column(name = "HistoryID", nullable = false, updatable = false, length = 36)
     private String historyId;
 
-    @Column(name = "SenderWalletID", length = 36)
-    private String senderWalletId;
-
-    @Column(name = "ReceiverWalletID", length = 36)
-    private String receiverWalletId;
+    @Column(name = "MemberID", length = 36)
+    private String memberId;
 
     @Column(name = "Message", length = 255)
     private String message;
@@ -36,29 +33,20 @@ public class PointsHistory {
     @Column(name = "LP", precision = 10, scale = 2, nullable = false)
     private BigDecimal lp;
 
-    @Column(name = "SenderLPBalance", precision = 10, scale = 2, nullable = false)
-    private BigDecimal senderLpBalance;
-
-    @Column(name = "ReceiverLPBalance", precision = 10, scale = 2, nullable = false)
-    private BigDecimal receiverLpBalance;
+    @Column(name = "LPBalance", precision = 10, scale = 2, nullable = false)
+    private BigDecimal lpBalance;
 
     @Column(name = "AK", precision = 10, scale = 2, nullable = false)
     private BigDecimal ak;
 
-    @Column(name = "SenderAKBalance", precision = 10, scale = 2, nullable = false)
-    private BigDecimal senderAkBalance;
-
-    @Column(name = "ReceiverAKBalance", precision = 10, scale = 2, nullable = false)
-    private BigDecimal receiverAkBalance;
+    @Column(name = "AKBalance", precision = 10, scale = 2, nullable = false)
+    private BigDecimal akBalance;
 
     @Column(name = "SP", precision = 10, scale = 2, nullable = false)
     private BigDecimal sp;
 
-    @Column(name = "SenderSPBalance", precision = 10, scale = 2, nullable = false)
-    private BigDecimal senderSpBalance;
-
-    @Column(name = "ReceiverSPBalance", precision = 10, scale = 2, nullable = false)
-    private BigDecimal receiverSpBalance;
+    @Column(name = "SPBalance", precision = 10, scale = 2, nullable = false)
+    private BigDecimal spBalance;
 
     @Column(name = "Type", length = 1)
     private String type;
@@ -68,6 +56,9 @@ public class PointsHistory {
 
     @Column(name = "ChargeRefundID", length = 36)
     private String chargeRefundId;
+
+    @Column(name = "TransferID", length = 36)
+    private String transferId;
 
     @Column(name = "CreatedID", length = 36)
     private String createdId;

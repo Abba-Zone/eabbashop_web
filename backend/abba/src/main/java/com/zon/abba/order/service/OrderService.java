@@ -123,19 +123,14 @@ public class OrderService {
                 .modifiedId(wallet.getMemberId())
                 .build();
 
-        // 이건 이야기를 해봐야 할 듯 하다...
         PointsHistory pointsHistory = PointsHistory.builder()
-                .senderWalletId(wallet.getWalletId())
-                .receiverWalletId(receiverWallet.getWalletId())
+                .memberId(wallet.getMemberId())
                 .lp(LP)
-                .senderLpBalance(wallet.getLp())
-                .receiverLpBalance(receiverWallet.getLp())
+                .lpBalance(wallet.getLp())
                 .ak(BigDecimal.ZERO)
-                .senderAkBalance(wallet.getAk())
-                .receiverAkBalance(receiverWallet.getAk())
+                .akBalance(wallet.getAk())
                 .sp(SP)
-                .senderSpBalance(wallet.getSp())
-                .receiverSpBalance(receiverWallet.getSp())
+                .spBalance(wallet.getSp())
                 .type("A")
                 .orderDetailId(orderDetailID)
                 .createdId(wallet.getMemberId())
