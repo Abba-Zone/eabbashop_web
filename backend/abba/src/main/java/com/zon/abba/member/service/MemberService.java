@@ -129,7 +129,6 @@ public class MemberService {
         member.setFirstName(memberInfoRequest.getFirstName());
         member.setLastName(memberInfoRequest.getLastName());
         member.setPhone(memberInfoRequest.getPhone());
-        member.setPassword(memberInfoRequest.getPassword());
         member.setModifiedId(member.getMemberId());
 
         memberRepository.save(member);
