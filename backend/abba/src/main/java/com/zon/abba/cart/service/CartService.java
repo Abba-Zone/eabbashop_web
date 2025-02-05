@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,16 +39,29 @@ public class CartService {
         String memberId = jwtTokenProvider.getCurrentMemberId()
                 .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
 
-        logger.info("Cart entity를 형성합니다.");
-        Cart cart = Cart.builder()
-                .memberId(memberId)
-                .productId(request.getProductId())
-                .quantity(request.getQuantity())
-                .createdId(memberId)
-                .modifiedId(memberId)
-                .build();
+        // 장바구니에 있는지 여부 판단
+        Optional<Cart> cart = cartRepository.findByMemberIdAndProductId(memberId, request.getProductId());
 
-        cartRepository.save(cart);
+        if(cart.isPresent()){
+            logger.info("기존 장바구니에 추가합니다.");
+            Cart curCart = cart.get();
+            curCart.setQuantity(curCart.getQuantity() + request.getQuantity());
+            curCart.setModifiedId(memberId);
+
+            cartRepository.save(curCart);
+
+        }else{
+            logger.info("Cart entity를 형성합니다.");
+            Cart newCart = Cart.builder()
+                    .memberId(memberId)
+                    .productId(request.getProductId())
+                    .quantity(request.getQuantity())
+                    .createdId(memberId)
+                    .modifiedId(memberId)
+                    .build();
+
+            cartRepository.save(newCart);
+        }
 
         logger.info("장바구니 등록에 성공했습니다.");
         return new ResponseBody("성공했습니다.");
