@@ -22,7 +22,7 @@ public class MemberInfoDto {
     private String grade;
 
     public MemberInfoDto(Member member){
-        this.name = member.getLastName() + " " + member.getLastName();
+        this.name = member.getLastName() + " " + member.getFirstName();
         this.email = member.getEmail();
         this.role = member.getRole();
         this.grade = member.getGrade();
