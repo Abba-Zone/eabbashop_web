@@ -139,6 +139,12 @@ interface invoiceAddress{
 
 interface invoiceProduct extends orderProduct{}
 
+interface registInvoice {
+    orderDetails : {orderDetailID:string}[],
+    invoiceNo : string,
+    IP : string
+}
+
 /* Shioment  Types*/
 interface shipment{
     shipmentID : string,

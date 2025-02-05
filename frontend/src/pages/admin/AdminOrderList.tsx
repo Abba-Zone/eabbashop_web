@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { AdminOrderListComponent, BottomButton, SearchSet } from '../../components';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { AdminInvoiceRegistModal, AdminOrderListComponent, BottomButton, SearchSet } from '../../components';
 import { getOrderList_s } from '../../services/sale';
 import { useTranslation } from 'react-i18next';
 
@@ -14,6 +14,8 @@ const AdminOrderList: React.FC = () => {
   const [sort, setSort] = useState<string>("DESC");
   const [sortValue, setSortValue] = useState<string>("createdDateTime");
   const [selectIDs, setSelectIDs] = useState<{orderDetailID:string}[]>([]);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const modalRef = useRef<HTMLDivElement>(null); // modal에 대한 ref 추가
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
     {selectName:t("AdminOrder:List.Filter01"), select:'productName', selectType:'text', itemList:[]},
@@ -67,9 +69,24 @@ const AdminOrderList: React.FC = () => {
   const clickInvoiceRegist = () => {
     console.log(selectIDs)
     console.log(pageSize)
+    setModalOpen(true);
   }
   return (
     <div>
+      {
+        modalOpen && 
+        <div 
+          ref={modalRef}
+          style={{
+          "width": "100%",
+          "height": "100%",
+          "position": "fixed",
+          "top": "0",
+          "left": "0",
+          "display": "flex",
+          "background": "rgba(0, 0, 0, 0.5)"
+        }}><AdminInvoiceRegistModal orders={orders} selectIDs={selectIDs} setModalOpen={setModalOpen}/></div>
+      }
       <h1>{t("AdminOrder:List.Title")}</h1>
       <button onClick={clickInvoiceRegist}>송장등록</button>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
