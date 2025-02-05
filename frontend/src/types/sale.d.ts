@@ -1,6 +1,6 @@
 /* Order  Types*/
 interface order{
-    orderID : string,
+    orderDetailID : string,
     memberName : string,
     productName : string,
     createdDateTime : string,
@@ -43,9 +43,9 @@ interface shopOrderInfo extends shopOrder{
 }
 
 interface shopOrder{
-    order_id : string,
-    created_date_time : string,
-    order_details :shopOrderDetail[]
+    orderID : string,
+    createdDateTime : string,
+    orderDetails :shopOrderDetail[]
 }
 
 interface shopOrderList{
