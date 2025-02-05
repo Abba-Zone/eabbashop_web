@@ -79,6 +79,9 @@ public class Orders {
     @Column(name = "BillComment", length = 100, nullable = true)
     private String billComment;
 
+    @Column(name = "Platform", length = 4, nullable = false)
+    private String platform;
+
     @Column(name = "CreatedID", length = 36, nullable = false)
     private String createdId;
 
