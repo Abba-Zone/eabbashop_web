@@ -5,19 +5,27 @@ interface Props{
     order:shopOrder
 }
 const ShopOrderCard:React.FC<Props> = ({order}) => {
+  console.log(order)
     const navigate = useNavigate();
     const rendering = (): JSX.Element[] => {
-        const result = [];
-        for(let i = 0 ; i < order.order_details.length; i++){
-          result.push(<ListCard key={i} orderDetail={order.order_details[i]} ></ListCard>);
+        const result: JSX.Element[] = [];
+        for(let i = 0 ; i < order.orderDetails.length; i++){
+          result.push(<ListCard key={i} orderDetail={order.orderDetails[i]} ></ListCard>);
         }
         return result;
     }
+    if(!order.orderDetails){
+      return(
+        <div>
+          <h1>주문 내역이 없습니다.</h1>
+        </div>
+      )
+    }
     return (
       <div>
-        <h1>{order.created_date_time}
+        <h1>{order.createdDateTime}
           <button>주문내역 삭제</button>
-          <button onClick={()=>{navigate(`/mypage/orderdetail/${order.order_id}`)}}>주문상세</button>
+          <button onClick={()=>{navigate(`/mypage/orderdetail/${order.orderID}`)}}>주문상세</button>
         </h1>
         {rendering()}
       </div>

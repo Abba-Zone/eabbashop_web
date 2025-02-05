@@ -7,12 +7,12 @@ const AdminOrderList: React.FC = () => {
   const { t } = useTranslation();
   const [orders, setOrders] = useState<order[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageSize, setPageSize] = useState<number>(5);
   const [lastPage, setLastPage] = useState<number>(1);
   const [filter, setFilter] = useState<number>(1);
   const [filterValue, setFilterValue] = useState<string>("");
-  const [sort, setSort] = useState<string>("createdDateTime");
-  const [sortValue, setSortValue] = useState<string>("DESC");
+  const [sort, setSort] = useState<string>("DESC");
+  const [sortValue, setSortValue] = useState<string>("createdDateTime");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
     {selectName:t("AdminOrder:List.Filter01"), select:'productName', selectType:'text', itemList:[]},
@@ -23,7 +23,7 @@ const AdminOrderList: React.FC = () => {
 
   const getOrderList = useCallback (async () => {
     try {
-      const totalAndOrderList : orderList = await getOrderList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
+      const totalAndOrderList : orderList = await getOrderList_s(pageNo - 1, pageSize, filter, filterValue, sort, sortValue);
       setOrders(totalAndOrderList.list);
       setLastPage(totalAndOrderList.totalCount === 0? 1:Math.floor((totalAndOrderList.totalCount - 1)/pageSize) + 1);
     } catch (error) {
@@ -34,15 +34,15 @@ const AdminOrderList: React.FC = () => {
   const changePage = (move:number) =>{
       setPageNo(move);
   }
-  const changeSort = (sortName:string) => {
-    if (sortName === sort){
-      if(sortValue ==='ASC')
-        setSortValue('DESC')
+  const changeSortValue = (sortName:string) => {
+    if (sortName === sortValue){
+      if(sort ==='ASC')
+        setSort('DESC')
       else
-      setSortValue('ASC')
+        setSort('ASC')
     } else {
-      setSort(sortName);
-      setSortValue('ASC');
+      setSortValue(sortName);
+      setSort('ASC');
     }
   }
   const changeFilter = (key:number, value:string) =>{
@@ -58,7 +58,7 @@ const AdminOrderList: React.FC = () => {
     <div>
       <h1>{t("AdminOrder:List.Title")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
-      <AdminOrderListComponent orders={orders} changeSort={changeSort}></AdminOrderListComponent>
+      <AdminOrderListComponent orders={orders} changeSort={changeSortValue}></AdminOrderListComponent>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
     </div>
   );

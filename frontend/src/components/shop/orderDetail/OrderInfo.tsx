@@ -9,18 +9,17 @@ interface Props{
 const OrderInfo:React.FC<Props> = ({orderInfo}) => {
     const rendering = (): JSX.Element[] => {
         const result = [];
-        for(let i = 0 ; i < orderInfo.order_details.length; i++){
-            result.push(<ListCard key={i} orderDetail={orderInfo.order_details[i]} ></ListCard>);
+        for(let i = 0 ; i < orderInfo.orderDetails.length; i++){
+            result.push(<ListCard key={i} orderDetail={orderInfo.orderDetails[i]} ></ListCard>);
         }
         return result;
     }
     return (
         <div>
-            <h2>{orderInfo.created_date_time}</h2><h6>주문번호{orderInfo.order_id} <button>주문내역삭제</button></h6>
+            <h2>{orderInfo.createdDateTime}</h2><h6>주문번호{orderInfo.orderID} <button>주문내역삭제</button></h6>
             {rendering()}
             <Recipient addressInfo={orderInfo}/>
             <PaymentInfo addressInfo={orderInfo}/>
-            <button>주문내역 삭제</button>
         </div>
     );
 }

@@ -1,36 +1,45 @@
 import { getData, postData, getTestData} from './mainApi'
 
 /* Order */
-export const getOrderList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):orderList => {
+export const getOrderList = async (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):Promise<orderList> => {
     /* real code*/
-    // getData<orderList>('/list/admin?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
-    //     .then((data:APIResponse<orderList>) => {
-    //         return data.result;
-    //     }
-    // );
-    // return null as unknown as orderList;
+    try {
+        const response = await getData<orderList>(
+            `/order/list/admin?pageNo=${pageNo}&pageSize=${pageSize}&filter=${filter}&filterValue=${filterValue}&sort=${sort}&sortValue=${sortValue}`
+        );
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching admin order list:', error);
+        throw error;
+    }
 
     /* make for test*/
     var result :orderList = {
         totalCount: 123412414,
         list : [
-            {orderID: "1dvxb32c45s7d87b49lkfdvb", productName : "물병",memberName : "전 현태",	status : "배송중", createdDateTime : "2024-11-15 16:30:22",},
-            {orderID: "2dvxb32c45s7d87b49lkfdvb", productName : "물병",memberName : "전 현태",	status : "처리중", createdDateTime : "2024-11-15 16:30:22",},
-            {orderID: "3dvxb32c45s7d87b49lkfdvb", productName : "물병",memberName : "전 현태",	status : "배송완료", createdDateTime : "2024-11-15 16:30:22",},
-            {orderID: "4dvxb32c45s7d87b49lkfdvb", productName : "물병",memberName : "전 현태",	status : "배송중", createdDateTime : "2024-11-15 16:30:22",},
-            {orderID: "5dvxb32c45s7d87b49lkfdvb", productName : "물병",memberName : "전 현태",	status : "배송완료", createdDateTime : "2024-11-15 16:30:22",},
+            {orderDetailID: "1dvxb32c45s7d87b49lkfdvb", productName : "물병",memberName : "전 현태",	status : "배송중", createdDateTime : "2024-11-15 16:30:22",},
+            {orderDetailID: "2dvxb32c45s7d87b49lkfdvb", productName : "물병",memberName : "전 현태",	status : "처리중", createdDateTime : "2024-11-15 16:30:22",},
+            {orderDetailID: "3dvxb32c45s7d87b49lkfdvb", productName : "물병",memberName : "전 현태",	status : "배송완료", createdDateTime : "2024-11-15 16:30:22",},
+            {orderDetailID: "4dvxb32c45s7d87b49lkfdvb", productName : "물병",memberName : "전 현태",	status : "배송중", createdDateTime : "2024-11-15 16:30:22",},
+            {orderDetailID: "5dvxb32c45s7d87b49lkfdvb", productName : "물병",memberName : "전 현태",	status : "배송완료", createdDateTime : "2024-11-15 16:30:22",},
         ]
     };
     return result;
 }
 
-export const getOrderDetail = (orderID:string):orderDetail => {
-    // getData<orderDetail>('/info?orderID='+ orderID)
-    //     .then((data:APIResponse<orderDetail>) => {
-    //         return data.result;
-    //     }
-    // );
-    // return null as unknown as orderDetail;
+export const getOrderDetail = async (orderID:string):Promise<orderDetail> => {
+    /* real code*/
+    try {
+        const response = await getData<orderDetail>(
+            `/order/detail/admin?orderDetailID=${orderID}`
+        );
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching admin order list:', error);
+        throw error;
+    }
     var result:orderDetail= {
        address : {
         name : "전현태",
@@ -69,61 +78,7 @@ export const getOrderDetail = (orderID:string):orderDetail => {
     return result;
 }
 
-export const getShopOrderDetail = (orderID:string):shopOrderInfo => {
-    // getData<orderDetail>('/info?orderID='+ orderID)
-    //     .then((data:APIResponse<orderDetail>) => {
-    //         return data.result;
-    //     }
-    // );
-    // return null as unknown as orderDetail;
-    var result:shopOrderInfo= {
-       "order_id": "df391c47-b28f-4537-ba65-a07979a03ac8",
-        "created_date_time": "2025-01-10T00:39:26",
-        "name": "A BCD",
-        "phone": "010-1111-2222",
-        "zipCode": "20001",
-        "baseAddress": "123 Main St",
-        "detailAddress": "Apt 4B",
-        "billZipCode": "10117",
-        "billBaseAddress": "Unter den Linden 77",
-        "billDetailAddress": "Office 301",
-        "comment": "null",
-        "totalRealPrice": 2200.00,
-        "totalLP": 1000.00,
-        "totalAK": 0.00,
-        "totalSP": 1200.00,
-        "order_details": [
-        {
-            "orderDetailID": "2b8b49b8-a409-4eb1-8920-7e9b7d45918e",
-            "productID": "fc6ee6e7-ee5b-47d9-aae7-62ea7d653af9",
-            "name": "Change Sample Product2",
-            "allowNation": "KR,US,JP",
-            "viewSite": "A",
-            "quantity": 2,
-            "status": 400,
-            "thumbnail": "https://example.com/sample-thumbnail.jpg",
-            "LP": 1000.00,
-            "AK": 0.0,
-            "SP": 1200.00
-        },
-        {
-            "orderDetailID": "2b8b49b8-a409-4eb1-8920-7e9b7d45918e",
-            "productID": "fc6ee6e7-ee5b-47d9-aae7-62ea7d653af9",
-            "name": "Change Sample Product2",
-            "allowNation": "KR,US,JP",
-            "viewSite": "A",
-            "quantity": 2,
-            "status": 400,
-            "thumbnail": "https://example.com/sample-thumbnail.jpg",
-            "LP": 1000.00,
-            "AK": 0.0,
-            "SP": 1200.00
-        }
-    ]
 
-    };
-    return result;
-}
 
 /* Invoice */
 export const getInvoiceList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):invoiceList => {
@@ -284,73 +239,28 @@ export const getRegularOrderList = (pageNo:number, pageSize:number, filter:numbe
 
 export const getShopOrderList = async (pageNo:number, pageSize:number, year:number):Promise<shopOrderList> => {
     /* real code*/
-    // try {
-    //     const response = await getData<shopOrderList>(
-    //         `/order/list?pageNo=${pageNo}&pageSize=${pageSize}&year=${year}`
-    //     );
-    //     console.log(response.data);
-    //     return response.data;
-    // } catch (error) {
-    //     console.error('Error fetching board list:', error);
-    //     throw error;
-    // }
+    try {
+        const response = await getData<shopOrderList>(
+            `/order/list?pageNo=${pageNo}&pageSize=${pageSize}&year=${year}`
+        );
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching shop order list:', error);
+        throw error;
+    }
+}
 
-    /* make for test*/
-    var result :shopOrderList = {
-        totalCount: 123412414,
-        list : [{
-            "order_id": "df391c47-b28f-4537-ba65-a07979a03ac8",
-            "created_date_time": "2025-01-10T00:39:26",
-            "order_details": [
-                {
-                    "orderDetailID": "2b8b49b8-a409-4eb1-8920-7e9b7d45918e",
-                    "productID": "fc6ee6e7-ee5b-47d9-aae7-62ea7d653af9",
-                    "name": "Change Sample Product",
-                    "allowNation": "KR,US,JP",
-                    "viewSite": "A",
-                    "quantity": 2,
-                    "status": 100,
-                    "thumbnail": "https://abbazonbucket.s3.ap-northeast-2.amazonaws.com/%EC%8B%B8%ED%94%BC.png",
-                    "LP": 1000.00,
-                    "AK": 0.0,
-                    "SP": 1200.00
-                },
-                {
-                    "orderDetailID": "2b8b49b8-a409-4eb1-8920-7e9b7d45918e",
-                    "productID": "fc6ee6e7-ee5b-47d9-aae7-62ea7d653af9",
-                    "name": "Change Sample Product",
-                    "allowNation": "KR,US,JP",
-                    "viewSite": "A",
-                    "quantity": 2,
-                    "status": 100,
-                    "thumbnail": "https://abbazonbucket.s3.ap-northeast-2.amazonaws.com/%EC%8B%B8%ED%94%BC.png",
-                    "LP": 1000.00,
-                    "AK": 0.0,
-                    "SP": 1200.00
-                }
-            ]
-        },
-        {
-            "order_id": "df391c47-b28f-4537-ba65-a07979a03ac8",
-            "created_date_time": "2025-01-10T00:39:26",
-            "order_details": [
-                {
-                    "orderDetailID": "2b8b49b8-a409-4eb1-8920-7e9b7d45918e",
-                    "productID": "fc6ee6e7-ee5b-47d9-aae7-62ea7d653af9",
-                    "name": "Change Sample Product",
-                    "allowNation": "KR,US,JP",
-                    "viewSite": "A",
-                    "quantity": 2,
-                    "status": 100,
-                    "thumbnail": "https://abbazonbucket.s3.ap-northeast-2.amazonaws.com/%EC%8B%B8%ED%94%BC.png",
-                    "LP": 1000.00,
-                    "AK": 0.0,
-                    "SP": 1200.00
-                }
-            ]
-        },]
-    };
-    return result;
+export const getShopOrderDetail = async (orderID:string):Promise<shopOrderInfo> => {
+    try {
+        const response = await getData<shopOrderInfo>(
+            `/order/detail?orderID=${orderID}`
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching shop order detail:', error);
+        throw error;
+    }
 }
 
 export const getRegularOrderDetail = (orderID:string):regularOrderDetail => {

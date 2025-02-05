@@ -9,8 +9,8 @@ const ProductCard:React.FC<Props> = ({product}) => {
     const navigate = useNavigate();
     return (
         <div onClick={()=>{navigate(`/productdetail/${product.productID}`)}}>
-            <img src={product.thumbnail} alt="상품이미지" />
-            <div>{product.productName}</div>
+            <img src={product.thumbnail} style={{width:'200px', height:'200px'}} alt="상품이미지" />
+            <div>{product.productName} </div>
             <div>US${product.realPrice}</div>
             <div>{product.AP}AP</div>
             <div>{product.AW}AW</div>

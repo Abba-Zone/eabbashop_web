@@ -6,7 +6,7 @@ interface Props{
   const AdminOrderListCard:React.FC<Props> = ({order}) => {
       const navigate = useNavigate();
       return (
-        <tr onClick={()=>{navigate(`/admin/orderdetail/${order.orderID}`)}}>
+        <tr onClick={()=>{navigate(`/admin/orderdetail/${order.orderDetailID}`)}}>
           <td>선택</td>
           <td>{order.productName}</td>
           <td>{order.memberName}</td>
