@@ -18,7 +18,8 @@ public interface SellerRepository extends JpaRepository<Seller, String> {
 
     @Query(value = "SELECT s.SellerID AS sellerId, " +
             "       s.Name AS name, " +
-            "       CONCAT(m.LastName, ' ', m.FirstName) AS host, " +
+            "       m.FirstName AS firstName, " +
+            "       m.LastName AS lastName, " +
             "       s.Phone AS phone, " +
             "       s.CreatedDateTime AS createdDateTime " +
             "FROM Seller s " +
@@ -49,7 +50,8 @@ public interface SellerRepository extends JpaRepository<Seller, String> {
 
     @Query(value = "SELECT s.SellerID AS sellerId, " +
             "       s.Name AS name, " +
-            "       CONCAT(m.LastName, ' ', m.FirstName) AS host, " +
+            "       m.LastName AS lastName, " +
+            "       m.FirstName AS firstName, " +
             "       s.Phone AS phone, " +
             "       s.ZipCode AS zipCode, " +
             "       s.BaseAddress AS baseAddress, " +

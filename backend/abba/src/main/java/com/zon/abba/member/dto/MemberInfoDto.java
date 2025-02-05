@@ -16,13 +16,23 @@ import java.time.LocalDateTime;
 public class MemberInfoDto {
     @JsonProperty("memberID")
     private String memberID;
+    @JsonProperty("email")
     private String email;
-    private String name;
+    @JsonProperty("firstName")
+    private String firstName;
+    @JsonProperty("lastName")
+    private String lastName;
+    @JsonProperty("role")
     private String role;
+    @JsonProperty("grade")
     private String grade;
+    @JsonProperty("recommend")
     private String recommend;
+    @JsonProperty("phone")
     private String phone;
+    @JsonProperty("country")
     private String country;
+    @JsonProperty("platform")
     private String platform;
     @JsonProperty("createdDateTime")
     private LocalDateTime createdDateTime;
@@ -32,7 +42,8 @@ public class MemberInfoDto {
     public MemberInfoDto(Member member){
         this.memberID = member.getMemberId();
         this.email = member.getEmail();
-        this.name = member.getLastName() + " " + member.getFirstName();
+        this.firstName = member.getFirstName();
+        this.lastName = member.getLastName();
         this.role = member.getRole();
         this.grade = member.getGrade();
         this.phone = member.getPhone();

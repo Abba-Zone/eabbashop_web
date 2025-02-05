@@ -4,8 +4,9 @@ import java.time.LocalDateTime;
 
 public interface SellerList {
     String getSellerId();
+    String getFirstName();
+    String getLastName();
     String getName();
-    String getHost();
     String getPhone();
     LocalDateTime getCreatedDateTime();
 
