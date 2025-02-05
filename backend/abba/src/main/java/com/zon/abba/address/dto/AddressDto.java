@@ -26,8 +26,10 @@ public class AddressDto {
     private Boolean isMain;
     @JsonProperty("isBill")
     private Boolean isBill;
-    @JsonProperty("host")
-    private String host;
+    @JsonProperty("firstName")
+    private String firstName;
+    @JsonProperty("lastName")
+    private String lastName;
     @JsonProperty("phone")
     private String phone;
     @JsonProperty("name")
@@ -43,7 +45,8 @@ public class AddressDto {
         this.detailAddress = address.getDetailAddress();
         this.isMain = address.getMainAddress();
         this.isBill = address.getBillAddress();
-        this.host = address.getLastName() + " " + address.getFirstName();
+        this.firstName = address.getFirstName();
+        this.lastName = address.getLastName();
         this.phone = address.getPhone();
         this.name = address.getAddressName();
         this.comment = address.getComment();
