@@ -45,7 +45,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ProductReviewRepository productReviewRepository;
-    @Autowired
+    //@Autowired
     private JwtTokenProvider jwtTokenProvider;
     @Autowired
     private MemberRepository memberRepository;
