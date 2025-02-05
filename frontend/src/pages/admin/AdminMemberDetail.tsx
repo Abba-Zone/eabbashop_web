@@ -35,7 +35,7 @@ const AdminMemberDetail: React.FC = () => {
   }
   return (
     <div>
-      <h1>{member.name}</h1>
+      <h1>{member.firstName + ' ' + member.lastName}</h1>
       <div>
         <MemberAdminInfo memberInfo={member} />
         <MemberAdminWallet wallet={wallet}/>

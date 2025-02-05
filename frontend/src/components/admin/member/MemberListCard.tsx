@@ -8,7 +8,7 @@ interface Props{
       return (
         <tr onClick={()=>{navigate(`/admin/memberdetail/${member.memberID}`)}}>
           <td>선택</td>
-          <td>{member.name}</td>
+          <td>{member.firstName + ' ' + member.lastName}</td>
           <td>{member.email}</td>
           <td>{member.phone}</td>
           <td>{member.recommend}</td>
