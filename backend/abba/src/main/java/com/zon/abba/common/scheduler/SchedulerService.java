@@ -1,5 +1,6 @@
 package com.zon.abba.common.scheduler;
 
+import com.zon.abba.account.service.PointService;
 import com.zon.abba.order.repository.OrderDetailRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class SchedulerService {
     private static final Logger logger = LoggerFactory.getLogger(SchedulerService.class);
 
     private final OrderDetailRepository orderDetailRepository;
+    private final PointService pointService;
     private final StringRedisTemplate redisTemplate;
     private final ThreadPoolTaskScheduler scheduler;
     private final Map<String, ScheduledFuture<?>> runningSchedulers = new ConcurrentHashMap<>();
@@ -53,6 +55,8 @@ public class SchedulerService {
             int status = orderDetail.getStatus();
             if(status == 300){
                 orderDetail.setStatus(500);
+                orderDetail.setModifiedId("admin");
+                pointService.settleOrder(orderDetailId);
                 orderDetailRepository.save(orderDetail);
             }else logger.info("order detail id : {}의 상태 변경이 없습니다.", orderDetailId);
 
