@@ -185,7 +185,7 @@ public class MemberService {
                 .orElseThrow(() -> new NoMemberException("없는 회원 정보입니다."));
 
         // 요청 정보 업데이트
-        member.setGrade(memberPasswordRequest.getPassword());
+        member.setPassword(memberPasswordRequest.getPassword());
         member.setModifiedId(member.getMemberId());
 
         memberRepository.save(member);

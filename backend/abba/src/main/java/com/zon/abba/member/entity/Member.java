@@ -93,8 +93,6 @@ public class Member {
     public void perPersist(){
         if(this.lastLoginTime == null) this.lastLoginTime = LocalDateTime.now();
         if(this.receiveConsentYN == null) this.receiveConsentYN = "Y";
-//        if (this.createdId == null) this.createdId = UUID.randomUUID().toString();
-//        if (this.modifiedId == null) this.modifiedId = UUID.randomUUID().toString();
         if (this.failCount == null) this.failCount = 0;
         if(this.createdDateTime == null) this.createdDateTime = LocalDateTime.now();
         if(this.modifiedDateTime == null) this.modifiedDateTime = LocalDateTime.now();
