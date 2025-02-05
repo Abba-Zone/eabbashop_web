@@ -1,31 +1,17 @@
 import { getData, postData, getTestData} from './mainApi'
 
 /* Order */
-export const getOrderList = async (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):Promise<orderList> => {
+export const getOrderList = async (pageNo:number, pageSize:number, filter:string, filterValue:string, sort:string, sortValue:string):Promise<orderList> => {
     /* real code*/
     try {
         const response = await getData<orderList>(
             `/order/list/admin?pageNo=${pageNo}&pageSize=${pageSize}&filter=${filter}&filterValue=${filterValue}&sort=${sort}&sortValue=${sortValue}`
         );
-        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error('Error fetching admin order list:', error);
         throw error;
     }
-
-    /* make for test*/
-    var result :orderList = {
-        totalCount: 123412414,
-        list : [
-            {orderDetailID: "1dvxb32c45s7d87b49lkfdvb", productName : "물병",memberName : "전 현태",	status : "배송중", createdDateTime : "2024-11-15 16:30:22",},
-            {orderDetailID: "2dvxb32c45s7d87b49lkfdvb", productName : "물병",memberName : "전 현태",	status : "처리중", createdDateTime : "2024-11-15 16:30:22",},
-            {orderDetailID: "3dvxb32c45s7d87b49lkfdvb", productName : "물병",memberName : "전 현태",	status : "배송완료", createdDateTime : "2024-11-15 16:30:22",},
-            {orderDetailID: "4dvxb32c45s7d87b49lkfdvb", productName : "물병",memberName : "전 현태",	status : "배송중", createdDateTime : "2024-11-15 16:30:22",},
-            {orderDetailID: "5dvxb32c45s7d87b49lkfdvb", productName : "물병",memberName : "전 현태",	status : "배송완료", createdDateTime : "2024-11-15 16:30:22",},
-        ]
-    };
-    return result;
 }
 
 export const getOrderDetail = async (orderID:string):Promise<orderDetail> => {
@@ -34,7 +20,6 @@ export const getOrderDetail = async (orderID:string):Promise<orderDetail> => {
         const response = await getData<orderDetail>(
             `/order/detail/admin?orderDetailID=${orderID}`
         );
-        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error('Error fetching admin order list:', error);

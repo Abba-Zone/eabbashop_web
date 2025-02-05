@@ -3,14 +3,15 @@ import ListCard from "./AdminOrderListCard";
 interface Props{
     orders:order[],
     changeSort(sortName:string):void,
+    selectID(id:string):void,
 }
 
-const AdminOrderListComponent:React.FC<Props> = ({orders, changeSort}) => {
+const AdminOrderListComponent:React.FC<Props> = ({orders, changeSort, selectID}) => {
   const { t } = useTranslation();
   const rendering = (): JSX.Element[] => {
       const result = [];
       for(let i = 0 ; i < orders.length; i++){
-        result.push(<ListCard key={i} order={orders[i]} ></ListCard>);
+        result.push(<ListCard key={i} order={orders[i]} selectID={selectID}></ListCard>);
       }
       return result;
   }
@@ -22,6 +23,7 @@ const AdminOrderListComponent:React.FC<Props> = ({orders, changeSort}) => {
       <th onClick={()=>{changeSort('memberName')}}>{t("AdminOrder:List.Filter02")}</th>
       <th onClick={()=>{changeSort('status')}}>{t("AdminOrder:List.Filter03")}</th>
       <th onClick={()=>{changeSort('createdDateTime')}}>{t("AdminOrder:List.Filter04")}</th>
+      <th>상세보기</th>
     </tr>;
     return result;
   }
