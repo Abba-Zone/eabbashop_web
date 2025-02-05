@@ -9,7 +9,8 @@ const DirectCheckout:React.FC = () => {
   const [buyer, setBuyer] = useState<memberInfo>({
     memberID : "1q2w3er4t5t",
     email : "rudgns9334",
-    name : "정경훈",
+    lastName : "정",
+    firstName : "경훈",
     role : "판매점",
     recommend : "ych526@naver.com",
     phone : "010-9334-1487",
