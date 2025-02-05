@@ -110,7 +110,7 @@ export const getProductDetail = async (productID:string):Promise<productDetail> 
         productName : "물병",
         thumbnail: "썸네일이미지주소",
         taxFreePrice : 20.0,
-        SPPrice : 5.0,
+        spPrice : 5.0,
         realPrice : 25.0,
         stock: 10, 
         description : "물을 오래 보관할 수 있음(이미지도 있음)",

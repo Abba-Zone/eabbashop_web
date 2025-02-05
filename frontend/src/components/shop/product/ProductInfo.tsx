@@ -13,7 +13,7 @@ const ProductInfo:React.FC<Props> = ({productInfo}) => {
             <span>리뷰수</span>
             <div>재고 : {productInfo.stock===0?"없음":"있음"}</div>
             <div>{productInfo.summary}</div>
-            <div>가격 : ${productInfo.realPrice} {productInfo.SPPrice}AP {productInfo.paybackRatio}AW</div>
+            <div>가격 : ${productInfo.realPrice} {productInfo.spPrice}AP {productInfo.paybackRatio}AW</div>
         </div>
     );
 }

@@ -5,9 +5,8 @@ interface Props{
 }
 
 const Price:React.FC<Props> = ({productList}) => {
-  const [SPPrice, setSPPrice] = useState<number>(0);
-  const maxSP = useMemo(() => productList.reduce((sum, product) => sum + product.SP, 0), [productList]);
-  const totalRealPrice = useMemo(() => productList.reduce((sum, product) => sum + product.realPrice, 0), [productList]);
+  const maxSP = useMemo(() => productList.reduce((sum, product) => sum + product.SP * product.quantity, 0), [productList]);
+  const totalRealPrice = useMemo(() => productList.reduce((sum, product) => sum + product.realPrice * product.quantity, 0), [productList]);
 
   return (
     <div>
@@ -24,7 +23,7 @@ const Price:React.FC<Props> = ({productList}) => {
           </tr>
           <tr>
             <td>결제 포인트</td>
-            <td>${(totalRealPrice - SPPrice).toFixed(0)}</td>
+            <td>${(totalRealPrice - maxSP).toFixed(0)}</td>
           </tr>
         </tbody>
       </table>

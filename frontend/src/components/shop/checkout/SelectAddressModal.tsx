@@ -44,7 +44,7 @@ const SelectAddressModal:React.FC<Props> = ({addressList, setAddressList, setMod
             firstName : firstName,
             country : "KOR",
             zipCode : zipCode,
-            bassAddress : baseAddress,
+            baseAddress : baseAddress,
             detailAddress : detailAddress,
             isBill : addressList.length === 0,
             isMain : addressList.length === 0,

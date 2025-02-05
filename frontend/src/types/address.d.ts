@@ -27,7 +27,7 @@ interface registAddress{
 	phone: string,
 	country: string,
 	zipCode: string,
-	bassAddress: string,
+	baseAddress: string,
 	detailAddress: string,
 	comment: string,
 	isMain: boolean,

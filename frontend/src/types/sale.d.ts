@@ -207,3 +207,10 @@ interface purchaseInfoToCart{
     billAddressID: string,
     carts: { cartID: string }[]
 }
+
+interface purchaseInfoDirect{
+    isUseAK: boolean,
+    addressID: string,
+    billAddressID: string,
+    products: { productID: string, quantity:number }[]
+}

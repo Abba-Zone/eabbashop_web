@@ -312,3 +312,15 @@ export const purchaseFromCart = async (purchaseInfo: purchaseInfoToCart):Promise
         throw error;
     }
 }
+
+export const purchaseDirect = async (purchaseInfo: purchaseInfoDirect):Promise<addressList> => {
+    try {
+        const response = await postData<addressList>('/order/register', purchaseInfo);
+        console.log(response);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching purchase direct:', error);
+        throw error;
+    }
+}
+

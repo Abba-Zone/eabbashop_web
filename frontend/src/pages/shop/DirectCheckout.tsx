@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import { PurchaseBuyer, PurchaseAddress, PurchasePrice, PurchaseProductList } from "../../components"
-import { getCartList_s } from "../../services/cart";
+import { PurchaseBuyer, PurchaseAddress, PurchasePayment, PurchasePrice, PurchaseProductList } from "../../components"
 import { getAddressList_s } from "../../services/address";
-import { purchaseFromCart_s } from "../../services/sale";
-import { useNavigate } from "react-router-dom";
+import { purchaseDirect_s } from "../../services/sale";
+import { useNavigate, useParams } from "react-router-dom";
+import { getProductDetail_s } from "../../services/product";
 
-const Checkout:React.FC = () => {
+const DirectCheckout:React.FC = () => {
   const [buyer, setBuyer] = useState<memberInfo>({
     memberID : "1q2w3er4t5t",
     email : "rudgns9334",
@@ -22,13 +22,16 @@ const Checkout:React.FC = () => {
   const [devliveryID, setDevliveryID] = useState<string>("");
   const [cartList, setCartList] = useState<cartInfo[]>([]);
   const [isUseAK, setIsUseAK] = useState<boolean>(false);
+  const params = useParams<{id:string, quantity:string}>();
   const navigate = useNavigate();
   const getCartList = useCallback( async () => {
     try {
-      const list = await getCartList_s();
-      setCartList(list.list.filter(item => item.selectYN));
+      if (!params.id)
+        return;
+      const detail = await getProductDetail_s(params.id);
+      setCartList(changeToCartList(detail));
     } catch (error) {
-      console.error('Error fetching cart list:', error);
+      console.error('Error fetching product detail:', error);
     }
   },[]);
   const getAddressList = useCallback( async () => {
@@ -46,19 +49,36 @@ const Checkout:React.FC = () => {
     }
   },[]);
   const Purchase = async () =>{
-    const purchaseInfo: purchaseInfoToCart = {
+    const purchaseInfo: purchaseInfoDirect = {
       addressID: devliveryID,
       billAddressID: billID,
-      carts: cartList.map(cart => ({ cartID: cart.cartID })),
+      products: [ {productID:params.id? params.id:"", quantity:Number(params.quantity)} ],
       isUseAK: isUseAK
     }
-    await purchaseFromCart_s(purchaseInfo);
+    await purchaseDirect_s(purchaseInfo);
     navigate(`/mypage/orders`)
   }
   useEffect(() => {
     getCartList();
     getAddressList();
   }, [getCartList, getAddressList]);
+  const changeToCartList = (detailInfo : productDetail): cartInfo[] => {
+    const result : cartInfo[] = [];
+    console.log(detailInfo)
+    result.push({
+      thumbnail: detailInfo.thumbnail,
+      AK: detailInfo.realPrice,
+      cartID: "",
+      name: detailInfo.productName,
+      productId: detailInfo.productID,
+      quantity: Number(params.quantity),
+      realPrice: detailInfo.realPrice,
+      selectYN: true,
+      SP: detailInfo.spPrice,
+      stock: detailInfo.stock,
+    })
+    return result;
+  }
   return (
     <div>
       <h1>주문 / 결제</h1>
@@ -73,4 +93,4 @@ const Checkout:React.FC = () => {
   );
 }
 
-export default Checkout;
+export default DirectCheckout;

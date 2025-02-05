@@ -65,7 +65,7 @@ interface productDetail extends Omit<product, 'sellerName'>{
     categoryName: string
     sellerId:string,
     taxFreePrice : number,
-    SPPrice : number,
+    spPrice : number,
     realPrice : number,
     description : string,
     summary : string,
