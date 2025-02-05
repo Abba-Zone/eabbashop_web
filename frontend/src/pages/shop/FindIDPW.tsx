@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import './FindIDPW.css';
-import { findID_s } from '../../services/member';
+import { findID_s, sendResetPasswordEmail_s } from '../../services/member';
 const FindIDPW: React.FC = () => {
   const [activeTab, setActiveTab] = useState('아이디(이메일)찾기');
-
+  
   const [inputFn, setInputFirstName] = useState<string>('')
   const [inputLn, setInputLastName] = useState<string>('')
   const [inputPn, setInputPhone] = useState<string>('')
-
+  const [inputEmail, setInputEmail] = useState<string>('')
   const [errors, setErrors] = useState({
     firstName: '',
     lastName: '',
     phone: ''
   });
 
+  const Cookies = require('js-cookie');
   const validateName = (name: string) => {
     return name.length <= 50;
   }
@@ -23,6 +24,12 @@ const FindIDPW: React.FC = () => {
     return phoneRegex.test(phone);
   };
 
+  const handleInputEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const email = event.target.value;
+    setInputEmail(email);
+    Cookies.set('email', email);
+  }
+  
   const handleInputLn = (event: React.ChangeEvent<HTMLInputElement>) => {
     const lastName = event.target.value;
     setInputLastName(lastName);
@@ -65,6 +72,16 @@ const FindIDPW: React.FC = () => {
       alert(`찾으신 아이디는 ${findIDResult.email} 입니다.`);
     } else {
       alert('아이디를 찾을 수 없습니다.');
+    }
+  }
+
+  const sendResetPasswordEmail = async () => {
+    const resetPasswordEmailResult = await sendResetPasswordEmail_s(Cookies.get('email'));
+    console.log(resetPasswordEmailResult);
+    if (resetPasswordEmailResult) {
+      alert('비밀번호 변경 이메일 발송 완료');
+    } else {
+      alert('비밀번호 변경 이메일 발송 실패');
     }
   }
 
@@ -115,17 +132,13 @@ const FindIDPW: React.FC = () => {
             </div>
             <div className="form-row">
               <label>아이디(이메일)</label>
-              <input type="text" placeholder="쿠팡에 가입된 계정 이메일을 정확히 기입해주시길 바랍니다." />
+              <input value={inputEmail} type="text" placeholder="가입시 사용한 계정 이메일을 정확히 기입해주시길 바랍니다." onChange={handleInputEmail}/>
             </div>
           </div>
           <div className="method">
-            <p>❗ 비밀번호 찾기 방법을 선택해주세요.</p>
-            <div className="radio-group">
-              <label><input type="radio" name="method" checked /> e-mail주소</label>
-              <label><input type="radio" name="method" /> 등록된 휴대폰</label>
-            </div>
+            <p>❗ 버튼 클릭 시 작성한 이메일로 비밀번호 변경 링크가 발송됩니다.</p>
           </div>
-          <button className="find-button">비밀번호 찾기</button>
+          <button className="find-button" onClick={sendResetPasswordEmail}>비밀번호 찾기</button>
         </div>
       )}
     </div>

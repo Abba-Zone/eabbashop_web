@@ -1,35 +1,112 @@
 import React, { useState, useEffect } from 'react';
 import './MypageProfile.css';
 import { useNavigate } from 'react-router-dom';
-import { getMemberDetailMe_s } from '../../services/member';
-import { authEmail_s, checkAuthCode_s } from '../../services/member';
+import { getMemberDetailMe_s, sendResetPasswordEmail_s, authEmail_s, checkAuthCode_s, updateUserData_s } from '../../services/member';
 const MypageProfile:React.FC = () => {
   const [memberDetail, setMemberDetail] = useState<memberDetailInfo | null>(null);
   const [isOneSelf, setIsOneSelf] = useState<boolean>(false);
   const [isSendEmail, setIsSendEmail] = useState<boolean>(false);
   const [isSendingAuthCode, setIsSendingAuthCode] = useState<boolean>(false);
   const [inputAuthCode, setInputAuthCode] = useState<string>('');
-  const [isChangeEmail, setIsChangeEmail] = useState<boolean>(false);
-  const [isChangeName, setIsChangeName] = useState<boolean>(false);
+  const [isChangeFirstName, setIsChangeFirstName] = useState<boolean>(false);
+  const [isChangeLastName, setIsChangeLastName] = useState<boolean>(false);
   const [isChangePhone, setIsChangePhone] = useState<boolean>(false);
   const [isChangePassword, setIsChangePassword] = useState<boolean>(false);
+  const [inputFirstName, setInputFirstName] = useState<string>('');
+  const [inputLastName, setInputLastName] = useState<string>('');
+  const [inputPhone, setInputPhone] = useState<string>('');
+  const [inputPassword, setInputPassword] = useState<string>('');
   const navigate = useNavigate();
+  const Cookies = require('js-cookie');
   const handleAuthCodeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputAuthCode(event.target.value);
   }
 
-  const handleModifyInfo = async () => {
-    setIsChangeEmail(false);
-    setIsChangeName(false);
+  const handleInputFirstName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChangeLastName(false);
     setIsChangePhone(false);
-    setIsChangePassword(false);
-    // await updateUserInfo_s(); 이 부분 경훈이한테 물어보고 수정해야함
+    setInputFirstName(event.target.value);
+  }
+
+  const handleInputLastName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChangeFirstName(false);
+    setIsChangePhone(false);
+    setInputLastName(event.target.value);
+  }
+
+  const handleInputPhone = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChangeFirstName(false);
+    setIsChangeLastName(false);
+    setInputPhone(event.target.value);
+  }
+
+  const handleInputPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputPassword(event.target.value);
+  }
+
+  const changeFirstName = async () => {
+    const updateUserInfo = {
+      firstName : inputFirstName,
+      lastName : memberDetail?.memberInfo.lastName || '',
+      phone : memberDetail?.memberInfo.phone || '',
+      email : memberDetail?.memberInfo.email || '',
+    }
+    const response = await updateUserData_s(updateUserInfo);
+    if (response) {
+      alert('성 변경 완료');
+    }
+    setIsChangeFirstName(false);
+    const updatedMemberDetail = await getMemberDetailMe_s();
+    setMemberDetail(updatedMemberDetail);
+  }
+
+  const changeLastName = async () => {
+    const updateUserInfo = {
+      firstName : memberDetail?.memberInfo.firstName || '',
+      lastName : inputLastName,
+      phone : memberDetail?.memberInfo.phone || '',
+      email : memberDetail?.memberInfo.email || '',
+    }
+    const response = await updateUserData_s(updateUserInfo);
+    if (response) {
+      alert('이름 변경 완료');
+    }
+    setIsChangeLastName(false);
+    const updatedMemberDetail = await getMemberDetailMe_s();
+    setMemberDetail(updatedMemberDetail);
+  }
+
+  const changePhone = async () => {
+    const updateUserInfo = {
+      firstName : memberDetail?.memberInfo.firstName || '',
+      lastName : memberDetail?.memberInfo.lastName || '',
+      phone : inputPhone,
+      email : memberDetail?.memberInfo.email || '',
+    }
+    const response = await updateUserData_s(updateUserInfo);
+    if (response) {
+      alert('휴대폰 번호 변경 완료');
+    }
+    setIsChangePhone(false);
+    const updatedMemberDetail = await getMemberDetailMe_s();
+    setMemberDetail(updatedMemberDetail);
+  }
+
+  const sendResetPasswordEmail = async () => {
+    const response = await sendResetPasswordEmail_s(memberDetail?.memberInfo.email || '');
+    console.log(response);
+    if (response) {
+      alert('비밀번호 변경 이메일 발송 완료');
+    } else {
+      alert('비밀번호 변경 이메일 발송 실패');
+    }
   }
 
   useEffect(() => {
     const fetchMemberDetail = async () => {
       const memberDetail = await getMemberDetailMe_s();
       setMemberDetail(memberDetail);
+      Cookies.set('email', memberDetail?.memberInfo.email || '');
     };
     fetchMemberDetail();
   }, []);
@@ -58,7 +135,6 @@ const MypageProfile:React.FC = () => {
   }
 
   const emailAuthCheck = async () => {
-    console.log(inputAuthCode);
     const reponse = await checkAuthCode_s(memberDetail?.memberInfo.email || '', inputAuthCode);
     const reponseStatus = reponse.status;
     if (reponseStatus === 216) {
@@ -79,45 +155,46 @@ const MypageProfile:React.FC = () => {
         <div className="mypageprofile-form">
           <div className="mypageprofile-form-group">
             <label>아이디(이메일)</label>
-              {isChangeEmail ? 
-              <div className="mypageprofile-form-control">{memberDetail?.memberInfo.email} 
-                <div className="mypageprofile-form-control-button" onClick={() => setIsChangeEmail(true)}>이메일 변경</div> 
-              </div>
-              : 
               <div className="mypageprofile-form-control">
-                <input type="text" placeholder={memberDetail?.memberInfo.email}/>
-                <div className="mypageprofile-form-control-button" onClick={handleModifyInfo}>이메일 변경</div>
-              </div>
-              }
+                {memberDetail?.memberInfo.email} 
+            </div>
           </div>
           <div className="mypageprofile-form-group">
-            <label>이름</label>
-            {isChangeName ? 
-              <div className="mypageprofile-form-control">{memberDetail?.memberInfo.name} <div className="mypageprofile-form-control-button" onClick={() => setIsChangeName(true)}>개명하셨다면? 이름변경</div></div>
+            <label>성</label>
+            {!isChangeFirstName ? 
+              <div className="mypageprofile-form-control">{memberDetail?.memberInfo.firstName} <div className="mypageprofile-form-control-button" onClick={() => {setIsChangeFirstName(true); setIsChangeLastName(false); setIsChangePhone(false);}}>성 변경</div></div>
               : 
               <div className="mypageprofile-form-control">
-                <input type="text" placeholder={memberDetail?.memberInfo.name}/>
-                <div className="mypageprofile-form-control-button" onClick={handleModifyInfo}>이름 변경</div>
+                <input type="text" placeholder={memberDetail?.memberInfo.firstName} onChange={handleInputFirstName}/>
+                <div className="mypageprofile-form-control-button" onClick={changeFirstName}>확인</div>
+              </div>
+            }
+            <label>이름</label>
+            {!isChangeLastName ? 
+              <div className="mypageprofile-form-control">{memberDetail?.memberInfo.lastName} <div className="mypageprofile-form-control-button" onClick={() => {setIsChangeLastName(true); setIsChangeFirstName(false); setIsChangePhone(false);}}>이름 변경</div></div>
+              : 
+              <div className="mypageprofile-form-control">
+                <input type="text" placeholder={memberDetail?.memberInfo.lastName} onChange={handleInputLastName}/>
+                <div className="mypageprofile-form-control-button" onClick={changeLastName}>확인</div>
               </div>
             }
           </div>
           <div className="mypageprofile-form-group">
             <label>휴대폰 번호</label>
-            {isChangePhone ? 
-              <div className="mypageprofile-form-control">{memberDetail?.memberInfo.phone} <div className="mypageprofile-form-control-button" onClick={() => setIsChangePhone(true)}>휴대폰 번호 변경</div></div>
+            {!isChangePhone ? 
+              <div className="mypageprofile-form-control">{memberDetail?.memberInfo.phone} <div className="mypageprofile-form-control-button" onClick={() => {setIsChangePhone(true); setIsChangeFirstName(false); setIsChangeLastName(false);}}>휴대폰 번호 변경</div></div>
               : 
               <div className="mypageprofile-form-control">
-                <input type="text" placeholder={memberDetail?.memberInfo.phone}/>
-                <div className="mypageprofile-form-control-button" onClick={handleModifyInfo}>휴대폰 번호 변경</div>
+                <input type="text" placeholder={memberDetail?.memberInfo.phone} onChange={handleInputPhone}/>
+                <div className="mypageprofile-form-control-button" onClick={changePhone}>확인</div>
               </div>
             }
           </div>
           <div className="mypageprofile-form-group">
             <label>비밀번호 변경</label>
-            <input type="password" placeholder="현재 비밀번호" />
-            <input type="password" placeholder="새 비밀번호" />
-            <input type="password" placeholder="비밀번호 다시 입력" />
-            <div className="mypageprofile-form-control-button" onClick={handleModifyInfo}>비밀번호 변경</div>
+            <div>🔒 비밀번호의 경우 암호화 저장되어 분실 시 찾아드릴 수 없는 정보 입니다.</div>
+            <div>🔑 본인 확인을 통해 비밀번호를 재설정 하실 수 있습니다.</div>
+            <div className="mypageprofile-form-control-button" onClick={sendResetPasswordEmail}>변경 이메일 보내기</div>
           </div>
           <div className="mypageprofile-form-group">
             <label>배송지</label>

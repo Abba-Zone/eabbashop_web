@@ -48,7 +48,8 @@ interface memberListPage{
 interface memberInfo{
 	memberID : string,
 	email : string,
-	name : string,
+	firstName : string,
+	lastName : string,
 	role : string,
 	grade : string,
 	recommend : string,
@@ -133,4 +134,11 @@ interface requestAdminRegist {
 	member_last_name: string,
 	member_phone: string,
 	member_email: string
+}
+
+interface userInfo {
+	firstName : string,
+	lastName : string,
+	phone : string,
+	email : string,
 }

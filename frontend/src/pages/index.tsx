@@ -12,6 +12,7 @@ export { default as GoogleLogin } from "./shop/GoogleLogin";
 export { default as KakaoLogin } from "./shop/KakaoLogin";
 export { default as SocialSignup } from "./shop/SocialSignup";
 export { default as FindIDPW } from "./shop/FindIDPW";
+export { default as ChangePW } from "./shop/ChangePW";
 export { default as Post } from "./shop/Post";
 export { default as PostDetail } from "./shop/PostDetail";
 export { default as Product } from "./shop/Product";

@@ -112,13 +112,7 @@ export const getMemberList = (pageNo:number, pageSize:number, filter:number, fil
     /* make for test*/
     var result :memberList = {
         totalCount : 10003,
-        list:[
-            {memberID: '1sasfdgsdfgs', name:'전 현태1', email:'jht043@naver.com1', phone:'010-9416-7342-1', role:'대리점', grade:'silver', recommend:'ych526@naver.com', platform:'net', createdDateTime:'2023-11-28 15:12:44'},
-            {memberID: '2sasfdgsdfgs', name:'전 현태2', email:'jht043@naver.com2', phone:'010-9416-7342-2', role:'대리점', grade:'silver', recommend:'ych526@naver.com', platform:'net', createdDateTime:'2023-11-28 15:12:44'},
-            {memberID: '3sasfdgsdfgs', name:'전 현태3', email:'jht043@naver.com3', phone:'010-9416-7342-3', role:'대리점', grade:'silver', recommend:'ych526@naver.com', platform:'net', createdDateTime:'2023-11-28 15:12:44'},
-            {memberID: '4sasfdgsdfgs', name:'전 현태4', email:'jht043@naver.com4', phone:'010-9416-7342-4', role:'대리점', grade:'silver', recommend:'ych526@naver.com', platform:'zon', createdDateTime:'2023-11-28 15:12:44'},
-            {memberID: '5sasfdgsdfgs', name:'전 현태5', email:'jht043@naver.com5', phone:'010-9416-7342-5', role:'대리점', grade:'silver', recommend:'ych526@naver.com', platform:'zon', createdDateTime:'2023-11-28 15:12:44'},
-        ]
+        list:[]
     };
     return result;
 }
@@ -135,7 +129,8 @@ export const getMemberDetail = (memberID:string):memberDetailInfo => {
         memberInfo:{
           memberID : "1q2w3er4t5t",
           email : "rudgns9334",
-          name : "정경훈",
+          firstName : "경훈",
+          lastName : "정",
           role : "판매점",
           recommend : "ych526@naver.com",
           phone : "010-9334-1487",
@@ -221,22 +216,6 @@ export const getUserList = async (): Promise<testuser[]> => {
     const data: APIResponse<testuser[]> = await getTestData();
     return data.result; // 비동기 결과를 반환
   };
-
-const filterToUrl = (memberListPage : memberListPage):String => {
-    const url = 'pageNo=' + memberListPage.pageNo + 
-                '&size=' + memberListPage.size + 
-                '&sort=' + memberListPage.sort +
-                '&orderby=' + memberListPage.orderby +
-                '&isFiltered=' + memberListPage.isFiltered +
-                '&filter.MemberID=' + memberListPage.filter.memberID +
-                '&filter.email=' + memberListPage.filter.email +
-                '&filter.name=' + memberListPage.filter.name +
-                '&filter.grade=' + memberListPage.filter.grade +
-                '&filter.recommend=' + memberListPage.filter.recommend +
-                '&filter.phone=' + memberListPage.filter.phone +
-                '&filter.CreatedDateTime=' + memberListPage.filter.createdDateTime;
-    return url;
-}
 
 export const googleLogin = async (): Promise<loginSuccess> => {
   const googleOauthClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID_PROD;
@@ -390,5 +369,36 @@ export const getSellerInfo = async (sellerID:string):Promise<productSeller> => {
   } catch (error) {
       console.error('Error fetching product seller detail:', error);
       throw error;
+  }
+}
+
+export const updateUserData = async (userInfo: userInfo): Promise<boolean> => {
+  try {
+    const response = await postData('member/update', userInfo);
+    return response.status === 200;
+  } catch (error) {
+    console.error('Update user data error:', error);
+    return false;
+  }
+}
+
+export const updatePassword = async (email: string, password: string): Promise<boolean> => {
+  try {
+    const response = await postData('member/update/password', { email, password });
+    console.log(response);
+    return response.status === 200;
+  } catch (error) {
+    console.error('Update password error:', error);
+    return false;
+  }
+}
+
+export const sendResetPasswordEmail = async (email: string): Promise<boolean> => {
+  try {
+    const response = await postData('/member/email/password', { email });
+    return response.status === 200;
+  } catch (error) {
+    console.error('Send reset password email error:', error);
+    return false;
   }
 }
