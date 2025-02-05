@@ -32,16 +32,20 @@ const AdminInvoiceRegistModal: React.FC<Props> = ({orders, selectIDs, setModalOp
         setModalOpen(false);
     }
     return (
-        <div style={{backgroundColor:"white", overflow : "scroll"}}>
-            <h1>송장 등록</h1>
+        <div style={{backgroundColor:"white", overflow : "scroll", margin:"10%"}}>
             <button onClick={() => {setModalOpen(false)}}>닫기</button>
-            <table>
+            <div style={{ padding:"4%" }}>
+                <h1>송장 등록</h1>
+                <label htmlFor="invoiceNum">송장번호 :
+                    <input type="text" value={invoiceNum} placeholder='송장번호를 입력해주세요.' onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{setInvoiceNum(event.target.value)}}/>
+                    <button onClick={regist}>등록</button>
+                </label>
+                <h3>상품 목록</h3>
+                <table>
 
-            </table>
-            {rendering()}
-            <h3>상품 목록</h3>
-            <input type="text" value={invoiceNum} placeholder='송장번호를 입력해주세요.' onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{setInvoiceNum(event.target.value)}}/>
-            <button onClick={regist}>등록</button>
+                </table>
+                {rendering()}
+            </div>
         </div>
     );
 };
