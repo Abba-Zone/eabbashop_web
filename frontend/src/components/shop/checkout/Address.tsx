@@ -39,6 +39,7 @@ const Address:React.FC<Props> = ({addressList, billID, devliveryID, setAddressLi
       setDevliveryID(changeID)
     }
     setModalOpen(0);
+    document.body.style.overflow = 'auto';
   }
   return (
     <div>
@@ -63,7 +64,7 @@ const Address:React.FC<Props> = ({addressList, billID, devliveryID, setAddressLi
         </div>
       }
       <Bill address={billAddress} setModalOpen={clickModal}></Bill>
-      <Delivery address={deliveryAddress} setModalOpen={clickModal}></Delivery>
+      <Delivery address={deliveryAddress} setModalOpen={clickModal} setAddressList={setAddressList}></Delivery>
     </div>
   );
 }

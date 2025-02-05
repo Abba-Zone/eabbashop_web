@@ -9,7 +9,8 @@ interface addressAllInfo extends address{
 	addressID:string,
 	isMain : boolean,
 	isBill : boolean,
-	host : string,
+	firstName: string,
+	lastName: string,
 	phone : string,
 	name : string,
 	comment : string
@@ -31,4 +32,7 @@ interface registAddress{
 	comment: string,
 	isMain: boolean,
 	isBill: boolean
+}
+interface updateAddress extends Omit<registAddress, 'isMain'| 'isBill'>{
+	addressID: string,
 }

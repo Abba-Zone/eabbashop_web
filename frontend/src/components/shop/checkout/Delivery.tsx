@@ -1,21 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { updateComment_s } from "../../../services/address";
 
 interface Props{
   address: addressAllInfo | null,
   setModalOpen(type:number):void,
+  setAddressList(addressList:addressAllInfo[]):void;
 }
 
-const Delivery:React.FC<Props> = ({address, setModalOpen}) => {
+const Delivery:React.FC<Props> = ({address, setModalOpen, setAddressList}) => {
   const [inputFlage, setInputFlage] = useState<boolean>(false);
-  const [comment, setComment] = useState<string>(address? address?.comment : "" );
-  const changeComment =()=>{
+  const [comment, setComment] = useState<string>("");
+  const changeComment = async () =>{
     if (inputFlage){
-      //api연결해서 address의 comment 수정
+      if(address){
+        const modifyAddressInfo : updateAddress ={
+          addressID: address.addressID,
+          zipCode:address.zipCode,
+          bassAddress: address.baseAddress,
+          detailAddress: address.detailAddress,
+          country: address.country,
+          firstName: address.firstName,
+          lastName: address.lastName,
+          name: address.name,
+          phone: address.phone,
+          comment: comment,
+        }
+        const newAddressList:addressList = await updateComment_s(modifyAddressInfo);
+        setAddressList(newAddressList.list);
+      }
       setInputFlage(false);
     }else{
       setInputFlage(true);
     }
   }
+  useEffect(() => {
+    if(address)
+      setComment(address?.comment);
+  }, [address]);
   return (
     <div>
       <h2>배송지<button onClick={() => {setModalOpen(2)}}>배송주소 변경</button></h2>
@@ -23,7 +44,7 @@ const Delivery:React.FC<Props> = ({address, setModalOpen}) => {
         <tbody>
           <tr>
             <td>이름</td>
-            <td>{address?.host}</td>
+            <td>{address?.lastName} {address?.firstName}</td>
           </tr>
           <tr>
             <td>우편번호</td>

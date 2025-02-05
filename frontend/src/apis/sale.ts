@@ -390,3 +390,15 @@ export const getRegularOrderDetail = (orderID:string):regularOrderDetail => {
     };
     return result;
 }
+
+/* Purchase */
+export const purchaseFromCart = async (purchaseInfo: purchaseInfoToCart):Promise<addressList> => {
+    try {
+        const response = await postData<addressList>('/order/cart/register', purchaseInfo);
+        console.log(response);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching purchase from cart:', error);
+        throw error;
+    }
+}

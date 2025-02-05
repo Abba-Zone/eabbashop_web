@@ -6,7 +6,7 @@ const AddressCard:React.FC<Props> = ({address, changeAddress}) => {
     return (
       <div>
         <h2>{address.name}<button onClick={() => {changeAddress(address.addressID)}}>선택</button></h2>
-        <div>{address.host}</div>
+        <div>{address.lastName} {address.firstName}</div>
         <div>{address.phone}</div>
         <div>{address.zipCode}</div>
         <div>{address.baseAddress}</div>
