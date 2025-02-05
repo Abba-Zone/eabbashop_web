@@ -5,7 +5,8 @@ import java.time.LocalDateTime;
 public interface SellerDetail {
     String getSellerId();
     String getName();
-    String getHost();
+    String getFirstName();
+    String getLastName();
     String getPhone();
     String getZipCode();
     String getBaseAddress();

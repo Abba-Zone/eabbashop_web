@@ -7,6 +7,7 @@ import com.zon.abba.account.entity.Wallet;
 import com.zon.abba.account.repository.PointHoldingRepository;
 import com.zon.abba.account.repository.PointsHistoryRepository;
 import com.zon.abba.account.repository.WalletRepository;
+import com.zon.abba.account.service.PointService;
 import com.zon.abba.account.service.WalletService;
 import com.zon.abba.address.entity.Address;
 import com.zon.abba.address.repository.AddressRepository;
@@ -58,8 +59,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final WalletRepository walletRepository;
-    private final PointsHistoryRepository pointsHistoryRepository;
-    private final PointHoldingRepository pointHoldingRepository;
+    private final PointService pointService;
     private final CartRepository cartRepository;
     private final OrderDetailRepository orderDetailRepository;
     private final AddressRepository addressRepository;
@@ -68,99 +68,6 @@ public class OrderService {
     private final SchedulerService schedulerService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    @Transactional
-    private void makePointHistory(Wallet wallet, String receiverID, String orderDetailID,
-                                  BigDecimal LP, BigDecimal AK, BigDecimal SP, boolean isUseAK){
-        logger.info("판매자의 지갑을 가져옵니다.");
-        Wallet receiverWallet = walletRepository.findOneByMemberId(receiverID)
-                .orElseThrow(() -> new NoDataException("없는 정보입니다."));
-
-        BigDecimal usePoint = LP;
-        // ak를 사용한 후 lp 사용
-        if(isUseAK) {
-            // ak가 부족한 경우
-            if(wallet.getAk().compareTo(usePoint) < 0) {
-                usePoint = usePoint.subtract(wallet.getAk());
-                wallet.setAk(BigDecimal.ZERO);
-                // ak가 충분하면 ak만 쓰고 끝.
-            }else wallet.setAk(wallet.getAk().subtract(usePoint));
-        }
-        if(wallet.getLp().compareTo(usePoint) < 0) throw new CommonException("234", "LP 금액이 부족합니다.");
-        else wallet.setLp(wallet.getLp().subtract(usePoint));
-
-        if(wallet.getSp().compareTo(SP) < 0) throw new CommonException("234", "SP 금액이 부족합니다.");
-        else wallet.setSp(wallet.getSp().subtract(SP));
-
-        // 거래 후 사용자들의 지갑에 추가
-//        receiverWallet.setLp(receiverWallet.getLp().add(LP));
-//        receiverWallet.setSp(receiverWallet.getSp().add(SP));
-        wallet.setAk(wallet.getAk().add(AK));
-        wallet.setModifiedId(wallet.getModifiedId());
-
-        // 판매자가 받을 point holding 객체 생성
-        PointHolding pointHolding = PointHolding.builder()
-                .orderDetailId(orderDetailID)
-                .memberId(receiverWallet.getMemberId())
-                .lp(LP)
-                .ak(BigDecimal.ZERO)
-                .sp(SP)
-                .type("A")
-                .status("A")
-                .createdId(wallet.getMemberId())
-                .modifiedId(wallet.getMemberId())
-                .build();
-
-        // 구매자가 받을 ak 홀딩
-        PointHolding akHolding = PointHolding.builder()
-                .orderDetailId(orderDetailID)
-                .memberId(wallet.getMemberId())
-                .lp(BigDecimal.ZERO)
-                .ak(AK)
-                .sp(BigDecimal.ZERO)
-                .type("A")
-                .status("A")
-                .createdId(wallet.getMemberId())
-                .modifiedId(wallet.getMemberId())
-                .build();
-
-        PointsHistory pointsHistory = PointsHistory.builder()
-                .memberId(wallet.getMemberId())
-                .lp(LP)
-                .lpBalance(wallet.getLp())
-                .ak(BigDecimal.ZERO)
-                .akBalance(wallet.getAk())
-                .sp(SP)
-                .spBalance(wallet.getSp())
-                .type("A")
-                .orderDetailId(orderDetailID)
-                .createdId(wallet.getMemberId())
-                .modifiedId(wallet.getMemberId())
-                .build();
-
-//        PointsHistory akHistory = PointsHistory.builder()
-//                .senderWalletId(receiverWallet.getWalletId())
-//                .receiverWalletId(wallet.getWalletId())
-//                .lp(BigDecimal.ZERO)
-//                .senderLpBalance(wallet.getLp())
-//                .receiverLpBalance(receiverWallet.getLp())
-//                .ak(AK)
-//                .senderAkBalance(wallet.getAk())
-//                .receiverAkBalance(receiverWallet.getAk())
-//                .sp(BigDecimal.ZERO)
-//                .senderSpBalance(wallet.getSp())
-//                .receiverSpBalance(receiverWallet.getSp())
-//                .type("A")
-//                .orderDetailId(orderDetailID)
-//                .createdId(wallet.getMemberId())
-//                .modifiedId(wallet.getMemberId())
-//                .build();
-
-        logger.info("거래 내역을 저장합니다.");
-        pointsHistoryRepository.save(pointsHistory);
-        pointHoldingRepository.save(pointHolding);
-        pointHoldingRepository.save(akHolding);
-
-    }
 
     @Transactional
     public ResponseBody registerCartOrder(RegisterCartOrderRequest request){
@@ -303,7 +210,7 @@ public class OrderService {
             orderDetailIds.add(orderDetail.getOrderDetailId());
 
             // 거래 내역 저장
-            makePointHistory(wallet, product.getSellerId(), orderDetail.getOrderDetailId(), newLP, newAK, newSP, request.getIsUseAK());
+            pointService.makePointHistory(wallet, product.getSellerId(), orderDetail.getOrderDetailId(), newLP, newAK, newSP, request.getIsUseAK());
         }
 
 
@@ -386,6 +293,9 @@ public class OrderService {
     @Transactional
     public ResponseListBody orderAdminList(RequestList requestList){
         logger.info("관리자용 주문 내역을 가져옵니다.");
+        logger.info("판매자 ID를 가져옵니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
 
         // 최신순 정렬 추가
         Pageable pageable = PageRequest.of(
@@ -397,6 +307,7 @@ public class OrderService {
 
         // member에 맞는 order 데이터 가져오기
         Page<OrderList> orderListPage = orderDetailRepository.findOrderListByFilter(
+                memberId,
                 requestList.getFilter(),
                 requestList.getFilterValue(),
                 pageable);

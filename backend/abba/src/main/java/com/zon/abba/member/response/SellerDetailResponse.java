@@ -18,8 +18,10 @@ public class SellerDetailResponse {
     private String sellerID;
     @JsonProperty("name")
     private String name;
-    @JsonProperty("host")
-    private String host;
+    @JsonProperty("firstName")
+    private String firstName;
+    @JsonProperty("lastName")
+    private String lastName;
     @JsonProperty("phone")
     private String phone;
     @JsonProperty("zipCode")
@@ -34,7 +36,8 @@ public class SellerDetailResponse {
     public SellerDetailResponse(SellerDetail sellerDetail){
         this.sellerID = sellerDetail.getSellerId();
         this.name = sellerDetail.getName();
-        this.host = sellerDetail.getHost();
+        this.firstName = sellerDetail.getFirstName();
+        this.lastName = sellerDetail.getLastName();
         this.phone = sellerDetail.getPhone();
         this.zipCode = sellerDetail.getZipCode();
         this.baseAddress = sellerDetail.getBaseAddress();

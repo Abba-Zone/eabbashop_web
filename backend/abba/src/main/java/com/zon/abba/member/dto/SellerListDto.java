@@ -16,8 +16,13 @@ import java.time.LocalDateTime;
 public class SellerListDto {
     @JsonProperty("sellerID")
     private String sellerID;
+    @JsonProperty("name")
     private String name;
-    private String host;
+    @JsonProperty("firstName")
+    private String firstName;
+    @JsonProperty("lastName")
+    private String lastName;
+    @JsonProperty("phone")
     private String phone;
     @JsonProperty("createdDateTime")
     private LocalDateTime createdDateTime;
@@ -25,7 +30,8 @@ public class SellerListDto {
     public SellerListDto(SellerList sellerList){
         this.sellerID = sellerList.getSellerId();
         this.name = sellerList.getName();
-        this.host = sellerList.getHost();
+        this.firstName = sellerList.getFirstName();
+        this.lastName = sellerList.getLastName();
         this.phone = sellerList.getPhone();
         this.createdDateTime = sellerList.getCreatedDateTime();
     }

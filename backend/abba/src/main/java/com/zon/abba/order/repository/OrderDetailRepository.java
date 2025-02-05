@@ -72,6 +72,7 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, String
                     "JOIN Members m ON od.MemberID = m.MemberID " +
                     "WHERE od.DeleteYN = 'N' " +
                     "AND m.DeleteYN = 'N' " +
+                    "AND p.SellerID = :memberId " +
                     "AND (:filter IS NULL OR " +
                     "     (:filter = 'productName' AND p.Name LIKE %:filterValue%) OR " +
                     "     (:filter = 'memberName' AND CONCAT(m.LastName, ' ', m.FirstName) LIKE %:filterValue%) OR " +
@@ -82,6 +83,7 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, String
                     "JOIN Members m ON od.MemberID = m.MemberID " +
                     "WHERE od.DeleteYN = 'N' " +
                     "AND m.DeleteYN = 'N' " +
+                    "AND p.SellerID = :memberId " +
                     "AND (:filter IS NULL OR " +
                     "     (:filter = 'productName' AND p.Name LIKE %:filterValue%) OR " +
                     "     (:filter = 'memberName' AND CONCAT(m.LastName, ' ', m.FirstName) LIKE %:filterValue%) OR " +
@@ -89,6 +91,7 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, String
             nativeQuery = true
     )
     Page<OrderList> findOrderListByFilter(
+            @Param("memberId") String memberId,
             @Param("filter") String filter,
             @Param("filterValue") String filterValue,
             Pageable pageable
