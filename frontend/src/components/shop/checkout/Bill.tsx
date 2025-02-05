@@ -11,7 +11,7 @@ const Bill:React.FC<Props> = ({address, setModalOpen}) => {
         <tbody>
           <tr>
             <td>이름</td>
-            <td>{address?.host}</td>
+            <td>{address?.lastName} {address?.firstName}</td>
           </tr>
           <tr>
             <td>우편번호</td>

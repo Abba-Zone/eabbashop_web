@@ -199,3 +199,11 @@ interface regularOrderInfo extends regularOrder{
 interface regularOrderMember extends orderMember{}
 
 interface regularOrderAddress extends orderAddress{}
+
+/* Purchase */
+interface purchaseInfoToCart{
+    isUseAK: boolean,
+    addressID: string,
+    billAddressID: string,
+    carts: { cartID: string }[]
+}

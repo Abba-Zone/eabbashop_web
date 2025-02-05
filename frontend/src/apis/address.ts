@@ -18,7 +18,17 @@ export const registAddress = async (newAddress:registAddress):Promise<addressLis
         const response = await postData<addressList>('/address/register', newAddress);
         return response.data;
     } catch (error) {
-        console.error('Signup error:', error);
+        console.error('Error fetching regist address:', error);
+        throw error;
+    }
+}
+
+export const updateComment = async (updateInfo:updateAddress):Promise<addressList> => {
+    try {
+        const response = await postData<addressList>('/address/update', updateInfo);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching update address:', error);
         throw error;
     }
 }

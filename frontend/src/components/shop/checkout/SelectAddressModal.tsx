@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import ListCard from "./AddressCard"
 import DaumPostcodeEmbed from "react-daum-postcode";
 import { registAddress_s } from "../../../services/address";
@@ -42,12 +42,12 @@ const SelectAddressModal:React.FC<Props> = ({addressList, setAddressList, setMod
             name : lastName + firstName,
             lastName : lastName,
             firstName : firstName,
-            country : "",
+            country : "KOR",
             zipCode : zipCode,
             bassAddress : baseAddress,
             detailAddress : detailAddress,
-            isBill : false,
-            isMain : false,
+            isBill : addressList.length === 0,
+            isMain : addressList.length === 0,
             phone : registPhone,
             comment : "없음",
         }

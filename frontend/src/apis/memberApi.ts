@@ -161,7 +161,8 @@ export const getMemberDetail = (memberID:string):memberDetailInfo => {
                 detailAddress : "파란하집",
                 isMain : true,
                 isBill : true,
-                host : "정경훈",
+                firstName: '경훈',
+                lastName: '정',
                 phone : "010-1234-5678",
                 name : "우리집",
                 comment : "문앞에두지말고경비원옆에두지말고널판"
@@ -174,7 +175,8 @@ export const getMemberDetail = (memberID:string):memberDetailInfo => {
                 detailAddress : "파란하늘집5",
                 isMain : false,
                 isBill : false,
-                host : "정경훈5",
+                firstName: '경훈5',
+                lastName: '정',
                 phone : "010-1234-56785",
                 name : "우리집5",
                 comment : "문앞에두지말고경비원옆에두지말고널판5"

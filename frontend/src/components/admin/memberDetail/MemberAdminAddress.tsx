@@ -30,7 +30,7 @@ const MemberAdminAddress:React.FC<Props> = ({address}) => {
       <div><div>{t("AdminManagerMember:Detail.Item03.Attribute02")}</div><div>{address[addressId].baseAddress}</div></div>
       <div><div>{t("AdminManagerMember:Detail.Item03.Attribute03")}</div><div>{address[addressId].detailAddress}</div></div>
       <div><div>{t("AdminManagerMember:Detail.Item03.Attribute04")}</div><div>{address[addressId].country}</div></div>
-      <div><div>{t("AdminManagerMember:Detail.Item03.Attribute05")}</div><div>{address[addressId].host}</div></div>
+      <div><div>{t("AdminManagerMember:Detail.Item03.Attribute05")}</div><div>{address[addressId].lastName} {address[addressId].firstName}</div></div>
       <div><div>{t("AdminManagerMember:Detail.Item03.Attribute06")}</div><div>{address[addressId].phone}</div></div>
       <div><div>{t("AdminManagerMember:Detail.Item03.Attribute07")}</div><div>{address[addressId].comment}</div></div>
       <div><div>{t("AdminManagerMember:Detail.Item03.Attribute08")}</div><div>{address[addressId].isBill?"O":"X"}</div></div>

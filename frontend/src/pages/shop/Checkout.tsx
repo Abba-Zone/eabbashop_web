@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { PurchaseBuyer, PurchaseAddress, PurchasePayment, PurchasePrice, PurchaseProductList } from "../../components"
 import { getCartList_s } from "../../services/cart";
 import { getAddressList_s } from "../../services/address";
+import { purchaseFromCart_s } from "../../services/sale";
 interface buyProduct{
   productID : string, 
   name : string, 
@@ -28,6 +29,7 @@ const Checkout:React.FC = () => {
   const [billID, setBillID] = useState<string>("");
   const [devliveryID, setDevliveryID] = useState<string>("");
   const [cartList, setCartList] = useState<cartInfo[]>([]);
+  const [isUseAK, setIsUseAK] = useState<boolean>(false);
   const getCartList = useCallback( async () => {
     try {
       const list = await getCartList_s();
@@ -50,8 +52,14 @@ const Checkout:React.FC = () => {
       console.error('Error fetching address list:', error);
     }
   },[]);
-  const Order = () =>{
-    //주어진 정보들로 주문하기
+  const Purchase = async () =>{
+    const purchaseInfo: purchaseInfoToCart = {
+      addressID: devliveryID,
+      billAddressID: billID,
+      carts: cartList.map(cart => ({ cartID: cart.cartID })),
+      isUseAK: isUseAK
+    }
+    await purchaseFromCart_s(purchaseInfo);
     //페이지 이동
   }
   useEffect(() => {
@@ -65,8 +73,9 @@ const Checkout:React.FC = () => {
       <PurchaseAddress addressList={addressList} billID={billID} devliveryID={devliveryID} setBillID={setBillID} setDevliveryID={setDevliveryID} setAddressList={setAddressList}></PurchaseAddress>
       <PurchaseProductList productList={cartList}></PurchaseProductList>
       <PurchasePrice productList={cartList}></PurchasePrice>
-      <PurchasePayment></PurchasePayment>
-      <button onClick={Order}>결제하기</button>
+      <div>보유하신 AK를 사용하시겠습니까? <input type="checkbox" onChange={() => setIsUseAK(!isUseAK)}/></div>
+      {/* <PurchasePayment></PurchasePayment> */}
+      <button onClick={Purchase}>결제하기</button>
     </div>
   );
 }
