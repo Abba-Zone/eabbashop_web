@@ -31,6 +31,14 @@ public class EmailController {
         return ResponseEntity.status(HttpStatus.OK).body(emailCodeResponse);
     }
 
+    @PostMapping("/password")
+    @Operation(summary = "비밀번호 변경 이메일 전송", description = "비밀번호 변경 페이지 url을 준다.")
+    public ResponseEntity<Object> passwordEmail(@RequestBody EmailRequest emailRequest){
+        ResponseBody emailCodeResponse = emailService.sendPasswordMail(emailRequest);
+
+        return ResponseEntity.status(HttpStatus.OK).body(emailCodeResponse);
+    }
+
     @PostMapping("/code")
     @Operation(summary = "이메일 코드 인증", description = "이메일 코드 검증")
     public ResponseEntity<Object> validateCode(@RequestBody CodeRequest codeRequest){
