@@ -18,7 +18,7 @@ const AdminProductInfo:React.FC<Props> = ({productInfo}) => {
     <div>
       <img src={productInfo.thumbnail} alt="상품이미지" />
       <div><div>{t("AdminProduct:Detail.Item01.Attribute02")}</div><div>{productInfo.stock}</div></div>
-      <div><div>{t("AdminProduct:Detail.Item01.Attribute03")}</div>{productInfo.taxFreePrice} / {productInfo.SPPrice} / {productInfo.realPrice}</div>
+      <div><div>{t("AdminProduct:Detail.Item01.Attribute03")}</div>{productInfo.taxFreePrice} / {productInfo.spPrice} / {productInfo.realPrice}</div>
       <div><div>{t("AdminProduct:Detail.Item01.Attribute04")}</div><div>{productInfo.description}</div></div>
       <div><div>{t("AdminProduct:Detail.Item01.Attribute05")}</div><div>{productInfo.summary}</div></div>
       <div><div>{t("AdminProduct:Detail.Item01.Attribute06")}</div><div>{productInfo.paybackRatio}</div></div>

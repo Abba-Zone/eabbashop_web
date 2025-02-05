@@ -2,7 +2,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { Home, Login, Signup, Cart, 
   Wallet, ToMasterCard, Account, MemberModify, Address, 
   RegularOrder, Review, Wishlist, 
-  FindInfo, Category, Search, Product, Checkout, 
+  FindInfo, Category, Search, Product, Checkout, DirectCheckout,
   CompleteCheckout, Post, PostDetail, 
   AdminLogin, AdminSignup, AdminFindInfo, AdminDashboard,
   AdminMemberList, AdminMemberDetail, AdminWalletHistory,
@@ -109,6 +109,7 @@ const RoutePath:React.FC = () => {
         <Route path="/search" element={<Search />}/>        
         <Route path="/productdetail/:id" element={<Product />}/>        
         <Route path="/checkout" element={<Checkout />}/>        
+        <Route path="/checkout/:id/:quantity" element={<DirectCheckout />}/>        
         <Route path="/completecheckout" element={<CompleteCheckout />}/>        
         <Route path="/post/:type" element={<Post />}/>
         <Route path="/postdetail" element={<PostDetail />}/>

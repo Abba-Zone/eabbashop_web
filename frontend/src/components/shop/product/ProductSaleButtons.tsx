@@ -24,7 +24,7 @@ const ProductSaleButtons:React.FC = ({}) => {
         <div >
             <input type="number" value={cnt} onKeyDown={checkKey}  onChange={handleChange} min={0} step={1}/>
             <button onClick={registToCart}>장바구니 담기</button>
-            <button onClick={()=>{navigate(`/checkout`)}}>바로 구매</button>
+            <button onClick={()=>{navigate(`/checkout/${params.id}/${cnt}`)}}>바로 구매</button>
         </div>
     );
 }

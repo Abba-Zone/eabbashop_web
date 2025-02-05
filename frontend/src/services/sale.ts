@@ -1,4 +1,5 @@
-import { getOrderList, getShopOrderList, getOrderDetail, getShopOrderDetail, getInvoiceList, getInvoiceDetail, getShipmentList, getShipmentDetail, getRegularOrderList, getRegularOrderDetail, purchaseFromCart } from '../apis/sale'
+import { getOrderList, getShopOrderList, getOrderDetail, getShopOrderDetail, getInvoiceList, getInvoiceDetail, 
+        getShipmentList, getShipmentDetail, getRegularOrderList, getRegularOrderDetail, purchaseFromCart, purchaseDirect } from '../apis/sale'
 
 
 /* Order */
@@ -48,3 +49,7 @@ export const getRegularOrderDetail_s = async (orderID:string): Promise<regularOr
 export const purchaseFromCart_s = async (purchaseInfo: purchaseInfoToCart) => {
     return await purchaseFromCart(purchaseInfo);
 };
+export const purchaseDirect_s = async (purchaseInfo: purchaseInfoDirect) => {
+    return await purchaseDirect(purchaseInfo);
+};
+

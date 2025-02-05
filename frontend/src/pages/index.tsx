@@ -4,6 +4,7 @@ export { default as Account } from "./shop/Account";
 export { default as Cart } from "./shop/Cart";
 export { default as Category } from "./shop/Category";
 export { default as Checkout } from "./shop/Checkout";
+export { default as DirectCheckout } from "./shop/DirectCheckout";
 export { default as CompleteCheckout } from "./shop/CompleteCheckout";
 export { default as FindInfo } from "./shop/FindInfo";
 export { default as Home } from "./shop/Home";

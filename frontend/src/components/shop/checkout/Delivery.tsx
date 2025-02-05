@@ -16,7 +16,7 @@ const Delivery:React.FC<Props> = ({address, setModalOpen, setAddressList}) => {
         const modifyAddressInfo : updateAddress ={
           addressID: address.addressID,
           zipCode:address.zipCode,
-          bassAddress: address.baseAddress,
+          baseAddress: address.baseAddress,
           detailAddress: address.detailAddress,
           country: address.country,
           firstName: address.firstName,
