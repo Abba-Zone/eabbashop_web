@@ -27,6 +27,7 @@ export {default as AdminProductReviewListComponent} from "./admin/productDetail/
 export {default as AdminProductModifyModal} from "./admin/productDetail/AdminProductModifyModal";
 /* Order List */
 export {default as AdminOrderListComponent} from "./admin/orderList/AdminOrderListComponent";
+export {default as AdminInvoiceRegistModal} from "./admin/orderList/AdminInvoiceRegistModal";
 /* Order Detail */
 export {default as AdminOrderAddressInfo} from "./admin/orderDetail/AdminOrderAddressInfo";
 export {default as AdminOrderInfo} from "./admin/orderDetail/AdminOrderInfo";

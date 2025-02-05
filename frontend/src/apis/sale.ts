@@ -135,6 +135,18 @@ export const getInvoiceDetail = (invoiceID:string):invoiceDetail => {
     return result;
 }
 
+export const registInvoice = async (invoiceInfo:registInvoice) => {
+    try {
+        console.log(invoiceInfo);
+        const data = await postData<reviewList>('/invoice/register', invoiceInfo);
+        console.log(data);
+    } catch (error) {
+        console.error('Signup error:', error);
+        return false;
+    }
+}
+
+
 /* Shipment */
 export const getShipmentList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):shipmentList => {
     /* real code*/
