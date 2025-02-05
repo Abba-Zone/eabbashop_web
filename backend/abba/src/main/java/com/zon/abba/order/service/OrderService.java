@@ -379,10 +379,14 @@ public class OrderService {
         OrderDetail orderDetail = orderDetailRepository.findById(request.getOrderDetailID())
                 .orElseThrow(() -> new NoDataException("없는 주문 목록입니다."));
 
-        // 삭제 처리
         orderDetail.setStatus(request.getStatus());
         orderDetail.setModifiedId(memberId);
 
+        // 구매 확정이면
+        if(request.getStatus() == 500){
+            // 정산 시작
+            pointService.settleOrder(request.getOrderDetailID());
+        }
         // 업데이트 내용 저장
         orderDetailRepository.save(orderDetail);
 

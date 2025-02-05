@@ -22,16 +22,31 @@ public interface RecommendedMemberRepository extends JpaRepository<RecommendedMe
     Optional<RecommendedMember> findByReferId(String referId);
 
     @Query(value = """
-        WITH RECURSIVE ParentTree AS (
-            SELECT RecommendedMemberID, ReferredID, ReferID
-            FROM RecommendedMembers
-            WHERE ReferID = :referId
+        WITH RECURSIVE parent_chain AS (
+            -- 초기값: referID의 부모와 부모의 Role 가져오기
+            SELECT 
+                rm.ReferID AS referId, 
+                rm.ReferredID AS referredId, 
+                COALESCE(m_referred.Role, '') AS referredRole, -- referredID가 NULL이면 빈 문자열 반환
+                0 AS depth 
+            FROM RecommendedMembers rm 
+            LEFT JOIN Members m_referred ON rm.ReferredID = m_referred.MemberID 
+            WHERE rm.ReferID = :referId -- 특정 referId 입력
+
             UNION ALL
-            SELECT rm.RecommendedMemberID, rm.ReferredID, rm.ReferID
-            FROM RecommendedMembers rm
-            JOIN ParentTree pt ON rm.ReferID = pt.ReferredID
+
+            -- 부모를 찾는 재귀 부분
+            SELECT 
+                rm.ReferID, 
+                rm.ReferredID, 
+                COALESCE(m_referred.Role, '') AS referredRole, -- referredID가 NULL이면 빈 문자열 반환
+                pc.depth + 1 
+            FROM RecommendedMembers rm 
+            JOIN parent_chain pc ON rm.ReferID = pc.referredId -- 부모 찾기
+            LEFT JOIN Members m_referred ON rm.ReferredID = m_referred.MemberID 
         )
-        SELECT * FROM ParentTree;
-    """, nativeQuery = true)
-    List<ParentTree> findParentHierarchy(@Param("referId") String referId);
+        SELECT * FROM parent_chain 
+        ORDER BY depth ASC;
+        """, nativeQuery = true)
+    List<ParentTree> findParentTreeWithReferredRoleForZone(@Param("referId") String referId);
 }
