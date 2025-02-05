@@ -90,6 +90,33 @@ public class EmailService {
 
     }
 
+    @Transactional
+    public ResponseBody sendPasswordMail(EmailRequest emailRequest){
+        logger.info("비밀 번호 이메일을 전송합니다.");
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+
+        MailTitleCode mailTitleCode = MailTitleCode.PASSWORD;
+        Context context = new Context();
+
+        try {
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            mimeMessageHelper.setTo(emailRequest.getEmail()); // 메일 수신자
+            mimeMessageHelper.setSubject(mailTitleCode.getMessage()); // 메일 제목
+            mimeMessageHelper.setText(templateEngine.process(mailTitleCode.getCode(), context), true); // 메일 본문 내용, HTML 여부
+            mimeMessageHelper.addInline("image", new ClassPathResource("static/images/mail.png"));
+            javaMailSender.send(mimeMessage);
+
+            logger.info("이메일 전송에 성공했습니다.");
+
+            return new ResponseBody("성공했습니다.");
+
+        } catch (MessagingException e) {
+            logger.info("fail");
+            throw new RuntimeException(e);
+        }
+
+    }
+
     // 인증번호 및 임시 비밀번호 생성 메서드
     public String createCode() {
         Random random = new Random();
