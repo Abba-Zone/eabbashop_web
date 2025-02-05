@@ -11,6 +11,8 @@ import com.zon.abba.member.response.EmailResponse;
 import com.zon.abba.member.response.LoginResponse;
 import com.zon.abba.member.response.MemberDetailResponse;
 import com.zon.abba.member.service.*;
+import com.zon.abba.product.request.ProductListRequest;
+import com.zon.abba.product.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,6 +43,23 @@ public class MemberController {
     private String ACCESSTOKEN;
     @Value("${spring.jwt.refresh-token}")
     private String REFRESHTOKEN;
+
+
+    private final ProductService productService;
+
+    @PostMapping("/list/shop")
+    @Operation(summary = "상품 내역 조회", description = "상품 내역을 볼 수 있다.")
+    public ResponseEntity<Object> getProductShop(@RequestBody ProductListRequest request){
+        ResponseListBody response = productService.listProductShop(request,"shop");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/list/admin")
+    @Operation(summary = "상품 내역 조회", description = "상품 내역을 볼 수 있다.")
+    public ResponseEntity<Object> getProductAdmin(@RequestBody ProductListRequest request){
+        ResponseListBody response = productService.listProductShop(request,"admin");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
 
     @PostMapping("/login")

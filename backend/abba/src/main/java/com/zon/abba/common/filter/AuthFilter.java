@@ -50,7 +50,10 @@ public class AuthFilter implements Filter { // @Component 제거
                 requestUri.startsWith("/api/member/find") ||
                 requestUri.startsWith("/api/member/update/password") ||
                 requestUri.startsWith("/api/swagger-ui") ||
-                //requestUri.startsWith("/api/product/") ||
+                requestUri.startsWith("/api/product/list") ||
+                requestUri.startsWith("/api/product/detail") ||
+                requestUri.startsWith("/api/board/list") ||
+                requestUri.startsWith("/api/board/detail") ||
                 requestUri.startsWith("/api/v3") ) {
             chain.doFilter(request, response);
             return;
