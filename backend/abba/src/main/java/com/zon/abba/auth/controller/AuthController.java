@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/role")
+@RequestMapping("/authrole")
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
