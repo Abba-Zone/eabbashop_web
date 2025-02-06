@@ -131,6 +131,10 @@ public class MemberService {
         member.setPhone(memberInfoRequest.getPhone());
         member.setModifiedId(member.getMemberId());
 
+        // 권한 업데이트
+        if(member.getRoleID() != null )
+            member.setRoleID(member.getRoleID());
+
         memberRepository.save(member);
 
         logger.info("유저 정보 업데이트 완료");

@@ -36,6 +36,8 @@ public class MemberDto {
     private String activeYn;           // Active flag (Y/N)
     private String receiveConsentYn;   // Consent to receive messages (Y/N)
 
+    private String roleId;
+
     public MemberDto(Member member){
         this.memberId = member.getMemberId();
         this.firstName = member.getFirstName();
@@ -56,5 +58,6 @@ public class MemberDto {
         this.deleteYn = member.getDeleteYN();
         this.activeYn = member.getActiveYN();
         this.receiveConsentYn = member.getReceiveConsentYN();
+        this.roleId = member.getRoleID();
     }
 }
