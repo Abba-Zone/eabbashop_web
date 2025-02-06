@@ -18,8 +18,8 @@ public class RefundListDto {
     private String refundID;
     @JsonProperty("firstName")
     private String firstName;
-    @JsonProperty("lasName")
-    private String lasName;
+    @JsonProperty("lastName")
+    private String lastName;
     @JsonProperty("phone")
     private String phone;
     @JsonProperty("orderDetailID")
@@ -32,7 +32,7 @@ public class RefundListDto {
     public RefundListDto(RefundOrder refundOrder){
         this.refundID = refundOrder.getRefundId();
         this.firstName = refundOrder.getFirstName();
-        this.lasName = refundOrder.getLastName();
+        this.lastName = refundOrder.getLastName();
         this.phone = refundOrder.getPhone();
         this.orderDetailID = refundOrder.getOrderDetailID();
         this.createdDateTime = refundOrder.getCreatedDateTime();
