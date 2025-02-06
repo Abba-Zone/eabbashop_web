@@ -214,7 +214,7 @@ public class AddressService {
         }else{ // bill 주소지 변경
             logger.info("청구 주소지를 변경합니다.");
             address.setBillAddress(true);
-            preAddress.setMainAddress(false);
+            preAddress.setBillAddress(false);
 
         }
         address.setModifiedId(memberId);
