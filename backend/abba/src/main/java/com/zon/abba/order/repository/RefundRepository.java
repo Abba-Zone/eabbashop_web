@@ -13,7 +13,8 @@ import org.springframework.stereotype.Repository;
 public interface RefundRepository extends JpaRepository<Refund, String> {
     @Query(value = "SELECT " +
             "r.RefundID AS refundId, " +
-            "CONCAT(o.LastName, ' ', o.FirstName) AS name, " +
+            "m.LastName AS lastName" +
+            "m.FirstName AS firstName" +
             "o.Phone AS phone, " +
             "r.OrderDetailID AS orderDetailID, " +
             "r.CreatedDateTime AS createdDateTime, " +
@@ -21,13 +22,16 @@ public interface RefundRepository extends JpaRepository<Refund, String> {
             "FROM Refund r " +
             "JOIN OrderDetail od ON r.OrderDetailID = od.OrderDetailID " +
             "JOIN Orders o ON od.OrderID = o.OrderID " +
+            "JOIN Members m ON o.MemberID = m.MemberID " +
             "WHERE r.DeleteYN = 'N' " +
-            "AND r.SellerID = :sellerId " +
-            "ORDER BY r.CreatedDateTime DESC",
+                    "AND r.SellerID = :sellerId " +
+                    "ORDER BY r.CreatedDateTime DESC",
+
             countQuery = "SELECT COUNT(*) " +
                     "FROM Refund r " +
                     "JOIN OrderDetail od ON r.OrderDetailID = od.OrderDetailID " +
                     "JOIN Orders o ON od.OrderID = o.OrderID " +
+                    "JOIN Members m ON o.MemberID = m.MemberID " +
                     "WHERE r.DeleteYN = 'N' " +
                     "AND r.SellerID = :sellerId",
             nativeQuery = true)

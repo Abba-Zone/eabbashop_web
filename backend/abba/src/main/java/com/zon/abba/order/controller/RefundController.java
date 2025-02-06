@@ -12,10 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -43,9 +40,9 @@ public class RefundController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @PostMapping("/list")
+    @GetMapping("/list")
     @Operation(summary = "반품 / 교환 리스트", description = "반품, 교환 요청 목록을 볼 수 있다.")
-    public ResponseEntity<Object> afterServiceList(@RequestBody RequestList request){
+    public ResponseEntity<Object> afterServiceList(RequestList request){
 
         ResponseListBody response = refundService.refundList(request);
 
