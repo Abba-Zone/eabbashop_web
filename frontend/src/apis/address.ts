@@ -32,3 +32,22 @@ export const updateComment = async (updateInfo:updateAddress):Promise<addressLis
         throw error;
     }
 }
+export const updateBillAddress = async (updateInfo:{addressID:string, preAddressID:string}):Promise<addressList> => {
+    try {
+        const response = await postData<addressList>('/address/set/bill', updateInfo);
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching update address:', error);
+        throw error;
+    }
+}
+export const updateMainAddress = async (updateInfo:{addressID:string, preAddressID:string}):Promise<addressList> => {
+    try {
+        const response = await postData<addressList>('/address/set/main', updateInfo);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching update address:', error);
+        throw error;
+    }
+}

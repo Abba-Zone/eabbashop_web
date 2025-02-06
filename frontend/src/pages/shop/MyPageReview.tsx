@@ -1,4 +1,4 @@
-const Review:React.FC = () => {
+const MyPageReview:React.FC = () => {
   return (
     <div>
       <h1>상품 리뷰</h1>
@@ -6,4 +6,4 @@ const Review:React.FC = () => {
   );
 }
 
-export default Review;
+export default MyPageReview;
