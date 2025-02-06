@@ -30,12 +30,12 @@ const AdminRefundListComponent:React.FC<Props> = ({refunds, changeSort, setRefun
     return result;
   }
   const changeStatus = (refundID:string, status:number) => {
-    const tempRefunds:refund[] = refunds;
-    for(let i = 0; i < tempRefunds.length ; i++){
-      if(tempRefunds[i].refundID === refundID){
-        tempRefunds[i].status = status;
-        break;
+    const tempRefunds:refund[] = [];
+    for(let i = 0; i < refunds.length ; i++){
+      if(refunds[i].refundID === refundID){
+        refunds[i].status = status;
       }
+      tempRefunds.push(refunds[i]);
     }
     setRefunds(tempRefunds);
   }
