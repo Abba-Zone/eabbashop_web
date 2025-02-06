@@ -20,7 +20,7 @@ export const getShopOrderDetail_s = async (orderID:string): Promise<shopOrderInf
 };
 
 /* Invoice */
-export const getInvoiceList_s = async (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string): Promise<invoiceList> => {
+export const getInvoiceList_s = async (pageNo:number, pageSize:number, filter:string, filterValue:string, sort:string, sortValue:string): Promise<invoiceList> => {
     return await getInvoiceList(pageNo, pageSize, filter, filterValue, sort, sortValue);
 };
 

@@ -67,8 +67,6 @@ const AdminOrderList: React.FC = () => {
     setSelectIDs([...selectIDs, {orderDetailID:id}]);
   }
   const clickInvoiceRegist = () => {
-    console.log(selectIDs)
-    console.log(pageSize)
     setModalOpen(true);
   }
   return (

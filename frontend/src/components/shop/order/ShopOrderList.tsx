@@ -11,6 +11,13 @@ const ShopOrderList:React.FC<Props> = ({orders}) => {
     }
     return result;
   }
+  if(orders.length === 0){
+    return(
+      <div>
+        <h1>주문 내역이 없습니다.</h1>
+      </div>
+    )
+  }
   return (
     <div>
       {rendering()}

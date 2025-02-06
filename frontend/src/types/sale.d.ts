@@ -96,9 +96,9 @@ interface orderMember{
 /* Invoice  Types*/
 interface invoice{
     invoiceID : string,
-    orderDetailID : string,
+    orderID : string,
     status : string,
-    name : string,
+    recipientName : string,
     invoiceNo : string,
     createdDateTime : string
 }
@@ -108,12 +108,14 @@ interface invoiceList{
 }
 
 interface invoiceDetail{
+    invoiceID : string,
     invoiceNo : string,
     order : invoiceOrder,
     member : invoiceMember,
     billAddress : invoiceAddress,
     shippingAddress : invoiceAddress,
-    product : invoiceProduct
+    products : invoiceProduct[],
+    createdDateTime : string
 }
 
 interface invoiceOrder{
@@ -135,9 +137,21 @@ interface invoiceAddress{
     zipCode: string,
     baseAddress: string,
     detailAddress: string,
+    comment: string, 
+    phone: string
+
 }
 
-interface invoiceProduct extends orderProduct{}
+interface invoiceProduct {
+    AKPrice: number,
+    LPPrice: number
+    SPPrice: number
+    allowNation: string
+    productName: string
+    status: number
+    thumbnail: string
+    viewSite: string
+}
 
 interface registInvoice {
     orderDetails : {orderDetailID:string}[],

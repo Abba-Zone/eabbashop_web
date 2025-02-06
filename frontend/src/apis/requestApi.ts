@@ -68,27 +68,17 @@ export const getTransferCancelList = (pageNo:number, pageSize:number, filter:num
 }
 
 /* Refund */
-export const getRefundList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string, type:number):refundList => {
+export const getRefundList = async (pageNo:number, pageSize:number, filter:string, filterValue:string, sort:string, sortValue:string):Promise<refundList> => {
     /* real code*/
-    // getData<boardList>('/list?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
-    //     .then((data:APIResponse<boardList>) => {
-    //         return data.result;
-    //     }
-    // );
-    // return null as unknown as boardList;
-
-    /* make for test*/
-    var result :refundList = {
-        totalCount : 10003,
-        list:[
-            {createdDateTime : "2024-11-15 16:30:22", name : "전 현태A", orderID : "1q2w3er4t5t", phone : "010-1234-5678", refundID : "1q2w3er4t5t", status : "완료"},
-            {createdDateTime : "2024-11-15 16:30:22", name : "전 현태A", orderID : "1q2w3er4t5t", phone : "010-1234-5678", refundID : "1q2w3er4t5t", status : "완료"},
-            {createdDateTime : "2024-11-15 16:30:22", name : "전 현태A", orderID : "1q2w3er4t5t", phone : "010-1234-5678", refundID : "1q2w3er4t5t", status : "보류"},
-            {createdDateTime : "2024-11-15 16:30:22", name : "전 현태A", orderID : "1q2w3er4t5t", phone : "010-1234-5678", refundID : "1q2w3er4t5t", status : "보류"},
-            {createdDateTime : "2024-11-15 16:30:22", name : "전 현태A", orderID : "1q2w3er4t5t", phone : "010-1234-5678", refundID : "1q2w3er4t5t", status : "완료"},
-        ]
-    };
-    return result;
+    try {
+        const response = await getData<refundList>(
+            `/order/refund/list?` + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue,
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching refund list:', error);
+        throw error;
+    }
 }
 export const getRefundDetail = (refundID:string):refundDetail => {
     // getData<refundDetail>('/product/detail?productID='+ productID)
@@ -100,15 +90,45 @@ export const getRefundDetail = (refundID:string):refundDetail => {
     
     var result:refundDetail= {
        createdDateTime : "2024-11-15 16:30:22",
-       name : "전 현태A",
-       orderID : "1q2w3er4t5t",
+       firstName: '현태',
+       lastName: '전',
+       orderDetailID : "1q2w3er4t5t",
        phone : "010-1234-5678",
        productName : "물병병",
        quantity : 1,
        refundID : "1q2w3er4t5t",
-       status : "보류",
+       status : 100,
        type : 100
     };
     return result;
 }
 
+export const registRefund = async (refundInfo:registRefund) => {
+    /* real code*/
+    try {
+        const response = await postData<string>(
+            `/order/refund`,
+            refundInfo
+        );
+        console.log(response);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching regist refund:', error);
+        throw error;
+    }
+}
+
+export const approveRequest = async (refundData:{refundID:string, status:number}) => {
+    /* real code*/
+    try {
+        const response = await postData<string>(
+            `/order/refund/approve`,
+            refundData
+        );
+        console.log(response);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching approve refund:', error);
+        throw error;
+    }
+}

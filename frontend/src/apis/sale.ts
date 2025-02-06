@@ -66,73 +66,30 @@ export const getOrderDetail = async (orderID:string):Promise<orderDetail> => {
 
 
 /* Invoice */
-export const getInvoiceList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):invoiceList => {
+export const getInvoiceList = async (pageNo:number, pageSize:number, filter:string, filterValue:string, sort:string, sortValue:string):Promise<invoiceList> => {
     /* real code*/
-    // getData<invoiceList>('/list/admin?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
-    //     .then((data:APIResponse<invoiceList>) => {
-    //         return data.result;
-    //     }
-    // );
-    // return null as unknown as invoiceList;
-
-    /* make for test*/
-    var result :invoiceList = {
-        totalCount: 123412414,
-        list : [
-            {invoiceID : "1x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55",	invoiceNo : "123456364575467", status: "결제", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},
-            {invoiceID : "2x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55",	invoiceNo : "123456364575467", status: "결제", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},
-            {invoiceID : "3x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55",	invoiceNo : "123456364575467", status: "결제", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},
-            {invoiceID : "4x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55",	invoiceNo : "123456364575467", status: "결제", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},
-            {invoiceID : "5x2c33xq445wq6rew6578", orderDetailID : "1232wew3r34t55",	invoiceNo : "123456364575467", status: "결제", name : "정경훈", createdDateTime : "2024-11-15 17:13:22"},
-        ]
-    };
-    return result;
+    try {
+        const response = await getData<invoiceList>(
+            `/invoice/list?pageNo=${pageNo}&pageSize=${pageSize}&filter=${filter}&filterValue=${filterValue}&sort=${sort}&sortValue=${sortValue}`
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching invoice list:', error);
+        throw error;
+    }
 }
 
-export const getInvoiceDetail = (invoiceID:string):invoiceDetail => {
-    // getData<invoiceDetail>('/info?invoiceID='+ invoiceID)
-    //     .then((data:APIResponse<invoiceDetail>) => {
-    //         return data.result;
-    //     }
-    // );
-    // return null as unknown as invoiceDetail;
-    var result:invoiceDetail= {
-       invoiceNo : "123456364575467",
-        order : {
-            orderedDateTime : "2024-11-14 22:23:11",
-            status : "결제",
-            IP : "111.222.333.444"
-        },
-        member : {
-            name : "정경훈",
-            email:"",
-            role : "",
-            grade : "",
-            phone : ""
-        },
-        billAddress :{
-            zipCode: "213-12",
-            baseAddress: "부산시 기장군",
-            detailAddress: "아바로",
-            phone : "010-1234-5678"
-        },
-        shippingAddress :{
-            zipCode: "213-12",
-            baseAddress: "부산시 기장군",
-            detailAddress: "아바로",
-            phone : "010-1234-5678"
-        },
-        product:{
-            thumbnail : "https://abbazon.us",
-            productName : "물병",
-            taxFreePrice : 2.0,
-            SPPrice : 8.0,
-            realPrice : 10.0,
-            allowNation : ["KOR"],
-            viewSite : "A",
-        }
-    };
-    return result;
+export const getInvoiceDetail = async (invoiceID:string):Promise<invoiceDetail> => {
+    try {
+        const response = await getData<invoiceDetail>(
+            `/invoice/detail?invoiceID=${invoiceID}`
+        );
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching invoice list:', error);
+        throw error;
+    }
 }
 
 export const registInvoice = async (invoiceInfo:registInvoice) => {
@@ -202,12 +159,14 @@ export const getShipmentDetail = (shipmentID:string):shipmentDetail => {
             phone : ""
         },
         billAddress :{
+            comment:"12341515",
             zipCode: "213-12",
             baseAddress: "부산시 기장군",
             detailAddress: "아바로",
             phone : "010-1234-5678"
         },
         shippingAddress :{
+            comment:"12341515",
             zipCode: "213-12",
             baseAddress: "부산시 기장군",
             detailAddress: "아바로",

@@ -11,8 +11,8 @@ const AdminTakebackRequest: React.FC = () => {
   const [lastPage, setLastPage] = useState<number>(1);
   const [filter, setFilter] = useState<number>(1);
   const [filterValue, setFilterValue] = useState<string>("");
-  const [sort, setSort] = useState<string>("createdDateTime");
-  const [sortValue, setSortValue] = useState<string>("DESC");
+  const [sort, setSort] = useState<string>("DESC");
+  const [sortValue, setSortValue] = useState<string>("createdDateTime");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
     {selectName:t("AdminRefund:List.Filter01"), select:'name', selectType:'text', itemList:[]},
@@ -24,7 +24,7 @@ const AdminTakebackRequest: React.FC = () => {
 
   const getTakebackList = useCallback (async () => {
     try {
-      const totalAndTakebackList : refundList = await getRefundList_s(pageNo, pageSize, filter, filterValue, sort, sortValue, 100);
+      const totalAndTakebackList : refundList = await getRefundList_s(pageNo, pageSize, selectList[filter].select, filterValue, sort, sortValue);
       setTakebacks(totalAndTakebackList.list);
       setLastPage(totalAndTakebackList.totalCount === 0? 1:Math.floor((totalAndTakebackList.totalCount - 1)/pageSize) + 1);
     } catch (error) {
@@ -59,7 +59,7 @@ const AdminTakebackRequest: React.FC = () => {
     <div>
       <h1>{t("AdminRefund:List.TakebackTitle")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
-      <AdminRefundListComponent refunds={takebacks}  changeSort={changeSort}/>
+      {/* <AdminRefundListComponent refunds={takebacks}  changeSort={changeSort}/> */}
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
     </div>
   );
