@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 public interface RefundRepository extends JpaRepository<Refund, String> {
     @Query(value = "SELECT " +
             "r.RefundID AS refundId, " +
-            "m.LastName AS lastName" +
-            "m.FirstName AS firstName" +
+            "m.LastName AS lastName, " +
+            "m.FirstName AS firstName, " +
             "o.Phone AS phone, " +
             "r.OrderDetailID AS orderDetailID, " +
             "r.CreatedDateTime AS createdDateTime, " +
