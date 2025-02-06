@@ -1,5 +1,6 @@
 package com.zon.abba.order.service;
 
+import com.zon.abba.common.exception.CommonException;
 import com.zon.abba.common.exception.NoDataException;
 import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.request.RequestList;
@@ -7,12 +8,16 @@ import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.common.security.JwtTokenProvider;
 import com.zon.abba.order.dto.RefundListDto;
+import com.zon.abba.order.entity.OrderDetail;
 import com.zon.abba.order.entity.Refund;
+import com.zon.abba.order.mapping.RefundDetail;
 import com.zon.abba.order.mapping.RefundOrder;
 import com.zon.abba.order.repository.OrderDetailRepository;
 import com.zon.abba.order.repository.RefundRepository;
 import com.zon.abba.order.request.ApproveRefundRequest;
+import com.zon.abba.order.request.RefundIdRequest;
 import com.zon.abba.order.request.RegisterRefundRequest;
+import com.zon.abba.order.response.DetailRefundResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -45,12 +50,22 @@ public class RefundService {
         List<Refund> refunds = request.getOrderDetails().stream()
                 .map(od -> {
                     String sellerId = orderDetailRepository.findSellerIdByOrderDetailId(od.getOrderDetailID());
+                    OrderDetail orderDetail = orderDetailRepository.findById(od.getOrderDetailID())
+                            .orElseThrow(() -> new NoDataException("없는 주문 데이터입니다."));
+
+                    // 취소 처리
+                    orderDetail.setStatus(400);
+                    orderDetail.setModifiedId(memberId);
+
+                    orderDetailRepository.save(orderDetail);
+
                     return Refund.builder()
                             .orderDetailId(od.getOrderDetailID())
                             .memberId(memberId)
                             .sellerId(sellerId)
                             .quantity(od.getQuantity())
                             .status(request.getStatus())
+                            .message(request.getMessage())
                             .createdId(memberId)
                             .modifiedId(memberId)
                             .build();
@@ -81,8 +96,20 @@ public class RefundService {
 
         refundRepository.save(refund);
 
-        if(request.getStatus() == 300) logger.info("반품/환불 신청을 승인합니다.");
-        else logger.info("반품/환불 신청을 거절합니다.");
+        if(request.getStatus() == 300) {
+            logger.info("반품/환불 신청을 승인합니다.");
+        }
+        else {
+            logger.info("반품/환불 신청을 거절합니다.");
+            OrderDetail orderDetail = orderDetailRepository.findById(refund.getOrderDetailId())
+                    .orElseThrow(() -> new NoDataException("없는 주문 데이터입니다."));
+
+            // 환불 거절 처리
+            orderDetail.setStatus(150);
+            orderDetail.setModifiedId(memberId);
+
+            orderDetailRepository.save(orderDetail);
+        }
 
         return new ResponseBody("성공했습니다.");
     }
@@ -111,6 +138,24 @@ public class RefundService {
 
         logger.info("리스트 반환을 완료했습니다.");
         return new ResponseListBody(pages.getTotalElements(), list);
+    }
+
+    @Transactional
+    public DetailRefundResponse detailRefund(RefundIdRequest request){
+
+        logger.info("반품 디테일을 반환합니다.");
+
+        String sellerID = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        RefundDetail refundDetail = refundRepository.findRefundDetailById(request.getRefundID())
+                .orElseThrow(() -> new NoDataException("없는 반품 데이터입니다."));
+
+        if(!sellerID.equals(refundDetail.getSellerId())){
+            throw new CommonException(666, "관리자 정보가 맞지 않습니다.");
+        }
+
+        return new DetailRefundResponse(refundDetail);
     }
 
 

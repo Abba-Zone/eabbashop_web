@@ -36,6 +36,9 @@ public class Refund {
     @Column(name = "Status", nullable = false)
     private Integer status;
 
+    @Column(name = "Message")
+    private String message;
+
     @Column(name = "CreatedID", length = 36, nullable = false)
     private String createdId;
 

@@ -18,4 +18,6 @@ public class RegisterRefundRequest {
     private List<RegisterRefundDto> orderDetails;
     @JsonProperty("status")
     private Integer status;
+    @JsonProperty("message")
+    private String message;
 }
