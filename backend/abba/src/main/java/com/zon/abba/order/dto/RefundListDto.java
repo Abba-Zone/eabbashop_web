@@ -16,8 +16,10 @@ import java.time.LocalDateTime;
 public class RefundListDto {
     @JsonProperty("refundID")
     private String refundID;
-    @JsonProperty("name")
-    private String name;
+    @JsonProperty("firstName")
+    private String firstName;
+    @JsonProperty("lasName")
+    private String lasName;
     @JsonProperty("phone")
     private String phone;
     @JsonProperty("orderDetailID")
@@ -29,7 +31,8 @@ public class RefundListDto {
 
     public RefundListDto(RefundOrder refundOrder){
         this.refundID = refundOrder.getRefundId();
-        this.name = refundOrder.getName();
+        this.firstName = refundOrder.getFirstName();
+        this.lasName = refundOrder.getLastName();
         this.phone = refundOrder.getPhone();
         this.orderDetailID = refundOrder.getOrderDetailID();
         this.createdDateTime = refundOrder.getCreatedDateTime();
