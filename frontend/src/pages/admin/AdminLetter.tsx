@@ -27,7 +27,7 @@ const AdminLetter: React.FC = () => {
   const getLetterList = useCallback (async () => {
     try {
       const filterName = selectList[filter].select;
-      const totalAndBoardList : boardList = await getBoardList_s(pageNo, pageSize, filterName, filterValue, sort, sortValue, 200);
+      const totalAndBoardList : boardList = await getBoardList_s(pageNo - 1, pageSize, filterName, filterValue, sort, sortValue, 200);
       setLetters(totalAndBoardList.list);
       setLastPage(totalAndBoardList.totalCount === 0? 1:Math.floor((totalAndBoardList.totalCount - 1)/pageSize) + 1);
     } catch (error) {
@@ -73,9 +73,15 @@ const AdminLetter: React.FC = () => {
           "left": "0",
           "display": "flex",
           "background": "rgba(0, 0, 0, 0.5)"
-        }}><AdminBoardRegistModal type={t("AdminBoard:Regist.LetterTitle")} setModalOpen={setModalOpen}/></div>
+        }}><AdminBoardRegistModal type={200} setModalOpen={setModalOpen}/></div>
       }
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
+      <select name="pageSize" value={pageSize} onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {setPageNo(1);setPageSize(Number(event.target.value))}}>
+        <option value={10}>10</option>
+        <option value={20}>20</option>
+        <option value={30}>30</option>
+        <option value={100}>100</option>
+      </select><span>개씩 보기</span>
       <AdminBoardList boards={letters}  changeSort={changeSort}></AdminBoardList>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
     </div>

@@ -59,6 +59,13 @@ const AdminInvoiceList: React.FC = () => {
     <div>
       <h1>{t("AdminInvoice:List.Title")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
+      <select name="pageSize" value={pageSize} onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {setPageNo(1);setPageSize(Number(event.target.value))}}>
+        <option value={10}>10</option>
+        <option value={20}>20</option>
+        <option value={30}>30</option>
+        <option value={50}>50</option>
+        <option value={100}>100</option>
+      </select><span>개씩 보기</span>
       <InvoiceList invoices={invoices} changeSort={changeSort}></InvoiceList>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
     </div>

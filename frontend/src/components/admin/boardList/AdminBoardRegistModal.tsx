@@ -6,7 +6,7 @@ import ViewEditor from "../editor/ViewEditor";
 import { useTranslation } from "react-i18next";
 
 interface Props{
-  type : string,
+  type : number,
   setModalOpen(type:boolean):void;
 }
 const AdminBoardRegistModal:React.FC<Props> = ({type, setModalOpen}) => {
@@ -27,17 +27,17 @@ const AdminBoardRegistModal:React.FC<Props> = ({type, setModalOpen}) => {
       content : newContent,
       show : show,
       top : top,
-      type : changeType(type)
+      type : type
     }
     await registBoard_s(boardInfo);
     setModalOpen(false);
   }
-  const changeType = (stringType:string):number =>{
-    if(stringType === "공지사항")
-      return 100;
-    else if(stringType === "아빠의편지")
-      return 200;
-    return 0;
+  const getTitle = (type:number):string =>{
+    if(type === 100)
+      return "공지사항";
+    else if(type === 200)
+      return "아빠의 편지";
+    return "";
   }
   const inputImageFile = (imagefile: IFile[]) => {
     setImages((prevImages) => {
@@ -61,7 +61,7 @@ const AdminBoardRegistModal:React.FC<Props> = ({type, setModalOpen}) => {
   }
   return (
     <div style={{backgroundColor:"white", overflow : "scroll"}}>
-      <h2>{type}</h2>
+      <h2>{getTitle(type)}</h2>
       <div>
         <label htmlFor='Title'>{t("AdminBoard:Regist.Filter01")} : </label>
         <input type='text' name='input_last' value={title} onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{setTitle(event.target.value)}}/>

@@ -49,8 +49,6 @@ const AdminRefundRequest: React.FC = () => {
     setPageNo(1);
   }
   const changeFilter = (key:number, value:string) =>{
-    console.log(key)
-    console.log(value)
     setFilter(key);
     setFilterValue(value);
     setPageNo(1)
@@ -65,10 +63,12 @@ const AdminRefundRequest: React.FC = () => {
       <h1>{t("AdminRefund:List.RefundTitle")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <select name="pageSize" value={pageSize} onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {setPageNo(1);setPageSize(Number(event.target.value))}}>
-              <option value={10}>10</option>
-              <option value={20}>20</option>
-              <option value={30}>30</option>
-            </select><span>개씩 보기</span>
+        <option value={10}>10</option>
+        <option value={20}>20</option>
+        <option value={30}>30</option>
+        <option value={50}>50</option>
+        <option value={100}>100</option>
+      </select><span>개씩 보기</span>
       <AdminRefundListComponent refunds={refunds} setRefunds={setRefunds} changeSort={changeSort}/>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
     </div>
