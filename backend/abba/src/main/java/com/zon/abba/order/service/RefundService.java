@@ -103,7 +103,7 @@ public class RefundService {
                         request.getSortValue())
         );
         logger.info("반품/환불 신청 리스트를 가져옵니다.");
-        Page<RefundOrder> pages = refundRepository.findRefundOrdersBySellerId(sellerID, pageable);
+        Page<RefundOrder> pages = refundRepository.findRefundOrdersBySellerId(sellerID, request.getFilter(), request.getFilterValue(), pageable);
 
         List<RefundListDto> list = pages.stream()
                 .map(RefundListDto::new)
