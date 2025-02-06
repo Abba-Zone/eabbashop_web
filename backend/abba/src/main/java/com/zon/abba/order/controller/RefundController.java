@@ -4,7 +4,9 @@ import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.order.request.ApproveRefundRequest;
+import com.zon.abba.order.request.RefundIdRequest;
 import com.zon.abba.order.request.RegisterRefundRequest;
+import com.zon.abba.order.response.DetailRefundResponse;
 import com.zon.abba.order.service.RefundService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +47,15 @@ public class RefundController {
     public ResponseEntity<Object> afterServiceList(RequestList request){
 
         ResponseListBody response = refundService.refundList(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/detail")
+    @Operation(summary = "반품 / 교환 상세", description = "반품, 교환 요청의 상세 페이지 데이터를 반환한다.")
+    public ResponseEntity<Object> detailRefund(RefundIdRequest request){
+
+        DetailRefundResponse response = refundService.detailRefund(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
