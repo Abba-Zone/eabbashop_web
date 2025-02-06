@@ -24,8 +24,16 @@ public interface RefundRepository extends JpaRepository<Refund, String> {
             "JOIN Orders o ON od.OrderID = o.OrderID " +
             "JOIN Members m ON o.MemberID = m.MemberID " +
             "WHERE r.DeleteYN = 'N' " +
-                    "AND r.SellerID = :sellerId " +
-                    "ORDER BY r.CreatedDateTime DESC",
+            "AND r.SellerID = :sellerId " +
+            "AND (:filter IS NULL " +
+            "    OR (:filter = 'refundID' AND r.RefundID LIKE CONCAT('%', :filterValue, '%')) " +
+            "    OR (:filter = 'name' AND CONCAT(m.LastName, ' ', m.FirstName) LIKE CONCAT('%', :filterValue, '%')) " +
+            "    OR (:filter = 'phone' AND m.Phone LIKE CONCAT('%', :filterValue, '%')) " +
+            "    OR (:filter = 'status' AND r.Status LIKE CONCAT('%', :filterValue, '%')) " +
+            "    OR (:filter = 'orderDetailID' AND r.OrderDetailID LIKE CONCAT('%', :filterValue, '%')) " +
+            "    OR (:filter = 'createdDateTime' AND DATE(r.CreatedDateTime) = STR_TO_DATE(:filterValue, '%Y-%m-%d')) " +
+            ") " +
+            "ORDER BY r.CreatedDateTime DESC",
 
             countQuery = "SELECT COUNT(*) " +
                     "FROM Refund r " +
@@ -33,7 +41,19 @@ public interface RefundRepository extends JpaRepository<Refund, String> {
                     "JOIN Orders o ON od.OrderID = o.OrderID " +
                     "JOIN Members m ON o.MemberID = m.MemberID " +
                     "WHERE r.DeleteYN = 'N' " +
-                    "AND r.SellerID = :sellerId",
+                    "AND r.SellerID = :sellerId " +
+                    "AND (:filter IS NULL " +
+                    "    OR (:filter = 'refundID' AND r.RefundID LIKE CONCAT('%', :filterValue, '%')) " +
+                    "    OR (:filter = 'name' AND CONCAT(m.LastName, ' ', m.FirstName) LIKE CONCAT('%', :filterValue, '%')) " +
+                    "    OR (:filter = 'phone' AND m.Phone LIKE CONCAT('%', :filterValue, '%')) " +
+                    "    OR (:filter = 'status' AND r.Status LIKE CONCAT('%', :filterValue, '%')) " +
+                    "    OR (:filter = 'orderDetailID' AND r.OrderDetailID LIKE CONCAT('%', :filterValue, '%')) " +
+                    "    OR (:filter = 'createdDateTime' AND DATE(r.CreatedDateTime) = STR_TO_DATE(:filterValue, '%Y-%m-%d')) " +
+                    ")",
             nativeQuery = true)
-    Page<RefundOrder> findRefundOrdersBySellerId(@Param("sellerId") String sellerId, Pageable pageable);
+    Page<RefundOrder> findRefundOrdersBySellerId(
+            @Param("sellerId") String sellerId,
+            @Param("filter") String filter,
+            @Param("filterValue") String filterValue,
+            Pageable pageable);
 }
