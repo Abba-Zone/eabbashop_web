@@ -47,10 +47,12 @@ const AdminOrderList: React.FC = () => {
       setSortValue(sortName);
       setSort('ASC');
     }
+    setPageNo(1);
   }
   const changeFilter = (key:number, value:string) =>{
     setFilter(key);
     setFilterValue(value);
+    setPageNo(1);
   }
 
   useEffect(() => {
@@ -88,7 +90,7 @@ const AdminOrderList: React.FC = () => {
       <h1>{t("AdminOrder:List.Title")}</h1>
       <button onClick={clickInvoiceRegist}>송장등록</button>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
-      <select name="pageSize" value={pageSize} onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {setPageSize(Number(event.target.value))}}>
+      <select name="pageSize" value={pageSize} onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {setPageNo(1); setPageSize(Number(event.target.value))}}>
         <option value={10}>10</option>
         <option value={20}>20</option>
         <option value={30}>30</option>

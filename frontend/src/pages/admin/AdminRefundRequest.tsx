@@ -25,6 +25,7 @@ const AdminRefundRequest: React.FC = () => {
   const getRefundList = useCallback (async () => {
     try {
       const totalAndRefundList : refundList = await getRefundList_s(pageNo - 1, pageSize, selectList[filter].select, filterValue, sort, sortValue);
+      console.log(totalAndRefundList.list);
       setRefunds(totalAndRefundList.list);
       setLastPage(totalAndRefundList.totalCount === 0? 1:Math.floor((totalAndRefundList.totalCount - 1)/pageSize) + 1);
     } catch (error) {
@@ -45,10 +46,14 @@ const AdminRefundRequest: React.FC = () => {
       setSortValue(sortName);
       setSort('ASC');
     }
+    setPageNo(1);
   }
   const changeFilter = (key:number, value:string) =>{
+    console.log(key)
+    console.log(value)
     setFilter(key);
     setFilterValue(value);
+    setPageNo(1)
   }
 
   useEffect(() => {
@@ -59,7 +64,7 @@ const AdminRefundRequest: React.FC = () => {
     <div>
       <h1>{t("AdminRefund:List.RefundTitle")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
-      <select name="pageSize" value={pageSize} onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {setPageSize(Number(event.target.value))}}>
+      <select name="pageSize" value={pageSize} onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {setPageNo(1);setPageSize(Number(event.target.value))}}>
               <option value={10}>10</option>
               <option value={20}>20</option>
               <option value={30}>30</option>

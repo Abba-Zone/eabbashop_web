@@ -39,7 +39,7 @@ const AdminProductList: React.FC = () => {
   },[pageNo, pageSize, filter, filterValue, sort, sortValue]);
 
   const changePage = (move:number) =>{
-        setPageNo(move);
+    setPageNo(move);
   }
   const changeSort = (sortName:string) => {
     if (sortName === sort){
@@ -51,6 +51,7 @@ const AdminProductList: React.FC = () => {
       setSort(sortName);
       setSortValue('ASC');
     }
+    setPageNo(1);
   }
   const changeFilter = (key:number, value:string) =>{
     setFilter(key);
@@ -60,6 +61,7 @@ const AdminProductList: React.FC = () => {
       setFilterValue("false");
     else
       setFilterValue(value);
+    setPageNo(1);
   }
 
   useEffect(() => {
@@ -83,6 +85,11 @@ const AdminProductList: React.FC = () => {
         }}><AdminProductRegistModal setModalOpen={setModalOpen}/></div>
       }
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
+      <select name="pageSize" value={pageSize} onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {setPageNo(1); setPageSize(Number(event.target.value))}}>
+        <option value={10}>10</option>
+        <option value={20}>20</option>
+        <option value={30}>30</option>
+      </select><span>개씩 보기</span>
       <ProductList products={products} changeSort={changeSort}/>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
     </div>
