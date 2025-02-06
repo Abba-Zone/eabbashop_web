@@ -44,11 +44,12 @@ interface transferCancelList{
 /* Refund */
 interface refund{
     refundID : string,
-    name : string,
+    firstName : string,
+    lastName : string,
     phone : string,
-    orderID : string,
+    orderDetailID : string,
     createdDateTime : string,
-    status : string
+    status : number
 }
 interface refundList{
     totalCount : number,
@@ -58,4 +59,11 @@ interface refundDetail extends refund{
     productName : string,
     type : number,
     quantity : number
+}
+interface registRefund{
+    orderDetails: {
+        orderDetailID: string,
+        quantity: number
+    }[],
+    status: number
 }

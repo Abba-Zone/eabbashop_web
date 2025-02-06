@@ -14,13 +14,6 @@ const ShopOrderCard:React.FC<Props> = ({order}) => {
         }
         return result;
     }
-    if(!order.orderDetails){
-      return(
-        <div>
-          <h1>주문 내역이 없습니다.</h1>
-        </div>
-      )
-    }
     return (
       <div>
         <h1>{order.createdDateTime}

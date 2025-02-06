@@ -8,9 +8,9 @@ const InvoiceListCard:React.FC<Props> = ({invoice}) => {
     return (
       <tr onClick={()=>{navigate(`/admin/invoicedetail/${invoice.invoiceID}`)}}>
         <td>선택</td>
-        <td>{invoice.orderDetailID}</td>
+        <td>{invoice.orderID}</td>
         <td>{invoice.invoiceNo}</td>
-        <td>{invoice.name}</td>
+        <td>{invoice.recipientName}</td>
         <td>{invoice.status}</td>
         <td>{invoice.createdDateTime}</td>
       </tr>

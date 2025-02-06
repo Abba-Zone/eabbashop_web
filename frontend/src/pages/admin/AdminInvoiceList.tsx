@@ -9,10 +9,10 @@ const AdminInvoiceList: React.FC = () => {
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
   const [lastPage, setLastPage] = useState<number>(1);
-  const [filter, setFilter] = useState<number>(1);
+  const [filter, setFilter] = useState<number>(0);
   const [filterValue, setFilterValue] = useState<string>("");
-  const [sort, setSort] = useState<string>("createdDateTime");
-  const [sortValue, setSortValue] = useState<string>("DESC");
+  const [sort, setSort] = useState<string>("DESC");
+  const [sortValue, setSortValue] = useState<string>("createdDateTime");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
     {selectName:t("AdminInvoice:List.Filter01"), select:'orderDetailID', selectType:'text', itemList:[]},
@@ -24,7 +24,7 @@ const AdminInvoiceList: React.FC = () => {
 
   const getInvoiceList = useCallback (async () => {
     try {
-      const totalAndInvoiceList : invoiceList = await getInvoiceList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
+      const totalAndInvoiceList : invoiceList = await getInvoiceList_s(pageNo - 1, pageSize, selectList[filter].select, filterValue, sort, sortValue);
       setInvoices(totalAndInvoiceList.list);
       setLastPage(totalAndInvoiceList.totalCount === 0? 1:Math.floor((totalAndInvoiceList.totalCount - 1)/pageSize) + 1);
     } catch (error) {
@@ -37,13 +37,13 @@ const AdminInvoiceList: React.FC = () => {
   }
   const changeSort = (sortName:string) => {
     if (sortName === sort){
-      if(sortValue ==='ASC')
-        setSortValue('DESC')
+      if(sort ==='ASC')
+        setSort('DESC')
       else
-      setSortValue('ASC')
+      setSort('ASC')
     } else {
-      setSort(sortName);
-      setSortValue('ASC');
+      setSortValue(sortName);
+      setSort('ASC');
     }
   }
   const changeFilter = (key:number, value:string) =>{

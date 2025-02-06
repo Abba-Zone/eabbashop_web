@@ -1,4 +1,4 @@
-import { getTransferList, getPaymentList, getTransferCancelList, getRefundList, getRefundDetail } from '../apis/requestApi'
+import { getTransferList, getPaymentList, getTransferCancelList, getRefundList, getRefundDetail, registRefund, approveRequest } from '../apis/requestApi'
 
 /* Refund */
 export const getTransferList_s = async (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string): Promise<transferList> => {
@@ -16,10 +16,16 @@ export const getTransferCancelList_s = async (pageNo:number, pageSize:number, fi
 }
 
 /* Refund */
-export const getRefundList_s = async (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string, type:number): Promise<refundList> => {
-    return await getRefundList(pageNo, pageSize, filter, filterValue, sort, sortValue, type);
+export const getRefundList_s = async (pageNo:number, pageSize:number, filter:string, filterValue:string, sort:string, sortValue:string): Promise<refundList> => {
+    return await getRefundList(pageNo, pageSize, filter, filterValue, sort, sortValue);
 }
 export const getRefundDetail_s = async (refundID:string): Promise<refundDetail> => {
     return await getRefundDetail(refundID);
+};
+export const registRefund_s = async (refundInfo:registRefund) => {
+    return await registRefund(refundInfo);
+};
+export const approveRequest_s = async (refundData:{refundID:string, status:number}) => {
+    return await approveRequest(refundData);
 };
 

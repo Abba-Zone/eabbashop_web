@@ -15,6 +15,11 @@ const MypageOrders:React.FC = () => {
       console.error('Error fetching shop order list:', error);
     }
   },[pageNo, pageSize, year]);
+
+  const changeYear = (selectYear:number) => {
+    setPageNo(1);
+    setYear(selectYear);
+  }
   
   const movePage = (type:string) => {
     if (type === "before" && pageNo !== 1){
@@ -30,7 +35,12 @@ const MypageOrders:React.FC = () => {
   return (
     <div>
       <h1>주문 목록</h1>
-      <SelectYear setYear={setYear} year={year}></SelectYear>
+      <SelectYear setYear={changeYear} year={year}></SelectYear>
+      <select name="pageSize" value={pageSize} onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {setPageSize(Number(event.target.value))}}>
+        <option value={5}>5</option>
+        <option value={10}>10</option>
+        <option value={15}>15</option>
+      </select><span>개씩 보기</span>
       <ShopOrderList orders={orders}></ShopOrderList>
       <PageMove movePage={movePage}></PageMove>
     </div>
