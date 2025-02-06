@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import MypageSidebar from "../../components/shop/mypage/MypageSidebar";
 import { MypageOrders, MypageOrderDetail, MypageTransactions, 
-  MypageFinancial, MypageProfile, MypageDashboard, Review } from "../../pages";
+  MypageFinancial, MypageProfile, MypageDashboard, MyPageReview, MyPageAddress } from "../../pages";
 import { getMemberDetailMe_s } from "../../services/member";
 const Cookies = require("js-cookie");
 
@@ -150,7 +150,8 @@ const Mypage: React.FC = () => {
             <Route path="transactions" element={<MypageTransactions />} />
             <Route path="financial" element={<MypageFinancial />} />
             <Route path="profile" element={<MypageProfile />} />
-            <Route path="reviews" element={<Review />} />
+            <Route path="reviews" element={<MyPageReview />} />
+            <Route path="addresses" element={<MyPageAddress />} />
           </Routes>
         </div>
       </div>

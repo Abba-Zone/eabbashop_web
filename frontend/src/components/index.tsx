@@ -117,4 +117,7 @@ export {default as SelectYear} from "./shop/order/SelectYear";
 
 /* Shop OrderDetail */
 export {default as OrderInfo} from "./shop/orderDetail/OrderInfo";
+/* Adress */
+export {default as AddressList} from "./shop/address/AddressList";
+
 
