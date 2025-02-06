@@ -12,7 +12,7 @@ const AdminRefundRequest: React.FC = () => {
   const [filter, setFilter] = useState<number>(1);
   const [filterValue, setFilterValue] = useState<string>("");
   const [sort, setSort] = useState<string>("DESC");
-  const [sortValue, setSortValue] = useState<string>("11");
+  const [sortValue, setSortValue] = useState<string>("createdDateTime");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
     {selectName:t("AdminRefund:List.Filter01"), select:'name', selectType:'text', itemList:[]},
