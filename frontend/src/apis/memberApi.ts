@@ -1,6 +1,7 @@
 import { getData, postData, getTestData} from './mainApi'
 import { updateAccessTokenAxios, updateUserInfo } from "../handlers/tokenHandler"
 import { AxiosResponse } from 'axios';
+import { dropAuthIDList, insertAuthIDList } from '../handlers/AuthHandler';
 
 const Cookies = require('js-cookie');
 /* 데이터 불러오기*/
@@ -11,6 +12,7 @@ export const login = async (loginUser: emailAndPassword): Promise<loginSuccess> 
       alert('로그인 성공');
       updateAccessTokenAxios(data.data.accessToken, data.data.refreshToken);
       updateUserInfo(data.data.firstName, data.data.lastName, data.data.role);
+      insertAuthIDList(data.data.authIDList);
       return data.data; 
     }
     return null as unknown as loginSuccess; // 로그인 실패
@@ -96,6 +98,7 @@ export const logout = () =>{
     postData('/logout')
         .then(() => {
             updateAccessTokenAxios(null as unknown as string,null as unknown as string);
+            dropAuthIDList();
         }
     );
 }
