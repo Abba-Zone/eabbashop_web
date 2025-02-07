@@ -13,7 +13,6 @@ interface Props{
 const AddressList:React.FC<Props> = ({addressList, billID, mainID, setAddressList, setBillID, setMainID}) => {
     const [billAddress, setBillAddress] = useState<addressAllInfo | null>(null);
     const [mainAddress, setMainAddress] = useState<addressAllInfo | null>(null);
-    console.log(addressList);
     useEffect(() => {
         const newBillAddress = addressList.find((item) => item.addressID === billID) || null;
         setBillAddress(newBillAddress);
@@ -42,7 +41,7 @@ const AddressList:React.FC<Props> = ({addressList, billID, mainID, setAddressLis
         for(let i = 0 ; i < addressList.length; i++){
             if (addressList[i].addressID === billID || addressList[i].addressID === mainID)continue;
             check++;
-            result.push(<ListCard changeAddress ={changeAddress} key={i + 1} address={addressList[i]} billID={billID} mainID={mainID}></ListCard>);
+            result.push(<ListCard changeAddress ={changeAddress} key={i + 1} address={addressList[i]} billID={billID} mainID={mainID} cardType={"Base"} setAddressList={setAddressList}></ListCard>);
         }
         if(check == 0)
             result.push(<div key={0}>그 외 주소가 없습니다.</div>)
@@ -51,9 +50,9 @@ const AddressList:React.FC<Props> = ({addressList, billID, mainID, setAddressLis
     return (
         <div>
             <h3>기본주소</h3>
-            {mainAddress?<ListCard address={mainAddress} changeAddress={changeAddress} billID={billID} mainID={mainID}></ListCard>:<div>기본 주소를 설정해 주세요.</div>}
+            {mainAddress?<ListCard address={mainAddress} changeAddress={changeAddress} billID={billID} mainID={mainID} cardType={"Main"} setAddressList={setAddressList}></ListCard>:<div>기본 주소를 설정해 주세요.</div>}
             <h3>청구주소</h3>
-            {billAddress?<ListCard address={billAddress} changeAddress={changeAddress} billID={billID} mainID={mainID}></ListCard>:<div>청구 주소를 설정해 주세요.</div>}
+            {billAddress?<ListCard address={billAddress} changeAddress={changeAddress} billID={billID} mainID={mainID} cardType={"Bill"} setAddressList={setAddressList}></ListCard>:<div>청구 주소를 설정해 주세요.</div>}
             <h3>그 외</h3>
             {rendering()}
         </div>

@@ -60,7 +60,7 @@ const Address:React.FC<Props> = ({addressList, billID, devliveryID, setAddressLi
           "height": "50%",
           "background": "white",
           "overflow":  "scroll"
-        }}><SelectAddressModal addressList={addressList} setModalOpen={clickModal} changeAddress={changeAddress} setAddressList={setAddressList}/></div>
+        }}><SelectAddressModal billID={billID} devliveryID={devliveryID} addressList={addressList} setModalOpen={clickModal} changeAddress={changeAddress} setAddressList={setAddressList}/></div>
         </div>
       }
       <Bill address={billAddress} setModalOpen={clickModal}></Bill>

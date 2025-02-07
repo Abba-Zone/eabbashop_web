@@ -23,6 +23,16 @@ export const registAddress = async (newAddress:registAddress):Promise<addressLis
     }
 }
 
+export const updateAddress = async (updateAddressInfo:modifyAddress):Promise<addressList> => {
+    try {
+        const response = await postData<addressList>('/address/update', updateAddressInfo);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching regist address:', error);
+        throw error;
+    }
+}
+
 export const updateComment = async (updateInfo:updateAddress):Promise<addressList> => {
     try {
         const response = await postData<addressList>('/address/update', updateInfo);
@@ -35,7 +45,6 @@ export const updateComment = async (updateInfo:updateAddress):Promise<addressLis
 export const updateBillAddress = async (updateInfo:{addressID:string, preAddressID:string}):Promise<addressList> => {
     try {
         const response = await postData<addressList>('/address/set/bill', updateInfo);
-        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error('Error fetching update address:', error);
@@ -48,6 +57,16 @@ export const updateMainAddress = async (updateInfo:{addressID:string, preAddress
         return response.data;
     } catch (error) {
         console.error('Error fetching update address:', error);
+        throw error;
+    }
+}
+
+export const deleteAddress = async (addressID:string):Promise<addressList> => {
+    try {
+        const response = await postData<addressList>('/address/delete', addressID);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching delete address:', error);
         throw error;
     }
 }

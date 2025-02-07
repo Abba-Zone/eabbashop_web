@@ -1,9 +1,11 @@
 import { useState } from "react";
 import ListCard from "./AddressCard"
 import DaumPostcodeEmbed from "react-daum-postcode";
-import { registAddress_s } from "../../../services/address";
+import { deleteAddress_s, registAddress_s } from "../../../services/address";
 interface Props{
     addressList:addressAllInfo[],
+    billID:string,
+    devliveryID:string,
     setAddressList(addressList:addressAllInfo[]):void;
     setModalOpen(type:number):void,
     changeAddress(type:string):void,
@@ -19,7 +21,7 @@ const themeObj = {
     postcodeTextColor: '#C05850',
     emphTextColor: '#222222',
 };
-const SelectAddressModal:React.FC<Props> = ({addressList, setAddressList, setModalOpen, changeAddress}) => {
+const SelectAddressModal:React.FC<Props> = ({addressList, billID, devliveryID, setAddressList, setModalOpen, changeAddress}) => {
     const [addFlag, setAddFlag] = useState<boolean>(false);
     const [Modal, setModal] = useState<boolean>(false);
     const [name, setName] = useState<string>("");
@@ -33,13 +35,13 @@ const SelectAddressModal:React.FC<Props> = ({addressList, setAddressList, setMod
     const rendering = (): JSX.Element[] => {
         const result = [];
         for(let i = 0 ; i < addressList.length; i++){
-          result.push(<ListCard changeAddress ={changeAddress} key={i} address={addressList[i]} ></ListCard>);
+          result.push(<ListCard  key={i} changeAddress ={changeAddress} setAddressList={setAddressList} billID={billID} devliveryID={devliveryID} address={addressList[i]} deleteAdd={clickDeletAddressButton}></ListCard>);
         }
         return result;
     }
     const registAddress = async () =>{
         const newAddress:registAddress ={
-            name : lastName + firstName,
+            name : name,
             lastName : lastName,
             firstName : firstName,
             country : "KOR",
@@ -71,6 +73,10 @@ const SelectAddressModal:React.FC<Props> = ({addressList, setAddressList, setMod
         const phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/;
         return phoneRegex.test(phone);
     };
+    const clickDeletAddressButton = async (ID:string) => {
+        const newList = await deleteAddress_s(ID);
+        setAddressList(newList.list)
+    }
     return (
         <div>
             <h2>주소 선택<button onClick={() => {setModalOpen(0)}}>취소</button></h2>
@@ -109,7 +115,7 @@ const SelectAddressModal:React.FC<Props> = ({addressList, setAddressList, setMod
                     {Modal&&<DaumPostcodeEmbed theme={themeObj} style={style} onComplete={onCompletePost}/>}
                     <button onClick={registAddress}>등록</button>
                 </div> 
-                : <button onClick={() => setAddFlag(true)}>+ 주소 추가</button>}
+                : addressList.length===5?<></>:<button onClick={() => setAddFlag(true)}>+ 주소 추가</button>}
             
         </div>
     );
