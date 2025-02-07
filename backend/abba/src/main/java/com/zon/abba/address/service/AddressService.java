@@ -114,7 +114,7 @@ public class AddressService {
                 .addressName(registerAddressRequest.getName())
                 .country(registerAddressRequest.getCountry())
                 .zipCode(registerAddressRequest.getZipCode())
-                .baseAddress(registerAddressRequest.getBassAddress())
+                .baseAddress(registerAddressRequest.getBaseAddress())
                 .detailAddress(registerAddressRequest.getDetailAddress())
                 .phone(registerAddressRequest.getPhone())
                 .firstName(registerAddressRequest.getFirstName())
