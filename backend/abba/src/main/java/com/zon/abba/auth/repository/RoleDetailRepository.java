@@ -18,6 +18,10 @@ public interface RoleDetailRepository extends JpaRepository<RoleDetail, String> 
     // 특정 RoleID로 RoleDetail 조회 (권한에 속한 메뉴 리스트)
     List<RoleDetail> findByRoleRoleId(String roleId);
 
+    // 특정 RoleID로 RoleDetail 조회 (권한에 속한 메뉴 리스트)
+    //List<RoleDetail> findByRoleID(String roleId);
+    List<RoleDetail> findByRole_RoleId(String roleId);  // ✅ 필드명 수정
+
     // 특정 authID로 RoleDetail 조회 (특정 메뉴에 속한 권한 리스트)
     List<RoleDetail> findByAuthAuthId(String authId);
 
