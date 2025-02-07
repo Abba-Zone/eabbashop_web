@@ -34,6 +34,10 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/**").permitAll()
                         .requestMatchers("/images/**").permitAll()
+                        .requestMatchers("/product/list/**").permitAll()
+                        .requestMatchers("/product/detail/**").permitAll()
+                        .requestMatchers("/board/list/**").permitAll()
+                        .requestMatchers("/board/detail/**").permitAll()
                         //.requestMatchers("/product/**").permitAll()
                         .anyRequest().authenticated() // 허용이 필요한 루트
                 )

@@ -40,7 +40,6 @@ public class ProductController {
     @GetMapping("/detail/{productId}")
     @Operation(summary = "상품 상세 조회", description = "특정 상품의 상세 정보를 조회합니다.")
     public ResponseEntity<Object> getProductDetail(@PathVariable String productId) {
-
         DetailProductResponse response = productService.getProductDetail(productId);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -50,7 +49,6 @@ public class ProductController {
     @PostMapping("/register")
     @Operation(description = "상품 등록/수정", summary = "상품 등록/수정")
     public ResponseEntity<Object> registerBoard(@RequestBody ProductRegisterRequest registerProductRequest){
-
         ResponseBody response = productService.registerProduct(registerProductRequest);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);

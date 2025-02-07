@@ -3,6 +3,7 @@ package com.zon.abba.account.repository;
 import com.zon.abba.account.entity.PointsHistory;
 import com.zon.abba.account.entity.Wallet;
 import com.zon.abba.account.mapping.HistoryList;
+import com.zon.abba.account.response.WalletListResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,9 +12,26 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.time.LocalDateTime;
 
 @Repository
 public interface PointsHistoryRepository extends JpaRepository<PointsHistory, String> {
+
+    @Query("SELECT new com.zon.abba.account.response.WalletListResponse( " +
+    "ph.historyId, ph.message, ph.type, ph.lp, ph.ak, ph.sp, c.codeName) " +
+    "FROM PointsHistory ph " +
+    "JOIN CommonCode c ON c.code = ph.type " +
+    "WHERE ph.memberId = :memberId and ph.createdDateTime between :startDate and :endDate " )
+    Page<WalletListResponse> getTotalLpByMemberId(@Param("memberId") String memberId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, Pageable pageable);
+
+    // 특정 회원의 거래 내역 조회 (JPQL)
+    @Query("select ph.historyId, ph.message, c.codeName, ph.lp, ph.ak, ph.sp " +
+            " from PointsHistory ph " +
+            " inner join CommonCode c on c.code = ph.type " +
+            " where ph.memberId = :memberId and ph.createdDateTime between :startDate and :endDate " +
+            "   order by ph.createdDateTime desc")
+    Page<WalletListResponse> getTotalLpByMemberId2(@Param("memberId") String memberId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, Pageable pageable);
+
     @Query(value = "SELECT ph.HistoryID AS historyId, " +
             "       CONCAT(m1.LastName, ' ', m1.FirstName) AS sender, " +
             "       CONCAT(m2.LastName, ' ', m2.FirstName) AS receiver, " +
