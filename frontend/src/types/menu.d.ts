@@ -5,5 +5,6 @@ interface menu {
 	items : {
         name: string,
         url:string,
+        viewYn:boolean
     }[],
 }
