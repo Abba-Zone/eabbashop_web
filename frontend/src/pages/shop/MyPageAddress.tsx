@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { getAddressList_s } from "../../services/address";
-import { AddressList } from "../../components";
+import { AddressList, RegistAddress } from "../../components";
 
 const MyPageAddress:React.FC = () => {
   const [addressList, setAddressList] = useState<addressAllInfo[]>([]);
@@ -27,6 +27,7 @@ const MyPageAddress:React.FC = () => {
     <div>
       <h1>내 주소록</h1>
       <AddressList addressList={addressList} billID={billID} mainID={mainID} setAddressList={setAddressList} setBillID={setBillID} setMainID={setMainID}></AddressList>
+      <RegistAddress setAddressList={setAddressList} nowListLength={addressList.length}></RegistAddress>
     </div>
   );
 }
