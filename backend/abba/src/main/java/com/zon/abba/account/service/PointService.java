@@ -45,26 +45,39 @@ public class PointService {
         Wallet receiverWallet = walletRepository.findOneByMemberId(receiverID)
                 .orElseThrow(() -> new NoDataException("없는 정보입니다."));
 
-        BigDecimal usePoint = LP;
+        BigDecimal useLP = BigDecimal.ZERO;
+        BigDecimal useAK = BigDecimal.ZERO;
+        BigDecimal useSP = BigDecimal.ZERO;
         // ak를 사용한 후 lp 사용
         if(isUseAK) {
             // ak가 부족한 경우
-            if(wallet.getAk().compareTo(usePoint) < 0) {
-                usePoint = usePoint.subtract(wallet.getAk());
+            if(wallet.getAk().compareTo(LP) < 0) {
+                useAK = useAK.subtract(wallet.getAk());
+//                useAK = usePoint.subtract(wallet.getAk());
                 wallet.setAk(BigDecimal.ZERO);
+                LP = LP.subtract(useAK);
                 // ak가 충분하면 ak만 쓰고 끝.
-            }else wallet.setAk(wallet.getAk().subtract(usePoint));
+            }else {
+                wallet.setAk(wallet.getAk().subtract(LP));
+                LP = BigDecimal.ZERO;
+            }
         }
-        if(wallet.getLp().compareTo(usePoint) < 0) throw new CommonException("234", "LP 금액이 부족합니다.");
-        else wallet.setLp(wallet.getLp().subtract(usePoint));
+        if(wallet.getLp().compareTo(LP) < 0) throw new CommonException("234", "LP 금액이 부족합니다.");
+        else {
+            wallet.setLp(wallet.getLp().subtract(LP));
+            useLP = useLP.subtract(LP);
+        }
 
         if(wallet.getSp().compareTo(SP) < 0) throw new CommonException("234", "SP 금액이 부족합니다.");
-        else wallet.setSp(wallet.getSp().subtract(SP));
+        else {
+            wallet.setSp(wallet.getSp().subtract(SP));
+            useSP = useSP.subtract(SP);
+        }
 
         // 거래 후 사용자들의 지갑에 추가
 //        receiverWallet.setLp(receiverWallet.getLp().add(LP));
 //        receiverWallet.setSp(receiverWallet.getSp().add(SP));
-        wallet.setAk(wallet.getAk().add(AK));
+//        wallet.setAk(wallet.getAk().add(AK));
         wallet.setModifiedId(wallet.getModifiedId());
 
         // 판매자가 받을 point holding 객체 생성
@@ -95,11 +108,11 @@ public class PointService {
 
         PointsHistory pointsHistory = PointsHistory.builder()
                 .memberId(wallet.getMemberId())
-                .lp(LP.negate())
+                .lp(useLP)
                 .lpBalance(wallet.getLp())
-                .ak(BigDecimal.ZERO)
+                .ak(useAK)
                 .akBalance(wallet.getAk())
-                .sp(SP.negate())
+                .sp(useSP)
                 .spBalance(wallet.getSp())
                 .type("A")
                 .orderDetailId(orderDetailID)
@@ -181,6 +194,8 @@ public class PointService {
 
         // 정산 리스트 상태 처리 완료로 변경
         list.forEach(ph -> {
+            if(ph.getStatus().equals("C")) return;
+
             ph.setStatus("B");
             ph.setModifiedId("admin");
 
@@ -217,5 +232,59 @@ public class PointService {
         });
 
         pointHoldingRepository.saveAll(list);
+    }
+
+    // 환불 시 수당 라인 holding 삭제
+    @Transactional
+    public void rollbackOrderParentTree(String orderDetailID){
+        // holding에 잡혀 있는 ak 라인 처리
+        List<PointHolding> list = pointHoldingRepository.findByOrderDetailId(orderDetailID);
+
+        list.forEach(ph -> {
+            ph.setStatus("C");
+            ph.setModifiedId("admin");
+        });
+
+        pointHoldingRepository.saveAll(list);
+    }
+
+    // 구매자에게 포인트를 돌려줄 때
+    @Transactional
+    public void rollbackOrderPoint(String orderDetailID, String sellerID){
+        // history에 잡혀 있는 sp, ak, lp 돌려주기.
+        logger.info("구매자에게 포인트를 돌려줍니다.");
+        // 구매 내역 정보 가져오기
+        PointsHistory pointsHistory = pointsHistoryRepository.findByOrderDetailId(orderDetailID)
+                .orElseThrow(() -> new NoDataException("해당 주문에는 없는 사용 내역입니다."));
+
+        Wallet wallet = walletRepository.findOneByMemberId(pointsHistory.getMemberId())
+                .orElseThrow(() -> new NoDataException("없는 지갑 정보입니다."));
+
+        BigDecimal LP = pointsHistory.getLp().negate();
+        BigDecimal AK = pointsHistory.getAk().negate();
+        BigDecimal SP = pointsHistory.getSp().negate();
+
+        wallet.setLp(wallet.getLp().add(LP));
+        wallet.setAk(wallet.getAk().add(AK));
+        wallet.setSp(wallet.getSp().add(SP));
+        wallet.setModifiedId(sellerID);
+
+        walletRepository.save(wallet);
+
+        PointsHistory ph = PointsHistory.builder()
+                .memberId(wallet.getMemberId())
+                .lp(LP)
+                .lpBalance(wallet.getLp())
+                .ak(AK)
+                .akBalance(wallet.getAk())
+                .sp(SP)
+                .spBalance(wallet.getSp())
+                .type("D")
+                .orderDetailId(orderDetailID)
+                .createdId(sellerID)
+                .modifiedId(sellerID)
+                .build();
+
+        pointsHistoryRepository.save(ph);
     }
 }

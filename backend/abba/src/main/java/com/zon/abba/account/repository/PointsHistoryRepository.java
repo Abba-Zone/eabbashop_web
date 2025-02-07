@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.time.LocalDateTime;
 
 @Repository
@@ -74,4 +75,6 @@ public interface PointsHistoryRepository extends JpaRepository<PointsHistory, St
                     ") ph",
             nativeQuery = true)
     Page<HistoryList> findHistoryByWalletId(@Param("memberId") String memberId, @Param("type") String type, Pageable pageable);
+
+    Optional<PointsHistory> findByOrderDetailId(String orderDetailId);
 }
