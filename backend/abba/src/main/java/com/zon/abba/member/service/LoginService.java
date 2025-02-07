@@ -1,5 +1,7 @@
 package com.zon.abba.member.service;
 
+import com.zon.abba.auth.entity.RoleDetail;
+import com.zon.abba.auth.repository.RoleDetailRepository;
 import com.zon.abba.common.exception.FailPasswordException;
 import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.exception.SignupException;
@@ -27,7 +29,9 @@ import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.LoginException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +44,7 @@ public class LoginService {
     private final JwtTokenProvider tokenProvider;
     private final RedisService redisService;
     private final MemberRepository memberRepository;
+    private final RoleDetailRepository roleDetailRepository;
 
     @Transactional
     public LoginResponse makeToken(MemberDto memberDto){
@@ -61,13 +66,22 @@ public class LoginService {
         // 레디스에 리프레쉬 토큰 저장 과정 추가 예정
         redisService.save(refreshToken, memberDto.getMemberId());
 
+
+        List<RoleDetail> roleDetails = roleDetailRepository.findByRole_RoleId(memberDto.getRoleId());
+        List<String> authList = roleDetails.stream()
+                .map(roleDetail -> roleDetail.getAuth().getAuthId())
+                .collect(Collectors.toList());
+
         return new LoginResponse(
                 accessToken,
                 refreshToken,
                 memberDto.getFirstName(),
                 memberDto.getLastName(),
                 memberDto.getRole(),
-                memberDto.getRoleId()
+                memberDto.getRoleId(),
+                authList.stream()
+                        .distinct()
+                        .collect(Collectors.toList())
         );
     }
 
