@@ -89,6 +89,7 @@ export const getProductDetail = async (productID:string):Promise<productDetail> 
         const response = await getData<productDetail>(
             '/product/detail/'+ productID
         );
+        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error('Error fetching product detail:', error);
