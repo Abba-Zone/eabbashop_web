@@ -23,4 +23,9 @@ public class MemberDetailResponse {
     private SellerDto seller;
     private WalletDto wallet;
     private List<AddressDto> addresses;
+
+    @JsonProperty("authID")
+    private String authID;
+    @JsonProperty("authIDList")
+    private List<String> authIDList ;
 }

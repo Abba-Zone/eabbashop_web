@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.HandlerMapping;
 
 
 public class AuthFilter implements Filter { // @Component 제거
@@ -41,6 +42,16 @@ public class AuthFilter implements Filter { // @Component 제거
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         String requestUri = httpRequest.getRequestURI();
+
+        // 1️⃣ 전체 요청 URI 가져오기
+        String fullUri = httpRequest.getRequestURI(); // 예: "/member/detail/883c259f-4084-440f-bc2d-cd226b3b8710"
+
+        // 2️⃣ Spring이 매칭한 패턴 가져오기 (PathVariable 포함된 엔드포인트)
+        String apiPattern = (String) httpRequest.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
+        // 예: "/member/detail/{memberID}"
+
+        // 3️⃣ PathVariable 제외한 API 엔드포인트만 가져오기 (예: "/member/detail")
+        String apiPath = apiPattern != null ? apiPattern.replaceAll("\\{[^}]+}", "") : fullUri;
 
         // 예외처리
         if (requestUri.startsWith("/api/member/oauth") ||
