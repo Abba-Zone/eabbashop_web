@@ -66,7 +66,8 @@ public class LoginService {
                 refreshToken,
                 memberDto.getFirstName(),
                 memberDto.getLastName(),
-                memberDto.getRole()
+                memberDto.getRole(),
+                memberDto.getRoleId()
         );
     }
 

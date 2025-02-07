@@ -20,4 +20,6 @@ public class LoginResponse {
     private String lastName;
     @JsonProperty("role")
     private String role;
+    @JsonProperty("authID")
+    private String authID;
 }

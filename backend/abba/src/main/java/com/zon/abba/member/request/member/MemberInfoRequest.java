@@ -17,4 +17,6 @@ public class MemberInfoRequest {
     private String lastName;
     @JsonProperty("phone")
     private String phone;
+    @JsonProperty("roleID")
+    private String roleId;
 }
