@@ -23,8 +23,8 @@ public class RegisterAddressRequest {
     private String country;
     @JsonProperty("zipCode")
     private String zipCode;
-    @JsonProperty("bassAddress")
-    private String bassAddress;
+    @JsonProperty("baseAddress")
+    private String baseAddress;
     @JsonProperty("detailAddress")
     private String detailAddress;
     @JsonProperty("comment")
