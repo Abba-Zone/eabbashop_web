@@ -14,7 +14,7 @@ const Post:React.FC = () => {
   const getBoardList = useCallback (async () => {
     try {
       if(changeType(type)<0)return;
-      const totalAndBoardList : shopBoardList = await getPostList_s(pageNo, pageSize, searchWord, changeType(type));
+      const totalAndBoardList : shopBoardList = await getPostList_s(pageNo - 1, pageSize, searchWord, changeType(type));
       setPosts(totalAndBoardList.list);
       setLastPage(totalAndBoardList.totalCount === 0? 1:Math.floor((totalAndBoardList.totalCount - 1)/pageSize) + 1);
     } catch (error) {
@@ -47,7 +47,7 @@ const Post:React.FC = () => {
   
   return (
     <div>
-      <h1>공지사항</h1>
+      <h1>게시글</h1>
       <SearchBoardWord setSearchWord={setSearchWord}/>
       <SelectBoardType/>
       <BoardList boards={posts}/>

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router-dom";
 import "./style.css"
+import NavBar from "./NavBar";
 
 
 const ShopHeader: React.FC = () => {
@@ -131,6 +132,7 @@ const ShopHeader: React.FC = () => {
           <option value="ja">{t("Common:Language.Japanese")}</option>
         </select>
       </div>
+      <NavBar></NavBar>
       <div className="shop-header-right">
         {isAdminRole(Cookies.get('role')) && (
           <div className="nav-item" onClick={handleGoAdmin}>
