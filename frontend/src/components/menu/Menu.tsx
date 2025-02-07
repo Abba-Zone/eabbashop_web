@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import MenuCard1 from "./MenuCard1";
 import MenuCard2 from "./MenuCard2";
 import { useTranslation } from "react-i18next";
+import { isInclude } from '../../handlers/AuthHandler';
 interface MenuProps {
     toggleMenu: () => void;
 }
 
 const Menu: React.FC<MenuProps> = ({ toggleMenu }) => {
     const { t , i18n } = useTranslation();
-
     const menuList: menu[] = [
         {
             icon: <>ㄷ</>, 
@@ -21,10 +21,10 @@ const Menu: React.FC<MenuProps> = ({ toggleMenu }) => {
             headerName: t("Menu02.Title"), 
             url: "", 
             items: [
-                { name: t("Menu02.SubMenu01"), url: "/admin/member" },
-                { name: t("Menu02.SubMenu02"), url: "/admin/customer-inquiry" },
-                { name: t("Menu02.SubMenu03"), url: "/admin/change-referral" },
-                { name: '등급업', url: "/admin/registadmin" }
+                { name: t("Menu02.SubMenu01"), url: "/admin/member", viewYn:isInclude(process.env.REACT_APP_USER_LIST || "")},
+                { name: t("Menu02.SubMenu02"), url: "/admin/customer-inquiry", viewYn:false},
+                { name: t("Menu02.SubMenu03"), url: "/admin/change-referral", viewYn:isInclude(process.env.REACT_APP_RECOMMENDER_CHANGE_REQUEST_LIST || "")},
+                { name: '등급업', url: "/admin/registadmin",  viewYn:false}
             ]
         },
         {
@@ -32,9 +32,9 @@ const Menu: React.FC<MenuProps> = ({ toggleMenu }) => {
             headerName: t("Menu03.Title"), 
             url: "", 
             items: [
-                { name: t("Menu03.SubMenu01"), url: "/admin/product" },
-                { name: t("Menu03.SubMenu02"), url: "/admin/category" },
-                { name: '상품 리뷰', url: "/admin/product/review" }
+                { name: t("Menu03.SubMenu01"), url: "/admin/product", viewYn:isInclude(process.env.REACT_APP_PRODUCT_VIEW || "")},
+                { name: t("Menu03.SubMenu02"), url: "/admin/category", viewYn:false},
+                { name: '상품 리뷰', url: "/admin/product/review", viewYn:false }
             ]
         },
         {
@@ -42,10 +42,10 @@ const Menu: React.FC<MenuProps> = ({ toggleMenu }) => {
             headerName: t("Menu04.Title"), 
             url: "", 
             items: [
-                { name: t("Menu04.SubMenu01"), url: "/admin/order" },
-                { name: t("Menu04.SubMenu02"), url: "/admin/invoice" },
-                { name: t("Menu04.SubMenu03"), url: "/admin/shipment" },
-                { name: t("Menu04.SubMenu04"), url: "/admin/regular-order" }
+                { name: t("Menu04.SubMenu01"), url: "/admin/order", viewYn:isInclude(process.env.REACT_APP_ADMIN_ORDER_VIEW || "") },
+                { name: t("Menu04.SubMenu02"), url: "/admin/invoice", viewYn:isInclude(process.env.REACT_APP_INVOICE_VIEW || "") },
+                { name: t("Menu04.SubMenu03"), url: "/admin/shipment", viewYn:isInclude(process.env.REACT_APP_SHIPMENT_VIEW || "") },
+                { name: t("Menu04.SubMenu04"), url: "/admin/regular-order", viewYn:false }
             ]
         },
         {
@@ -53,8 +53,8 @@ const Menu: React.FC<MenuProps> = ({ toggleMenu }) => {
             headerName: t("Menu05.Title"), 
             url: "", 
             items: [
-                { name: t("Menu05.SubMenu01"), url: "/admin/share-line" },
-                { name: t("Menu05.SubMenu02"), url: "/admin/share-distribution" }
+                { name: t("Menu05.SubMenu01"), url: "/admin/share-line", viewYn:false },
+                { name: t("Menu05.SubMenu02"), url: "/admin/share-distribution", viewYn:false }
             ]
         },
         {
@@ -62,10 +62,10 @@ const Menu: React.FC<MenuProps> = ({ toggleMenu }) => {
             headerName: t("Menu06.Title"), 
             url: "", 
             items: [
-                { name: t("Menu06.SubMenu01"), url: "/admin/charge-point" },
-                { name: t("Menu06.SubMenu02"), url: "/admin/change-point" },
-                { name: t("Menu06.SubMenu03"), url: "/admin/cancle-transfer" },
-                { name: t("Menu06.SubMenu04"), url: "/admin/refund-request" }
+                { name: t("Menu06.SubMenu01"), url: "/admin/charge-point", viewYn:false },
+                { name: t("Menu06.SubMenu02"), url: "/admin/change-point", viewYn:false },
+                { name: t("Menu06.SubMenu03"), url: "/admin/cancle-transfer", viewYn:false },
+                { name: t("Menu06.SubMenu04"), url: "/admin/refund-request", viewYn:isInclude(process.env.REACT_APP_RETURN_EXCHANGE_LIST || "") }
             ]
         },
         {
@@ -73,8 +73,8 @@ const Menu: React.FC<MenuProps> = ({ toggleMenu }) => {
             headerName: t("Menu07.Title"), 
             url: "", 
             items: [
-                { name: t("Menu07.SubMenu01"), url: "/admin/store-management" },
-                { name: t("Menu07.SubMenu02"), url: "/admin/store-support" }
+                { name: t("Menu07.SubMenu01"), url: "/admin/store-management", viewYn:isInclude(process.env.REACT_APP_STORE_LIST || "") },
+                { name: t("Menu07.SubMenu02"), url: "/admin/store-support", viewYn:isInclude(process.env.REACT_APP_STORE_LIST || "") }
             ]
         },
         {
@@ -82,9 +82,9 @@ const Menu: React.FC<MenuProps> = ({ toggleMenu }) => {
             headerName: t("Menu08.Title"), 
             url: "", 
             items: [
-                { name: t("Menu08.SubMenu01"), url: "/admin/board/notice" },
-                { name: t("Menu08.SubMenu02"), url: "/admin/board/letter" },
-                { name: t("Menu08.SubMenu03"), url: "/admin/board/donation" }
+                { name: t("Menu08.SubMenu01"), url: "/admin/board/notice", viewYn:isInclude(process.env.REACT_APP_BOARD_ADMIN_VIEW || "") },
+                { name: t("Menu08.SubMenu02"), url: "/admin/board/letter", viewYn:isInclude(process.env.REACT_APP_BOARD_ADMIN_VIEW || "") },
+                { name: t("Menu08.SubMenu03"), url: "/admin/board/donation", viewYn:isInclude(process.env.REACT_APP_BOARD_ADMIN_VIEW || "") }
             ]
         },
         {
