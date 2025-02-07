@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router-dom";
 import "./style.css"
 import NavBar from "./NavBar";
+import { dropAuthIDList } from "../../handlers/AuthHandler";
 
 
 const ShopHeader: React.FC = () => {
@@ -66,6 +67,7 @@ const ShopHeader: React.FC = () => {
     Cookies.remove('first-name');
     Cookies.remove('last-name');
     Cookies.remove('role');
+    dropAuthIDList();
     alert(t('Common:Alert.LogoutSuccess'));
     navigate('/');
     window.location.reload();
