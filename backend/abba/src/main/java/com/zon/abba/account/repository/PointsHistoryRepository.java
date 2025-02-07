@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface PointsHistoryRepository extends JpaRepository<PointsHistory, String> {
     @Query(value = "SELECT ph.HistoryID AS historyId, " +
@@ -55,4 +57,6 @@ public interface PointsHistoryRepository extends JpaRepository<PointsHistory, St
                     ") ph",
             nativeQuery = true)
     Page<HistoryList> findHistoryByWalletId(@Param("memberId") String memberId, @Param("type") String type, Pageable pageable);
+
+    Optional<PointsHistory> findByOrderDetailId(String orderDetailId);
 }

@@ -1,5 +1,6 @@
 package com.zon.abba.order.service;
 
+import com.zon.abba.account.service.PointService;
 import com.zon.abba.common.exception.CommonException;
 import com.zon.abba.common.exception.NoDataException;
 import com.zon.abba.common.exception.NoMemberException;
@@ -36,6 +37,7 @@ public class RefundService {
     private static final Logger logger = LoggerFactory.getLogger(RefundService.class);
     private final JwtTokenProvider jwtTokenProvider;
     private final RefundRepository refundRepository;
+    private final PointService pointService;
     private final OrderDetailRepository orderDetailRepository;
 
     @Transactional
@@ -91,6 +93,15 @@ public class RefundService {
         Refund refund = refundRepository.findById(request.getRefundID())
                 .orElseThrow(() -> new NoDataException("없는 신청입니다."));
 
+        if(request.getStatus() == 500){
+            // 반품/환불 승인 상태 시 완료를 누를 경우
+            if(refund.getStatus() == 300){
+                // 포인트 환불처리
+                logger.info("포인트 환불 과정을 진행합니다.");
+                pointService.rollbackOrderPoint(refund.getOrderDetailId(), refund.getSellerId());
+                pointService.rollbackOrderParentTree(refund.getOrderDetailId());
+            }
+        }
         refund.setStatus(request.getStatus());
         refund.setModifiedId(memberId);
 
@@ -98,6 +109,7 @@ public class RefundService {
 
         if(request.getStatus() == 300) {
             logger.info("반품/환불 신청을 승인합니다.");
+
         }
         else {
             logger.info("반품/환불 신청을 거절합니다.");
