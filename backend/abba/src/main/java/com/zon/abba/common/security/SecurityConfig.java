@@ -30,7 +30,13 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/member/**").permitAll() // 누구나 접근 가능한 루트
+                        //.requestMatchers("/member/**").permitAll() // 누구나 접근 가능한 루트
+                        .requestMatchers("/member/oauth/**").permitAll()
+                        .requestMatchers("/member/login").permitAll()
+                        .requestMatchers("/member/reissue").permitAll()
+                        .requestMatchers("/member/signup").permitAll()
+                        .requestMatchers("/member/recommend/auth").permitAll()
+                        .requestMatchers("/member/email/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/**").permitAll()
                         .requestMatchers("/images/**").permitAll()
