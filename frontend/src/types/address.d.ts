@@ -33,6 +33,19 @@ interface registAddress{
 	isMain: boolean,
 	isBill: boolean
 }
+
+interface modifyAddress{
+	addressID:string,
+	name: string,
+	firstName: string,
+	lastName: string,
+	phone: string,
+	country: string,
+	zipCode: string,
+	baseAddress: string,
+	detailAddress: string,
+	comment: string,
+}
 interface updateAddress extends Omit<registAddress, 'isMain'| 'isBill'>{
 	addressID: string,
 }

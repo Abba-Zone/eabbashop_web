@@ -27,9 +27,10 @@ const RegistAddress:React.FC<Props> = ({setAddressList, nowListLength}) => {
     const [zipCode, setZipCode] = useState<string>("");
     const [baseAddress, setBaseAddress] = useState<string>("");
     const [detailAddress, setDetailAddress] = useState<string>("");
+    const [comment, setComment] = useState<string>("없음");
     const registAddress = async () =>{
             const newAddress:registAddress ={
-                name : lastName + firstName,
+                name : name,
                 lastName : lastName,
                 firstName : firstName,
                 country : "KOR",
@@ -39,31 +40,48 @@ const RegistAddress:React.FC<Props> = ({setAddressList, nowListLength}) => {
                 isBill : nowListLength === 0,
                 isMain : nowListLength === 0,
                 phone : registPhone,
-                comment : "없음",
+                comment : comment,
             }
             const newAddressList:addressList = await registAddress_s(newAddress);
             setAddressList(newAddressList.list);
+            resetInfo();
             setAddFlag(false);
-        }
-        const onCompletePost = (data: { address: string; zonecode: string; }) => {
-            setBaseAddress(data.address);
-            setZipCode(data.zonecode);
-            setModal(false);
-        };
-        const inputPhone = (event: React.ChangeEvent<HTMLInputElement>) => {
-            const phoneNum = event.target.value;
-            setPhone(phoneNum)
-            if (validatePhone(phoneNum))
-                setRegistPhone(phoneNum)
-        }
-        const validatePhone = (phone: string) => {
-            const phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/;
-            return phoneRegex.test(phone);
-        };
+    }
+    const onCompletePost = (data: { address: string; zonecode: string; }) => {
+        setBaseAddress(data.address);
+        setZipCode(data.zonecode);
+        setModal(false);
+    };
+    const inputPhone = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const phoneNum = event.target.value;
+        setPhone(phoneNum)
+        if (validatePhone(phoneNum))
+            setRegistPhone(phoneNum)
+    }
+    const validatePhone = (phone: string) => {
+        const phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/;
+        return phoneRegex.test(phone);
+    };
+    const registCancel = () =>{
+        resetInfo();
+        setAddFlag(false);
+    }
+    const resetInfo = () => {
+        setName("");
+        setLastName("");
+        setFirstName("");
+        setPhone("");
+        setRegistPhone("");
+        setZipCode("");
+        setBaseAddress("");
+        setDetailAddress("");
+        setComment("없음");
+    }
     return (
         <div>
             {addFlag?
                 <div>
+                    <h3>새 주소 작성</h3>
                     <div>
                         <label htmlFor='name'>태그  : </label>
                         <input type='text' value={name} placeholder="ex)우리집, 회사..." onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{setName(event.target.value)}}/>
@@ -93,10 +111,14 @@ const RegistAddress:React.FC<Props> = ({setAddressList, nowListLength}) => {
                         <label htmlFor='baseAddress'>상세주소 : </label>
                         <input type='text' value={detailAddress} placeholder="상세주소" onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{setDetailAddress(event.target.value)}}/>
                     </div>
+                    <div>
+                        <label htmlFor='comment'>요청사항 : </label>
+                        <input type='text' value={comment} placeholder="상세주소" onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{setComment(event.target.value)}}/>
+                    </div>
                     {Modal&&<DaumPostcodeEmbed theme={themeObj} style={style} onComplete={onCompletePost}/>}
-                    <button onClick={registAddress}>등록</button>
+                    <button onClick={registAddress}>등록</button><button onClick={registCancel}>취소</button>
                 </div> 
-                : <button onClick={() => setAddFlag(true)}>+ 주소 추가</button>}
+                : nowListLength===5?<></>:<button onClick={() => setAddFlag(true)}>+ 주소 추가</button>}
         </div>
     );
 }
