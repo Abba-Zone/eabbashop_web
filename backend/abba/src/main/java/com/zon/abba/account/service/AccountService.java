@@ -20,8 +20,9 @@ public class AccountService {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final AccountsRepository accountsRepository;
+
     @Transactional
-    public ResponseBody registerAccount(AccountRequest request){
+    public Accounts createAccount(AccountRequest request){
         logger.info("계좌를 추가합니다.");
         String memberId = jwtTokenProvider.getCurrentMemberId()
                 .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
@@ -37,6 +38,15 @@ public class AccountService {
                 .build();
 
         accountsRepository.save(accounts);
+        return accounts;
+    }
+
+    @Transactional
+    public ResponseBody registerAccount(AccountRequest request){
+        logger.info("계좌 등록을 시도합니다.");
+
+        Accounts accounts = createAccount(request);
+
         return new ResponseBody("성공했습니다.");
     }
 }
