@@ -295,59 +295,6 @@ public class PointService {
         pointHoldingRepository.saveAll(list);
     }
 
-    @Transactional
-    public void settleRefund(String chargeRefundID){
-        logger.info("환급 내역에 대한 정산을 시작합니다.");
-        ChargeRefund chargeRefund = chargeRefundRepository.findById(chargeRefundID)
-                .orElseThrow(() -> new NoDataException("없는 충전/환급 내역입니다."));
-
-        // 송신자 : 고객 ( 환급하는 사람 )
-        // 수신자 : 협력사
-        Wallet senderWallet = walletRepository.findById(chargeRefund.getSenderWalletId())
-                .orElseThrow(() -> new NoDataException("없는 지갑 정보입니다."));
-
-        String senderId = senderWallet.getMemberId();
-
-        List<ParentTreeDto> list = findParentForZone(senderId);
-
-        // 정산 리스트 상태 처리 완료로 변경
-        list.forEach(pt -> {
-            // 추천인 지갑에 돈 넣기
-            Wallet wallet = walletRepository.findOneByMemberId(pt.getReferredId())
-                    .orElseThrow(() -> new NoDataException("없는 지갑입니다."));
-
-            // ak 계산?
-            wallet.setLp(wallet.getLp().add(ph.getLp()));
-            wallet.setAk(wallet.getAk().add(ph.getAk()));
-            wallet.setSp(wallet.getSp().add(ph.getSp()));
-            wallet.setModifiedId(ph.getMemberId());
-
-            // ak가 0이면 물건 판매
-            String type = "";
-            if(ph.getAk().compareTo(BigDecimal.ZERO) == 0) type ="A";
-            else type = "B";
-
-            PointsHistory pointsHistory = PointsHistory.builder()
-                    .memberId(wallet.getMemberId())
-                    .lp(ph.getLp())
-                    .lpBalance(wallet.getLp())
-                    .ak(ph.getAk())
-                    .akBalance(wallet.getAk())
-                    .sp(ph.getSp())
-                    .spBalance(wallet.getSp())
-                    .type(type)
-                    .orderDetailId(orderDetailID)
-                    .createdId(wallet.getMemberId())
-                    .modifiedId(wallet.getMemberId())
-                    .build();
-
-            walletRepository.save(wallet);
-            pointsHistoryRepository.save(pointsHistory);
-        });
-
-        pointHoldingRepository.saveAll(list);
-    }
-
     // 환불 시 수당 라인 holding 삭제
     @Transactional
     public void rollbackOrderParentTree(String orderDetailID){
