@@ -3,8 +3,10 @@ package com.zon.abba.account.service;
 import com.zon.abba.account.dto.AccountDto;
 import com.zon.abba.account.entity.Accounts;
 import com.zon.abba.account.repository.AccountsRepository;
-import com.zon.abba.account.repository.WalletRepository;
+import com.zon.abba.account.request.AccountIdRequest;
 import com.zon.abba.account.request.AccountRequest;
+import com.zon.abba.account.request.UpdateAccountRequest;
+import com.zon.abba.common.exception.NoDataException;
 import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
@@ -67,5 +69,39 @@ public class AccountService {
                 .toList();
 
         return new ResponseListBody((long) list.size(), list);
+    }
+
+    @Transactional
+    public ResponseBody updateAccount(UpdateAccountRequest request){
+        logger.info("계좌 정보를 수정합니다.");
+
+        Accounts accounts = accountsRepository.findById(request.getAccountID())
+                .orElseThrow(() -> new NoDataException("없는 계좌 정보입니다."));
+
+        accounts.setBank(request.getBank());
+        accounts.setAccountNumber(request.getAccountNumber());
+        accounts.setFirstName(request.getFirstName());
+        accounts.setLastName(request.getLastName());
+        accounts.setModifiedId(accounts.getMemberId());
+
+        accountsRepository.save(accounts);
+
+        return new ResponseBody("성공했습니다.");
+    }
+
+    @Transactional
+    public ResponseBody deleteAccount(AccountIdRequest request){
+        logger.info("계좌 정보를 삭제합니다.");
+
+        Accounts accounts = accountsRepository.findById(request.getAccountID())
+                .orElseThrow(() -> new NoDataException("없는 계좌 정보입니다."));
+
+        accounts.setDeleteYn("Y");
+        accounts.setActiveYn("N");
+        accounts.setModifiedId(accounts.getMemberId());
+
+        accountsRepository.save(accounts);
+
+        return new ResponseBody("성공했습니다.");
     }
 }

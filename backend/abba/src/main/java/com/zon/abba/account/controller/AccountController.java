@@ -1,6 +1,8 @@
 package com.zon.abba.account.controller;
 
+import com.zon.abba.account.request.AccountIdRequest;
 import com.zon.abba.account.request.AccountRequest;
+import com.zon.abba.account.request.UpdateAccountRequest;
 import com.zon.abba.account.service.AccountService;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
@@ -34,6 +36,24 @@ public class AccountController {
     public ResponseEntity<Object> accountList(){
 
         ResponseListBody response = accountService.accountList();
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/update")
+    @Operation(summary = "계좌 수정", description = "계좌를 정보를 수정한다.")
+    public ResponseEntity<Object> updateAccount(@RequestBody UpdateAccountRequest request){
+
+        ResponseBody response = accountService.updateAccount(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/delete")
+    @Operation(summary = "계좌 삭제", description = "계좌를 정보를 삭제한다.")
+    public ResponseEntity<Object> deleteAccount(@RequestBody AccountIdRequest request){
+
+        ResponseBody response = accountService.deleteAccount(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

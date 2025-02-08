@@ -11,10 +11,11 @@ import java.util.List;
 @Repository
 public interface AccountsRepository extends JpaRepository<Accounts, String> {
 
-    @Query("SELECT a FROM Accounts a " +
-            "WHERE a.deleteYN = 'N' " +
-            "AND a.activeYN = 'Y' " +
-            "AND a.memberId = :memberId " +
-            "ORDER BY a.createdDateTime DESC")
+    @Query(value = "SELECT * FROM Accounts a " +
+            "WHERE a.DeleteYN = 'N' " +
+            "AND a.ActiveYN = 'Y' " +
+            "AND a.MemberID = :memberId " +
+            "ORDER BY a.CreatedDateTime DESC",
+    nativeQuery = true)
     List<Accounts> findByMemberIdAndActive(@Param("memberId") String memberId);
 }
