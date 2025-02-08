@@ -1,8 +1,10 @@
 package com.zon.abba.account.service;
 
+import com.zon.abba.account.entity.ChargeRefund;
 import com.zon.abba.account.entity.PointHolding;
 import com.zon.abba.account.entity.PointsHistory;
 import com.zon.abba.account.entity.Wallet;
+import com.zon.abba.account.repository.ChargeRefundRepository;
 import com.zon.abba.account.repository.PointHoldingRepository;
 import com.zon.abba.account.repository.PointsHistoryRepository;
 import com.zon.abba.account.repository.WalletRepository;
@@ -37,6 +39,7 @@ public class PointService {
     private final CommonCodeRepository commonCodeRepository;
     private final PointsHistoryRepository pointsHistoryRepository;
     private final PointHoldingRepository pointHoldingRepository;
+    private final ChargeRefundRepository chargeRefundRepository;
 
     @Transactional
     public void makePointHistory(Wallet wallet, String receiverID, String orderDetailID,
@@ -131,9 +134,9 @@ public class PointService {
     }
     // 1. 존 판매 라인 찾기
     @Transactional
-    private List<ParentTreeDto> findParentForZone(String referId){
+    private List<ParentTreeDto> findParentForZone(String memberId){
         logger.info("상위 추천인과 역할을 탐색합니다.");
-        List<ParentTree> list = recommendedMemberRepository.findParentTreeWithReferredRoleForZone(referId);
+        List<ParentTree> list = recommendedMemberRepository.findParentTreeWithReferredRoleForZone(memberId);
 
         return list.stream().map(ParentTreeDto::new).toList();
     }
@@ -188,6 +191,65 @@ public class PointService {
     }
 
     @Transactional
+    private void distributeDirectAK(List<ParentTreeDto> list, BigDecimal AK, String chargeRefundId, String memberId){
+        logger.info("수당을 직접 분배합니다.");
+        BigDecimal usedAK = BigDecimal.ZERO;
+
+        List<CommonCode> commonCodes = commonCodeRepository.findActiveCommonCodesByCodeGroup("ZoneAccount");
+
+        Map<String, BigDecimal> points = commonCodes.stream()
+                .collect(Collectors.toMap(
+                        CommonCode::getCode,
+                        code -> new BigDecimal(code.getCodeValue()).divide(BigDecimal.valueOf(100))  // 👉 비율 변환 (소수점)
+                                .multiply(AK)  // 👉 AK 값 곱하기
+                ));
+
+        List<PointsHistory> pointsHistories = new ArrayList<>();
+
+        for (ParentTreeDto parent : list){
+            String role = parent.getReferredRole();
+            BigDecimal point = points.get(role);
+
+            if (point != null && point.compareTo(BigDecimal.ZERO) != 0) {
+                // point가 0이 아닐 때 실행
+                // 받을 ak
+                BigDecimal akPoint = point.subtract(usedAK);
+                // 추천인의 지갑 가져오기
+                Wallet wallet = walletRepository.findOneByMemberId(parent.getReferredId())
+                        .orElseThrow(() -> new NoDataException("없는 지갑 정보입니다."));
+
+                wallet.setAk(wallet.getAk().add(akPoint));
+
+                PointsHistory pointsHistory = PointsHistory.builder()
+                        .memberId(parent.getReferredId())
+                        .lp(BigDecimal.ZERO)
+                        .lpBalance(wallet.getLp())
+                        .ak(akPoint)
+                        .akBalance(wallet.getAk())
+                        .sp(BigDecimal.ZERO)
+                        .spBalance(wallet.getSp())
+                        .type("B")
+                        .chargeRefundId(chargeRefundId)
+                        .createdId(memberId)
+                        .modifiedId(memberId)
+                        .build();
+
+
+                pointsHistories.add(pointsHistory);
+                usedAK = usedAK.add(akPoint);
+                points.put(role, BigDecimal.ZERO);
+                walletRepository.save(wallet);
+            }
+
+            // 어짜피 마지막일 태니 종료
+            if(role.equals("E")) break;
+        }
+
+        // 정산들 저장
+        pointsHistoryRepository.saveAll(pointsHistories);
+    }
+
+    @Transactional
     public void settleOrder(String orderDetailID){
         logger.info("구매확정된 주문 내역에 대한 정산을 시작합니다.");
         List<PointHolding> list = pointHoldingRepository.findByOrderDetailId(orderDetailID);
@@ -200,9 +262,61 @@ public class PointService {
             ph.setModifiedId("admin");
 
             // 지갑에 돈 넣기
-            logger.info(ph.getMemberId());
             Wallet wallet = walletRepository.findOneByMemberId(ph.getMemberId())
                     .orElseThrow(() -> new NoDataException("없는 지갑입니다."));
+            wallet.setLp(wallet.getLp().add(ph.getLp()));
+            wallet.setAk(wallet.getAk().add(ph.getAk()));
+            wallet.setSp(wallet.getSp().add(ph.getSp()));
+            wallet.setModifiedId(ph.getMemberId());
+
+            // ak가 0이면 물건 판매
+            String type = "";
+            if(ph.getAk().compareTo(BigDecimal.ZERO) == 0) type ="A";
+            else type = "B";
+
+            PointsHistory pointsHistory = PointsHistory.builder()
+                    .memberId(wallet.getMemberId())
+                    .lp(ph.getLp())
+                    .lpBalance(wallet.getLp())
+                    .ak(ph.getAk())
+                    .akBalance(wallet.getAk())
+                    .sp(ph.getSp())
+                    .spBalance(wallet.getSp())
+                    .type(type)
+                    .orderDetailId(orderDetailID)
+                    .createdId(wallet.getMemberId())
+                    .modifiedId(wallet.getMemberId())
+                    .build();
+
+            walletRepository.save(wallet);
+            pointsHistoryRepository.save(pointsHistory);
+        });
+
+        pointHoldingRepository.saveAll(list);
+    }
+
+    @Transactional
+    public void settleRefund(String chargeRefundID){
+        logger.info("환급 내역에 대한 정산을 시작합니다.");
+        ChargeRefund chargeRefund = chargeRefundRepository.findById(chargeRefundID)
+                .orElseThrow(() -> new NoDataException("없는 충전/환급 내역입니다."));
+
+        // 송신자 : 고객 ( 환급하는 사람 )
+        // 수신자 : 협력사
+        Wallet senderWallet = walletRepository.findById(chargeRefund.getSenderWalletId())
+                .orElseThrow(() -> new NoDataException("없는 지갑 정보입니다."));
+
+        String senderId = senderWallet.getMemberId();
+
+        List<ParentTreeDto> list = findParentForZone(senderId);
+
+        // 정산 리스트 상태 처리 완료로 변경
+        list.forEach(pt -> {
+            // 추천인 지갑에 돈 넣기
+            Wallet wallet = walletRepository.findOneByMemberId(pt.getReferredId())
+                    .orElseThrow(() -> new NoDataException("없는 지갑입니다."));
+
+            // ak 계산?
             wallet.setLp(wallet.getLp().add(ph.getLp()));
             wallet.setAk(wallet.getAk().add(ph.getAk()));
             wallet.setSp(wallet.getSp().add(ph.getSp()));
