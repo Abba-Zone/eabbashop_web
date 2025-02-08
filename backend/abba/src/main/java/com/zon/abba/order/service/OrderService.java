@@ -1,14 +1,8 @@
 package com.zon.abba.order.service;
 
-import com.zon.abba.account.dto.WalletDto;
-import com.zon.abba.account.entity.PointHolding;
-import com.zon.abba.account.entity.PointsHistory;
 import com.zon.abba.account.entity.Wallet;
-import com.zon.abba.account.repository.PointHoldingRepository;
-import com.zon.abba.account.repository.PointsHistoryRepository;
 import com.zon.abba.account.repository.WalletRepository;
-import com.zon.abba.account.service.PointService;
-import com.zon.abba.account.service.WalletService;
+import com.zon.abba.point.service.PointService;
 import com.zon.abba.address.entity.Address;
 import com.zon.abba.address.repository.AddressRepository;
 import com.zon.abba.cart.entity.Cart;

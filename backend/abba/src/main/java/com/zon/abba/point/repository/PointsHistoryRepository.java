@@ -1,8 +1,7 @@
-package com.zon.abba.account.repository;
+package com.zon.abba.point.repository;
 
-import com.zon.abba.account.entity.PointsHistory;
-import com.zon.abba.account.entity.Wallet;
-import com.zon.abba.account.mapping.HistoryList;
+import com.zon.abba.point.entity.PointsHistory;
+import com.zon.abba.point.mapping.HistoryList;
 import com.zon.abba.account.response.WalletListResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

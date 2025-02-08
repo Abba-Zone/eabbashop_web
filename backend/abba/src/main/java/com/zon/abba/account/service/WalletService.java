@@ -1,19 +1,14 @@
 package com.zon.abba.account.service;
 
 import com.zon.abba.account.dto.WalletDto;
-import com.zon.abba.account.entity.ABZPointsHistory;
-import com.zon.abba.account.entity.PointsHistory;
+import com.zon.abba.point.entity.ABZPointsHistory;
 import com.zon.abba.account.entity.Wallet;
-import com.zon.abba.account.mapping.HistoryList;
-import com.zon.abba.account.repository.ABZPointsHistoryRepository;
-import com.zon.abba.account.repository.PointsHistoryRepository;
+import com.zon.abba.point.repository.ABZPointsHistoryRepository;
+import com.zon.abba.point.repository.PointsHistoryRepository;
 import com.zon.abba.account.repository.WalletRepository;
 import com.zon.abba.account.request.WalletListRequest;
 import com.zon.abba.account.response.WalletListResponse;
 import com.zon.abba.account.response.WalletResponse;
-import com.zon.abba.address.service.AddressService;
-import com.zon.abba.board.dto.BoardDto;
-import com.zon.abba.board.mapping.BoardList;
 import com.zon.abba.common.DateUtil;
 import com.zon.abba.common.exception.NoDataException;
 import com.zon.abba.common.exception.NoMemberException;
@@ -23,7 +18,6 @@ import com.zon.abba.member.entity.Member;
 import com.zon.abba.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +28,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

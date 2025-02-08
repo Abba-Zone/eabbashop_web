@@ -1,6 +1,6 @@
 package com.zon.abba.order.service;
 
-import com.zon.abba.account.service.PointService;
+import com.zon.abba.point.service.PointService;
 import com.zon.abba.common.exception.CommonException;
 import com.zon.abba.common.exception.NoDataException;
 import com.zon.abba.common.exception.NoMemberException;

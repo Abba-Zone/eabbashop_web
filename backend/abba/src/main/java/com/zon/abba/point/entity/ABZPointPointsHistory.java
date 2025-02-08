@@ -1,22 +1,16 @@
-package com.zon.abba.account.entity;
+package com.zon.abba.point.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "ABZPointsHistory")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class ABZPointsHistory {
+@Table(name = "ABZPointPointsHistory")
+public class ABZPointPointsHistory {
 
     @Id
     @Column(name = "HistoryID", length = 36, nullable = false)
@@ -31,14 +25,14 @@ public class ABZPointsHistory {
     @Column(name = "Message", length = 255)
     private String message;
 
-    @Column(name = "ABZ", precision = 10, scale = 2, nullable = false)
-    private BigDecimal abz;
+    @Column(name = "ABZPoint", precision = 10, scale = 2, nullable = false)
+    private BigDecimal abzPoint;
 
-    @Column(name = "ReceiverABZBalance", precision = 10, scale = 2, nullable = false)
-    private BigDecimal receiverAbzBalance;
+    @Column(name = "ReceiverABZPointBalance", precision = 10, scale = 2, nullable = false)
+    private BigDecimal receiverAbzPointBalance;
 
-    @Column(name = "SenderABZBalance", precision = 10, scale = 2, nullable = false)
-    private BigDecimal senderAbzBalance;
+    @Column(name = "SenderABZPointBalance", precision = 10, scale = 2, nullable = false)
+    private BigDecimal senderAbzPointBalance;
 
     @Column(name = "Status", length = 1, nullable = false, columnDefinition = "CHAR(1) DEFAULT 'p'")
     private String status;
@@ -46,10 +40,10 @@ public class ABZPointsHistory {
     @Column(name = "Type", length = 1, nullable = false)
     private String type;
 
-    @Column(name = "CreatedID", length = 36)
+    @Column(name = "CreatedID", length = 36, nullable = false)
     private String createdId;
 
-    @Column(name = "ModifiedID", length = 36)
+    @Column(name = "ModifiedID", length = 36, nullable = false)
     private String modifiedId;
 
     @CreationTimestamp

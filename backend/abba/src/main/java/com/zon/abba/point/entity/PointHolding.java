@@ -1,31 +1,30 @@
-package com.zon.abba.account.entity;
+package com.zon.abba.point.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "ChargeRefund")
-@Setter
+@Table(name = "PointHolding")
+@Data
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ChargeRefund {
+public class PointHolding {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "ChargeRefundID", nullable = false, updatable = false, length = 36)
-    private String chargeRefundId;
+    @Column(name = "HoldingID", nullable = false, updatable = false, length = 36)
+    private String holdingId;
 
-    @Column(name = "SenderWalletID", length = 36)
-    private String senderWalletId;
+    @Column(name = "MemberID", length = 36, nullable = false)
+    private String memberId;
 
-    @Column(name = "ReceiverWalletID", length = 36)
-    private String receiverWalletId;
+    @Column(name = "OrderDetailID", length = 36)
+    private String orderDetailId;
 
     @Column(name = "LP", precision = 10, scale = 2, nullable = false)
     private BigDecimal lp;
@@ -36,28 +35,26 @@ public class ChargeRefund {
     @Column(name = "SP", precision = 10, scale = 2, nullable = false)
     private BigDecimal sp;
 
-    @Column(name = "ABZPoint", precision = 10, scale = 2, nullable = false)
-    private BigDecimal abzPoint;
+    @Column(name = "Type", length = 1, nullable = false)
+    private String type;
 
     @Column(name = "Status", length = 1, nullable = false)
     private String status;
 
-    @Column(name = "CreatedID", length = 36, nullable = false)
+    @Column(name = "CreatedID", length = 36)
     private String createdId;
 
     @Column(name = "ModifiedID", length = 36)
     private String modifiedId;
 
-    @CreationTimestamp
-    @Column(name = "CreatedDateTime", updatable = false)
+    @Column(name = "CreatedDateTime", nullable = false, updatable = false)
     private LocalDateTime createdDateTime;
 
-    @UpdateTimestamp
     @Column(name = "ModifiedDateTime")
     private LocalDateTime modifiedDateTime;
 
     @Column(name = "DeleteYN", length = 1, nullable = false)
-    private String deleteYn = "N";
+    private String deleteYn;
 
     @PrePersist
     public void prePersist() {

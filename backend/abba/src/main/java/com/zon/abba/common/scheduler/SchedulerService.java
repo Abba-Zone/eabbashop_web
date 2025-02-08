@@ -1,6 +1,6 @@
 package com.zon.abba.common.scheduler;
 
-import com.zon.abba.account.service.PointService;
+import com.zon.abba.point.service.PointService;
 import com.zon.abba.order.repository.OrderDetailRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

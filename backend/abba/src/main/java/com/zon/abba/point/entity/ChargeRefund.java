@@ -1,31 +1,35 @@
-package com.zon.abba.account.entity;
+package com.zon.abba.point.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
-@Table(name = "PointHolding")
+@Table(name = "ChargeRefund")
 @Data
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PointHolding {
+public class ChargeRefund {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "HoldingID", nullable = false, updatable = false, length = 36)
-    private String holdingId;
+    @Column(name = "ChargeRefundID", nullable = false, updatable = false, length = 36)
+    private String chargeRefundId;
 
-    @Column(name = "MemberID", length = 36, nullable = false)
-    private String memberId;
+    @Column(name = "SenderWalletID", length = 36)
+    private String senderWalletId;
 
-    @Column(name = "OrderDetailID", length = 36)
-    private String orderDetailId;
+    @Column(name = "ReceiverWalletID", length = 36)
+    private String receiverWalletId;
+
+    @Column(name = "AccountID", length = 36, nullable = false)
+    private String accountId;
 
     @Column(name = "LP", precision = 10, scale = 2, nullable = false)
     private BigDecimal lp;
@@ -36,21 +40,23 @@ public class PointHolding {
     @Column(name = "SP", precision = 10, scale = 2, nullable = false)
     private BigDecimal sp;
 
-    @Column(name = "Type", length = 1, nullable = false)
-    private String type;
+    @Column(name = "ABZPoint", precision = 10, scale = 2, nullable = false)
+    private BigDecimal abzPoint;
 
     @Column(name = "Status", length = 1, nullable = false)
     private String status;
 
-    @Column(name = "CreatedID", length = 36)
+    @Column(name = "CreatedID", length = 36, nullable = false)
     private String createdId;
 
     @Column(name = "ModifiedID", length = 36)
     private String modifiedId;
 
-    @Column(name = "CreatedDateTime", nullable = false, updatable = false)
+    @CreationTimestamp
+    @Column(name = "CreatedDateTime", updatable = false)
     private LocalDateTime createdDateTime;
 
+    @UpdateTimestamp
     @Column(name = "ModifiedDateTime")
     private LocalDateTime modifiedDateTime;
 
