@@ -6,15 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class HistoryListRequest {
-    @JsonProperty("pageNo")
-    private Integer pageNo;
-    @JsonProperty("pageSize")
-    private Integer pageSize;
-    @JsonProperty("type")
-    private String type;
+public class AccountIdRequest {
+    @JsonProperty("accountID")
+    private String accountID;
 }

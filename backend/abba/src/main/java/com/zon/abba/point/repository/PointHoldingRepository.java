@@ -1,6 +1,6 @@
-package com.zon.abba.account.repository;
+package com.zon.abba.point.repository;
 
-import com.zon.abba.account.entity.PointHolding;
+import com.zon.abba.point.entity.PointHolding;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

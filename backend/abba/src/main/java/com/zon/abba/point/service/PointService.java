@@ -1,12 +1,11 @@
-package com.zon.abba.account.service;
+package com.zon.abba.point.service;
 
-import com.zon.abba.account.entity.ChargeRefund;
-import com.zon.abba.account.entity.PointHolding;
-import com.zon.abba.account.entity.PointsHistory;
+import com.zon.abba.point.entity.PointHolding;
+import com.zon.abba.point.entity.PointsHistory;
 import com.zon.abba.account.entity.Wallet;
-import com.zon.abba.account.repository.ChargeRefundRepository;
-import com.zon.abba.account.repository.PointHoldingRepository;
-import com.zon.abba.account.repository.PointsHistoryRepository;
+import com.zon.abba.point.repository.ChargeRefundRepository;
+import com.zon.abba.point.repository.PointHoldingRepository;
+import com.zon.abba.point.repository.PointsHistoryRepository;
 import com.zon.abba.account.repository.WalletRepository;
 import com.zon.abba.common.exception.CommonException;
 import com.zon.abba.common.exception.NoDataException;
@@ -25,7 +24,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,7 +37,6 @@ public class PointService {
     private final CommonCodeRepository commonCodeRepository;
     private final PointsHistoryRepository pointsHistoryRepository;
     private final PointHoldingRepository pointHoldingRepository;
-    private final ChargeRefundRepository chargeRefundRepository;
 
     @Transactional
     public void makePointHistory(Wallet wallet, String receiverID, String orderDetailID,

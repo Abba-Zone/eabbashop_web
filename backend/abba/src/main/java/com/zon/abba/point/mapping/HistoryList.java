@@ -1,4 +1,4 @@
-package com.zon.abba.account.mapping;
+package com.zon.abba.point.mapping;
 
 public interface HistoryList {
     String getHistoryId();

@@ -1,6 +1,6 @@
-package com.zon.abba.account.repository;
+package com.zon.abba.point.repository;
 
-import com.zon.abba.account.entity.ABZPointsHistory;
+import com.zon.abba.point.entity.ABZPointsHistory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ABZPointsHistoryRepository extends JpaRepository<ABZPointsHistory, String> {

@@ -1,4 +1,4 @@
-package com.zon.abba.account.entity;
+package com.zon.abba.point.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "ChargeRefund")
+@Data
 @Setter
 @Getter
 @AllArgsConstructor
@@ -27,17 +28,17 @@ public class ChargeRefund {
     @Column(name = "ReceiverWalletID", length = 36)
     private String receiverWalletId;
 
-    @Column(name = "LP", precision = 10, scale = 2, nullable = false)
-    private BigDecimal lp;
+    @Column(name = "AccountID", length = 36, nullable = false)
+    private String accountId;
 
-    @Column(name = "AK", precision = 10, scale = 2, nullable = false)
-    private BigDecimal ak;
+    @Column(name = "Amount", precision = 10, scale = 2, nullable = false)
+    private BigDecimal amount;
 
-    @Column(name = "SP", precision = 10, scale = 2, nullable = false)
-    private BigDecimal sp;
+    @Column(name = "Point", precision = 10, scale = 2, nullable = false)
+    private BigDecimal point;
 
-    @Column(name = "ABZPoint", precision = 10, scale = 2, nullable = false)
-    private BigDecimal abzPoint;
+    @Column(name = "Type", length = 10, nullable = false)
+    private String type;
 
     @Column(name = "Status", length = 1, nullable = false)
     private String status;
@@ -57,7 +58,7 @@ public class ChargeRefund {
     private LocalDateTime modifiedDateTime;
 
     @Column(name = "DeleteYN", length = 1, nullable = false)
-    private String deleteYn = "N";
+    private String deleteYn;
 
     @PrePersist
     public void prePersist() {
