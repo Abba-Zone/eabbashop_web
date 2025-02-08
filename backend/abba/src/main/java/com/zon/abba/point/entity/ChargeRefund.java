@@ -31,17 +31,14 @@ public class ChargeRefund {
     @Column(name = "AccountID", length = 36, nullable = false)
     private String accountId;
 
-    @Column(name = "LP", precision = 10, scale = 2, nullable = false)
-    private BigDecimal lp;
+    @Column(name = "Amount", precision = 10, scale = 2, nullable = false)
+    private BigDecimal amount;
 
-    @Column(name = "AK", precision = 10, scale = 2, nullable = false)
-    private BigDecimal ak;
+    @Column(name = "Point", precision = 10, scale = 2, nullable = false)
+    private BigDecimal point;
 
-    @Column(name = "SP", precision = 10, scale = 2, nullable = false)
-    private BigDecimal sp;
-
-    @Column(name = "ABZPoint", precision = 10, scale = 2, nullable = false)
-    private BigDecimal abzPoint;
+    @Column(name = "Type", length = 10, nullable = false)
+    private String type;
 
     @Column(name = "Status", length = 1, nullable = false)
     private String status;

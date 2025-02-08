@@ -37,7 +37,6 @@ public class PointService {
     private final CommonCodeRepository commonCodeRepository;
     private final PointsHistoryRepository pointsHistoryRepository;
     private final PointHoldingRepository pointHoldingRepository;
-    private final ChargeRefundRepository chargeRefundRepository;
 
     @Transactional
     public void makePointHistory(Wallet wallet, String receiverID, String orderDetailID,

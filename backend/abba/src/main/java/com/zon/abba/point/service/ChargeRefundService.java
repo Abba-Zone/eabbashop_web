@@ -1,6 +1,9 @@
 package com.zon.abba.point.service;
 
 import com.zon.abba.account.entity.Accounts;
+import com.zon.abba.common.request.RequestList;
+import com.zon.abba.common.response.ResponseListBody;
+import com.zon.abba.point.dto.ChargeList;
 import com.zon.abba.point.entity.ChargeRefund;
 import com.zon.abba.account.entity.Wallet;
 import com.zon.abba.point.repository.ChargeRefundRepository;
@@ -17,9 +20,14 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,37 +39,6 @@ public class ChargeRefundService {
     private final WalletRepository walletRepository;
     private final AccountService accountService;
 
-    private void setPointByType(ChargeRefund chargeRefund, String pointType, BigDecimal price){
-
-        switch (pointType) {
-            case "LP" -> {
-                chargeRefund.setLp(price);
-                chargeRefund.setAk(BigDecimal.ZERO);
-                chargeRefund.setSp(BigDecimal.ZERO);
-                chargeRefund.setAbzPoint(BigDecimal.ZERO);
-            }
-            case "AK" -> {
-                chargeRefund.setLp(BigDecimal.ZERO);
-                chargeRefund.setAk(price);
-                chargeRefund.setSp(BigDecimal.ZERO);
-                chargeRefund.setAbzPoint(BigDecimal.ZERO);
-            }
-            case "SP" -> {
-                chargeRefund.setLp(BigDecimal.ZERO);
-                chargeRefund.setAk(BigDecimal.ZERO);
-                chargeRefund.setSp(price);
-                chargeRefund.setAbzPoint(BigDecimal.ZERO);
-            }
-            case "ABZPoint" -> {
-                chargeRefund.setLp(BigDecimal.ZERO);
-                chargeRefund.setAk(BigDecimal.ZERO);
-                chargeRefund.setSp(BigDecimal.ZERO);
-                chargeRefund.setAbzPoint(price);
-            }
-        }
-
-    }
-
     @Transactional
     public ResponseBody chargePoint(ChargeRequest request){
         logger.info("포인트 충전을 신청합니다.");
@@ -71,9 +48,14 @@ public class ChargeRefundService {
         Wallet wallet = walletRepository.findOneByMemberId(memberId)
                 .orElseThrow(() -> new NoDataException("없는 지갑 정보입니다."));
 
+        // 추후 환율 변동기 가져오면 적용
+        BigDecimal point = BigDecimal.valueOf(request.getAmount());
 
         ChargeRefund chargeRefund = ChargeRefund.builder()
                 .accountId(request.getAccountID())
+                .amount(BigDecimal.valueOf(request.getAmount()))
+                .point(point)
+                .type(request.getPointType())
                 .status(request.getStatus())
                 .createdId(memberId)
                 .modifiedId(memberId)
@@ -84,10 +66,6 @@ public class ChargeRefundService {
         }else if(request.getStatus().equals("B")){
             chargeRefund.setSenderWalletId(wallet.getWalletId());
         }
-        // 추후 환율 변동기 가져오면 적용
-        BigDecimal price = BigDecimal.valueOf(request.getAmount());
-
-        setPointByType(chargeRefund, request.getPointType(), price);
 
         chargeRefundRepository.save(chargeRefund);
 
@@ -113,21 +91,53 @@ public class ChargeRefundService {
 
         Accounts accounts = accountService.createAccount(accountRequest);
 
+        // 추후 환율 변동기 가져오면 적용
+        BigDecimal point = BigDecimal.valueOf(request.getAmount());
+
         ChargeRefund chargeRefund = ChargeRefund.builder()
                 .senderWalletId(wallet.getWalletId())
                 .accountId(accounts.getAccountId())
+                .amount(BigDecimal.valueOf(request.getAmount()))
+                .point(point)
                 .status("B")
                 .createdId(memberId)
                 .modifiedId(memberId)
                 .build();
 
-        // 추후 환율 변동기 가져오면 적용
-        BigDecimal price = BigDecimal.valueOf(request.getAmount());
-
-        setPointByType(chargeRefund, request.getPointType(), price);
-
         chargeRefundRepository.save(chargeRefund);
 
         return new ResponseBody("성공했습니다.");
+    }
+
+    @Transactional
+    public ResponseListBody requestedChargeList(RequestList request){
+        logger.info("포인트 충전 신청 내역을 조회합니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        Wallet wallet = walletRepository.findOneByMemberId(memberId)
+                .orElseThrow(() -> new NoDataException("없는 지갑 정보입니다."));
+
+        Pageable pageable = PageRequest.of(
+                request.getPageNo(),
+                request.getPageSize(),
+                Sort.by(request.getSort().equals("ASC") ?
+                                Sort.Direction.ASC : Sort.Direction.DESC,
+                        request.getSortValue())
+        );
+
+        Page<ChargeRefund> pages = chargeRefundRepository.findByFilter(
+                request.getFilter(),
+                request.getFilterValue(),
+                wallet.getWalletId(),
+                pageable
+        );
+
+        List<ChargeList> list = pages.stream()
+                .map(ChargeList::new)
+                .toList();
+
+        return new ResponseListBody(pages.getTotalElements(), list);
+
     }
 }

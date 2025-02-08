@@ -1,5 +1,7 @@
 package com.zon.abba.point.controller;
 
+import com.zon.abba.common.request.RequestList;
+import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.point.request.ChargeRequest;
 import com.zon.abba.point.request.RefundRequest;
 import com.zon.abba.point.service.ChargeRefundService;
@@ -11,10 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,7 +24,7 @@ public class PointController {
     private final ChargeRefundService chargeRefundService;
 
     @PostMapping("/charge")
-    @Operation(summary = "포인트 충전 신청", description = "포인트 충전 신청을 할 수 있다.")
+    @Operation(summary = "포인트 충전/환급 신청", description = "포인트 충전 신청을 할 수 있다.")
     public ResponseEntity<Object> chargePoint(@RequestBody ChargeRequest request){
 
         ResponseBody response = chargeRefundService.chargePoint(request);
@@ -36,7 +35,19 @@ public class PointController {
     @PostMapping("/refund")
     @Operation(summary = "포인트 환급 신청", description = "포인트 환급 신청을 할 수 있다.")
     public ResponseEntity<Object> refundPoint(@RequestBody RefundRequest request){
+
         ResponseBody response = chargeRefundService.refundPoint(request);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    @GetMapping("/list/request")
+    @Operation(summary = "내 포인트 신청 내역 조회", description = "내가 신청한 내역들을 볼 수 있다.")
+    public ResponseEntity<Object> requestedChargeList(RequestList request){
+
+        ResponseListBody response = chargeRefundService.requestedChargeList(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
 }
