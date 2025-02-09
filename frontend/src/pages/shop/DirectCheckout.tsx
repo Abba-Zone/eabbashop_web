@@ -5,6 +5,8 @@ import { purchaseDirect_s } from "../../services/sale";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProductDetail_s } from "../../services/product";
 
+const Cookies = require("js-cookie");
+
 const DirectCheckout:React.FC = () => {
   const [buyer, setBuyer] = useState<memberInfo>({
     memberID : "1q2w3er4t5t",
@@ -59,7 +61,26 @@ const DirectCheckout:React.FC = () => {
     await purchaseDirect_s(purchaseInfo);
     navigate(`/mypage/orders`)
   }
+  const isUser = ():boolean => {
+    const isFlag = Cookies.get('access-token') 
+      && Cookies.get('refresh-token') 
+      && Cookies.get('first-name') 
+      && Cookies.get('last-name')
+      && Cookies.get('role');
+    if (isFlag)
+      return false;
+    else 
+      return true;
+  }
   useEffect(() => {
+    if (isUser()){
+      const flag = sessionStorage.getItem("previousPage");
+      if (!flag || !flag.includes("/checkout")){
+        sessionStorage.setItem("previousPage", window.location.href);
+      }
+      navigate("/login",{replace:true});
+      return;
+    }
     getCartList();
     getAddressList();
   }, [getCartList, getAddressList]);

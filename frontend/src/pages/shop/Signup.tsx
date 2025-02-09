@@ -179,7 +179,11 @@ const Signup:React.FC = () => {
         // 로그인 시도
         const loginResult = await login_s({ email: inputEm, password: inputPw });
         if (loginResult) {
-          window.location.href = '/';
+          const previousPage = sessionStorage.getItem("previousPage");
+          if (previousPage) {
+            sessionStorage.removeItem("previousPage"); // 이전 기록 삭제
+            window.location.href = previousPage; // 이전 페이지로 이동
+          }
         } else {
           alert(t('Alert.loginFail'));
         }

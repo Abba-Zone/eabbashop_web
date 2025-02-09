@@ -28,8 +28,11 @@ const Login: React.FC = () => {
     const loginResult = await login_s(loginUser);
     setIsLoggingIn(false);
     if (loginResult) {
-      navigate("/");
-      window.location.reload();
+      const previousPage = sessionStorage.getItem("previousPage");
+      if (previousPage) {
+        sessionStorage.removeItem("previousPage"); // 이전 기록 삭제
+        window.location.href = previousPage; // 이전 페이지로 이동
+      }
     } else {
       alert(t('Alert.LoginFailed'));
     }

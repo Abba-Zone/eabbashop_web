@@ -5,7 +5,6 @@ import "./style.css"
 import NavBar from "./NavBar";
 import { dropAuthIDList } from "../../handlers/AuthHandler";
 
-
 const ShopHeader: React.FC = () => {
   const navigate = useNavigate();
   const { i18n, t } = useTranslation();
@@ -80,10 +79,12 @@ const ShopHeader: React.FC = () => {
   }
 
   const handleGoLogin = () => {
+    sessionStorage.setItem("previousPage", window.location.href);
     navigate("/login");
   }
 
   const handleGoSignup = () => {
+    sessionStorage.setItem("previousPage", window.location.href);
     navigate("/signup");
   }
 

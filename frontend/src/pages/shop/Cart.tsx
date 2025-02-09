@@ -3,6 +3,8 @@ import { CartList, CartSelectMoney } from "../../components";
 import { getCartList_s } from "../../services/cart";
 import { useNavigate } from "react-router-dom";
 
+const Cookies = require("js-cookie");
+
 const Cart:React.FC = () => {
   const [cartList, setCartList] = useState<cartInfo[]>([]);
   const navigate = useNavigate();
@@ -34,11 +36,35 @@ const Cart:React.FC = () => {
     navigate(`/checkout`);
 
   }
-
+  const isUser = ():boolean => {
+    const isFlag = Cookies.get('access-token')
+      && Cookies.get('refresh-token')
+      && Cookies.get('first-name')
+      && Cookies.get('last-name')
+      && Cookies.get('role');
+    if (isFlag)
+      return false;
+    else 
+      return true;
+  }
   useEffect(() => {
+    if (isUser()){
+      const flag = sessionStorage.getItem("previousPage");
+      if (!flag || !flag.includes("/cart")){
+        sessionStorage.setItem("previousPage", window.location.href);
+      }
+      navigate("/login",{replace:true});
+      return;
+    }
     getCartList();
   }, [getCartList]);
-
+  if (isUser()){
+    return(
+      <div>
+        <h1>로그인 먼저 해주세요.</h1>
+      </div>
+    )
+  }
   if(cartList.length === 0){
     return(
       <div>
