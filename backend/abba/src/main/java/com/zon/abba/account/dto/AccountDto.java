@@ -12,8 +12,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountDto {
-    @JsonProperty("memberID")
-    private String memberID;
+    @JsonProperty("accountID")
+    private String accountID;
     @JsonProperty("bank")
     private String bank;
     @JsonProperty("accountNumber")
@@ -26,7 +26,7 @@ public class AccountDto {
     private Boolean isMain;
 
     public AccountDto(Accounts accounts){
-        this.memberID = accounts.getMemberId();
+        this.accountID = accounts.getAccountId();
         this.bank = accounts.getBank();
         this.accountNumber = accounts.getAccountNumber();
         this.firstName = accounts.getFirstName();
