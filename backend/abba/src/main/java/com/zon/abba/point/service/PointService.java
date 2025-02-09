@@ -155,7 +155,8 @@ public class PointService {
         List<PointHolding> pointHoldings = new ArrayList<>();
 
         for (ParentTreeDto parent : list){
-            String role = parent.getReferredRole();
+            if(parent.getReferId().equals(referId)) continue;
+            String role = parent.getReferRole();
             BigDecimal point = points.get(role);
 
             if (point != null && point.compareTo(BigDecimal.ZERO) != 0) {
@@ -204,7 +205,8 @@ public class PointService {
         List<PointsHistory> pointsHistories = new ArrayList<>();
 
         for (ParentTreeDto parent : list){
-            String role = parent.getReferredRole();
+            if(parent.getReferId().equals(memberId)) continue;
+            String role = parent.getReferRole();
             BigDecimal point = points.get(role);
 
             if (point != null && point.compareTo(BigDecimal.ZERO) != 0) {
