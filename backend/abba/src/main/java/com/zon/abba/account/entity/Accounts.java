@@ -42,6 +42,9 @@ public class Accounts {
     @Column(name = "ModifiedID", length = 36)
     private String modifiedId;
 
+    @Column(name = "IsMain", nullable = false)
+    private Boolean isMain;
+
     @CreationTimestamp
     @Column(name = "CreatedDateTime", updatable = false)
     private LocalDateTime createdDateTime;

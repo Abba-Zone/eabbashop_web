@@ -6,8 +6,10 @@ import com.zon.abba.account.repository.AccountsRepository;
 import com.zon.abba.account.request.AccountIdRequest;
 import com.zon.abba.account.request.AccountRequest;
 import com.zon.abba.account.request.UpdateAccountRequest;
+import com.zon.abba.common.exception.CommonException;
 import com.zon.abba.common.exception.NoDataException;
 import com.zon.abba.common.exception.NoMemberException;
+import com.zon.abba.common.exception.TooManyException;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.common.security.JwtTokenProvider;
@@ -39,9 +41,11 @@ public class AccountService {
                 .accountNumber(request.getAccountNumber())
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
+                .isMain(request.getIsMain())
                 .createdId(memberId)
                 .modifiedId(memberId)
                 .build();
+        setMainAccount(accounts, request.getIsMain());
 
         accountsRepository.save(accounts);
         return accounts;
@@ -84,9 +88,35 @@ public class AccountService {
         accounts.setLastName(request.getLastName());
         accounts.setModifiedId(accounts.getMemberId());
 
+        setMainAccount(accounts, request.getIsMain());
+
         accountsRepository.save(accounts);
 
         return new ResponseBody("성공했습니다.");
+    }
+
+    @Transactional
+    public void setMainAccount(Accounts accounts, Boolean isMain){
+        logger.info("메인 계좌 정보를 수정합니다.");
+
+        int cnt = accountsRepository.countMainAccountsByMemberId(accounts.getMemberId());
+        // 메인 계좌가 없다면
+        if(cnt == 0) accounts.setIsMain(true);
+        else{
+            // 만약 메인으로 등록할 때
+            if(isMain) {
+                Accounts preAccount = accountsRepository.findByMemberIdAndIsMain(accounts.getMemberId(), true)
+                        .orElseThrow(() -> new NoDataException("없는 계좌 정보입니다."));
+
+                accounts.setIsMain(true);
+                preAccount.setIsMain(false);
+
+                accounts.setModifiedId(accounts.getMemberId());
+                preAccount.setModifiedId(accounts.getMemberId());
+
+                accountsRepository.save(preAccount);
+            }
+        }
     }
 
     @Transactional
