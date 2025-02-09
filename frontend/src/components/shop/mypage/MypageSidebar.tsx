@@ -29,7 +29,7 @@ const MypageSidebar: React.FC = () => {
                 <li><Link to="/mypage/profile">계정 정보 확인/수정</Link></li>
                 <li><Link to="/mypage/addresses">주소록</Link></li>
                 <li><Link to="/mypage/orders">내 주문</Link></li>
-                <li><Link to="/mypage/contract-payments">계약 결제</Link></li>
+                <li><Link to="/mypage/account">내 계좌</Link></li>
                 <li><Link to="/mypage/reviews">내 상품 리뷰</Link></li>
                 <li><Link to="/mypage/tags">내 태그</Link></li>
                 <li><Link to="/mypage/wishlist">내 위시리스트</Link></li>

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getShopOrderDetail_s } from "../../services/sale";
-import { OrderInfo } from "../../components";
+import { getShopOrderDetail_s } from "../../../services/sale";
+import { OrderInfo } from "../../../components";
 
 const MypageOrderDetail:React.FC = () => {
   const [orderInfo, setOrderInfo] = useState<shopOrderInfo | undefined>(undefined);

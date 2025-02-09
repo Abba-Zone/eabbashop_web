@@ -18,8 +18,8 @@ export { default as Post } from "./shop/Post";
 export { default as PostDetail } from "./shop/PostDetail";
 export { default as Product } from "./shop/Product";
 export { default as RegularOrder } from "./shop/RegularOrder";
-export { default as MyPageReview } from "./shop/MyPageReview";
-export { default as MyPageAddress } from "./shop/MyPageAddress";
+export { default as MyPageReview } from "./shop/Mypage/MyPageReview";
+export { default as MyPageAddress } from "./shop/Mypage/MyPageAddress";
 export { default as Search } from "./shop/Search";
 export { default as Signup } from "./shop/Signup";
 export { default as ToMasterCard } from "./shop/ToMasterCard";
@@ -29,13 +29,14 @@ export { default as Wishlist } from "./shop/Wishlist";
 export { default as MemberTest } from "./admin/MemberTest";
 
 // mypage
-export { default as Mypage } from "./shop/Mypage";
-export { default as MypageDashboard } from "./shop/MypageDashboard";
-export { default as MypageOrders } from "./shop/MypageOrders";
-export { default as MypageOrderDetail } from "./shop/MypageOrderDetail";
-export { default as MypageTransactions } from "./shop/MypageTransactions";
-export { default as MypageFinancial } from "./shop/MypageFinancial";
-export { default as MypageProfile } from "./shop/MypageProfile";
+export { default as Mypage } from "./shop/Mypage/Mypage";
+export { default as MypageDashboard } from "./shop/Mypage/MypageDashboard";
+export { default as MypageOrders } from "./shop/Mypage/MypageOrders";
+export { default as MypageOrderDetail } from "./shop/Mypage/MypageOrderDetail";
+export { default as MypageTransactions } from "./shop/Mypage/MypageTransactions";
+export { default as MypageFinancial } from "./shop/Mypage/MypageFinancial";
+export { default as MypageProfile } from "./shop/Mypage/MypageProfile";
+export { default as MypageAccount } from "./shop/Mypage/MypageAccount";
 
 // admin
 export { default as AdminLogin } from "./admin/AdminLogin";

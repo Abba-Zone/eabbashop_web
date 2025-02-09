@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import "./Mypage.css";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import MypageSidebar from "../../components/shop/mypage/MypageSidebar";
+import { getMemberDetailMe_s } from "../../../services/member";
+import MypageSidebar from "../../../components/shop/mypage/MypageSidebar";
 import { MypageOrders, MypageOrderDetail, MypageTransactions, 
-  MypageFinancial, MypageProfile, MypageDashboard, MyPageReview, MyPageAddress } from "../../pages";
-import { getMemberDetailMe_s } from "../../services/member";
+  MypageFinancial, MypageProfile, MypageDashboard, 
+  MyPageReview, MyPageAddress, MypageAccount } from "../..";
+import "./Mypage.css";
+
 const Cookies = require("js-cookie");
 
 const Mypage: React.FC = () => {
@@ -155,7 +158,7 @@ const Mypage: React.FC = () => {
       <div className="mypage-content">
         <div className="mypage-sidebar">
             <h2 className="profile-header">
-                <img src={require(`../../static/img/lv${RoleForImage(userInfo?.role || 'A')}.png`)} alt="Profile" className="profile-image" /> 
+                <img src={require(`../../../static/img/lv${RoleForImage(userInfo?.role || 'A')}.png`)} alt="Profile" className="profile-image" /> 
                 <div className="profile-name-container">
                   <div className="profile-name">
                     {renderUserName()}
@@ -177,6 +180,7 @@ const Mypage: React.FC = () => {
             <Route path="profile" element={<MypageProfile />} />
             <Route path="reviews" element={<MyPageReview />} />
             <Route path="addresses" element={<MyPageAddress />} />
+            <Route path="account" element={<MypageAccount />} />
           </Routes>
         </div>
       </div>

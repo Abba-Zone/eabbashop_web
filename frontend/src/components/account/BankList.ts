@@ -1,0 +1,16 @@
+export const BANK_LIST = [
+    { code: '한국은행', name: '한국은행' },
+    { code: '산업은행', name: '산업은행' },
+    { code: '기업은행', name: '기업은행' },
+    { code: '국민은행', name: '국민은행' },
+    { code: '수협은행', name: '수협은행' },
+    { code: '농협은행', name: '농협은행' },
+    { code: '우리은행', name: '우리은행' },
+    { code: 'SC제일은행', name: 'SC제일은행' },
+    { code: '씨티은행', name: '씨티은행' },
+    { code: '하나은행', name: '하나은행' },
+    { code: '신한은행', name: '신한은행' },
+    { code: '케이뱅크', name: '케이뱅크' },
+    { code: '카카오뱅크', name: '카카오뱅크' },
+    { code: '토스뱅크', name: '토스뱅크' },
+  ];
