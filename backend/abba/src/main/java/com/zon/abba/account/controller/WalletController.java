@@ -34,7 +34,7 @@ public class WalletController {
 
     @GetMapping("/list")
     @Operation(summary = "지갑 내역 조회", description = "자신의 지갑 사용 내역을 볼 수 있다.")
-    public ResponseEntity<Object> getWalletHistory(@Parameter WalletListRequest req){
+    public ResponseEntity<Object> getWalletHistory(@RequestBody WalletListRequest req){
         ResponseListBody response = walletService.getWalletList("",req);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -42,7 +42,7 @@ public class WalletController {
 
     @GetMapping("/list/admin")
     @Operation(summary = "지갑 내역 조회", description = "회원의 지갑 사용 내역을 볼 수 있다.")
-    public ResponseEntity<Object> getWalletHistoryAdmin(@Parameter WalletListRequest req){
+    public ResponseEntity<Object> getWalletHistoryAdmin(@RequestBody WalletListRequest req){
         ResponseListBody response = walletService.getWalletList("admin", req);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
