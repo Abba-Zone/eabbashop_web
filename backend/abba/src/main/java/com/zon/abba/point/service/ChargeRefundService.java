@@ -52,6 +52,14 @@ public class ChargeRefundService {
         Wallet wallet = walletRepository.findOneByMemberId(memberId)
                 .orElseThrow(() -> new NoDataException("없는 지갑 정보입니다."));
 
+        // parent를 안보내주면 관리자 계정
+        if(request.getParentID() == null || request.getParentID().isEmpty()){
+            request.setParentID("883c259f-4084-440f-bc2d-cd226b3b8710");
+        }
+
+        Wallet parentWallet = walletRepository.findOneByMemberId(request.getParentID())
+                .orElseThrow(() -> new NoDataException("없는 지갑 정보입니다."));
+
         // 추후 환율 변동기 가져오면 적용 - 완 -
         BigDecimal point = exchangeRateService.convertToUSD(BigDecimal.valueOf(request.getAmount()), "KRW");
 
@@ -67,8 +75,10 @@ public class ChargeRefundService {
 
         if(request.getStatus().equals("A")){
             chargeRefund.setReceiverWalletId(wallet.getWalletId());
+            chargeRefund.setSenderWalletId(parentWallet.getWalletId());
         }else if(request.getStatus().equals("B")){
             chargeRefund.setSenderWalletId(wallet.getWalletId());
+            chargeRefund.setReceiverWalletId(parentWallet.getWalletId());
         }
 
         chargeRefundRepository.save(chargeRefund);
@@ -83,6 +93,14 @@ public class ChargeRefundService {
                 .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
 
         Wallet wallet = walletRepository.findOneByMemberId(memberId)
+                .orElseThrow(() -> new NoDataException("없는 지갑 정보입니다."));
+
+        // parent를 안보내주면 관리자 계정
+        if(request.getParentID() == null || request.getParentID().isEmpty()){
+            request.setParentID("883c259f-4084-440f-bc2d-cd226b3b8710");
+        }
+
+        Wallet parentWallet = walletRepository.findOneByMemberId(request.getParentID())
                 .orElseThrow(() -> new NoDataException("없는 지갑 정보입니다."));
 
         // 계좌 정보 만들기
@@ -100,6 +118,7 @@ public class ChargeRefundService {
 
         ChargeRefund chargeRefund = ChargeRefund.builder()
                 .senderWalletId(wallet.getWalletId())
+                .receiverWalletId(parentWallet.getWalletId())
                 .accountId(accounts.getAccountId())
                 .amount(BigDecimal.valueOf(request.getAmount()))
                 .point(point)

@@ -25,4 +25,6 @@ public class RefundRequest {
     private String lastName;
     @JsonProperty("isMain")
     private Boolean isMain;
+    @JsonProperty("parentID")
+    private String parentID;
 }

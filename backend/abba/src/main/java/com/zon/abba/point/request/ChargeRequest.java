@@ -19,4 +19,6 @@ public class ChargeRequest {
     private String status;
     @JsonProperty("accountID")
     private String accountID;
+    @JsonProperty("parentID")
+    private String parentID;
 }
