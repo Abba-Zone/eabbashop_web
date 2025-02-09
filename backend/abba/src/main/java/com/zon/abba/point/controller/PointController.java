@@ -50,4 +50,6 @@ public class PointController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+
+
 }

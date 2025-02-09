@@ -38,6 +38,7 @@ public class ChargeRefundService {
     private final JwtTokenProvider jwtTokenProvider;
     private final WalletRepository walletRepository;
     private final AccountService accountService;
+    private final ExchangeRateService exchangeRateService;
 
     @Transactional
     public ResponseBody chargePoint(ChargeRequest request){
@@ -48,8 +49,8 @@ public class ChargeRefundService {
         Wallet wallet = walletRepository.findOneByMemberId(memberId)
                 .orElseThrow(() -> new NoDataException("없는 지갑 정보입니다."));
 
-        // 추후 환율 변동기 가져오면 적용
-        BigDecimal point = BigDecimal.valueOf(request.getAmount());
+        // 추후 환율 변동기 가져오면 적용 - 완 -
+        BigDecimal point = exchangeRateService.convertToUSD(BigDecimal.valueOf(request.getAmount()));
 
         ChargeRefund chargeRefund = ChargeRefund.builder()
                 .accountId(request.getAccountID())
@@ -92,8 +93,7 @@ public class ChargeRefundService {
 
         Accounts accounts = accountService.createAccount(accountRequest);
 
-        // 추후 환율 변동기 가져오면 적용
-        BigDecimal point = BigDecimal.valueOf(request.getAmount());
+        BigDecimal point = exchangeRateService.convertToUSD(BigDecimal.valueOf(request.getAmount()));
 
         ChargeRefund chargeRefund = ChargeRefund.builder()
                 .senderWalletId(wallet.getWalletId())
