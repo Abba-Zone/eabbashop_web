@@ -1,6 +1,9 @@
 package com.zon.abba.account.service;
 
 import com.zon.abba.account.dto.WalletDto;
+import com.zon.abba.account.response.WalletListDetailResponse;
+import com.zon.abba.common.response.ResponseBody;
+import com.zon.abba.common.response.ResponseDataBody;
 import com.zon.abba.point.entity.ABZPointsHistory;
 import com.zon.abba.account.entity.Wallet;
 import com.zon.abba.point.repository.ABZPointsHistoryRepository;
@@ -93,7 +96,7 @@ public class WalletService {
         LocalDateTime endDate = DateUtil.convertToLocalDateTime(req.getEndDate());
 
         // 리스트 반환
-        Page<WalletListResponse> list = pointsHistoryRepository.getTotalLpByMemberId(
+        Page<WalletListResponse> list = pointsHistoryRepository.getWalletList(
                 memberId,
                 startDate,
                 endDate,
@@ -104,6 +107,32 @@ public class WalletService {
         List<WalletListResponse> walletList = list.getContent();
 
         return new ResponseListBody(list.getTotalElements(), walletList);
+    }
+
+    @Transactional
+    public ResponseDataBody getWalletDetailList(String admin,String historyID){
+        WalletListDetailResponse history = new WalletListDetailResponse();
+        if(admin.equals("admin")){
+            // 리스트 반환
+            history = pointsHistoryRepository.getWalletListDetailAdmin(
+                    historyID
+            );
+        }
+        else{
+            String memberId = jwtTokenProvider.getCurrentMemberId()
+                    .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+            // 리스트 반환
+            history = pointsHistoryRepository.getWalletListDetail(
+                    memberId,
+                    historyID
+            );
+        }
+
+
+        if(history != null)
+            return new ResponseDataBody("조회에 성공했습니다. ",history);
+        else
+            return new ResponseDataBody("결과가 없습니다.", null);
     }
 
     // 문자열 → BigDecimal 변환 메서드 (인터페이스 Projection의 String 반환값 처리)
