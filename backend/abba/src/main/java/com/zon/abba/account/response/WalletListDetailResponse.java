@@ -14,18 +14,33 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WalletListDetailResponse {
-    @JsonProperty("walletDetailID")
-    private String walletID;
+    @JsonProperty("historyID")
+    private String historyID;
     @JsonProperty("message")
     private String message;
-    @JsonProperty("type")
-    private String type;
+
     @JsonProperty("LP")
     private BigDecimal LP;
+    @JsonProperty("LPBalance")
+    private BigDecimal LPBalance;
     @JsonProperty("AK")
     private BigDecimal AK;
+    @JsonProperty("AKBalance")
+    private BigDecimal AKBalance;
     @JsonProperty("SP")
     private BigDecimal SP;
+    @JsonProperty("SPBalance")
+    private BigDecimal SPBalance;
+
+    @JsonProperty("OrderDetailID")
+    private String OrderDetailID;
+    @JsonProperty("ChargeRefundID")
+    private String ChargeRefundID;
+    @JsonProperty("TransferID")
+    private String TransferID;
+
+    @JsonProperty("type")
+    private String type;
     @JsonProperty("pointType")
     private String pointType;
 }

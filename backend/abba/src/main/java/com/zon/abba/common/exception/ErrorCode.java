@@ -30,6 +30,7 @@ public enum ErrorCode {
     LOGOUT_ERROR(412, "로그아웃에서 에러남"),
     TOKEN_EXPIRED(413, "토큰 만료됨"),
     INCORRECT_PASSWORD(414, "비밀번호 틀림"),
+    NO_AUTH_SELECT(415, "권한이 없는 조회입니다"),
     NO_MENU_PERMISSION(475, "권한이 없는 메뉴"),
     INTERNAL_SERVER_ERROR(500, "개발자 쉨 오류 냈죠? 슈슉 아무거도모다죠? 응못죽이죠 코드고쳤쥬 또오류내쥬 못난 백엔드를 둔 프론트에게 정말 미안하다!!");
 

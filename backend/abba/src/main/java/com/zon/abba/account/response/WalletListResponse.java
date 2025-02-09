@@ -15,8 +15,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WalletListResponse {
-    @JsonProperty("walletID")
-    private String walletID;
+    @JsonProperty("historyID")
+    private String historyID;
     @JsonProperty("message")
     private String message;
     @JsonProperty("type")

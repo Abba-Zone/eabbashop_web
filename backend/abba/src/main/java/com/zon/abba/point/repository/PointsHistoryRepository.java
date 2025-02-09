@@ -1,5 +1,6 @@
 package com.zon.abba.point.repository;
 
+import com.zon.abba.account.response.WalletListDetailResponse;
 import com.zon.abba.point.entity.PointsHistory;
 import com.zon.abba.point.mapping.HistoryList;
 import com.zon.abba.account.response.WalletListResponse;
@@ -19,14 +20,30 @@ public interface PointsHistoryRepository extends JpaRepository<PointsHistory, St
     @Query("SELECT new com.zon.abba.account.response.WalletListResponse( " +
     "ph.historyId, ph.message, ph.type, ph.lp, ph.ak, ph.sp, c.codeName) " +
     "FROM PointsHistory ph " +
-    "JOIN CommonCode c ON c.code = ph.type " +
+    "JOIN CommonCode c ON c.code = ph.type  and c.codeGroup = 'PointsHistory'  " +
     "WHERE ph.memberId = :memberId and ph.createdDateTime between :startDate and :endDate " )
-    Page<WalletListResponse> getTotalLpByMemberId(@Param("memberId") String memberId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, Pageable pageable);
+    Page<WalletListResponse> getWalletList(@Param("memberId") String memberId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, Pageable pageable);
+
+    @Query("SELECT new com.zon.abba.account.response.WalletListDetailResponse( " +
+    "ph.historyId, ph.message, ph.lp, ph.lpBalance, ph.ak, ph.akBalance, ph.sp, ph.spBalance," +
+            " ph.orderDetailId, ph.chargeRefundId, ph.transferId, ph.transferId, c.codeName ) " +
+    "from PointsHistory ph " +
+            "inner join CommonCode c ON c.code = ph.type  and c.codeGroup = 'PointsHistory'   " +
+    "WHERE ph.historyId = :historyId and ph.memberId = :memberId " )
+    WalletListDetailResponse getWalletListDetail(@Param("memberId") String memberId, @Param("historyId") String historyId);
+
+    @Query("SELECT new com.zon.abba.account.response.WalletListDetailResponse( " +
+    "ph.historyId, ph.message, ph.lp, ph.lpBalance, ph.ak, ph.akBalance, ph.sp, ph.spBalance," +
+            " ph.orderDetailId, ph.chargeRefundId, ph.transferId, ph.transferId, c.codeName ) " +
+    "from PointsHistory ph " +
+            "inner join CommonCode c ON c.code = ph.type  and c.codeGroup = 'PointsHistory'   " +
+    "WHERE ph.historyId = :historyId  " )
+    WalletListDetailResponse getWalletListDetailAdmin(@Param("historyId") String historyId);
 
     // 특정 회원의 거래 내역 조회 (JPQL)
     @Query("select ph.historyId, ph.message, c.codeName, ph.lp, ph.ak, ph.sp " +
             " from PointsHistory ph " +
-            " inner join CommonCode c on c.code = ph.type " +
+            " inner join CommonCode c on c.code = ph.type and c.codeGroup = 'PointsHistory' " +
             " where ph.memberId = :memberId and ph.createdDateTime between :startDate and :endDate " +
             "   order by ph.createdDateTime desc")
     Page<WalletListResponse> getTotalLpByMemberId2(@Param("memberId") String memberId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, Pageable pageable);
