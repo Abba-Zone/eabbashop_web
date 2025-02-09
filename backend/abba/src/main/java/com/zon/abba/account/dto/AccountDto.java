@@ -22,6 +22,8 @@ public class AccountDto {
     private String firstName;
     @JsonProperty("lastName")
     private String lastName;
+    @JsonProperty("isMain")
+    private Boolean isMain;
 
     public AccountDto(Accounts accounts){
         this.memberID = accounts.getMemberId();
@@ -29,5 +31,6 @@ public class AccountDto {
         this.accountNumber = accounts.getAccountNumber();
         this.firstName = accounts.getFirstName();
         this.lastName = accounts.getLastName();
+        this.isMain = accounts.getIsMain();
     }
 }

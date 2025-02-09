@@ -19,4 +19,6 @@ public class AccountRequest {
     private String firstName;
     @JsonProperty("lastName")
     private String lastName;
+    @JsonProperty("isMain")
+    private Boolean isMain;
 }

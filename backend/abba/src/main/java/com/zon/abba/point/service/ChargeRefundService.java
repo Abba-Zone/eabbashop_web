@@ -86,7 +86,8 @@ public class ChargeRefundService {
                 request.getBank(),
                 request.getAccountNumber(),
                 request.getFirstName(),
-                request.getLastName()
+                request.getLastName(),
+                request.getIsMain()
         );
 
         Accounts accounts = accountService.createAccount(accountRequest);
