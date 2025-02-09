@@ -1,6 +1,8 @@
 package com.zon.abba.point.service;
 
 import com.zon.abba.account.entity.Accounts;
+import com.zon.abba.common.exception.CommonException;
+import com.zon.abba.common.exception.InvalidException;
 import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.point.dto.ChargeList;
@@ -9,6 +11,7 @@ import com.zon.abba.account.entity.Wallet;
 import com.zon.abba.point.repository.ChargeRefundRepository;
 import com.zon.abba.account.repository.WalletRepository;
 import com.zon.abba.account.request.AccountRequest;
+import com.zon.abba.point.request.ChargeRefundIdRequest;
 import com.zon.abba.point.request.ChargeRequest;
 import com.zon.abba.point.request.RefundRequest;
 import com.zon.abba.account.service.AccountService;
@@ -140,5 +143,24 @@ public class ChargeRefundService {
 
         return new ResponseListBody(pages.getTotalElements(), list);
 
+    }
+
+    @Transactional
+    public ResponseBody cancelChargeRefund(ChargeRefundIdRequest request){
+        logger.info("포인트 충전/환급 신청을 취소합니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        ChargeRefund chargeRefund = chargeRefundRepository.findById(request.getChargeRefundID())
+                .orElseThrow(() -> new NoDataException("없는 신청 정보입니다."));
+
+        if(!(chargeRefund.getStatus().equals("A") || chargeRefund.getStatus().equals("B"))){
+            throw new CommonException(229, "이미 처리된 정보입니다.");
+        }
+
+        chargeRefund.setStatus("C");
+        chargeRefund.setModifiedId(memberId);
+
+        return new ResponseBody("성공했습니다.");
     }
 }

@@ -2,6 +2,7 @@ package com.zon.abba.point.controller;
 
 import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseListBody;
+import com.zon.abba.point.request.ChargeRefundIdRequest;
 import com.zon.abba.point.request.ChargeRequest;
 import com.zon.abba.point.request.RefundRequest;
 import com.zon.abba.point.service.ChargeRefundService;
@@ -46,6 +47,15 @@ public class PointController {
     public ResponseEntity<Object> requestedChargeList(RequestList request){
 
         ResponseListBody response = chargeRefundService.requestedChargeList(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/cancel")
+    @Operation(summary = "포인트 신청 취소", description = "포인트 신청을 취소할 수 있다.")
+    public ResponseEntity<Object> cancelCharge(@RequestBody ChargeRefundIdRequest request){
+
+        ResponseBody response = chargeRefundService.cancelChargeRefund(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
