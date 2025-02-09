@@ -1,6 +1,7 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { signup_s, login_s, checkRecommendEmail_s } from '../../services/member'
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from "react-router-dom";
 
 const SocialSignup:React.FC = () => {
   const Cookies = require('js-cookie');
@@ -9,6 +10,7 @@ const SocialSignup:React.FC = () => {
   const [inputRm, setInputRecommend] = useState<string>('')
   const [recommendStatus, setRecommendStatus] = useState<number | null>(null);
   const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null)
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({
     email: '',
     password: '',
@@ -18,7 +20,7 @@ const SocialSignup:React.FC = () => {
     recommend: ''
   });
   const [isSigningUp, setIsSigningUp] = useState<boolean>(false);
-
+  
   const handleInputPn = (event: React.ChangeEvent<HTMLInputElement>) => {
     const phone = event.target.value;
     setInputPhone(phone);
@@ -96,7 +98,11 @@ const SocialSignup:React.FC = () => {
         // 로그인 시도
         const loginResult = await login_s({ email: signupData.email, password: signupData.password });
         if (loginResult) {
-          window.location.href = '/';
+          const previousPage = sessionStorage.getItem("previousPage");
+          if (previousPage) {
+            sessionStorage.removeItem("previousPage"); // 이전 기록 삭제
+            window.location.href = previousPage; // 이전 페이지로 이동
+          }
         } else {
           alert(t('Alert.loginFail'));
         }
@@ -121,41 +127,55 @@ const SocialSignup:React.FC = () => {
     const phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/;
     return phoneRegex.test(phone);
   };
-
+  const checkRight = () => {
+    if(!Cookies.get('signupData') || (Cookies.get('signupData') && Cookies.get('role'))){
+        return true;
+    }else{
+        return false;
+    }
+}
+  useEffect(()=>{
+    if(checkRight()){
+      navigate(-1);
+    }
+  },[])
   return (
-    <h2>
-      <div>
-        <h2>추가정보입력</h2>
+    <div>
+    {checkRight()?<h1>옳지않은 접근입니다.</h1>:
+      <h2>
         <div>
-          <label htmlFor='input_pn'>{t('Attribute06')}* : </label>
-          <input type='text' name='input_pn' value={inputPn} onChange={handleInputPn} />
-          {errors.phone && <div style={{ color: 'red' }}>{errors.phone}</div>}
+          <h2>추가정보입력</h2>
+          <div>
+            <label htmlFor='input_pn'>{t('Attribute06')}* : </label>
+            <input type='text' name='input_pn' value={inputPn} onChange={handleInputPn} />
+            {errors.phone && <div style={{ color: 'red' }}>{errors.phone}</div>}
+          </div>
+          <div style={{ fontSize: '12px' }}>{t('Alert.phoneFormat')}</div>
+          <div>
+            <label htmlFor='recommend'>{t('Attribute07')}*: </label>
+            <input type='text' name='recommend' value={inputRm} onChange={handleInputRm} />
+            {errors.recommend && <div style={{ color: 'red' }}>{errors.recommend}</div>}
+            {recommendStatus === 200 && (
+              <div style={{ color: 'blue' }}>
+                {t('Alert.recommendSuccess')}
+              </div>
+            )}
+            {recommendStatus === 204 && (
+              <div style={{ color: 'red' }}>
+                {t('Alert.recommendFail')}
+              </div>
+            )}
+          </div>
+          <div>
+            <button type="button" onClick={onClickSignUp} disabled={isSigningUp}>
+              {t('Button.signup')}
+            </button>
+          </div>
         </div>
-        <div style={{ fontSize: '12px' }}>{t('Alert.phoneFormat')}</div>
-        <div>
-          <label htmlFor='recommend'>{t('Attribute07')}*: </label>
-          <input type='text' name='recommend' value={inputRm} onChange={handleInputRm} />
-          {errors.recommend && <div style={{ color: 'red' }}>{errors.recommend}</div>}
-          {recommendStatus === 200 && (
-            <div style={{ color: 'blue' }}>
-              {t('Alert.recommendSuccess')}
-            </div>
-          )}
-          {recommendStatus === 204 && (
-            <div style={{ color: 'red' }}>
-              {t('Alert.recommendFail')}
-            </div>
-          )}
-        </div>
-        <div>
-          <button type="button" onClick={onClickSignUp} disabled={isSigningUp}>
-            {t('Button.signup')}
-          </button>
-        </div>
-      </div>
-    </h2>
+      </h2>
+    }
+    </div>
   );
 }
 
 export default SocialSignup;
-    

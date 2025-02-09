@@ -13,7 +13,11 @@ const KakaoLogin:React.FC = () => {
   const handleKakaoCallback = async (code: string) => {
     const loginResult = await kakaoLoginWithCode_s(code);
     if (loginResult && !isAdminPage) {
-      navigate("/");
+      const previousPage = sessionStorage.getItem("previousPage");
+      if (previousPage) {
+        sessionStorage.removeItem("previousPage"); // 이전 기록 삭제
+        window.location.href = previousPage; // 이전 페이지로 이동
+      }
       window.dispatchEvent(new Event('user-info-updated'));
     } else {
       navigate("/admin");
