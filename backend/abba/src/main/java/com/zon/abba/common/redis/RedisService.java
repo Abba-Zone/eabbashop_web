@@ -27,6 +27,11 @@ public class RedisService {
         values.set(code, email, Duration.ofMillis(300_000));  // 5분 뒤 삭제
     }
 
+    public void saveExchange(String code, Object rate) {
+        ValueOperations<String, Object> values = redisTemplate.opsForValue();
+        values.set(code, rate);
+    }
+
     public void setLogoutValues(String token, Long validExpiration){
         ValueOperations<String, Object> values = redisTemplate.opsForValue();
         values.set(token, "logout", Duration.ofMillis(validExpiration));
