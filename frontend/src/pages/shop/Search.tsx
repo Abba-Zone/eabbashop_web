@@ -13,6 +13,7 @@ const Search:React.FC = () => {
   const getProductList = useCallback( async () => {
     try {
       const options : {params:string[], values:string[]} = makeOption();
+      console.log(options);
       const order: string[] = checkOrder();
       const test : searchParams = {page: pageNo - 1, size: pageSize, orderBy:order[0], orderByType:order[1], ...options};
       const totalAndProductList : shopProductList = await getSearchProductList_s(test);
@@ -67,7 +68,7 @@ const Search:React.FC = () => {
     }
     temp = searchParams.get("q");
     if (temp){
-      result.params.push("Name");
+      result.params.push("name");
       result.values.push(temp);
     }
     return result;

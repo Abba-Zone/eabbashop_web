@@ -13,6 +13,7 @@ const MenuCard2: React.FC<Props> = (props) => {
   // map을 사용하여 리팩토링
   const renderMenuItems = () => {
     return props.menu.items.map((item, index) => (
+      item.viewYn&&
       <div 
         className="sidebar-menu-item"
         key={`menu-item-${item.name}-${index}`} // 더 고유한 key 생성
@@ -26,7 +27,20 @@ const MenuCard2: React.FC<Props> = (props) => {
   const openMenu = () => {
     setVisible(!visible);
   };
-
+  const checkoutViewMenu = () => {
+    let res = 0;
+    console.log(props.menu.items)
+    for(let i = 0 ; i < props.menu.items.length ; i++){
+      if (props.menu.items[i].viewYn)
+        res++;
+    }
+    return res;
+  }
+  if(checkoutViewMenu() === 0){
+    return(
+      <div></div>
+    )
+  }
   return (
     <div>
       <div className="sidebar-menu-category" onClick={openMenu}>

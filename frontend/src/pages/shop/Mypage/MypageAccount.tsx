@@ -129,7 +129,7 @@ const MypageAccount: React.FC = () => {
             key={account.accountID}
             account={account} 
             changeMainAccount={changeMainAccount}
-            updateAccount={updateAccount}
+            updateAccount={handleEditClick}
             deleteAccount={deleteAccount}
           />
         ))}

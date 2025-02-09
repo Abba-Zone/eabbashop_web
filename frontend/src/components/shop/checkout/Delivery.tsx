@@ -33,9 +33,14 @@ const Delivery:React.FC<Props> = ({address, setModalOpen, setAddressList}) => {
       setInputFlage(true);
     }
   }
+  const cancelChange = () => {
+    if(address)
+      setComment(address.comment);
+    setInputFlage(false);
+  }
   useEffect(() => {
     if(address)
-      setComment(address?.comment);
+      setComment(address.comment);
   }, [address]);
   return (
     <div>
@@ -64,7 +69,13 @@ const Delivery:React.FC<Props> = ({address, setModalOpen, setAddressList}) => {
           </tr>
           <tr>
             <td>배송 요청 사항</td>
-            <td>{inputFlage?<input type='text' value={comment} onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{setComment(event.target.value)}}/>:comment}<button onClick={()=>{changeComment()}}>수정</button></td>
+            <td>
+              {inputFlage?
+              <input type='text' value={comment} onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{setComment(event.target.value)}}/>
+              :comment}
+              <button onClick={changeComment}>수정</button>
+              {inputFlage?<button onClick={cancelChange}>취소</button>:<></>}
+            </td>
           </tr>
         </tbody>
       </table>

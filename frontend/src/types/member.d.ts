@@ -4,7 +4,9 @@ interface loginSuccess {
 	refreshToken : string,
 	firstName : string,
 	lastName : string,
-	role: string
+	role: string,
+	authID:string,
+	authIDList:string[],
 	response : {
 		email : string,
 		password : string,

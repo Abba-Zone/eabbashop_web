@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router-dom";
 import "./style.css"
-
+import NavBar from "./NavBar";
+import { dropAuthIDList } from "../../handlers/AuthHandler";
 
 const ShopHeader: React.FC = () => {
   const navigate = useNavigate();
@@ -65,6 +66,7 @@ const ShopHeader: React.FC = () => {
     Cookies.remove('first-name');
     Cookies.remove('last-name');
     Cookies.remove('role');
+    dropAuthIDList();
     alert(t('Common:Alert.LogoutSuccess'));
     navigate('/');
     window.location.reload();
@@ -77,10 +79,12 @@ const ShopHeader: React.FC = () => {
   }
 
   const handleGoLogin = () => {
+    sessionStorage.setItem("previousPage", window.location.href);
     navigate("/login");
   }
 
   const handleGoSignup = () => {
+    sessionStorage.setItem("previousPage", window.location.href);
     navigate("/signup");
   }
 
@@ -131,6 +135,7 @@ const ShopHeader: React.FC = () => {
           <option value="ja">{t("Common:Language.Japanese")}</option>
         </select>
       </div>
+      <NavBar></NavBar>
       <div className="shop-header-right">
         {isAdminRole(Cookies.get('role')) && (
           <div className="nav-item" onClick={handleGoAdmin}>

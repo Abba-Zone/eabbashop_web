@@ -5,6 +5,8 @@ import { getAddressList_s } from "../../services/address";
 import { purchaseFromCart_s } from "../../services/sale";
 import { useNavigate } from "react-router-dom";
 
+const Cookies = require("js-cookie");
+
 const Checkout:React.FC = () => {
   const [buyer, setBuyer] = useState<memberInfo>({
     memberID : "1q2w3er4t5t",
@@ -56,10 +58,36 @@ const Checkout:React.FC = () => {
     await purchaseFromCart_s(purchaseInfo);
     navigate(`/mypage/orders`)
   }
+  const isUser = ():boolean => {
+    const isFlag = Cookies.get('access-token') 
+      && Cookies.get('refresh-token') 
+      && Cookies.get('first-name') 
+      && Cookies.get('last-name')
+      && Cookies.get('role');
+    if (isFlag)
+      return false;
+    else 
+      return true;
+  }
   useEffect(() => {
+    if (isUser()){
+      const flag = sessionStorage.getItem("previousPage");
+      if (!flag || !flag.includes("/checkout")){
+        sessionStorage.setItem("previousPage", window.location.href);
+      }
+      navigate("/login",{replace:true});
+      return;
+    }
     getCartList();
     getAddressList();
   }, [getCartList, getAddressList]);
+  if (isUser()){
+    return(
+      <div>
+        <h1>로그인 먼저 해주세요.</h1>
+      </div>
+    )
+  }
   return (
     <div>
       <h1>주문 / 결제</h1>

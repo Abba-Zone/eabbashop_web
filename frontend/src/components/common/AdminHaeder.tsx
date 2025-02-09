@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import Menu from "../menu/Menu";
 import "./style.css"
 import { useNavigate } from "react-router-dom";
+import { dropAuthIDList } from "../../handlers/AuthHandler";
 
 const AdminHaeder:React.FC<{ toggleMenu: () => void, menuVisible: boolean }> = ({ toggleMenu, menuVisible }) => {
     const Cookies = require('js-cookie');
@@ -80,7 +81,7 @@ const AdminHaeder:React.FC<{ toggleMenu: () => void, menuVisible: boolean }> = (
         Cookies.remove('first-name');
         Cookies.remove('last-name');
         Cookies.remove('role');
-        
+        dropAuthIDList();
         alert(t('Common:Alert.LogoutSuccess'));
         navigate('/admin/login');
         window.location.reload();

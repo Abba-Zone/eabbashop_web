@@ -1,4 +1,4 @@
-import { getAddressList, registAddress, updateComment, updateBillAddress, updateMainAddress } from '../apis/address'
+import { getAddressList, registAddress, updateComment, updateBillAddress, updateMainAddress, deleteAddress, updateAddress } from '../apis/address'
 export const getAddressList_s = async ():Promise<addressList> => {
     return await getAddressList();
 }
@@ -15,5 +15,13 @@ export const setBillAddress_s = async (updateData:{addressID:string, preAddressI
 }
 export const setMainAddress_s = async (updateData:{addressID:string, preAddressID:string}):Promise<addressList> => {
     return await updateMainAddress(updateData);
+}
+
+export const updateAddress_s = async (updateAddressInfo:modifyAddress):Promise<addressList> => {
+    return await updateAddress(updateAddressInfo);
+}
+
+export const deleteAddress_s = async (addressID:string):Promise<addressList> => {
+    return await deleteAddress(addressID);
 }
 

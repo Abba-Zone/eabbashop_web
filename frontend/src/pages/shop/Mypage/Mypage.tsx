@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import "./Mypage.css";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { getMemberDetailMe_s } from "../../../services/member";
 import MypageSidebar from "../../../components/shop/mypage/MypageSidebar";
@@ -14,6 +15,7 @@ const Mypage: React.FC = () => {
   const [userInfo, setUserInfo] = useState<{ firstName: string, lastName: string, role: string } | null>(null);
   const { i18n } = useTranslation();
   const [memberDetail, setMemberDetail] = useState<memberDetailInfo | null>(null);
+  const navigate = useNavigate();
 
   const wallet = memberDetail?.wallet || { AK: 0, AP: 0, ABZ: 0, LP: 0, SP: 0 };
   const lpValue = wallet.LP;
@@ -82,8 +84,26 @@ const Mypage: React.FC = () => {
         return 'role-e';
     }
   }
-
+  const isUser = ():boolean => {
+    const isFlag = Cookies.get('access-token') 
+      && Cookies.get('refresh-token') 
+      && Cookies.get('first-name') 
+      && Cookies.get('last-name')
+      && Cookies.get('role');
+    if (isFlag)
+      return false;
+    else 
+      return true;
+  }
   useEffect(() => {
+    if (isUser()){
+      const flag = sessionStorage.getItem("previousPage");
+      if (!flag || !flag.includes("/mypage")){
+        sessionStorage.setItem("previousPage", window.location.href);
+      }
+      navigate("/login",{replace:true});
+      return;
+    }
     const fetchMemberDetail = async () => {
       const memberDetail = await getMemberDetailMe_s();
       setMemberDetail(memberDetail);
@@ -113,7 +133,13 @@ const Mypage: React.FC = () => {
       window.removeEventListener('user-info-updated', updateUserInfo);
     };
   }, [i18n , Cookies]);
-
+  if(isUser()){
+    return (
+      <div>
+        <h1>유저 정보가 없습니다.</h1>
+      </div>
+    )
+  }
   return (
     <div className="mypage-container">
       <header className="mypage-header">

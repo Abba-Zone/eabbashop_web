@@ -12,9 +12,13 @@ const GoogleLogin:React.FC = () => {
   const handleGoogleCallback = async (code: string) => {
     const loginResult = await googleLoginWithCode_s(code);
     if (loginResult && !isAdminPage) {
-      navigate("/");
+      const previousPage = sessionStorage.getItem("previousPage");
+      if (previousPage) {
+        sessionStorage.removeItem("previousPage"); // 이전 기록 삭제
+        window.location.href = previousPage; // 이전 페이지로 이동
+      }
       window.dispatchEvent(new Event('user-info-updated'));
-    } else {
+    } else if(loginResult && isAdminPage) {
       navigate("/admin");
     }
   };
