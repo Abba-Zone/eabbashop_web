@@ -43,16 +43,6 @@ public class AuthFilter implements Filter { // @Component 제거
 
         String requestUri = httpRequest.getRequestURI();
 
-        // 1️⃣ 전체 요청 URI 가져오기
-        String fullUri = httpRequest.getRequestURI(); // 예: "/member/detail/883c259f-4084-440f-bc2d-cd226b3b8710"
-
-        // 2️⃣ Spring이 매칭한 패턴 가져오기 (PathVariable 포함된 엔드포인트)
-        String apiPattern = (String) httpRequest.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
-        // 예: "/member/detail/{memberID}"
-
-        // 3️⃣ PathVariable 제외한 API 엔드포인트만 가져오기 (예: "/member/detail")
-        String apiPath = apiPattern != null ? apiPattern.replaceAll("\\{[^}]+}", "") : fullUri;
-
         // 예외처리
         if (requestUri.startsWith("/api/member/oauth") ||
                 requestUri.startsWith("/api/member/login") ||
@@ -78,7 +68,6 @@ public class AuthFilter implements Filter { // @Component 제거
 
 
         // 사용자 권한 아이디 가져오기
-
         logger.info("유저 정보를 가져옵니다.");
         String memberId = jwtTokenProvider.getCurrentMemberId()
                 .orElseThrow(() -> new NoMemberException("204","없는 회원입니다."));
@@ -88,7 +77,6 @@ public class AuthFilter implements Filter { // @Component 제거
         String roleId = member.getRoleID(); // 사용자의 RoleID 가져오기
 
         // 🔥 트랜잭션을 유지하면서 RoleDetail 조회
-        //List<String> allowedPaths = getAllowedPaths(roleId);
         List<String> allowedPaths = roleDetailRepository.findByRoleRoleIdWithAuth(roleId).stream()
                 .map(roleDetail -> roleDetail.getAuth().getPath())
                 .collect(Collectors.toList());
@@ -98,8 +86,16 @@ public class AuthFilter implements Filter { // @Component 제거
             requestUri = requestUri.split("/api")[1];
 
 
+        boolean isAllowed = false;
+
         // 요청한 API가 허용된 URL인지 확인
-        if (!allowedPaths.contains(requestUri)) {
+        for(String path : allowedPaths) {
+            if(requestUri.startsWith(path) == true) {
+                isAllowed = true;
+            }
+        }
+
+        if(isAllowed == false){
             //throw new CommonException(ErrorCode.NO_MENU_PERMISSION);
             sendErrorResponse(httpResponse, ErrorCode.NO_MENU_PERMISSION.getStatusCode(), ErrorCode.NO_MENU_PERMISSION.getMessage());
             //httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
