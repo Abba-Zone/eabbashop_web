@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { getAddressList_s } from "../../services/address";
-import { AddressList, RegistAddress } from "../../components";
+import { getAddressList_s } from "../../../services/address";
+import { AddressList, RegistAddress } from "../../../components";
 
 const MyPageAddress:React.FC = () => {
   const [addressList, setAddressList] = useState<addressAllInfo[]>([]);

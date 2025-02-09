@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { getShopOrderList_s } from "../../services/sale";
-import { PageMove, SelectYear, ShopOrderList } from "../../components";
+import { getShopOrderList_s } from "../../../services/sale";
+import { PageMove, SelectYear, ShopOrderList } from "../../../components";
 
 const MypageOrders:React.FC = () => {
   const [orders, setOrders] = useState<shopOrder[]>([]);

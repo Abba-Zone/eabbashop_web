@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './MypageProfile.css';
 import { useNavigate } from 'react-router-dom';
-import { getMemberDetailMe_s, sendResetPasswordEmail_s, authEmail_s, checkAuthCode_s, updateUserData_s } from '../../services/member';
+import { getMemberDetailMe_s, sendResetPasswordEmail_s, authEmail_s, checkAuthCode_s, updateUserData_s } from '../../../services/member';
 const MypageProfile:React.FC = () => {
   const [memberDetail, setMemberDetail] = useState<memberDetailInfo | null>(null);
   const [isOneSelf, setIsOneSelf] = useState<boolean>(false);
