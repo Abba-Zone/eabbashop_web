@@ -60,4 +60,22 @@ public class RecommendController {
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    @GetMapping("/list/line")
+    @Operation(summary = "추천인 전체 라인 리스트", description = "나의 추천인 전체 라인목록을 볼 수 있다.")
+    public ResponseEntity<Object> listRecommendLine(){
+
+        ResponseListBody response = recommendService.listRecommendLine();
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/list/line/top")
+    @Operation(summary = "추천인 윗라인 리스트", description = "나의 추천인 윗라인목록을 볼 수 있다.")
+    public ResponseEntity<Object> listRecommendLineTop(){
+
+        ResponseListBody response = recommendService.listRecommendLineTop();
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 }

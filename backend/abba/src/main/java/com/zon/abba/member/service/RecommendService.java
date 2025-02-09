@@ -7,11 +7,13 @@ import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.common.security.JwtTokenProvider;
 import com.zon.abba.member.dto.ChangeRecommendedMembersListDto;
+import com.zon.abba.member.dto.ParentTreeDto;
 import com.zon.abba.member.dto.RecommendDto;
 import com.zon.abba.member.entity.ChangeRecommendedMembers;
 import com.zon.abba.member.entity.RecommendedMember;
 import com.zon.abba.member.entity.RecommendedMembersAlterLog;
 import com.zon.abba.member.mapping.ChangeRecommendedMembersList;
+import com.zon.abba.member.mapping.ParentTree;
 import com.zon.abba.member.repository.ChangeRecommendedMembersRepository;
 import com.zon.abba.member.repository.MemberRepository;
 import com.zon.abba.member.repository.RecommendedMemberRepository;
@@ -252,5 +254,37 @@ public class RecommendService {
         logger.info("추천인 변경 완료.");
         // 이후 activeType이랑 activeDateTime 넣기
         return new ResponseBody("성공했습니다.");
+    }
+
+    @Transactional
+    public ResponseListBody listRecommendLine(){
+        logger.info("나의 추천인 전체 라인 목록을 반환합니다.");
+
+        String memberID = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        List<ParentTree> parentTrees = recommendedMemberRepository.findParentAndChildTree(memberID);
+
+        List<ParentTreeDto> list = parentTrees.stream()
+                .map(ParentTreeDto::new)
+                .toList();
+
+        return new ResponseListBody((long) list.size(), list);
+    }
+
+    @Transactional
+    public ResponseListBody listRecommendLineTop(){
+        logger.info("나의 추천인 윗라인 목록을 반환합니다.");
+
+        String memberID = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        List<ParentTree> parentTrees = recommendedMemberRepository.findParentTreeWithReferredRoleForZone(memberID);
+
+        List<ParentTreeDto> list = parentTrees.stream()
+                .map(ParentTreeDto::new)
+                .toList();
+
+        return new ResponseListBody((long) list.size(), list);
     }
 }
