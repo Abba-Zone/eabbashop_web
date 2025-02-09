@@ -50,7 +50,7 @@ public class ChargeRefundService {
                 .orElseThrow(() -> new NoDataException("없는 지갑 정보입니다."));
 
         // 추후 환율 변동기 가져오면 적용 - 완 -
-        BigDecimal point = exchangeRateService.convertToUSD(BigDecimal.valueOf(request.getAmount()));
+        BigDecimal point = exchangeRateService.convertToUSD(BigDecimal.valueOf(request.getAmount()), "KRW");
 
         ChargeRefund chargeRefund = ChargeRefund.builder()
                 .accountId(request.getAccountID())
@@ -93,7 +93,7 @@ public class ChargeRefundService {
 
         Accounts accounts = accountService.createAccount(accountRequest);
 
-        BigDecimal point = exchangeRateService.convertToUSD(BigDecimal.valueOf(request.getAmount()));
+        BigDecimal point = exchangeRateService.convertToUSD(BigDecimal.valueOf(request.getAmount()), "KRW");
 
         ChargeRefund chargeRefund = ChargeRefund.builder()
                 .senderWalletId(wallet.getWalletId())

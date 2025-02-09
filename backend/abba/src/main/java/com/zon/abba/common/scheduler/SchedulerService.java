@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
@@ -106,10 +107,8 @@ public class SchedulerService {
         }
 
         // 🔹 서버 시작 시 환율 스케줄러도 확인 후 실행
-        if (Boolean.TRUE.equals(redisTemplate.hasKey("KRW"))) {
-            logger.info("🔄 Redis에서 환율 스케줄 복구...");
-            scheduleExchangeRateUpdate();
-        }
+        logger.info("🔄 Redis에서 환율 스케줄 복구...");
+        scheduleExchangeRateUpdate();
 
         logger.info("🟢 서버 시작 - Redis에서 스케줄러 정보를 복구 완료");
     }
@@ -117,7 +116,7 @@ public class SchedulerService {
     @Scheduled(cron = "0 0 0 * * *")
     public void scheduleExchangeRateUpdate() {
         logger.info("🔄 환율 정보 업데이트 실행...");
-        exchangeRateService.getExchangeRate("KRW"); // 환율 업데이트
+        exchangeRateService.getExchangeRate(); // 환율 업데이트
         logger.info("✅ 환율 정보 업데이트 완료.");
     }
 
