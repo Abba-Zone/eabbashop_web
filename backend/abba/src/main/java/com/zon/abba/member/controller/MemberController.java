@@ -137,7 +137,7 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @GetMapping("/detail")
+    @GetMapping("/detail/{memberID}")
     @Operation(summary = "회원 정보 조회", description = "회원 정보 상세 조회가 가능")
     public ResponseEntity<Object> detailMember(@PathVariable String memberID){
 

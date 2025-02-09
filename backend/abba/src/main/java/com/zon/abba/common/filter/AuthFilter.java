@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.HandlerMapping;
 
 
 public class AuthFilter implements Filter { // @Component 제거
@@ -67,7 +68,6 @@ public class AuthFilter implements Filter { // @Component 제거
 
 
         // 사용자 권한 아이디 가져오기
-
         logger.info("유저 정보를 가져옵니다.");
         String memberId = jwtTokenProvider.getCurrentMemberId()
                 .orElseThrow(() -> new NoMemberException("204","없는 회원입니다."));
@@ -77,7 +77,6 @@ public class AuthFilter implements Filter { // @Component 제거
         String roleId = member.getRoleID(); // 사용자의 RoleID 가져오기
 
         // 🔥 트랜잭션을 유지하면서 RoleDetail 조회
-        //List<String> allowedPaths = getAllowedPaths(roleId);
         List<String> allowedPaths = roleDetailRepository.findByRoleRoleIdWithAuth(roleId).stream()
                 .map(roleDetail -> roleDetail.getAuth().getPath())
                 .collect(Collectors.toList());
@@ -87,8 +86,16 @@ public class AuthFilter implements Filter { // @Component 제거
             requestUri = requestUri.split("/api")[1];
 
 
+        boolean isAllowed = false;
+
         // 요청한 API가 허용된 URL인지 확인
-        if (!allowedPaths.contains(requestUri)) {
+        for(String path : allowedPaths) {
+            if(requestUri.startsWith(path) == true) {
+                isAllowed = true;
+            }
+        }
+
+        if(isAllowed == false){
             //throw new CommonException(ErrorCode.NO_MENU_PERMISSION);
             sendErrorResponse(httpResponse, ErrorCode.NO_MENU_PERMISSION.getStatusCode(), ErrorCode.NO_MENU_PERMISSION.getMessage());
             //httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");

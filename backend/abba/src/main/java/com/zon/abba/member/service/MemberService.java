@@ -4,6 +4,8 @@ import com.zon.abba.account.dto.WalletDto;
 import com.zon.abba.account.service.WalletService;
 import com.zon.abba.address.dto.AddressDto;
 import com.zon.abba.address.service.AddressService;
+import com.zon.abba.auth.entity.RoleDetail;
+import com.zon.abba.auth.repository.RoleDetailRepository;
 import com.zon.abba.common.exception.InvalidException;
 import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.request.RequestList;
@@ -42,10 +44,14 @@ public class MemberService {
     private final WalletService walletService;
     private final RecommendService recommendService;
     private final AddressService addressService;
+    private final RoleDetailRepository roleDetailRepository;
 
     @Transactional
     public MemberDetailResponse detailMember(String memberId){
         logger.info("유저 정보를 받아옵니다. {}", memberId);
+
+        Member member = memberRepository.findOneByMemberId(memberId)
+                .orElseThrow(() -> new NoMemberException("없는 회원 정보입니다."));
 
         MemberInfoDto memberDto = memberRepository.findOneByMemberId(memberId)
                 .map(MemberInfoDto::new)
@@ -63,7 +69,16 @@ public class MemberService {
         // address 리스트 가져오기
         List<AddressDto> addressDtoList = addressService.getAddressList(memberId);
 
-        return new MemberDetailResponse(memberDto, sellerDto, walletDto, addressDtoList);
+        List<RoleDetail> roleDetails = roleDetailRepository.findByRole_RoleId(member.getRoleID());
+        List<String> authList = roleDetails.stream()
+                .map(roleDetail -> roleDetail.getAuth().getAuthId())
+                .collect(Collectors.toList());
+
+
+        return new MemberDetailResponse(memberDto, sellerDto, walletDto, addressDtoList, member.getRoleID()
+                , authList.stream()
+                .distinct()
+                .collect(Collectors.toList()));
     }
 
     @Transactional
@@ -86,7 +101,19 @@ public class MemberService {
         // address 리스트 가져오기
         List<AddressDto> addressDtoList = addressService.getAddressList(memberDto.getMemberID());
 
-        return new MemberDetailResponse(memberDto, sellerDto, walletDto, addressDtoList);
+
+        Member member = memberRepository.findOneByMemberId(memberDto.getMemberID())
+                .orElseThrow(() -> new NoMemberException("없는 회원 정보입니다."));
+
+
+        List<RoleDetail> roleDetails = roleDetailRepository.findByRole_RoleId(member.getRoleID());
+        List<String> authList = roleDetails.stream()
+                .map(roleDetail -> roleDetail.getAuth().getAuthId())
+                .collect(Collectors.toList());
+
+        return new MemberDetailResponse(memberDto, sellerDto, walletDto, addressDtoList, member.getRoleID(), authList.stream()
+                .distinct()
+                .collect(Collectors.toList()));
     }
 
     @Transactional
