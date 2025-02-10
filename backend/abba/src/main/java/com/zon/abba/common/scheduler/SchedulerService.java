@@ -1,15 +1,12 @@
 package com.zon.abba.common.scheduler;
 
-import com.zon.abba.point.service.ExchangeRateService;
 import com.zon.abba.point.service.PointService;
 import com.zon.abba.order.repository.OrderDetailRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +24,6 @@ public class SchedulerService {
 
     private final OrderDetailRepository orderDetailRepository;
     private final PointService pointService;
-    private final ExchangeRateService exchangeRateService;
     private final StringRedisTemplate redisTemplate;
     private final ThreadPoolTaskScheduler scheduler;
     private final Map<String, ScheduledFuture<?>> runningSchedulers = new ConcurrentHashMap<>();
@@ -107,17 +103,17 @@ public class SchedulerService {
         }
 
         // 🔹 서버 시작 시 환율 스케줄러도 확인 후 실행
-        logger.info("🔄 Redis에서 환율 스케줄 복구...");
-        scheduleExchangeRateUpdate();
+//        logger.info("🔄 Redis에서 환율 스케줄 복구...");
+//        scheduleExchangeRateUpdate();
 
         logger.info("🟢 서버 시작 - Redis에서 스케줄러 정보를 복구 완료");
     }
 
-    @Scheduled(cron = "0 0 0 * * *")
-    public void scheduleExchangeRateUpdate() {
-        logger.info("🔄 환율 정보 업데이트 실행...");
-        exchangeRateService.getExchangeRate(); // 환율 업데이트
-        logger.info("✅ 환율 정보 업데이트 완료.");
-    }
+//    @Scheduled(cron = "0 0 0 * * *")
+//    public void scheduleExchangeRateUpdate() {
+//        logger.info("🔄 환율 정보 업데이트 실행...");
+//        exchangeRateService.getExchangeRate(); // 환율 업데이트
+//        logger.info("✅ 환율 정보 업데이트 완료.");
+//    }
 
 }
