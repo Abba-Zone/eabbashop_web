@@ -5,9 +5,10 @@ import com.zon.abba.common.exception.CommonException;
 import com.zon.abba.common.exception.InvalidException;
 import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseListBody;
-import com.zon.abba.point.dto.ChargeList;
+import com.zon.abba.point.dto.ChargeRefundListDto;
 import com.zon.abba.point.entity.ChargeRefund;
 import com.zon.abba.account.entity.Wallet;
+import com.zon.abba.point.mapping.ChargeRefundList;
 import com.zon.abba.point.repository.ChargeRefundRepository;
 import com.zon.abba.account.repository.WalletRepository;
 import com.zon.abba.account.request.AccountRequest;
@@ -61,12 +62,11 @@ public class ChargeRefundService {
                 .orElseThrow(() -> new NoDataException("없는 지갑 정보입니다."));
 
         // 추후 환율 변동기 가져오면 적용 - 완 -
-        BigDecimal point = exchangeRateService.convertToUSD(BigDecimal.valueOf(request.getAmount()), "KRW");
+
 
         ChargeRefund chargeRefund = ChargeRefund.builder()
                 .accountId(request.getAccountID())
                 .amount(BigDecimal.valueOf(request.getAmount()))
-                .point(point)
                 .type(request.getPointType())
                 .status(request.getStatus())
                 .createdId(memberId)
@@ -76,9 +76,15 @@ public class ChargeRefundService {
         if(request.getStatus().equals("A")){
             chargeRefund.setReceiverWalletId(wallet.getWalletId());
             chargeRefund.setSenderWalletId(parentWallet.getWalletId());
+            BigDecimal point = exchangeRateService.convertToUSD(BigDecimal.valueOf(request.getAmount()), 0);
+            chargeRefund.setPoint(point);
         }else if(request.getStatus().equals("B")){
             chargeRefund.setSenderWalletId(wallet.getWalletId());
             chargeRefund.setReceiverWalletId(parentWallet.getWalletId());
+            BigDecimal point = exchangeRateService.convertToUSD(BigDecimal.valueOf(request.getAmount()), 1);
+            chargeRefund.setPoint(point);
+        }else {
+            throw new InvalidException("잘못된 요청입니다.");
         }
 
         chargeRefundRepository.save(chargeRefund);
@@ -114,7 +120,7 @@ public class ChargeRefundService {
 
         Accounts accounts = accountService.createAccount(accountRequest);
 
-        BigDecimal point = exchangeRateService.convertToUSD(BigDecimal.valueOf(request.getAmount()), "KRW");
+        BigDecimal point = exchangeRateService.convertToUSD(BigDecimal.valueOf(request.getAmount()), 1);
 
         ChargeRefund chargeRefund = ChargeRefund.builder()
                 .senderWalletId(wallet.getWalletId())
@@ -134,7 +140,7 @@ public class ChargeRefundService {
 
     @Transactional
     public ResponseListBody requestedChargeList(RequestList request){
-        logger.info("포인트 충전 신청 내역을 조회합니다.");
+        logger.info("신청한 포인트 충전 신청 내역을 조회합니다.");
         String memberId = jwtTokenProvider.getCurrentMemberId()
                 .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
 
@@ -149,15 +155,47 @@ public class ChargeRefundService {
                         request.getSortValue())
         );
 
-        Page<ChargeRefund> pages = chargeRefundRepository.findByFilter(
+        Page<ChargeRefundList> pages = chargeRefundRepository.findByFilter(
                 request.getFilter(),
                 request.getFilterValue(),
                 wallet.getWalletId(),
                 pageable
         );
 
-        List<ChargeList> list = pages.stream()
-                .map(ChargeList::new)
+        List<ChargeRefundListDto> list = pages.stream()
+                .map(ChargeRefundListDto::new)
+                .toList();
+
+        return new ResponseListBody(pages.getTotalElements(), list);
+
+    }
+
+    @Transactional
+    public ResponseListBody respondedChargeList(RequestList request){
+        logger.info("신청 받은 포인트 충전 신청 내역을 조회합니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        Wallet wallet = walletRepository.findOneByMemberId(memberId)
+                .orElseThrow(() -> new NoDataException("없는 지갑 정보입니다."));
+
+        Pageable pageable = PageRequest.of(
+                request.getPageNo(),
+                request.getPageSize(),
+                Sort.by(request.getSort().equals("ASC") ?
+                                Sort.Direction.ASC : Sort.Direction.DESC,
+                        request.getSortValue())
+        );
+
+        Page<ChargeRefundList> pages = chargeRefundRepository.findByFilter(
+                request.getFilter(),
+                request.getFilterValue(),
+                wallet.getWalletId(),
+                pageable
+        );
+
+        List<ChargeRefundListDto> list = pages.stream()
+                .map(ChargeRefundListDto::new)
                 .toList();
 
         return new ResponseListBody(pages.getTotalElements(), list);
