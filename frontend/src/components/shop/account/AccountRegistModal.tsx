@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BANK_LIST } from './BankList';
-import '../../pages/shop/Mypage/MyPageAccount.css';
+import '../../../pages/shop/Mypage/MyPageAccount.css';
 
 interface AccountRegistModalProps {
   isOpen: boolean;

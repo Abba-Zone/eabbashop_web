@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import AccountListCard from "../../../components/account/AccountListCard";
-import AccountRegistModal from "../../../components/account/AccountRegistModal";
+import AccountListCard from "../../../components/shop/account/AccountListCard";
+import AccountRegistModal from "../../../components/shop/account/AccountRegistModal";
 import { registAccount_s, getAccountList_s, updateAccount_s, deleteAccount_s } from "../../../services/account";
 
 interface accountData {

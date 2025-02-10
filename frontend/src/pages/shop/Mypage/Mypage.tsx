@@ -6,7 +6,7 @@ import { getMemberDetailMe_s } from "../../../services/member";
 import MypageSidebar from "../../../components/shop/mypage/MypageSidebar";
 import { MypageOrders, MypageOrderDetail, MypageTransactions, 
   MypageFinancial, MypageProfile, MypageDashboard, 
-  MyPageReview, MyPageAddress, MypageAccount } from "../..";
+  MyPageReview, MyPageAddress, MypageAccount, MypageRequest } from "../..";
 import "./Mypage.css";
 
 const Cookies = require("js-cookie");
@@ -181,6 +181,7 @@ const Mypage: React.FC = () => {
             <Route path="reviews" element={<MyPageReview />} />
             <Route path="addresses" element={<MyPageAddress />} />
             <Route path="account" element={<MypageAccount />} />
+            <Route path="request" element={<MypageRequest />} />
           </Routes>
         </div>
       </div>

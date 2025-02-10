@@ -37,6 +37,7 @@ export { default as MypageTransactions } from "./shop/Mypage/MypageTransactions"
 export { default as MypageFinancial } from "./shop/Mypage/MypageFinancial";
 export { default as MypageProfile } from "./shop/Mypage/MypageProfile";
 export { default as MypageAccount } from "./shop/Mypage/MypageAccount";
+export { default as MypageRequest } from "./shop/Mypage/MypageRequest";
 
 // admin
 export { default as AdminLogin } from "./admin/AdminLogin";
