@@ -3,7 +3,7 @@ package com.zon.abba.point.mapping;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public interface ChargeRefundList {
+public interface ChargeRefundInfo {
     String getChargeRefundId();
     String getSenderWalletId();
     String getReceiverWalletId();

@@ -15,16 +15,8 @@ public class RefundRequest {
     private String pointType;
     @JsonProperty("amount")
     private Integer amount;
-    @JsonProperty("bank")
-    private String bank;
-    @JsonProperty("accountNumber")
-    private String accountNumber;
-    @JsonProperty("firstName")
-    private String firstName;
-    @JsonProperty("lastName")
-    private String lastName;
-    @JsonProperty("isMain")
-    private Boolean isMain;
+    @JsonProperty("accountID")
+    private String accountID;
     @JsonProperty("parentID")
     private String parentID;
 }

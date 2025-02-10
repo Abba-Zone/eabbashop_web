@@ -15,10 +15,6 @@ public class ChargeRequest {
     private String pointType;
     @JsonProperty("amount")
     private Integer amount;
-    @JsonProperty("status")
-    private String status;
-    @JsonProperty("accountID")
-    private String accountID;
     @JsonProperty("parentID")
     private String parentID;
 }

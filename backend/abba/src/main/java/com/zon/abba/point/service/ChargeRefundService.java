@@ -8,7 +8,7 @@ import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.point.dto.ChargeRefundListDto;
 import com.zon.abba.point.entity.ChargeRefund;
 import com.zon.abba.account.entity.Wallet;
-import com.zon.abba.point.mapping.ChargeRefundList;
+import com.zon.abba.point.mapping.ChargeRefundInfo;
 import com.zon.abba.point.repository.ChargeRefundRepository;
 import com.zon.abba.account.repository.WalletRepository;
 import com.zon.abba.account.request.AccountRequest;
@@ -20,6 +20,7 @@ import com.zon.abba.common.exception.NoDataException;
 import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.security.JwtTokenProvider;
+import com.zon.abba.point.response.DetailChargeRefundResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -62,30 +63,18 @@ public class ChargeRefundService {
                 .orElseThrow(() -> new NoDataException("없는 지갑 정보입니다."));
 
         // 추후 환율 변동기 가져오면 적용 - 완 -
-
+        BigDecimal point = exchangeRateService.convertToUSD(BigDecimal.valueOf(request.getAmount()), 0);
 
         ChargeRefund chargeRefund = ChargeRefund.builder()
-                .accountId(request.getAccountID())
+                .receiverWalletId(wallet.getWalletId())
+                .senderWalletId(parentWallet.getWalletId())
                 .amount(BigDecimal.valueOf(request.getAmount()))
+                .point(point)
                 .type(request.getPointType())
-                .status(request.getStatus())
+                .status("A")
                 .createdId(memberId)
                 .modifiedId(memberId)
                 .build();
-
-        if(request.getStatus().equals("A")){
-            chargeRefund.setReceiverWalletId(wallet.getWalletId());
-            chargeRefund.setSenderWalletId(parentWallet.getWalletId());
-            BigDecimal point = exchangeRateService.convertToUSD(BigDecimal.valueOf(request.getAmount()), 0);
-            chargeRefund.setPoint(point);
-        }else if(request.getStatus().equals("B")){
-            chargeRefund.setSenderWalletId(wallet.getWalletId());
-            chargeRefund.setReceiverWalletId(parentWallet.getWalletId());
-            BigDecimal point = exchangeRateService.convertToUSD(BigDecimal.valueOf(request.getAmount()), 1);
-            chargeRefund.setPoint(point);
-        }else {
-            throw new InvalidException("잘못된 요청입니다.");
-        }
 
         chargeRefundRepository.save(chargeRefund);
 
@@ -109,23 +98,12 @@ public class ChargeRefundService {
         Wallet parentWallet = walletRepository.findOneByMemberId(request.getParentID())
                 .orElseThrow(() -> new NoDataException("없는 지갑 정보입니다."));
 
-        // 계좌 정보 만들기
-        AccountRequest accountRequest = new AccountRequest(
-                request.getBank(),
-                request.getAccountNumber(),
-                request.getFirstName(),
-                request.getLastName(),
-                request.getIsMain()
-        );
-
-        Accounts accounts = accountService.createAccount(accountRequest);
-
         BigDecimal point = exchangeRateService.convertToUSD(BigDecimal.valueOf(request.getAmount()), 1);
 
         ChargeRefund chargeRefund = ChargeRefund.builder()
                 .senderWalletId(wallet.getWalletId())
                 .receiverWalletId(parentWallet.getWalletId())
-                .accountId(accounts.getAccountId())
+                .accountId(request.getAccountID())
                 .amount(BigDecimal.valueOf(request.getAmount()))
                 .point(point)
                 .status("B")
@@ -155,7 +133,7 @@ public class ChargeRefundService {
                         request.getSortValue())
         );
 
-        Page<ChargeRefundList> pages = chargeRefundRepository.findByFilter(
+        Page<ChargeRefundInfo> pages = chargeRefundRepository.findByFilter(
                 request.getFilter(),
                 request.getFilterValue(),
                 wallet.getWalletId(),
@@ -179,13 +157,23 @@ public class ChargeRefundService {
         ChargeRefund chargeRefund = chargeRefundRepository.findById(request.getChargeRefundID())
                 .orElseThrow(() -> new NoDataException("없는 신청 정보입니다."));
 
-        if(!(chargeRefund.getStatus().equals("A") || chargeRefund.getStatus().equals("B"))){
-            throw new CommonException(229, "이미 처리된 정보입니다.");
-        }
 
-        chargeRefund.setStatus("C");
+        if(chargeRefund.getStatus().equals("A")) chargeRefund.setStatus("C");
+        else if(chargeRefund.getStatus().equals("B")) chargeRefund.setStatus("D");
+        else throw new CommonException(229, "이미 처리된 정보입니다.");
+
         chargeRefund.setModifiedId(memberId);
 
         return new ResponseBody("성공했습니다.");
+    }
+
+    @Transactional
+    public DetailChargeRefundResponse detailChargeRefund(ChargeRefundIdRequest request){
+        logger.info("포인트 충전/환급 신청 정보를 확인합니다.");
+
+        ChargeRefundInfo chargeRefundInfo = chargeRefundRepository.findInfoByChargeRefundId(request.getChargeRefundID())
+                .orElseThrow(() -> new NoDataException("없는 신청 정보입니다."));
+
+        return new DetailChargeRefundResponse(chargeRefundInfo);
     }
 }
