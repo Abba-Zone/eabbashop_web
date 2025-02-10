@@ -18,6 +18,8 @@ const Checkout:React.FC = () => {
     phone : "010-9334-1487",
     grade : "VVVVVVVVVVVVVVS",
     createdDateTime : "2024-11-15 16:30:22",
+    country:"한국",
+    lastLoginTime : "2024-11-15 16:30:22",
     platform:"zone",
   });
   const [addressList, setAddressList] = useState<addressAllInfo[]>([]);

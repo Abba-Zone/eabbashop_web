@@ -81,3 +81,4 @@ export { default as AdminBoardDetail } from "./admin/AdminBoardDetail";
 export { default as AdminRefundDetail } from "./admin/AdminRefundDetail";
 export { default as RegistAdmin } from "./regist/RegistAdmin";
 export { default as AdminRegistAdmin } from "./admin/AdminRegistAdmin";
+export { default as AdminWalletMembersList } from "./admin/AdminWalletMembersList";

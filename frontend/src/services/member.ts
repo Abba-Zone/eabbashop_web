@@ -29,7 +29,7 @@ export const changeRecommendEmail_s = async (referID: string, referredID: string
     return await changeRecommendEmail(referID, referredID);
 };
 
-export const getMemberList_s = async (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string): Promise<memberList> => {
+export const getMemberList_s = async (pageNo:number, pageSize:number, filter:string, filterValue:string, sort:string, sortValue:string): Promise<memberList> => {
     return await getMemberList(pageNo, pageSize, filter, filterValue, sort, sortValue);
 };
 

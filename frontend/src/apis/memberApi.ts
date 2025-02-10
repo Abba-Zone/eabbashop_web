@@ -103,14 +103,18 @@ export const logout = () =>{
     );
 }
 
-export const getMemberList = (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):memberList => {
+export const getMemberList = async (pageNo:number, pageSize:number, filter:string, filterValue:string, sort:string, sortValue:string):Promise<memberList> => {
     /* real code*/
-    // getData<memberList>('/list?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
-    //     .then((data:APIResponse<memberList>) => {
-    //         return data.result;
-    //     }
-    // );
-    // return null as unknown as memberList;
+    try {
+      const response = await getData<memberList>(
+          `/member/list?pageNo=${pageNo}&pageSize=${pageSize}&sort=${sort}&sortValue=${sortValue}&filter=${filter}&filterValue=${filterValue}`
+      );
+      console.log(response.data);
+      return response.data;
+  } catch (error) {
+      console.error('Error fetching board list:', error);
+      throw error;
+  }
 
     /* make for test*/
     var result :memberList = {
@@ -120,76 +124,19 @@ export const getMemberList = (pageNo:number, pageSize:number, filter:number, fil
     return result;
 }
 
-export const getMemberDetail = (memberID:string):memberDetailInfo => {
-    // getData<memberDetailInfo>('/info?MemberID='+ memberID)
-    //     .then((data:APIResponse<memberDetailInfo>) => {
-    //         return data.result;
-    //     }
-    // );
-    // return null as unknown as memberDetailInfo;
-    
-    var result:memberDetailInfo= {
-        memberInfo:{
-          memberID : "1q2w3er4t5t",
-          email : "rudgns9334",
-          firstName : "경훈",
-          lastName : "정",
-          role : "판매점",
-          recommend : "ych526@naver.com",
-          phone : "010-9334-1487",
-          grade : "VVVVVVVVVVVVVVS",
-          createdDateTime : "2024-11-15 16:30:22",
-          country : "KOR",
-          lastLoginTime:"2024-11-15 16:30:22",
-          platform:"zone",
-        },
-        wallet :{
-          AK : 1.0,
-          AP : 1.0,
-          SP : 1.0,
-          LP : 1.0,
-          ABZ : 1.0,
-        },
-        address : [
-            {
-                addressID:"1234",
-                country : "KOR",
-                zipCode : "11111",
-                baseAddress : "부산시 기장군",
-                detailAddress : "파란하집",
-                isMain : true,
-                isBill : true,
-                firstName: '경훈',
-                lastName: '정',
-                phone : "010-1234-5678",
-                name : "우리집",
-                comment : "문앞에두지말고경비원옆에두지말고널판"
-           },
-           {
-                addressID:"5678",
-                country : "KOR5",
-                zipCode : "111115",
-                baseAddress : "부산시 기장군5",
-                detailAddress : "파란하늘집5",
-                isMain : false,
-                isBill : false,
-                firstName: '경훈5',
-                lastName: '정',
-                phone : "010-1234-56785",
-                name : "우리집5",
-                comment : "문앞에두지말고경비원옆에두지말고널판5"
-          }
-        ],
-        // seller:null as unknown as seller
-        seller:{
-          name : "가게이름?",
-          zipCode : "11111",
-          baseAddress : "부산시 기장군",
-          detailAddress : "파란하늘집",
-          phone : "02-123-1234",
-        }
-    };
-    return result;
+export const getMemberDetail = async(memberID:string):Promise<memberDetailInfo> => {
+  try {
+    const response = await getData<memberDetailInfo>(
+     '/member/detail?memberID='+ memberID
+    );
+    if(response.data.toString() === "게시글이 없습니다."){
+      return null as unknown as memberDetailInfo;
+    }
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching board detail:', error);
+    throw error;
+  }
 }
 
 export const getMemberDetailMe = async (): Promise<memberDetailInfo> => {
