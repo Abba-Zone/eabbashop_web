@@ -6,15 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChargeRequest {
-    @JsonProperty("pointType")
-    private String pointType;
-    @JsonProperty("amount")
-    private Integer amount;
-    @JsonProperty("parentID")
-    private String parentID;
+public class ChargeRefundIdRequest {
+    @JsonProperty("chargeRefundID")
+    private String chargeRefundID;
 }

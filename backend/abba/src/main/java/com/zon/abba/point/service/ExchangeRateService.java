@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zon.abba.common.redis.RedisService;
 import com.zon.abba.point.response.ExchangeRateResponse;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,49 +18,61 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class ExchangeRateService {
-    @Value("${spring.exchange.url}")
-    private String API_URL;
-    @Value("${spring.exchange.redis-key}")
-    private String EXCHANGE_KEY;
+    @Value("${spring.exchange.redis-buy-key}")
+    private String EXCHANGE_BUY_KEY;
+    @Value("${spring.exchange.redis-sell-key}")
+    private String EXCHANGE_SELL_KEY;
 
+    private static final Logger logger = LoggerFactory.getLogger(ExchangeRateService.class);
     private final RedisService redisService;
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public void getExchangeRate() {
-        RestTemplate restTemplate = new RestTemplate();
-        ExchangeRateResponse response = restTemplate.getForObject(API_URL, ExchangeRateResponse.class);
-
-        if (response != null) {
-            Map<String, Double> rates = response.getConversionRates();
-            redisService.saveExchange(EXCHANGE_KEY, rates);
-        }
-    }
-
-    public Map<String, Double> getExchangeRates() {
-        Object redisData = redisService.get(EXCHANGE_KEY);
-        if (redisData == null) {
-            throw new RuntimeException("환율 정보를 가져올 수 없습니다.");
-        }
-
-        try {
-            return objectMapper.convertValue(redisData, new TypeReference<Map<String, Double>>() {
-            });
-        } catch (Exception e) {
-            throw new RuntimeException("환율 정보 변환 중 오류 발생", e);
-        }
-    }
+//    public void getExchangeRate() {
+//        RestTemplate restTemplate = new RestTemplate();
+//        ExchangeRateResponse response = restTemplate.getForObject(API_URL, ExchangeRateResponse.class);
+//
+//        if (response != null) {
+//            Map<String, Double> rates = response.getConversionRates();
+//            redisService.saveExchange(EXCHANGE_KEY, rates);
+//        }
+//    }
+//
+//
+//    public Map<String, Double> getExchangeRates(Integer type) {
+//        if(type)
+//        Object redisData = redisService.get(EXCHANGE_KEY);
+//        if (redisData == null) {
+//            throw new RuntimeException("환율 정보를 가져올 수 없습니다.");
+//        }
+//
+//        try {
+//            return objectMapper.convertValue(redisData, new TypeReference<Map<String, Double>>() {
+//            });
+//        } catch (Exception e) {
+//            throw new RuntimeException("환율 정보 변환 중 오류 발생", e);
+//        }
+//    }
 
     /**
      * 원화(KRW)를 달러(USD)로 변환
      * @param krwAmount 원화 금액
      * @return 변환된 USD 금액
+     * type 0 : buy
+     * type 1 : sell
      */
-    public BigDecimal convertToUSD(BigDecimal krwAmount, String code) {
-        Map<String, Double> rates = getExchangeRates();
-        Double exchangeRate = rates.get(code); // KRW 기준 환율 가져오기
+    public BigDecimal convertToUSD(BigDecimal krwAmount, Integer type) {
+        Double exchangeRate = 0.0;
+        if(type == 0){
+            exchangeRate = (Double) redisService.get(EXCHANGE_BUY_KEY);
+        } else if (type == 1) {
+            exchangeRate = (Double) redisService.get(EXCHANGE_SELL_KEY);
+        }
+
         if (exchangeRate == null) {
             throw new RuntimeException("환율 정보를 가져올 수 없습니다.");
         }
-        return krwAmount.divide(BigDecimal.valueOf(exchangeRate), 2, RoundingMode.HALF_UP);
+
+        BigDecimal rate = BigDecimal.valueOf(exchangeRate);
+//        logger.info(String.valueOf(rate));
+        return krwAmount.divide(rate, 2, RoundingMode.HALF_UP);
     }
 }

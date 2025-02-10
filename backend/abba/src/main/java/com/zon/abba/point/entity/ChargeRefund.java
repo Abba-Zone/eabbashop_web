@@ -22,13 +22,13 @@ public class ChargeRefund {
     @Column(name = "ChargeRefundID", nullable = false, updatable = false, length = 36)
     private String chargeRefundId;
 
-    @Column(name = "SenderWalletID", length = 36)
+    @Column(name = "SenderWalletID", length = 36, nullable = false)
     private String senderWalletId;
 
-    @Column(name = "ReceiverWalletID", length = 36)
+    @Column(name = "ReceiverWalletID", length = 36, nullable = false)
     private String receiverWalletId;
 
-    @Column(name = "AccountID", length = 36, nullable = false)
+    @Column(name = "AccountID", length = 36)
     private String accountId;
 
     @Column(name = "Amount", precision = 10, scale = 2, nullable = false)
