@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import { useEffect, useState } from "react";
-import { BottomButton, MemberList, SearchSet } from '../../components';
+import { BottomButton, WalletMemberList, SearchSet } from '../../components';
 import { getMemberList_s } from '../../services/member';
 import { useTranslation } from 'react-i18next';
 
-const AdminMemberList: React.FC = () => {
+const AdminWalletMembersList: React.FC = () => {
   const { t } = useTranslation();
   const [members, setMembers] = useState<memberInfo[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
@@ -60,7 +60,7 @@ const AdminMemberList: React.FC = () => {
 
   return (
     <div>
-      <h2>{t("AdminManagerMember:List.Title")}</h2>
+      <h2>지갑관리</h2>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <select name="pageSize" value={pageSize} onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {setPageNo(1);setPageSize(Number(event.target.value))}}>
         <option value={10}>10</option>
@@ -69,10 +69,10 @@ const AdminMemberList: React.FC = () => {
         <option value={50}>50</option>
         <option value={100}>100</option>
       </select><span>개씩 보기</span>
-      <MemberList members={members} changeSort={changeSort}></MemberList>
+      <WalletMemberList members={members} changeSort={changeSort}></WalletMemberList>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
     </div>
   );
 };
 
-export default AdminMemberList;
+export default AdminWalletMembersList;

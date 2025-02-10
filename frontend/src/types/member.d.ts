@@ -57,6 +57,8 @@ interface memberInfo{
 	recommend : string,
 	phone : string,
 	platform : string,
+	country : string,
+	lastLoginTime : string,
 	createdDateTime : string,
 }
 interface memberDetail extends memberInfo{
@@ -81,14 +83,6 @@ interface updateInfo{
 	lastName : string,
 	phone : string,
 	password : string
-}
-
-interface wallet{
-	AK : number,
-	AP : number,
-	ABZ : number,
-	LP : number,
-	SP : number,
 }
 
 interface seller{

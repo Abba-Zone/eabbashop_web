@@ -22,9 +22,10 @@ const Menu: React.FC<MenuProps> = ({ toggleMenu }) => {
             url: "", 
             items: [
                 { name: t("Menu02.SubMenu01"), url: "/admin/member", viewYn:isInclude(process.env.REACT_APP_USER_LIST || "")},
-                { name: t("Menu02.SubMenu02"), url: "/admin/customer-inquiry", viewYn:false},
+                { name: t("Menu02.SubMenu02"), url: "/admin/customer-inquiry", viewYn:true},
                 { name: t("Menu02.SubMenu03"), url: "/admin/change-referral", viewYn:isInclude(process.env.REACT_APP_RECOMMENDER_CHANGE_REQUEST_LIST || "")},
-                { name: '등급업', url: "/admin/registadmin",  viewYn:false}
+                { name: '등급업', url: "/admin/registadmin",  viewYn:true},
+                { name: '지갑관리', url: "/admin/membersWallet", viewYn:true},
             ]
         },
         {
@@ -33,8 +34,8 @@ const Menu: React.FC<MenuProps> = ({ toggleMenu }) => {
             url: "", 
             items: [
                 { name: t("Menu03.SubMenu01"), url: "/admin/product", viewYn:isInclude(process.env.REACT_APP_PRODUCT_VIEW || "")},
-                { name: t("Menu03.SubMenu02"), url: "/admin/category", viewYn:false},
-                { name: '상품 리뷰', url: "/admin/product/review", viewYn:false }
+                { name: t("Menu03.SubMenu02"), url: "/admin/category", viewYn:true},
+                { name: '상품 리뷰', url: "/admin/product/review", viewYn:true }
             ]
         },
         {
@@ -45,7 +46,7 @@ const Menu: React.FC<MenuProps> = ({ toggleMenu }) => {
                 { name: t("Menu04.SubMenu01"), url: "/admin/order", viewYn:isInclude(process.env.REACT_APP_ADMIN_ORDER_VIEW || "") },
                 { name: t("Menu04.SubMenu02"), url: "/admin/invoice", viewYn:isInclude(process.env.REACT_APP_INVOICE_VIEW || "") },
                 { name: t("Menu04.SubMenu03"), url: "/admin/shipment", viewYn:isInclude(process.env.REACT_APP_SHIPMENT_VIEW || "") },
-                { name: t("Menu04.SubMenu04"), url: "/admin/regular-order", viewYn:false }
+                { name: t("Menu04.SubMenu04"), url: "/admin/regular-order", viewYn:true }
             ]
         },
         {
@@ -53,8 +54,8 @@ const Menu: React.FC<MenuProps> = ({ toggleMenu }) => {
             headerName: t("Menu05.Title"), 
             url: "", 
             items: [
-                { name: t("Menu05.SubMenu01"), url: "/admin/share-line", viewYn:false },
-                { name: t("Menu05.SubMenu02"), url: "/admin/share-distribution", viewYn:false }
+                { name: t("Menu05.SubMenu01"), url: "/admin/share-line", viewYn:true },
+                { name: t("Menu05.SubMenu02"), url: "/admin/share-distribution", viewYn:true }
             ]
         },
         {
@@ -62,9 +63,9 @@ const Menu: React.FC<MenuProps> = ({ toggleMenu }) => {
             headerName: t("Menu06.Title"), 
             url: "", 
             items: [
-                { name: t("Menu06.SubMenu01"), url: "/admin/charge-point", viewYn:false },
-                { name: t("Menu06.SubMenu02"), url: "/admin/change-point", viewYn:false },
-                { name: t("Menu06.SubMenu03"), url: "/admin/cancle-transfer", viewYn:false },
+                { name: t("Menu06.SubMenu01"), url: "/admin/charge-point", viewYn:true },
+                { name: t("Menu06.SubMenu02"), url: "/admin/change-point", viewYn:true },
+                { name: t("Menu06.SubMenu03"), url: "/admin/cancle-transfer", viewYn:true },
                 { name: t("Menu06.SubMenu04"), url: "/admin/refund-request", viewYn:isInclude(process.env.REACT_APP_RETURN_EXCHANGE_LIST || "") }
             ]
         },

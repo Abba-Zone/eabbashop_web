@@ -29,7 +29,6 @@ const MenuCard2: React.FC<Props> = (props) => {
   };
   const checkoutViewMenu = () => {
     let res = 0;
-    console.log(props.menu.items)
     for(let i = 0 ; i < props.menu.items.length ; i++){
       if (props.menu.items[i].viewYn)
         res++;

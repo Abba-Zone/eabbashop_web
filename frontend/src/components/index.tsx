@@ -121,5 +121,7 @@ export {default as OrderInfo} from "./shop/orderDetail/OrderInfo";
 export {default as AddressList} from "./shop/address/AddressList";
 export {default as RegistAddress} from "./shop/address/RegistAddress";
 
+/*Admin Wallet */
+export {default as WalletMemberList} from "./admin/walletMember/WalletMemberList";
 
 
