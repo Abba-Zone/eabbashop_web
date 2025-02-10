@@ -18,8 +18,6 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class ExchangeRateService {
-    @Value("${spring.exchange.url}")
-    private String API_URL;
     @Value("${spring.exchange.redis-buy-key}")
     private String EXCHANGE_BUY_KEY;
     @Value("${spring.exchange.redis-sell-key}")

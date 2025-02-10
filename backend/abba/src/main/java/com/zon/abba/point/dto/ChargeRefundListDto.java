@@ -1,7 +1,7 @@
 package com.zon.abba.point.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.zon.abba.point.mapping.ChargeRefundInfo;
+import com.zon.abba.point.mapping.ChargeRefundList;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,50 +33,54 @@ public class ChargeRefundListDto {
     private String status;
     @JsonProperty("createdDateTime")
     private LocalDateTime createdDateTime;
-    @JsonProperty("firstName")
-    private String firstName;
-    @JsonProperty("lastName")
-    private String lastName;
-    @JsonProperty("email")
-    private String email;
+    @JsonProperty("member")
+    private MemberDto member;
 
 
-    public ChargeRefundListDto(ChargeRefundInfo chargeRefundInfo, boolean isAdmin){
-        this.chargeRefundID = chargeRefundInfo.getChargeRefundId();
-        this.senderWalletID = chargeRefundInfo.getSenderWalletId();
-        this.receiverWalletID = chargeRefundInfo.getReceiverWalletId();
-        this.accountID = chargeRefundInfo.getAccountId();
-        this.amount = chargeRefundInfo.getAmount();
-        this.point = chargeRefundInfo.getPoint();
-        this.type = chargeRefundInfo.getType();
-        this.status = chargeRefundInfo.getStatus();
-        this.createdDateTime = chargeRefundInfo.getCreatedDateTime();
+    public ChargeRefundListDto(ChargeRefundList chargeRefundList, boolean isAdmin){
+        this.chargeRefundID = chargeRefundList.getChargeRefundId();
+        this.senderWalletID = chargeRefundList.getSenderWalletId();
+        this.receiverWalletID = chargeRefundList.getReceiverWalletId();
+        this.accountID = chargeRefundList.getAccountId();
+        this.amount = chargeRefundList.getAmount();
+        this.point = chargeRefundList.getPoint();
+        this.type = chargeRefundList.getType();
+        this.status = chargeRefundList.getStatus();
+        this.createdDateTime = chargeRefundList.getCreatedDateTime();
 
         if(!isAdmin){
             if (this.status.equals("A") ||
                     this.status.equals("C") ||
                     this.status.equals("E") ||
                     this.status.equals("G")){
-                this.firstName = chargeRefundInfo.getSenderFirstName();
-                this.lastName = chargeRefundInfo.getSenderLastName();
-                this.email = chargeRefundInfo.getSenderEmail();
+                this.member = new MemberDto(
+                        chargeRefundList.getSenderFirstName(),
+                        chargeRefundList.getSenderLastName(),
+                        chargeRefundList.getSenderEmail()
+                        );
             }else{
-                this.firstName = chargeRefundInfo.getReceiverFirstName();
-                this.lastName = chargeRefundInfo.getReceiverLastName();
-                this.email = chargeRefundInfo.getReceiverEmail();
+                this.member = new MemberDto(
+                        chargeRefundList.getReceiverFirstName(),
+                        chargeRefundList.getReceiverLastName(),
+                        chargeRefundList.getReceiverEmail()
+                );
             }
         }else{
             if (this.status.equals("A") ||
                     this.status.equals("C") ||
                     this.status.equals("E") ||
                     this.status.equals("G")){
-                this.firstName = chargeRefundInfo.getReceiverFirstName();
-                this.lastName = chargeRefundInfo.getReceiverLastName();
-                this.email = chargeRefundInfo.getReceiverEmail();
+                this.member = new MemberDto(
+                        chargeRefundList.getReceiverFirstName(),
+                        chargeRefundList.getReceiverLastName(),
+                        chargeRefundList.getReceiverEmail()
+                );
             }else{
-                this.firstName = chargeRefundInfo.getSenderFirstName();
-                this.lastName = chargeRefundInfo.getSenderLastName();
-                this.email = chargeRefundInfo.getSenderEmail();
+                this.member = new MemberDto(
+                        chargeRefundList.getSenderFirstName(),
+                        chargeRefundList.getSenderLastName(),
+                        chargeRefundList.getSenderEmail()
+                );
             }
         }
 

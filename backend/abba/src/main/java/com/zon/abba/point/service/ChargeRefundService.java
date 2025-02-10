@@ -1,17 +1,15 @@
 package com.zon.abba.point.service;
 
-import com.zon.abba.account.entity.Accounts;
 import com.zon.abba.common.exception.CommonException;
-import com.zon.abba.common.exception.InvalidException;
 import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.point.dto.ChargeRefundListDto;
 import com.zon.abba.point.entity.ChargeRefund;
 import com.zon.abba.account.entity.Wallet;
 import com.zon.abba.point.mapping.ChargeRefundInfo;
+import com.zon.abba.point.mapping.ChargeRefundList;
 import com.zon.abba.point.repository.ChargeRefundRepository;
 import com.zon.abba.account.repository.WalletRepository;
-import com.zon.abba.account.request.AccountRequest;
 import com.zon.abba.point.request.ChargeRefundIdRequest;
 import com.zon.abba.point.request.ChargeRequest;
 import com.zon.abba.point.request.RefundRequest;
@@ -106,6 +104,7 @@ public class ChargeRefundService {
                 .accountId(request.getAccountID())
                 .amount(BigDecimal.valueOf(request.getAmount()))
                 .point(point)
+                .type(request.getPointType())
                 .status("B")
                 .createdId(memberId)
                 .modifiedId(memberId)
@@ -133,7 +132,7 @@ public class ChargeRefundService {
                         request.getSortValue())
         );
 
-        Page<ChargeRefundInfo> pages = chargeRefundRepository.findByFilter(
+        Page<ChargeRefundList> pages = chargeRefundRepository.findByFilter(
                 request.getFilter(),
                 request.getFilterValue(),
                 wallet.getWalletId(),

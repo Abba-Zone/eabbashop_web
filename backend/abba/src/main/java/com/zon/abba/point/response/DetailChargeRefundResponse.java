@@ -1,7 +1,10 @@
 package com.zon.abba.point.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.zon.abba.point.dto.AccountDto;
+import com.zon.abba.point.dto.MemberDto;
 import com.zon.abba.point.mapping.ChargeRefundInfo;
+import com.zon.abba.point.mapping.ChargeRefundList;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,8 +24,6 @@ public class DetailChargeRefundResponse {
     private String senderWalletID;
     @JsonProperty("receiverWalletID")
     private String receiverWalletID;
-    @JsonProperty("accountID")
-    private String accountID;
     @JsonProperty("amount")
     private BigDecimal amount;
     @JsonProperty("point")
@@ -33,34 +34,44 @@ public class DetailChargeRefundResponse {
     private String status;
     @JsonProperty("createdDateTime")
     private LocalDateTime createdDateTime;
-    @JsonProperty("senderFirstName")
-    private String senderFirstName;
-    @JsonProperty("senderLastName")
-    private String senderLastName;
-    @JsonProperty("senderEmail")
-    private String senderEmail;
-    @JsonProperty("receiverFirstName")
-    private String receiverFirstName;
-    @JsonProperty("receiverLastName")
-    private String receiverLastName;
-    @JsonProperty("receiverEmail")
-    private String receiverEmail;
+    @JsonProperty("sender")
+    private MemberDto sender;
+    @JsonProperty("receiver")
+    private MemberDto receiver;
+    @JsonProperty("account")
+    private AccountDto account;
 
     public DetailChargeRefundResponse(ChargeRefundInfo chargeRefundInfo){
         this.chargeRefundID = chargeRefundInfo.getChargeRefundId();
         this.senderWalletID = chargeRefundInfo.getSenderWalletId();
         this.receiverWalletID = chargeRefundInfo.getReceiverWalletId();
-        this.accountID = chargeRefundInfo.getAccountId();
         this.amount = chargeRefundInfo.getAmount();
         this.point = chargeRefundInfo.getPoint();
         this.type = chargeRefundInfo.getType();
         this.status = chargeRefundInfo.getStatus();
         this.createdDateTime = chargeRefundInfo.getCreatedDateTime();
-        this.senderFirstName = chargeRefundInfo.getSenderFirstName();
-        this.senderLastName = chargeRefundInfo.getSenderLastName();
-        this.senderEmail = chargeRefundInfo.getSenderEmail();
-        this.receiverFirstName = chargeRefundInfo.getReceiverFirstName();
-        this.receiverLastName = chargeRefundInfo.getReceiverLastName();
-        this.receiverEmail = chargeRefundInfo.getReceiverEmail();
+        this.sender = new MemberDto(
+                chargeRefundInfo.getSenderFirstName(),
+                chargeRefundInfo.getSenderLastName(),
+                chargeRefundInfo.getSenderEmail()
+        );
+        this.receiver = new MemberDto(
+                chargeRefundInfo.getReceiverFirstName(),
+                chargeRefundInfo.getReceiverLastName(),
+                chargeRefundInfo.getReceiverEmail()
+        );
+        if (this.status.equals("B") ||
+                this.status.equals("D") ||
+                this.status.equals("F") ||
+                this.status.equals("H")){
+            this.account = new AccountDto(
+                    chargeRefundInfo.getAccountId(),
+                    chargeRefundInfo.getBank(),
+                    chargeRefundInfo.getAccountNumber(),
+                    chargeRefundInfo.getAccountFirstName(),
+                    chargeRefundInfo.getAccountLastName()
+            );
+        }
+
     }
 }

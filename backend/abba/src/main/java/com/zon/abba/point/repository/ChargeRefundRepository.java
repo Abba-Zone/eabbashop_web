@@ -2,6 +2,7 @@ package com.zon.abba.point.repository;
 
 import com.zon.abba.point.entity.ChargeRefund;
 import com.zon.abba.point.mapping.ChargeRefundInfo;
+import com.zon.abba.point.mapping.ChargeRefundList;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -65,7 +66,7 @@ public interface ChargeRefundRepository extends JpaRepository<ChargeRefund, Stri
     """,
             nativeQuery = true
     )
-    Page<ChargeRefundInfo> findByFilter(@Param("filter") String filter,
+    Page<ChargeRefundList> findByFilter(@Param("filter") String filter,
                                         @Param("filterValue") String filterValue,
                                         @Param("walletId") String walletId,
                                         Pageable pageable);
@@ -91,7 +92,12 @@ public interface ChargeRefundRepository extends JpaRepository<ChargeRefund, Stri
         -- Receiver 정보
         r_m.FirstName AS receiverFirstName,
         r_m.LastName AS receiverLastName,
-        r_m.Email AS receiverEmail
+        r_m.Email AS receiverEmail,
+        
+        COALESCE(a.Bank, '') AS bank,
+        COALESCE(a.AccountNumber, '') AS accountNumber,
+        COALESCE(a.FirstName, '') AS accountFirstName,
+        COALESCE(a.LastName, '') AS accountLastName
         
     FROM ChargeRefund c
     LEFT JOIN Wallet s_w ON c.SenderWalletID = s_w.WalletID
@@ -99,6 +105,8 @@ public interface ChargeRefundRepository extends JpaRepository<ChargeRefund, Stri
 
     LEFT JOIN Wallet r_w ON c.ReceiverWalletID = r_w.WalletID
     LEFT JOIN Members r_m ON r_w.MemberID = r_m.MemberID
+    
+    LEFT JOIN Accounts a ON c.AccountID IS NOT NULL AND c.AccountID = a.AccountID 
     
     WHERE c.DeleteYN = 'N'
     AND c.ChargeRefundID = :chargeRefundId
