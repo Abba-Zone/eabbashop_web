@@ -2,12 +2,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMemberDetail_s } from '../../services/member';
 import { useTranslation } from 'react-i18next';
-import { BottomButton, SearchSet } from '../../components';
+import { AdminHistoryList, BottomButton, SearchSet } from '../../components';
 import { getHistoryList_s } from '../../services/wallet';
 const AdminWalletHistory: React.FC = () => {
   const { t } = useTranslation();
   const [member, setMember] = useState<memberDetail | undefined>(undefined);
   const [wallet, setWallet] = useState<wallet | undefined>(undefined);
+  const [history, setHistory] = useState<adminHistory[] | undefined>(undefined);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
   const [lastPage, setLastPage] = useState<number>(1);
@@ -37,6 +38,7 @@ const AdminWalletHistory: React.FC = () => {
         try {
           if (params.id !== undefined){
             const totalAndHistoryList : historyAdminList = await getHistoryList_s(pageNo - 1, pageSize, startDate, endDate, params.id);
+            setHistory(totalAndHistoryList.list);
             console.log(totalAndHistoryList);
           // setMembers(totalAndMemberList.list);
           setLastPage(totalAndHistoryList.totalCount === 0? 1:Math.floor((totalAndHistoryList.totalCount - 1)/pageSize) + 1);
@@ -77,7 +79,8 @@ const AdminWalletHistory: React.FC = () => {
   </select><span>개씩 보기</span>
   <input onChange={changeStart} type="date" value={startDate}></input>
   <input onChange={changeEnd} type="date" value={endDate}></input>
-  {/* <WalletMemberList members={members} changeSort={changeSort}></WalletMemberList> */}
+
+  <AdminHistoryList historys={history||[]}></AdminHistoryList>
   <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
   </div>
   );

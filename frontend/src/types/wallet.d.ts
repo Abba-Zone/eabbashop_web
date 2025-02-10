@@ -35,3 +35,22 @@ interface adminHistory{
     SP: number,
     pointType: string
 }
+interface adminHistoryDetail{
+    historyID: string,
+    message: string,
+    LP: number,
+    LPBalance: number,
+    AK: number,
+    AKBalance: number,
+    SP: number,
+    SPBalance: number,
+    OrderDetailID: string|null,
+    ChargeRefundID: string|null,
+    TransferID: string|null,
+    type: number|null
+    pointType: string,
+}
+interface adminHistoryDetailReciever{
+    message:string,
+    list:adminHistoryDetail,
+}

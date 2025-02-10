@@ -123,5 +123,11 @@ export {default as RegistAddress} from "./shop/address/RegistAddress";
 
 /*Admin Wallet */
 export {default as WalletMemberList} from "./admin/walletMember/WalletMemberList";
+export {default as AdminHistoryList} from "./admin/historyList/AdminHistoryList";
 
+/*Admin Wallet Detail*/
+export {default as AdminHistoryDetailPoint} from "./admin/historyDetail/AdminHistoryDetailPoint";
+export {default as AdminHistoryDetailOrder} from "./admin/historyDetail/AdminHistoryDetailOrder";
+export {default as AdminHistoryDetailCharge} from "./admin/historyDetail/AdminHistoryDetailCharge";
+export {default as AdminHistoryDetailTransfer} from "./admin/historyDetail/AdminHistoryDetailTransfer";
 

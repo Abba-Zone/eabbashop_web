@@ -37,25 +37,15 @@ export const getWalletAdminList = async(pageNo:number, pageSize:number, startDat
 }
 //지갑내역상세
 //지갑내역상세(admin)
-
-
-
-export const registAccount = async (newAccount:accountData):Promise<accountList> => {
+export const getAdminHistoryDetail = async(historyID:string):Promise<adminHistoryDetailReciever> => {
+    /* real code*/
     try {
-        const response = await postData<accountList>('/account/register', newAccount);
+        const response = await getData<adminHistoryDetailReciever>(
+            `/wallet/detail/admin/${historyID}`
+        );
         return response.data;
     } catch (error) {
-        console.error('Error fetching regist account:', error);
+        console.error('Error fetching board list:', error);
         throw error;
     }
-}
-
-export const updateAccount = async (accountData:accountData):Promise<accountList> => {
-    const response = await postData<accountList>('/account/update', accountData);
-    return response.data;
-}
-
-export const deleteAccount = async (accountID:string):Promise<accountList> => {
-    const response = await postData<accountList>('/account/delete', accountID);
-    return response.data;
 }

@@ -18,7 +18,8 @@ import { Home, Login, Signup, Cart,
   AdminSetting, AdminInquiryList, AdminInquiryDetail, 
   AdminBoardDetail, AdminRefundDetail, GoogleLogin, SocialSignup, KakaoLogin,
   RegistAdmin, FindIDPW, AdminRegistAdmin, Mypage, ChangePW,
-  AdminWalletMembersList} from '../pages';
+  AdminWalletMembersList,
+  AdminWalletDetail} from '../pages';
 
 const RoutePath:React.FC = () => {
   const location = useLocation();
@@ -41,7 +42,7 @@ const RoutePath:React.FC = () => {
         <Route path="/admin/registadmin" element={<AdminRegistAdmin />} />
         <Route path="/admin/membersWallet" element={<AdminWalletMembersList />} />
         <Route path="/admin/wallet/:id" element={<AdminWalletHistory />} />
-        <Route path="/admin/walletdetail/:id" element={<AdminWalletMembersList />} />
+        <Route path="/admin/walletdetail/:id" element={<AdminWalletDetail />} />
 
         {/* Product Management */}
         <Route path="/admin/product" element={<AdminProductList />} />
