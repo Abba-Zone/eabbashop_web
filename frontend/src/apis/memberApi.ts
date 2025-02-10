@@ -127,7 +127,7 @@ export const getMemberList = async (pageNo:number, pageSize:number, filter:strin
 export const getMemberDetail = async(memberID:string):Promise<memberDetailInfo> => {
   try {
     const response = await getData<memberDetailInfo>(
-     '/member/detail?memberID='+ memberID
+     '/member/detail/'+ memberID
     );
     if(response.data.toString() === "게시글이 없습니다."){
       return null as unknown as memberDetailInfo;
