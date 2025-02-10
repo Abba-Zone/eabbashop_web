@@ -74,7 +74,7 @@ interface memberList{
 interface memberDetailInfo{
 	memberInfo : memberDetail,
 	wallet : wallet,
-	address : addressAllInfo[],
+	addresses : addressAllInfo[],
 	seller : seller,
 }
 

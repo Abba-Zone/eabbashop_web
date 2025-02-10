@@ -16,7 +16,7 @@ const AdminMemberDetail: React.FC = () => {
         const memberDetail : memberDetailInfo = await getMemberDetail_s(params.id);
         setMember(memberDetail.memberInfo);
         setWallet(memberDetail.wallet);
-        setAddress(memberDetail.address);
+        setAddress(memberDetail.addresses);
         setSeller(memberDetail.seller);
       }
     } catch (error) {
@@ -26,7 +26,7 @@ const AdminMemberDetail: React.FC = () => {
   useEffect(() => {
     getMemberDetail(); // 비동기 함수 호출
   }, [getMemberDetail]);
-  if (!member || !wallet || !seller) {
+  if (!member) {
     return (
       <div>
         <h1>{t("AdminManagerMember:Detail.Option.Attribute00")}</h1>
@@ -38,11 +38,11 @@ const AdminMemberDetail: React.FC = () => {
       <h1>{member.firstName + ' ' + member.lastName}</h1>
       <div>
         <MemberAdminInfo memberInfo={member} />
-        <MemberAdminWallet wallet={wallet}/>
+        {wallet && <MemberAdminWallet wallet={wallet}/>}
       </div>
       <div>
         <MemberAdminAddress address={address}/>
-        <MemberAdminSeller seller={seller}/>
+        {seller && <MemberAdminSeller seller={seller}/>}
       </div>
     </div>
   );

@@ -129,9 +129,7 @@ export const getMemberDetail = async(memberID:string):Promise<memberDetailInfo> 
     const response = await getData<memberDetailInfo>(
      '/member/detail/'+ memberID
     );
-    if(response.data.toString() === "게시글이 없습니다."){
-      return null as unknown as memberDetailInfo;
-    }
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error('Error fetching board detail:', error);
@@ -155,13 +153,6 @@ export const changePassword = (changeInfo:emailAndPassword) => {
 export const withdraw = () => {
     postData('/withdraw').then(() => {});
 }
-
-// export const download = (memberListPage:memberListPage) => {
-//     const url = filterToUrl(memberListPage);
-//     postData('/download?' + url).then(() => {});
-//     return 1;
-// }
-
 export const getUserList = async (): Promise<testuser[]> => {
     const data: APIResponse<testuser[]> = await getTestData();
     return data.result; // 비동기 결과를 반환
