@@ -46,7 +46,16 @@ public class PointController {
     @Operation(summary = "내 포인트 신청 내역 조회", description = "내가 신청한 내역들을 볼 수 있다.")
     public ResponseEntity<Object> requestedChargeList(RequestList request){
 
-        ResponseListBody response = chargeRefundService.requestedChargeList(request);
+        ResponseListBody response = chargeRefundService.chargeRefundList(request, false);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/list/response")
+    @Operation(summary = "포인트 신청 내역 조회", description = "내가 신청받은 내역들을 볼 수 있다.")
+    public ResponseEntity<Object> respondedChargeList(RequestList request){
+
+        ResponseListBody response = chargeRefundService.chargeRefundList(request, true);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

@@ -33,21 +33,15 @@ public class ChargeRefundListDto {
     private String status;
     @JsonProperty("createdDateTime")
     private LocalDateTime createdDateTime;
-    @JsonProperty("senderFirstName")
-    private String senderFirstName;
-    @JsonProperty("senderLastName")
-    private String senderLastName;
-    @JsonProperty("senderEmail")
-    private String senderEmail;
-    @JsonProperty("receiverFirstName")
-    private String receiverFirstName;
-    @JsonProperty("receiverLastName")
-    private String receiverLastName;
-    @JsonProperty("receiverEmail")
-    private String receiverEmail;
+    @JsonProperty("firstName")
+    private String firstName;
+    @JsonProperty("lastName")
+    private String lastName;
+    @JsonProperty("email")
+    private String email;
 
 
-    public ChargeRefundListDto(ChargeRefundList chargeRefundList){
+    public ChargeRefundListDto(ChargeRefundList chargeRefundList, boolean isAdmin){
         this.chargeRefundID = chargeRefundList.getChargeRefundId();
         this.senderWalletID = chargeRefundList.getSenderWalletId();
         this.receiverWalletID = chargeRefundList.getReceiverWalletId();
@@ -57,11 +51,34 @@ public class ChargeRefundListDto {
         this.type = chargeRefundList.getType();
         this.status = chargeRefundList.getStatus();
         this.createdDateTime = chargeRefundList.getCreatedDateTime();
-        this.senderFirstName = chargeRefundList.getSenderFirstName();
-        this.senderLastName = chargeRefundList.getSenderLastName();
-        this.senderEmail = chargeRefundList.getSenderEmail();
-        this.receiverFirstName = chargeRefundList.getReceiverFirstName();
-        this.receiverLastName = chargeRefundList.getReceiverLastName();
-        this.receiverEmail = chargeRefundList.getReceiverEmail();
+
+        if(!isAdmin){
+            if (this.status.equals("A") ||
+                    this.status.equals("C") ||
+                    this.status.equals("E") ||
+                    this.status.equals("G")){
+                this.firstName = chargeRefundList.getSenderFirstName();
+                this.lastName = chargeRefundList.getSenderLastName();
+                this.email = chargeRefundList.getSenderEmail();
+            }else{
+                this.firstName = chargeRefundList.getReceiverFirstName();
+                this.lastName = chargeRefundList.getReceiverLastName();
+                this.email = chargeRefundList.getReceiverEmail();
+            }
+        }else{
+            if (this.status.equals("A") ||
+                    this.status.equals("C") ||
+                    this.status.equals("E") ||
+                    this.status.equals("G")){
+                this.firstName = chargeRefundList.getReceiverFirstName();
+                this.lastName = chargeRefundList.getReceiverLastName();
+                this.email = chargeRefundList.getReceiverEmail();
+            }else{
+                this.firstName = chargeRefundList.getSenderFirstName();
+                this.lastName = chargeRefundList.getSenderLastName();
+                this.email = chargeRefundList.getSenderEmail();
+            }
+        }
+
     }
 }

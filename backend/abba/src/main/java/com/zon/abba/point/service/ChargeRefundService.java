@@ -139,7 +139,7 @@ public class ChargeRefundService {
     }
 
     @Transactional
-    public ResponseListBody requestedChargeList(RequestList request){
+    public ResponseListBody chargeRefundList(RequestList request, boolean isAdmin){
         logger.info("신청한 포인트 충전 신청 내역을 조회합니다.");
         String memberId = jwtTokenProvider.getCurrentMemberId()
                 .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
@@ -163,39 +163,7 @@ public class ChargeRefundService {
         );
 
         List<ChargeRefundListDto> list = pages.stream()
-                .map(ChargeRefundListDto::new)
-                .toList();
-
-        return new ResponseListBody(pages.getTotalElements(), list);
-
-    }
-
-    @Transactional
-    public ResponseListBody respondedChargeList(RequestList request){
-        logger.info("신청 받은 포인트 충전 신청 내역을 조회합니다.");
-        String memberId = jwtTokenProvider.getCurrentMemberId()
-                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
-
-        Wallet wallet = walletRepository.findOneByMemberId(memberId)
-                .orElseThrow(() -> new NoDataException("없는 지갑 정보입니다."));
-
-        Pageable pageable = PageRequest.of(
-                request.getPageNo(),
-                request.getPageSize(),
-                Sort.by(request.getSort().equals("ASC") ?
-                                Sort.Direction.ASC : Sort.Direction.DESC,
-                        request.getSortValue())
-        );
-
-        Page<ChargeRefundList> pages = chargeRefundRepository.findByFilter(
-                request.getFilter(),
-                request.getFilterValue(),
-                wallet.getWalletId(),
-                pageable
-        );
-
-        List<ChargeRefundListDto> list = pages.stream()
-                .map(ChargeRefundListDto::new)
+                .map(cr -> new ChargeRefundListDto(cr, isAdmin))
                 .toList();
 
         return new ResponseListBody(pages.getTotalElements(), list);
