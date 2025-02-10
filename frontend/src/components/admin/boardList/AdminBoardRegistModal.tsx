@@ -37,6 +37,8 @@ const AdminBoardRegistModal:React.FC<Props> = ({type, setModalOpen}) => {
       return "공지사항";
     else if(type === 200)
       return "아빠의 편지";
+    else if(type === 300)
+      return "기부사항";
     return "";
   }
   const inputImageFile = (imagefile: IFile[]) => {

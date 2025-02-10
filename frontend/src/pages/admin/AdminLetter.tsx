@@ -33,7 +33,7 @@ const AdminLetter: React.FC = () => {
     } catch (error) {
       console.error('Error fetching notice list:', error);
     }
-},[pageNo, pageSize, filter, filterValue, sort, sortValue]);
+},[pageNo, pageSize, filter, filterValue, sort, sortValue, modalOpen]);
 
   const changePage = (move:number) =>{
       setPageNo(move);
