@@ -3,6 +3,7 @@ package com.zon.abba.point.controller;
 import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.point.request.ChargeRefundIdRequest;
+import com.zon.abba.point.request.ChargeRefundStatusRequest;
 import com.zon.abba.point.request.ChargeRequest;
 import com.zon.abba.point.request.RefundRequest;
 import com.zon.abba.point.response.DetailChargeRefundResponse;
@@ -75,6 +76,15 @@ public class PointController {
     public ResponseEntity<Object> detailRespondedChargeRefund(ChargeRefundIdRequest request){
 
         DetailChargeRefundResponse response = chargeRefundService.detailChargeRefund(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/confirm")
+    @Operation(summary = "포인트 신청 응답", description = "포인트 신청을 받거나 거절할 수 있다.")
+    public ResponseEntity<Object> confirmChargeRefund(@RequestBody ChargeRefundStatusRequest request){
+
+        ResponseBody response = chargeRefundService.confirmChargeRefund(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

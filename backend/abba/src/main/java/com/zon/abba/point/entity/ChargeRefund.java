@@ -31,7 +31,7 @@ public class ChargeRefund {
     @Column(name = "AccountID", length = 36)
     private String accountId;
 
-    @Column(name = "Amount", precision = 10, scale = 2, nullable = false)
+    @Column(name = "Amount", precision = 10, scale = 2)
     private BigDecimal amount;
 
     @Column(name = "Point", precision = 10, scale = 2, nullable = false)
