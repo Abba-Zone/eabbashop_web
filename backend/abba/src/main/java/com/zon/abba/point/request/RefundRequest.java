@@ -13,8 +13,8 @@ import lombok.Setter;
 public class RefundRequest {
     @JsonProperty("pointType")
     private String pointType;
-    @JsonProperty("amount")
-    private Integer amount;
+    @JsonProperty("point")
+    private Integer point;
     @JsonProperty("accountID")
     private String accountID;
     @JsonProperty("parentID")

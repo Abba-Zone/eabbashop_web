@@ -26,32 +26,6 @@ public class ExchangeRateService {
     private static final Logger logger = LoggerFactory.getLogger(ExchangeRateService.class);
     private final RedisService redisService;
 
-//    public void getExchangeRate() {
-//        RestTemplate restTemplate = new RestTemplate();
-//        ExchangeRateResponse response = restTemplate.getForObject(API_URL, ExchangeRateResponse.class);
-//
-//        if (response != null) {
-//            Map<String, Double> rates = response.getConversionRates();
-//            redisService.saveExchange(EXCHANGE_KEY, rates);
-//        }
-//    }
-//
-//
-//    public Map<String, Double> getExchangeRates(Integer type) {
-//        if(type)
-//        Object redisData = redisService.get(EXCHANGE_KEY);
-//        if (redisData == null) {
-//            throw new RuntimeException("환율 정보를 가져올 수 없습니다.");
-//        }
-//
-//        try {
-//            return objectMapper.convertValue(redisData, new TypeReference<Map<String, Double>>() {
-//            });
-//        } catch (Exception e) {
-//            throw new RuntimeException("환율 정보 변환 중 오류 발생", e);
-//        }
-//    }
-
     /**
      * 원화(KRW)를 달러(USD)로 변환
      * @param krwAmount 원화 금액
@@ -72,7 +46,34 @@ public class ExchangeRateService {
         }
 
         BigDecimal rate = BigDecimal.valueOf(exchangeRate);
-//        logger.info(String.valueOf(rate));
+        logger.info("KRW -> USD 적용 환율: {}", rate);
+
         return krwAmount.divide(rate, 2, RoundingMode.HALF_UP);
+    }
+
+    /**
+     * 달러(USD)를 원화(KRW)로 변환
+     * @param usdAmount 달러 금액
+     * @return 변환된 원화 금액
+     * @param type 0 : buy (매입 환율 적용)
+     * @param type 1 : sell (매도 환율 적용)
+     */
+    public BigDecimal convertToKRW(BigDecimal usdAmount, Integer type) {
+        Double exchangeRate = 0.0;
+
+        if (type == 0) {
+            exchangeRate = (Double) redisService.get(EXCHANGE_BUY_KEY);  // 매입 환율
+        } else if (type == 1) {
+            exchangeRate = (Double) redisService.get(EXCHANGE_SELL_KEY); // 매도 환율
+        }
+
+        if (exchangeRate == null) {
+            throw new RuntimeException("환율 정보를 가져올 수 없습니다.");
+        }
+
+        BigDecimal rate = BigDecimal.valueOf(exchangeRate);
+        logger.info("USD -> KRW 적용 환율: {}", rate);
+
+        return usdAmount.multiply(rate).setScale(2, RoundingMode.HALF_UP);
     }
 }

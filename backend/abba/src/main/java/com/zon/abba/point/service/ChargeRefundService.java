@@ -1,6 +1,7 @@
 package com.zon.abba.point.service;
 
 import com.zon.abba.common.exception.CommonException;
+import com.zon.abba.common.exception.InvalidException;
 import com.zon.abba.common.request.RequestList;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.point.dto.ChargeRefundListDto;
@@ -11,6 +12,7 @@ import com.zon.abba.point.mapping.ChargeRefundList;
 import com.zon.abba.point.repository.ChargeRefundRepository;
 import com.zon.abba.account.repository.WalletRepository;
 import com.zon.abba.point.request.ChargeRefundIdRequest;
+import com.zon.abba.point.request.ChargeRefundStatusRequest;
 import com.zon.abba.point.request.ChargeRequest;
 import com.zon.abba.point.request.RefundRequest;
 import com.zon.abba.account.service.AccountService;
@@ -96,14 +98,14 @@ public class ChargeRefundService {
         Wallet parentWallet = walletRepository.findOneByMemberId(request.getParentID())
                 .orElseThrow(() -> new NoDataException("없는 지갑 정보입니다."));
 
-        BigDecimal point = exchangeRateService.convertToUSD(BigDecimal.valueOf(request.getAmount()), 1);
+        //환급은.. 나중에
+//        BigDecimal amount = exchangeRateService.convertToKRW(BigDecimal.valueOf(request.getPoint()), 1);
 
         ChargeRefund chargeRefund = ChargeRefund.builder()
                 .senderWalletId(wallet.getWalletId())
                 .receiverWalletId(parentWallet.getWalletId())
                 .accountId(request.getAccountID())
-                .amount(BigDecimal.valueOf(request.getAmount()))
-                .point(point)
+                .point(BigDecimal.valueOf(request.getPoint()))
                 .type(request.getPointType())
                 .status("B")
                 .createdId(memberId)
@@ -162,6 +164,40 @@ public class ChargeRefundService {
         else throw new CommonException(229, "이미 처리된 정보입니다.");
 
         chargeRefund.setModifiedId(memberId);
+
+        return new ResponseBody("성공했습니다.");
+    }
+
+    @Transactional
+    public ResponseBody confirmChargeRefund(ChargeRefundStatusRequest request){
+        logger.info("포인트 충전/환급 신청을 완료 처리 하거나 거절합니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        ChargeRefund chargeRefund = chargeRefundRepository.findById(request.getChargeRefundID())
+                .orElseThrow(() -> new NoDataException("없는 신청 정보입니다."));
+
+
+        if(chargeRefund.getStatus().equals("A")) {
+            if(!(request.getStatus().equals("E") || request.getStatus().equals("G"))){
+                throw new InvalidException("옳지 않은 요청입니다.");
+            }
+        }
+        else if(chargeRefund.getStatus().equals("B")) {
+            if(!(request.getStatus().equals("F") || request.getStatus().equals("H"))){
+                throw new InvalidException("옳지 않은 요청입니다.");
+            }
+        }
+        else throw new CommonException(229, "이미 처리된 정보입니다.");
+
+        chargeRefund.setStatus(request.getStatus());
+        chargeRefund.setModifiedId(memberId);
+
+        // 환급 처리가 된 경우 ak를 뿌려줘야 한다.
+        if(request.getStatus().equals("F")){
+
+        }
+
 
         return new ResponseBody("성공했습니다.");
     }
