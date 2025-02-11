@@ -3,15 +3,12 @@ import { useParams } from 'react-router-dom';
 import { getAdminHistoryDetail_s } from '../../services/wallet';
 import { AdminHistoryDetailCharge, AdminHistoryDetailOrder, AdminHistoryDetailPoint, AdminHistoryDetailTransfer } from '../../components';
 const AdminWalletDetail: React.FC = () => {
-  const [history, setHistory] = useState<adminHistoryDetail>();
-  // const [wallet, setWallet] = useState<wallet | undefined>(undefined);
-  // const [address, setAddress] = useState<addressAllInfo[]>([]);
-  // const [seller, setSeller] = useState<seller | undefined>(undefined);
+  const [historyInfo, setHistory] = useState<historyDetail>();
   const params = useParams<{id:string}>();
   const getHistoryDetail = useCallback (async () => {
     try {
       if (params.id !== undefined){
-        const historyDetail : adminHistoryDetailReciever = await getAdminHistoryDetail_s(params.id);
+        const historyDetail : historyDetailReciever = await getAdminHistoryDetail_s(params.id);
         setHistory(historyDetail.list);
       }
     } catch (error) {
@@ -21,7 +18,7 @@ const AdminWalletDetail: React.FC = () => {
   useEffect(() => {
     getHistoryDetail(); // 비동기 함수 호출
   }, [getHistoryDetail]);
-  if (!history) {
+  if (!historyInfo) {
     return (
       <div>
         <h1>옳지않은 거래내역 입니다.</h1>
@@ -31,11 +28,11 @@ const AdminWalletDetail: React.FC = () => {
   return (
     <div>
       <h1>내역상세</h1>
-      <AdminHistoryDetailPoint history={history}></AdminHistoryDetailPoint>
+      <AdminHistoryDetailPoint history={historyInfo}></AdminHistoryDetailPoint>
       <h3>내역 정보 보기</h3>
-      {history.OrderDetailID && <AdminHistoryDetailOrder history={history}></AdminHistoryDetailOrder>}
-      {history.ChargeRefundID && <AdminHistoryDetailCharge history={history}></AdminHistoryDetailCharge>}
-      {history.TransferID && <AdminHistoryDetailTransfer history={history}></AdminHistoryDetailTransfer>}
+      {historyInfo.OrderDetailID && <AdminHistoryDetailOrder history={historyInfo}></AdminHistoryDetailOrder>}
+      {historyInfo.ChargeRefundID && <AdminHistoryDetailCharge history={historyInfo}></AdminHistoryDetailCharge>}
+      {historyInfo.TransferID && <AdminHistoryDetailTransfer history={historyInfo}></AdminHistoryDetailTransfer>}
     </div>
   );
 };

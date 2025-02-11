@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 interface Props{
-  history:adminHistoryDetail,
+  history:historyDetail,
 }
 
 const AdminHistoryDetailOrder:React.FC<Props> = ({history}) => {

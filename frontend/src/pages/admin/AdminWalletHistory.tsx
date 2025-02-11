@@ -35,18 +35,16 @@ const AdminWalletHistory: React.FC = () => {
     }
   }, [params.id]);
   const getWalletHistoryList = useCallback( async () => {
-        try {
-          if (params.id !== undefined){
-            const totalAndHistoryList : historyAdminList = await getHistoryList_s(pageNo - 1, pageSize, startDate, endDate, params.id);
-            setHistory(totalAndHistoryList.list);
-            console.log(totalAndHistoryList);
-          // setMembers(totalAndMemberList.list);
-          setLastPage(totalAndHistoryList.totalCount === 0? 1:Math.floor((totalAndHistoryList.totalCount - 1)/pageSize) + 1);
-          }
-        } catch (error) {
-          console.error('Error fetching walletHistorylist:', error);
-        }
-    },[pageNo, pageSize, startDate, endDate]);
+    try {
+      if (params.id !== undefined){
+        const totalAndHistoryList : historyAdminList = await getHistoryList_s(pageNo - 1, pageSize, startDate, endDate, params.id);
+        setHistory(totalAndHistoryList.list);
+        setLastPage(totalAndHistoryList.totalCount === 0? 1:Math.floor((totalAndHistoryList.totalCount - 1)/pageSize) + 1);
+      }
+    } catch (error) {
+      console.error('Error fetching walletHistorylist:', error);
+    }
+  },[pageNo, pageSize, startDate, endDate]);
   const changePage = (move:number) =>{
     setPageNo(move);
   }
@@ -68,21 +66,20 @@ const AdminWalletHistory: React.FC = () => {
     );
   }
   return (
-  <div>
-  <h1>{member.firstName + ' ' + member.lastName} 의 지갑 내역</h1>
-  <select name="pageSize" value={pageSize} onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {setPageNo(1);setPageSize(Number(event.target.value))}}>
-    <option value={10}>10</option>
-    <option value={20}>20</option>
-    <option value={30}>30</option>
-    <option value={50}>50</option>
-    <option value={100}>100</option>
-  </select><span>개씩 보기</span>
-  <input onChange={changeStart} type="date" value={startDate}></input>
-  <input onChange={changeEnd} type="date" value={endDate}></input>
-
-  <AdminHistoryList historys={history||[]}></AdminHistoryList>
-  <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
-  </div>
+    <div>
+      <h1>{member.firstName + ' ' + member.lastName} 의 지갑 내역</h1>
+      <select name="pageSize" value={pageSize} onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {setPageNo(1);setPageSize(Number(event.target.value))}}>
+        <option value={10}>10</option>
+        <option value={20}>20</option>
+        <option value={30}>30</option>
+        <option value={50}>50</option>
+        <option value={100}>100</option>
+      </select><span>개씩 보기</span>
+      <input onChange={changeStart} type="date" value={startDate}></input>
+      <input onChange={changeEnd} type="date" value={endDate}></input>
+      <AdminHistoryList historys={history||[]}></AdminHistoryList>
+      <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
+    </div>
   );
 };
 
