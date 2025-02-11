@@ -131,3 +131,11 @@ export {default as AdminHistoryDetailOrder} from "./admin/historyDetail/AdminHis
 export {default as AdminHistoryDetailCharge} from "./admin/historyDetail/AdminHistoryDetailCharge";
 export {default as AdminHistoryDetailTransfer} from "./admin/historyDetail/AdminHistoryDetailTransfer";
 
+/*Shop MyPage Wallet*/
+export {default as MyHistoryList} from "./shop/transiction/MyHistoryList";
+
+/*Shop Wallet Detail*/
+export {default as HistoryDetailPoint} from "./shop/historyDetail/HistoryDetailPoint";
+export {default as HistoryDetailOrder} from "./shop/historyDetail/HistoryDetailOrder";
+export {default as HistoryDetailCharge} from "./shop/historyDetail/HistoryDetailCharge";
+export {default as HistoryDetailTransfer} from "./shop/historyDetail/HistoryDetailTransfer";

@@ -1,5 +1,5 @@
 interface Props{
-  history:adminHistoryDetail,
+  history:historyDetail,
 }
 
 const AdminHistoryDetailPoint:React.FC<Props> = ({history}) => {

@@ -10,16 +10,18 @@ interface WalletDetail extends wallet {
     walletID : string,
     ABZPoint : number
 }
-interface history extends wallet{
-    historyID : string,
-    Sender: string,
-    Receiver: string,
-    Message : string,
-    Type : string,
-    ModifiedDateTime : string
+interface walletHistory{
+    historyID: string,
+    AK: number,
+    LP: number,
+    SP: number,
+    message: string,
+    pointType: string,
+    type: stirng
 }
 interface historyList{
-    list:history[]
+    totalCount: number,
+    list:walletHistory[]
 }
 
 interface historyAdminList{
@@ -35,7 +37,7 @@ interface adminHistory{
     SP: number,
     pointType: string
 }
-interface adminHistoryDetail{
+interface historyDetail{
     historyID: string,
     message: string,
     LP: number,
@@ -50,7 +52,7 @@ interface adminHistoryDetail{
     type: number|null
     pointType: string,
 }
-interface adminHistoryDetailReciever{
+interface historyDetailReciever{
     message:string,
-    list:adminHistoryDetail,
+    list:historyDetail,
 }
