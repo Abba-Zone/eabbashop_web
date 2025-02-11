@@ -42,7 +42,7 @@ public class ChargeRefundService {
     private final ChargeRefundRepository chargeRefundRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final WalletRepository walletRepository;
-    private final AccountService accountService;
+    private final PointService pointService;
     private final ExchangeRateService exchangeRateService;
 
     @Transactional
@@ -177,14 +177,16 @@ public class ChargeRefundService {
         ChargeRefund chargeRefund = chargeRefundRepository.findById(request.getChargeRefundID())
                 .orElseThrow(() -> new NoDataException("없는 신청 정보입니다."));
 
+        Wallet wallet = walletRepository.findOneByMemberId(memberId)
+                .orElseThrow(() -> new NoDataException("없는 지갑 정보입니다."));
 
         if(chargeRefund.getStatus().equals("A")) {
-            if(!(request.getStatus().equals("E") || request.getStatus().equals("G"))){
+            if(!(request.getStatus().equals("E") || request.getStatus().equals("G")) || !chargeRefund.getSenderWalletId().equals(wallet.getWalletId())){
                 throw new InvalidException("옳지 않은 요청입니다.");
             }
         }
         else if(chargeRefund.getStatus().equals("B")) {
-            if(!(request.getStatus().equals("F") || request.getStatus().equals("H"))){
+            if(!(request.getStatus().equals("F") || request.getStatus().equals("H")) || !chargeRefund.getReceiverWalletId().equals(wallet.getWalletId())){
                 throw new InvalidException("옳지 않은 요청입니다.");
             }
         }
@@ -193,9 +195,14 @@ public class ChargeRefundService {
         chargeRefund.setStatus(request.getStatus());
         chargeRefund.setModifiedId(memberId);
 
+        // 충전 처리가 되면 돈이 빠져 나간다?
+        if (request.getStatus().equals("E")){
+            pointService.chargeHistory(chargeRefund);
+        }
+
         // 환급 처리가 된 경우 ak를 뿌려줘야 한다.
         if(request.getStatus().equals("F")){
-
+            pointService.refundHistory(chargeRefund);
         }
 
 
