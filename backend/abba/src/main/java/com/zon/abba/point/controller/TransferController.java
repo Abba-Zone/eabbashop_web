@@ -43,7 +43,7 @@ public class TransferController {
     @Operation(summary = "포인트 이체 취소 요청 리스트", description = "포인트 이체 취소 신청 목록을 확인할 수 있다.")
     public ResponseEntity<Object> requestCancelTransfer(RequestList request){
 
-        ResponseListBody response = transferService.requestCancelTransfer(request);
+        ResponseListBody response = transferService.cancelTransferList(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
