@@ -4,6 +4,7 @@ import com.zon.abba.point.entity.ChargeRefund;
 import com.zon.abba.point.entity.PointHolding;
 import com.zon.abba.point.entity.PointsHistory;
 import com.zon.abba.account.entity.Wallet;
+import com.zon.abba.point.entity.Transfer;
 import com.zon.abba.point.repository.ChargeRefundRepository;
 import com.zon.abba.point.repository.PointHoldingRepository;
 import com.zon.abba.point.repository.PointsHistoryRepository;
@@ -15,6 +16,7 @@ import com.zon.abba.commonCode.repository.CommonCodeRepository;
 import com.zon.abba.member.dto.ParentTreeDto;
 import com.zon.abba.member.mapping.ParentTree;
 import com.zon.abba.member.repository.RecommendedMemberRepository;
+import com.zon.abba.point.request.TransferRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -408,7 +410,39 @@ public class PointService {
         savePointHistory(senderWallet, BigDecimal.ZERO, akPoint, BigDecimal.ZERO, "B", chargeRefund.getChargeRefundId(), receiverWallet.getMemberId());
         // 라인에 수당 분배
         distributeDirectAK(findParentForZone(senderWallet.getMemberId()), akPoint, chargeRefund.getChargeRefundId(), receiverWallet.getMemberId());
+    }
 
+    @Transactional
+    public void transfer(Transfer transfer){
+        logger.info("유저간 포인트를 교환합니다.");
+
+        // 주는 사람
+        Wallet senderWallet = walletRepository.findOneByMemberId(transfer.getSenderId())
+                .orElseThrow(() -> new NoDataException("없는 출금 지갑 정보 입니다."));
+        // 받는 사람
+        Wallet receiverWallet = walletRepository.findOneByMemberId(transfer.getReceiverId())
+                .orElseThrow(() -> new NoDataException("없는 입금 지갑 정보 입니다."));
+
+        // sender(고객)의 지갑에선 돈이 빠져 나간다.
+        putWallet(senderWallet, transfer.getLp(), transfer.getAk(), transfer.getSp(), "B", transfer.getSenderId());
+        //receiver(관리자)의 지갑에선 돈이 들어간다.
+        putWallet(receiverWallet, transfer.getLp(), transfer.getAk(), transfer.getSp(), "A", transfer.getSenderId());
+        // 보내는 사람은 음수로
+        savePointHistory(senderWallet,
+                transfer.getLp().negate(),
+                transfer.getAk().negate(),
+                transfer.getSp().negate(),
+                "C",
+                transfer.getTransferId(),
+                transfer.getSenderId());
+        // 받는 사람은 양수로
+        savePointHistory(receiverWallet,
+                transfer.getLp(),
+                transfer.getAk(),
+                transfer.getSp(),
+                "C",
+                transfer.getTransferId(),
+                transfer.getSenderId());
     }
 
 }
