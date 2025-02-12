@@ -52,35 +52,35 @@ public interface ProductRepository extends JpaRepository<Product, String>, Produ
     );
 
     @Query(value = """
-        SELECT 
-            p.ProductID AS productId,
-            p.SellerID AS sellerId,
-            p.Name AS name,
-            p.Stock AS stock,
-            p.ShowYN AS showYN
-        FROM Product p
-        WHERE p.SellerID = :sellerId
-        AND p.DeleteYN = 'N'
-        AND (
-            :filter IS NULL 
-            OR (:filter = 'name' AND p.Name LIKE %:filterValue%) 
-            OR (:filter = 'stock' AND p.Stock LIKE %:filterValue%) 
-            OR (:filter = 'showYN' AND p.ShowYN = :filterValue)
-        )
-        ORDER BY p.CreatedDateTime DESC
-        """,
+    SELECT 
+        p.ProductID AS productId,
+        p.SellerID AS sellerId,
+        p.Name AS name,
+        p.Stock AS stock,
+        p.ShowYN AS showYN
+    FROM Product p
+    WHERE p.DeleteYN = 'N'
+    AND p.SellerID = (SELECT s.MemberID FROM Seller s WHERE s.SellerID = :sellerId)
+    AND (
+        :filter IS NULL
+        OR (:filter = 'name' AND p.Name LIKE %:filterValue%)
+        OR (:filter = 'stock' AND p.Stock LIKE %:filterValue%)
+        OR (:filter = 'showYN' AND p.ShowYN = :filterValue)
+    )
+    ORDER BY p.CreatedDateTime DESC
+    """,
             countQuery = """
-        SELECT COUNT(*)
-        FROM Product p
-        WHERE p.SellerID = :sellerId
-        AND p.DeleteYN = 'N'
-        AND (
-            :filter IS NULL 
-            OR (:filter = 'name' AND p.Name LIKE %:filterValue%) 
-            OR (:filter = 'stock' AND p.Stock LIKE %:filterValue%) 
-            OR (:filter = 'showYN' AND p.ShowYN = :filterValue)
-        )
-        """,
+    SELECT COUNT(*)
+    FROM Product p
+    WHERE p.DeleteYN = 'N'
+    AND p.SellerID = (SELECT s.MemberID FROM Seller s WHERE s.SellerID = :sellerId)
+    AND (
+        :filter IS NULL
+        OR (:filter = 'name' AND p.Name LIKE %:filterValue%)
+        OR (:filter = 'stock' AND p.Stock LIKE %:filterValue%)
+        OR (:filter = 'showYN' AND p.ShowYN = :filterValue)
+    )
+    """,
             nativeQuery = true)
     Page<ProductList> findProductList(
             @Param("filter") String filter,
