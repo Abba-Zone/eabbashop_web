@@ -37,4 +37,13 @@ public class SellerController {
         SellerDetailResponse response = sellerService.sellerDetail(sellerDetailRequest);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    @GetMapping("/list/product")
+    @Operation(summary = "가게 상품 리스트", description = "가게 상품 리스트 확인")
+    public ResponseEntity<Object> sellerProductList(RequestList request){
+
+        ResponseListBody response = sellerService.sellerProductList(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 }

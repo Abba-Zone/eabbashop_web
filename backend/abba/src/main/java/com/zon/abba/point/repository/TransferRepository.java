@@ -25,8 +25,8 @@ public interface TransferRepository extends JpaRepository<Transfer, String> {
             t.Status AS status,
             t.ModifiedDateTime AS modifiedDateTime
         FROM Transfer t
-        LEFT JOIN Members s_m ON t.SenderID = s_m.MemberID
-        LEFT JOIN Members r_m ON t.ReceiverID = r_m.MemberID
+        LEFT JOIN Members s_m ON t.SenderID = s_m.MemberID AND s_m.DeleteYN = 'N'
+        LEFT JOIN Members r_m ON t.ReceiverID = r_m.MemberID AND r_m.DeleteYN = 'N'
         WHERE t.DeleteYN = 'N'
         AND t.Status = :status
         AND (
