@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { AdminStoreListComponent, BottomButton, SearchSet } from '../../components';
+import { AdminStoreSupportListComponent, BottomButton, SearchSet } from '../../components';
 import { getStoreList_s } from '../../services/store';
 import { useTranslation } from 'react-i18next';
 
-const AdminStoreList: React.FC = () => {
+const AdminStoreSupport: React.FC = () => {
   const { t } = useTranslation();
   const [stores, setStores] = useState<store[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
@@ -56,7 +56,7 @@ const AdminStoreList: React.FC = () => {
 
   return (
     <div>
-      <h1>{t("AdminStore:List.Title")}</h1>
+      <h1>매장지원</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <select name="pageSize" value={pageSize} onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {setPageNo(1);setPageSize(Number(event.target.value))}}>
         <option value={10}>10</option>
@@ -65,10 +65,10 @@ const AdminStoreList: React.FC = () => {
         <option value={50}>50</option>
         <option value={100}>100</option>
       </select><span>개씩 보기</span>
-      <AdminStoreListComponent stores={stores}  changeSort={changeSort}></AdminStoreListComponent>
+      <AdminStoreSupportListComponent stores={stores}  changeSort={changeSort}></AdminStoreSupportListComponent>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
     </div>
   );
 };
 
-export default AdminStoreList;
+export default AdminStoreSupport;

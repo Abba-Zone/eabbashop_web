@@ -1,4 +1,4 @@
-import { getData, postData, getTestData} from './mainApi'
+import { getData } from './mainApi'
 export const getStoreList = async (pageNo:number, pageSize:number, filter:string, filterValue:string, sort:string, sortValue:string):Promise<storeList> => {
     /* real code*/
     try {
@@ -10,19 +10,6 @@ export const getStoreList = async (pageNo:number, pageSize:number, filter:string
         console.error('Error fetching seller list:', error);
         throw error;
     }
-
-    /* make for test*/
-    var result :storeList = {
-        totalCount : 10003,
-        list:[
-            {storeID : "1asbebxcvbxcvbcb", name : "매장명예시입니다", host : "전 현태A", phone : "010-1234-5678", createdDateTime : "2024-11-21 11:53:11"},
-            {storeID : "2asbebxcvbxcvbcb", name : "매장명예시입니다", host : "전 현태A", phone : "010-1234-5678", createdDateTime : "2024-11-21 11:53:11"},
-            {storeID : "3asbebxcvbxcvbcb", name : "매장명예시입니다", host : "전 현태A", phone : "010-1234-5678", createdDateTime : "2024-11-21 11:53:11"},
-            {storeID : "4asbebxcvbxcvbcb", name : "매장명예시입니다", host : "전 현태A", phone : "010-1234-5678", createdDateTime : "2024-11-21 11:53:11"},
-            {storeID : "5asbebxcvbxcvbcb", name : "매장명예시입니다", host : "전 현태A", phone : "010-1234-5678", createdDateTime : "2024-11-21 11:53:11"}
-        ]
-    };
-    return result;
 }
 
 export const getStoreProductList = (storeID:string, pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):productList => {
@@ -47,23 +34,14 @@ export const getStoreProductList = (storeID:string, pageNo:number, pageSize:numb
     return result;
 }
 
-export const getStoreDetail = (productID:string):storeInfo => {
-    // getData<storeInfo>('/store/detail?productID='+ productID)
-    //     .then((data:APIResponse<storeInfo>) => {
-    //         return data.result;
-    //     }
-    // );
-    // return null as unknown as storeInfo;
-    
-    var result:storeInfo= {
-        storeID : "1asbebxcvbxcvbcb",
-		name : "가게이름?",
-		host:"정 경훈C",
-		phone : "02-123-1234",
-		zipCode : "11111",
-		baseAddress : "부산시 기장군",
-		detailAddress : "파란하늘집",
-		createdDateTime :"2024-12-12 13:25:33"
-    };
-    return result;
+export const getStoreDetail = async(sellerID:string):Promise<storeInfo> => {
+    try {
+        const response = await getData<storeInfo>(
+            `/member/seller/detail?sellerID=${sellerID}`
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching seller list:', error);
+        throw error;
+    }
 }
