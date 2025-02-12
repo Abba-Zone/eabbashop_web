@@ -1,6 +1,7 @@
 package com.zon.abba.product.repository;
 
 import com.zon.abba.product.entity.Product;
+import com.zon.abba.product.mapping.ProductList;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.data.domain.Pageable;
@@ -50,5 +51,42 @@ public interface ProductRepository extends JpaRepository<Product, String>, Produ
             Pageable pageable
     );
 
+    @Query(value = """
+        SELECT 
+            p.ProductID AS productId,
+            p.SellerID AS sellerId,
+            p.Name AS name,
+            p.Stock AS stock,
+            p.ShowYN AS showYN
+        FROM Product p
+        WHERE p.SellerID = :sellerId
+        AND p.DeleteYN = 'N'
+        AND (
+            :filter IS NULL 
+            OR (:filter = 'name' AND p.Name LIKE %:filterValue%) 
+            OR (:filter = 'stock' AND p.Stock LIKE %:filterValue%) 
+            OR (:filter = 'showYN' AND p.ShowYN = :filterValue)
+        )
+        ORDER BY p.CreatedDateTime DESC
+        """,
+            countQuery = """
+        SELECT COUNT(*)
+        FROM Product p
+        WHERE p.SellerID = :sellerId
+        AND p.DeleteYN = 'N'
+        AND (
+            :filter IS NULL 
+            OR (:filter = 'name' AND p.Name LIKE %:filterValue%) 
+            OR (:filter = 'stock' AND p.Stock LIKE %:filterValue%) 
+            OR (:filter = 'showYN' AND p.ShowYN = :filterValue)
+        )
+        """,
+            nativeQuery = true)
+    Page<ProductList> findProductList(
+            @Param("filter") String filter,
+            @Param("filterValue") String filterValue,
+            @Param("sellerId") String sellerId,
+            Pageable pageable
+    );
 
 }

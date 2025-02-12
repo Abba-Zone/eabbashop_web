@@ -16,6 +16,7 @@ import com.zon.abba.commonCode.entity.CommonCode;
 import com.zon.abba.commonCode.repository.CommonCodeRepository;
 import com.zon.abba.member.dto.SellerDto;
 import com.zon.abba.member.dto.SellerListDto;
+import com.zon.abba.member.dto.SellerProductDto;
 import com.zon.abba.member.entity.ChangeRecommendedMembers;
 import com.zon.abba.member.entity.ChangeRequestLog;
 import com.zon.abba.member.entity.Member;
@@ -33,6 +34,8 @@ import com.zon.abba.member.request.seller.SellerDetailRequest;
 import com.zon.abba.member.response.SellerDetailResponse;
 import com.zon.abba.member.response.registeradmin.RegisterAdminListResponse;
 import com.zon.abba.member.response.registeradmin.UpdateResultAdminResponse;
+import com.zon.abba.product.mapping.ProductList;
+import com.zon.abba.product.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -57,11 +60,11 @@ public class SellerService {
     private final SellerRepository sellerRepository;
     private final MemberRepository memberRepository;
     private final WalletRepository walletRepository;
+    private final ProductRepository productRepository;
     private final CommonCodeRepository commonCodeRepository;
     private final WalletService walletService;
     private final RecommendService recommendService;
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
     @Autowired
     private ChangeRequestLogRepository changeRequestLogRepository;
 
@@ -103,6 +106,34 @@ public class SellerService {
         logger.info("seller list 반환 완료");
 
         return new ResponseListBody(sellerLists.getTotalElements(), sellerListDtos);
+    }
+
+    @Transactional
+    public ResponseListBody sellerProductList(RequestList request) {
+        logger.info("seller product list를 반환 합니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("204","없는 회원입니다."));
+
+        Pageable pageable = PageRequest.of(
+                request.getPageNo(),
+                request.getPageSize(),
+                Sort.by(request.getSort().equals("ASC") ?
+                                Sort.Direction.ASC : Sort.Direction.DESC,
+                        request.getSortValue()));
+
+        // 필터링 값 가져오기
+        Page<ProductList> pages = productRepository.findProductList(
+                request.getFilter(),
+                request.getFilterValue(),
+                memberId,
+                pageable
+        );
+
+        List<SellerProductDto> list = pages.stream()
+                .map(SellerProductDto::new)
+                .toList();
+
+        return new ResponseListBody(pages.getTotalElements(), list);
     }
 
     @Transactional
