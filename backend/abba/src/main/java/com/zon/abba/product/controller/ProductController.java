@@ -1,10 +1,9 @@
 package com.zon.abba.product.controller;
 
 import com.zon.abba.common.response.ResponseBody;
+import com.zon.abba.common.response.ResponseDataBody;
 import com.zon.abba.common.response.ResponseListBody;
-import com.zon.abba.product.request.ProductListRequest;
-import com.zon.abba.product.request.ProductRegisterRequest;
-import com.zon.abba.product.request.UpdateYNRequest;
+import com.zon.abba.product.request.*;
 import com.zon.abba.product.response.DetailProductResponse;
 import com.zon.abba.product.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -75,6 +74,53 @@ public class ProductController {
     @Operation(summary = "ActiveYN 변경", description = "상품의 ActiveYN 값을 변경합니다.")
     public ResponseEntity<ResponseBody> updateActiveYN(@RequestBody UpdateYNRequest request) {
         ResponseBody response = productService.updateActiveYN(request.getProductId(), request.getYN());
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    // 상품평 등록
+    @PostMapping("/review/register")
+    @Operation(summary = "상품평 등록", description = "상품평 등록.")
+    public ResponseEntity<ResponseDataBody> productReviewRegister(@RequestBody ProductReviewRequest request) {
+        ResponseDataBody response = productService.productReviewRegister(request);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+    // 상품평 수정
+    @PostMapping("/review/modify")
+    @Operation(summary = "상품평 수정", description = "상품평 수정.")
+    public ResponseEntity<ResponseDataBody> productReviewModify(@RequestBody ProductReviewModifyRequest request) {
+        ResponseDataBody response = productService.productReviewModify(request);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    // 상품평 삭제
+    @DeleteMapping("/review/delete/{prodcutReviewID}")
+    @Operation(summary = "상품평 삭제", description = "상품평 삭제")
+    public ResponseEntity<ResponseBody> productReviewDelete(@PathVariable String prodcutReviewID) {
+        ResponseBody response = productService.productReviewDelete(prodcutReviewID);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    // 상품평 좋아요
+    @PostMapping("/review/like/{prodcutReviewID}")
+    @Operation(summary = "상품평 좋아요", description = "상품평 좋아요")
+    public ResponseEntity<ResponseBody> productReviewLike(@PathVariable String prodcutReviewID) {
+        ResponseBody response = productService.productReviewLikeDislike(prodcutReviewID,"like");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    // 상품평 싫어요
+    @PostMapping("/review/dislike/{prodcutReviewID}")
+    @Operation(summary = "상품평 dislike", description = "dislike 조회")
+    public ResponseEntity<ResponseBody> productReviewDislike(@PathVariable String prodcutReviewID) {
+        ResponseBody response = productService.productReviewLikeDislike(prodcutReviewID,"dislike");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    // 상품평 조회
+    @GetMapping("/review/{prodcutReviewID}")
+    @Operation(summary = "상품평 조회", description = "상품평 조회")
+    public ResponseEntity<ResponseDataBody> productReview(@PathVariable String prodcutReviewID) {
+        ResponseDataBody response = productService.ProductReviewDetail(prodcutReviewID);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
