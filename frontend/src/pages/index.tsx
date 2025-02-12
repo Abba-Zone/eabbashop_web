@@ -74,6 +74,7 @@ export { default as AdminRefundRequest } from "./admin/AdminRefundRequest";
 export { default as AdminStoreList } from "./admin/AdminStoreList";
 export { default as AdminStoreDetail } from "./admin/AdminStoreDetail";
 export { default as AdminStoreManage } from "./admin/AdminStoreManage";
+export { default as AdminStoreSupport } from "./admin/AdminStoreSupport";
 export { default as AdminNotice } from "./admin/AdminNotice";
 export { default as AdminLetter } from "./admin/AdminLetter";
 export { default as AdminDonation } from "./admin/AdminDonation";
