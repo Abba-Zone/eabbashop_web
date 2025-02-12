@@ -22,7 +22,7 @@ const StoreListCard:React.FC<Props> = ({store}) => {
         }}><SupportModal store={store} setModalOpen={setModalOpen}/></div>
       }
       <td>{store.name}</td>
-      <td>{store.host}</td>
+      <td>{store.lastName} {store.firstName}</td>
       <td>{store.phone}</td>
       <td>{store.createdDateTime}</td>
       <td><button onClick={()=>setModalOpen(true)}>지원하기</button></td>
