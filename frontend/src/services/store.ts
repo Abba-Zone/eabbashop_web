@@ -1,6 +1,6 @@
 import { getStoreList, getStoreProductList, getStoreDetail} from '../apis/store'
 
-export const getStoreList_s = async (pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string): Promise<storeList> => {
+export const getStoreList_s = async (pageNo:number, pageSize:number, filter:string, filterValue:string, sort:string, sortValue:string): Promise<storeList> => {
     return await getStoreList(pageNo, pageSize, filter, filterValue, sort, sortValue,);
 };
 

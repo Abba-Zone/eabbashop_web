@@ -22,6 +22,7 @@ const AdminStoreListComponent:React.FC<Props> = ({stores, changeSort}) => {
       <th onClick={()=>{changeSort('name')}}>{t("AdminStore:List.Filter02")}</th>
       <th onClick={()=>{changeSort('phone')}}>{t("AdminStore:List.Filter03")}</th>
       <th onClick={()=>{changeSort('createdDateTime')}}>{t("AdminStore:List.Filter04")}</th>
+      <th>상세</th>
     </tr>;
     return result;
   }
