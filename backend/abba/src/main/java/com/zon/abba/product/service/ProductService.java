@@ -20,6 +20,7 @@ import com.zon.abba.product.request.ProductRegisterRequest;
 import com.zon.abba.product.response.DetailProductResponse;
 import com.zon.abba.product.response.ProductListResponseAdmin;
 import com.zon.abba.product.response.ProductListResponseShop;
+import com.zon.abba.wishlist.repository.WishlistRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,8 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
     private final ProductReviewRepository productReviewRepository;
     private final SellerRepository sellerRepository;
-    //@Autowired
+    private final WishlistRepository wishlistRepository;
+    @Autowired
     private JwtTokenProvider jwtTokenProvider;
     @Autowired
     private MemberRepository memberRepository;
@@ -162,6 +164,12 @@ public class ProductService {
         logger.info("상품 카테고리 정보를 가져옵니다.");
         Category category = categoryRepository.findByCategoryId(product.getCategoryId())
                 .orElseThrow(() -> new NoMemberException("없는 카테고리입니다."));
+
+        if(jwtTokenProvider != null){
+            String memberId = jwtTokenProvider.getCurrentMemberId()
+                    .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+            return new DetailProductResponse(product, category.getName(),wishlistRepository.existsByMemberIdAndProductId(memberId, productId));
+        }
 
         return new DetailProductResponse(product, category.getName());
     }

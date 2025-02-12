@@ -31,4 +31,6 @@ public interface WishlistRepository extends JpaRepository<Wishlist, String> {
             nativeQuery = true
     )
     List<WishListList> findWishListWithProductsByMemberId(@Param("memberId") String memberId);
+
+    boolean existsByMemberIdAndProductId(String memberId, String productId);
 }

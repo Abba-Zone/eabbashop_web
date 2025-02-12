@@ -53,6 +53,9 @@ public class DetailProductResponse {
     @JsonProperty("paybackRatio")
     private double paybackRatio;
 
+    @JsonProperty("isWishList")
+    private boolean isWishList;
+
     public DetailProductResponse(Product product, String categoryName) {
         this.productId = product.getProductId();
         this.categoryId = product.getCategoryId();
@@ -67,5 +70,23 @@ public class DetailProductResponse {
         this.summary = product.getSummary();
         this.description = product.getDescription();
         this.paybackRatio = product.getPaybackRatio();
+        this.isWishList = false;
+    }
+
+    public DetailProductResponse(Product product, String categoryName, boolean isWishList) {
+        this.productId = product.getProductId();
+        this.categoryId = product.getCategoryId();
+        this.categoryName = categoryName;
+        this.sellerId = product.getSellerId();
+        this.productName = product.getName();
+        this.taxFreePrice = product.getTaxFreePrice();
+        this.spPrice = product.getSpPrice();
+        this.realPrice = product.getRealPrice();
+        this.stock = product.getStock();
+        this.thumbnail = product.getThumbnail();
+        this.summary = product.getSummary();
+        this.description = product.getDescription();
+        this.paybackRatio = product.getPaybackRatio();
+        this.isWishList = isWishList;
     }
 }
