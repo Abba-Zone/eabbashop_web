@@ -39,6 +39,7 @@ export { default as MypageProfile } from "./shop/Mypage/MypageProfile";
 export { default as MypageAccount } from "./shop/Mypage/MypageAccount";
 export { default as MypageRequest } from "./shop/Mypage/MypageRequest";
 export { default as MyPageTransactionDetail } from "./shop/Mypage/MyPageTransactionDetail";
+export { default as MyPageWishList } from "./shop/Mypage/MyPageWishList";
 
 
 // admin
