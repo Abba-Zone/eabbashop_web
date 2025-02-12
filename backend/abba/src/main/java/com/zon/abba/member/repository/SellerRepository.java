@@ -16,31 +16,48 @@ import java.util.Optional;
 public interface SellerRepository extends JpaRepository<Seller, String> {
     Optional<Seller> findOneByMemberId(String memberId);
 
-    @Query(value = "SELECT s.SellerID AS sellerId, " +
-            "       s.Name AS name, " +
-            "       m.FirstName AS firstName, " +
-            "       m.LastName AS lastName, " +
-            "       s.Phone AS phone, " +
-            "       s.CreatedDateTime AS createdDateTime " +
-            "FROM Seller s " +
-            "LEFT JOIN Members m ON s.MemberID = m.MemberID " +
-            "WHERE (:filter IS NULL OR " +
-            "       CASE " +
-            "           WHEN :filter = 'name' THEN s.Name LIKE CONCAT('%', :filterValue, '%') " +
-            "           WHEN :filter = 'host' THEN CONCAT(m.LastName, ' ', m.FirstName) LIKE CONCAT('%', :filterValue, '%') " +
-            "           WHEN :filter = 'phone' THEN s.Phone LIKE CONCAT('%', :filterValue, '%') " +
-            "           WHEN :filter = 'createdDateTime' THEN DATE_FORMAT(s.CreatedDateTime, '%Y-%m-%d') = :filterValue " +
-            "       END) ",
-            countQuery = "SELECT COUNT(*) " +
-                    "FROM Seller s " +
-                    "LEFT JOIN Members m ON s.MemberID = m.MemberID " +
-                    "WHERE (:filter IS NULL OR " +
-                    "       CASE " +
-                    "           WHEN :filter = 'name' THEN s.Name LIKE CONCAT('%', :filterValue, '%') " +
-                    "           WHEN :filter = 'host' THEN CONCAT(m.LastName, ' ', m.FirstName) LIKE CONCAT('%', :filterValue, '%') " +
-                    "           WHEN :filter = 'phone' THEN s.Phone LIKE CONCAT('%', :filterValue, '%') " +
-                    "           WHEN :filter = 'createdDateTime' THEN DATE_FORMAT(s.CreatedDateTime, '%Y-%m-%d') = :filterValue " +
-                    "       END) ",
+    @Query(value = """
+    SELECT 
+        s.SellerID AS sellerId,
+        s.Name AS name,
+        m.FirstName AS firstName,
+        m.LastName AS lastName,
+        s.Phone AS phone,
+        s.CreatedDateTime AS createdDateTime
+    FROM Seller s
+    LEFT JOIN Members m ON s.MemberID = m.MemberID
+    WHERE (:filter IS NULL OR 
+        CASE 
+            WHEN :filter = 'name' THEN s.Name LIKE CONCAT('%', :filterValue, '%') 
+            WHEN :filter = 'host' THEN (
+                CONCAT(m.FirstName, ' ', m.LastName) LIKE CONCAT('%', :filterValue, '%') 
+                OR CONCAT(m.FirstName, m.LastName) LIKE CONCAT('%', :filterValue, '%')
+                OR CONCAT(m.LastName, ' ', m.FirstName) LIKE CONCAT('%', :filterValue, '%')
+                OR CONCAT(m.LastName, m.FirstName) LIKE CONCAT('%', :filterValue, '%')
+            )
+            WHEN :filter = 'phone' THEN s.Phone LIKE CONCAT('%', :filterValue, '%') 
+            WHEN :filter = 'createdDateTime' THEN DATE_FORMAT(s.CreatedDateTime, '%Y-%m-%d') = :filterValue 
+        END
+    )
+    """,
+            countQuery = """
+    SELECT COUNT(*)
+    FROM Seller s
+    LEFT JOIN Members m ON s.MemberID = m.MemberID
+    WHERE (:filter IS NULL OR 
+        CASE 
+            WHEN :filter = 'name' THEN s.Name LIKE CONCAT('%', :filterValue, '%') 
+            WHEN :filter = 'host' THEN (
+                CONCAT(m.FirstName, ' ', m.LastName) LIKE CONCAT('%', :filterValue, '%') 
+                OR CONCAT(m.FirstName, m.LastName) LIKE CONCAT('%', :filterValue, '%')
+                OR CONCAT(m.LastName, ' ', m.FirstName) LIKE CONCAT('%', :filterValue, '%')
+                OR CONCAT(m.LastName, m.FirstName) LIKE CONCAT('%', :filterValue, '%')
+            )
+            WHEN :filter = 'phone' THEN s.Phone LIKE CONCAT('%', :filterValue, '%') 
+            WHEN :filter = 'createdDateTime' THEN DATE_FORMAT(s.CreatedDateTime, '%Y-%m-%d') = :filterValue 
+        END
+    )
+    """,
             nativeQuery = true)
     Page<SellerList> findSellersWithFilter(
             @Param("filter") String filter,
