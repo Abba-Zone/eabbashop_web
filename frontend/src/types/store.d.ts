@@ -1,9 +1,11 @@
 interface store{
-    storeID : string,
-    name : string,
-    host : string,
-    phone : string,
-    createdDateTime : string
+    sellerID: string,
+    memberID: string,
+    firstName: string,
+    lastName: string,
+    name: string,
+    phone: string,
+    createdDateTime: string
 }
 
 interface storeList{

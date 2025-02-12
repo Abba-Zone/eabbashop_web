@@ -9,10 +9,10 @@ interface Props{
         <tr>
           <td>선택</td>
           <td>{store.name}</td>
-          <td>{store.host}</td>
+          <td>{store.lastName} {store.firstName}</td>
           <td>{store.phone}</td>
           <td>{store.createdDateTime}</td>
-          <td><button onClick={()=>{navigate(`/admin/storedetail/${store.storeID}`)}}>상세</button></td>
+          <td><button onClick={()=>{navigate(`/admin/storedetail/${store.sellerID}`)}}>상세</button></td>
         </tr>
       );
 }
