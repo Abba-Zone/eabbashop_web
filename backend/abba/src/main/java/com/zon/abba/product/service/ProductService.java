@@ -113,13 +113,12 @@ public class ProductService {
 
             for(Product productDto : productPage){
                 ProductListResponseAdmin newProduct = new ProductListResponseAdmin();
-                Seller seller = sellerRepository.findById(productDto.getSellerId())
-                        .orElseThrow(() -> new NoDataException("없는 매장 정보입니다."));
-                Member member = memberRepository.findByMemberId(seller.getMemberId());
+                Member seller = memberRepository.findById(productDto.getSellerId())
+                        .orElseThrow(() -> new NoMemberException("없는 회원 정보입니다."));
 
                 newProduct.setProductId(productDto.getProductId());
                 newProduct.setProductName(productDto.getName());
-                newProduct.setSellerName(member.getFirstName() + " " + member.getLastName());
+                newProduct.setSellerName(seller.getFirstName() + " " + seller.getLastName());
                 newProduct.setStock(productDto.getStock());
                 newProduct.setActiveYN(productDto.getActiveYN());
 
@@ -174,9 +173,6 @@ public class ProductService {
         logger.info("유저 정보를 가져옵니다.");
         String memberId = jwtTokenProvider.getCurrentMemberId()
                 .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
-
-        Seller seller = sellerRepository.findOneByMemberId(memberId)
-                .orElseThrow(() -> new NoDataException("없는 매장 정보입니다."));
 
         String productId = registerProductRequest.getProductId(); // 요청에서 productId 가져오기
 
@@ -242,7 +238,7 @@ public class ProductService {
             // 상품이 존재하지 않으면 기존 생성 로직 실행
             logger.info("상품 정보를 등록합니다.");
             Product product = Product.builder()
-                    .sellerId(seller.getSellerId())
+                    .sellerId(memberId)
                     .name(registerProductRequest.getName())
                     .categoryId(registerProductRequest.getCategoryId())
                     .taxFreePrice(registerProductRequest.getTaxFreePrice())
