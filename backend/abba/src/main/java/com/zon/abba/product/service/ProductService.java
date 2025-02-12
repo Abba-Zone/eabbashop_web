@@ -113,11 +113,13 @@ public class ProductService {
 
             for(Product productDto : productPage){
                 ProductListResponseAdmin newProduct = new ProductListResponseAdmin();
-                Member seller = memberRepository.findByMemberId(productDto.getSellerId());
+                Seller seller = sellerRepository.findById(productDto.getSellerId())
+                        .orElseThrow(() -> new NoDataException("없는 매장 정보입니다."));
+                Member member = memberRepository.findByMemberId(seller.getMemberId());
 
                 newProduct.setProductId(productDto.getProductId());
                 newProduct.setProductName(productDto.getName());
-                newProduct.setSellerName(seller.getFirstName() + " " + seller.getLastName());
+                newProduct.setSellerName(member.getFirstName() + " " + member.getLastName());
                 newProduct.setStock(productDto.getStock());
                 newProduct.setActiveYN(productDto.getActiveYN());
 
