@@ -4,22 +4,29 @@ import com.zon.abba.category.repository.CategoryRepository;
 import com.zon.abba.common.exception.NoDataException;
 import com.zon.abba.common.exception.NoMemberException;
 import com.zon.abba.common.response.ResponseBody;
+import com.zon.abba.common.response.ResponseDataBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.common.security.JwtTokenProvider;
 import com.zon.abba.member.entity.Member;
-import com.zon.abba.member.entity.Seller;
 import com.zon.abba.member.repository.MemberRepository;
 import com.zon.abba.member.repository.SellerRepository;
+import com.zon.abba.order.entity.OrderDetail;
+import com.zon.abba.order.repository.OrderDetailRepository;
 import com.zon.abba.product.dto.ProductDto;
 import com.zon.abba.product.entity.Product;
 import com.zon.abba.product.entity.ProductReview;
+import com.zon.abba.product.entity.ReviewFeedbackHistory;
 import com.zon.abba.product.repository.ProductRepository;
 import com.zon.abba.product.repository.ProductReviewRepository;
+import com.zon.abba.product.repository.ReviewFeedbackHistoryRepository;
 import com.zon.abba.product.request.ProductListRequest;
 import com.zon.abba.product.request.ProductRegisterRequest;
+import com.zon.abba.product.request.ProductReviewModifyRequest;
+import com.zon.abba.product.request.ProductReviewRequest;
 import com.zon.abba.product.response.DetailProductResponse;
 import com.zon.abba.product.response.ProductListResponseAdmin;
 import com.zon.abba.product.response.ProductListResponseShop;
+import com.zon.abba.product.response.ProductReviewResponse;
 import com.zon.abba.wishlist.repository.WishlistRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +38,6 @@ import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +56,8 @@ public class ProductService {
     private final ProductReviewRepository productReviewRepository;
     private final SellerRepository sellerRepository;
     private final WishlistRepository wishlistRepository;
+    private final OrderDetailRepository orderDetailRepository;
+    private final ReviewFeedbackHistoryRepository reviewFeedbackHistoryRepository;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
     @Autowired
@@ -325,6 +333,133 @@ public class ProductService {
         productRepository.save(product);
         logger.info("ActiveYN 값이 변경되었습니다: {}", activeYN);
         return new ResponseBody("ActiveYN 값이 성공적으로 변경되었습니다.");
+    }
+
+    @Transactional
+    public ResponseDataBody productReviewRegister(ProductReviewRequest request) {
+
+        logger.info("유저 정보를 가져옵니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        OrderDetail orderDetail = orderDetailRepository.findById(request.getOrderDetailID())
+                .orElseThrow(() -> new NoDataException("없는 주문입니다."));
+        Product product = productRepository.findById(orderDetail.getProductId())
+                .orElseThrow(() -> new NoDataException("없는 상품입니다."));
+
+        ProductReview productReview = new ProductReview();
+        productReview.setMemberId(memberId);
+        productReview.setProductId(orderDetail.getProductId());
+        productReview.setSellerId(product.getSellerId());
+        productReview.setOrderDetailId(orderDetail.getOrderDetailId());
+        productReview.setScore(request.getScore());
+        productReview.setComment(request.getReview());
+        productReview.setCreatedId(memberId);
+        productReview.setModifiedId(memberId);
+        productReview.setCreatedDateTime(LocalDateTime.now());
+        productReview.setModifiedDateTime(LocalDateTime.now());
+
+        ProductReview review = productReviewRepository.save(productReview);
+
+        return new ResponseDataBody("상품평을 등록했습니다.", review.getProductReviewId());
+    }
+    @Transactional
+    public ResponseDataBody productReviewModify(ProductReviewModifyRequest request) {
+
+        logger.info("유저 정보를 가져옵니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        ProductReview productReview = productReviewRepository.findById(request.getProductReviewID())
+                .orElseThrow(() -> new NoDataException("없는 리뷰입니다."));
+
+        productReview.setScore(request.getScore());
+        productReview.setComment(request.getReview());
+        productReview.setModifiedId(memberId);
+        productReview.setModifiedDateTime(LocalDateTime.now());
+
+        ProductReview review = productReviewRepository.save(productReview);
+
+        return new ResponseDataBody("상품평을 수정했습니다.", review.getProductReviewId());
+    }
+
+    @Transactional
+    public ResponseBody productReviewDelete(String productReviewId) {
+
+        if (productReviewRepository.existsById(productReviewId)) {
+            productReviewRepository.deleteByProductReviewId(productReviewId);
+        } else {
+            throw new IllegalArgumentException("리뷰를 찾을 수 없습니다: " + productReviewId);
+        }
+
+        return new ResponseBody("상품평을 삭제했습니다.");
+    }
+
+    @Transactional
+    public ResponseDataBody ProductReviewDetail(String productReviewId) {
+
+        ProductReviewResponse result = new ProductReviewResponse();
+
+        ProductReview reivew = productReviewRepository.findById(productReviewId)
+                .orElseThrow(() -> new NoMemberException("없는 리뷰입니다."));
+
+        result.setProductReviewID(reivew.getProductReviewId());
+        result.setReview(reivew.getComment());
+        result.setLike(reivew.getLikes());
+        result.setDislike(reivew.getDislikes());
+
+        if (productReviewRepository.existsById(productReviewId)) {
+            productReviewRepository.deleteByProductReviewId(productReviewId);
+        } else {
+            throw new IllegalArgumentException("리뷰를 찾을 수 없습니다: " + productReviewId);
+        }
+
+        return new ResponseDataBody("상품평을 조회했습니다.", result);
+    }
+
+    @Transactional
+    public ResponseBody productReviewLikeDislike(String productReviewId,String flag) {
+
+        logger.info("유저 정보를 가져옵니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        if (productReviewRepository.existsById(productReviewId)) {
+            //있는지 확인
+            if(reviewFeedbackHistoryRepository.existsByProductReviewIdAndMemberId(productReviewId, memberId) == true) {
+                return new ResponseBody("이미 좋아요/싫어요를 눌렀습니다.");
+            }
+
+            ReviewFeedbackHistory reviewFeedbackHistory = new ReviewFeedbackHistory();
+            reviewFeedbackHistory.setProductReviewId(productReviewId);
+            reviewFeedbackHistory.setMemberId(memberId);
+            reviewFeedbackHistory.setCreatedId(memberId);
+            reviewFeedbackHistory.setModifiedId(memberId);
+            reviewFeedbackHistory.setCreatedDateTime(LocalDateTime.now());
+            reviewFeedbackHistory.setModifiedDateTime(LocalDateTime.now());
+            reviewFeedbackHistory.setDeleteYn("N");
+
+            ProductReview productReview = productReviewRepository.findById(productReviewId)
+                    .orElseThrow(() -> new NoMemberException("없는 리뷰입니다."));
+
+            if(flag.equals("like")) {
+                reviewFeedbackHistory.setType(1);
+                productReview.setLikes(productReview.getLikes() + 1);
+            }
+            else{
+                reviewFeedbackHistory.setType(2);
+                productReview.setDislikes(productReview.getDislikes() + 1);
+            }
+
+
+
+            reviewFeedbackHistoryRepository.save(reviewFeedbackHistory);
+
+        } else {
+            throw new IllegalArgumentException("리뷰를 찾을 수 없습니다: " + productReviewId);
+        }
+
+        return new ResponseBody("상품평을 평가했습니다.");
     }
 
 }

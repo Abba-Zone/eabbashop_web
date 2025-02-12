@@ -11,4 +11,5 @@ public interface ProductReviewRepository extends JpaRepository<ProductReview, St
 
     List<ProductReview> findByProductId(String productId);
 
+    void deleteByProductReviewId(String productReviewId);
 }
