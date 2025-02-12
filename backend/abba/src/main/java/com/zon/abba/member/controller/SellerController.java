@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -40,9 +41,9 @@ public class SellerController {
 
     @GetMapping("/list/product")
     @Operation(summary = "가게 상품 리스트", description = "가게 상품 리스트 확인")
-    public ResponseEntity<Object> sellerProductList(RequestList request){
+    public ResponseEntity<Object> sellerProductList(RequestList request, @RequestParam("sellerID") String sellerId){
 
-        ResponseListBody response = sellerService.sellerProductList(request);
+        ResponseListBody response = sellerService.sellerProductList(request, sellerId);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

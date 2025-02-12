@@ -109,7 +109,7 @@ public class SellerService {
     }
 
     @Transactional
-    public ResponseListBody sellerProductList(RequestList request) {
+    public ResponseListBody sellerProductList(RequestList request, String sellerId) {
         logger.info("seller product list를 반환 합니다.");
         String memberId = jwtTokenProvider.getCurrentMemberId()
                 .orElseThrow(() -> new NoMemberException("204","없는 회원입니다."));
@@ -125,7 +125,7 @@ public class SellerService {
         Page<ProductList> pages = productRepository.findProductList(
                 request.getFilter(),
                 request.getFilterValue(),
-                memberId,
+                sellerId,
                 pageable
         );
 

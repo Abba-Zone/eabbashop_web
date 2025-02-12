@@ -7,7 +7,9 @@ import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.common.security.JwtTokenProvider;
 import com.zon.abba.member.entity.Member;
+import com.zon.abba.member.entity.Seller;
 import com.zon.abba.member.repository.MemberRepository;
+import com.zon.abba.member.repository.SellerRepository;
 import com.zon.abba.product.dto.ProductDto;
 import com.zon.abba.product.entity.Product;
 import com.zon.abba.product.entity.ProductReview;
@@ -45,6 +47,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ProductReviewRepository productReviewRepository;
+    private final SellerRepository sellerRepository;
     //@Autowired
     private JwtTokenProvider jwtTokenProvider;
     @Autowired
@@ -170,6 +173,9 @@ public class ProductService {
         String memberId = jwtTokenProvider.getCurrentMemberId()
                 .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
 
+        Seller seller = sellerRepository.findOneByMemberId(memberId)
+                .orElseThrow(() -> new NoDataException("없는 매장 정보입니다."));
+
         String productId = registerProductRequest.getProductId(); // 요청에서 productId 가져오기
 
         if (productId != null && productRepository.existsByProductId(productId)) {
@@ -234,7 +240,7 @@ public class ProductService {
             // 상품이 존재하지 않으면 기존 생성 로직 실행
             logger.info("상품 정보를 등록합니다.");
             Product product = Product.builder()
-                    .sellerId(memberId)
+                    .sellerId(seller.getSellerId())
                     .name(registerProductRequest.getName())
                     .categoryId(registerProductRequest.getCategoryId())
                     .taxFreePrice(registerProductRequest.getTaxFreePrice())
