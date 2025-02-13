@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,7 +16,9 @@ public class RefundRequest {
     @JsonProperty("pointType")
     private String pointType;
     @JsonProperty("point")
-    private Integer point;
+    private BigDecimal point;
+    @JsonProperty("code")
+    private String code;
     @JsonProperty("accountID")
     private String accountID;
     @JsonProperty("parentID")

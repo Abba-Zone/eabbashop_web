@@ -10,6 +10,7 @@ public interface ChargeRefundList {
     String getAccountId();
     BigDecimal getAmount();
     BigDecimal getPoint();
+    String getCode();
     String getType();
     String getStatus();
     LocalDateTime getCreatedDateTime();

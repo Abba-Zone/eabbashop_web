@@ -28,6 +28,8 @@ public class DetailChargeRefundResponse {
     private BigDecimal amount;
     @JsonProperty("point")
     private BigDecimal point;
+    @JsonProperty("code")
+    private String code;
     @JsonProperty("type")
     private String type;
     @JsonProperty("status")

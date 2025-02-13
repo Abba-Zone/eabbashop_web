@@ -9,6 +9,7 @@ public interface ChargeRefundInfo {
     String getReceiverWalletId();
     BigDecimal getAmount();
     BigDecimal getPoint();
+    String getCode();
     String getType();
     String getStatus();
     LocalDateTime getCreatedDateTime();
