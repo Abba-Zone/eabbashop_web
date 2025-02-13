@@ -64,7 +64,7 @@ export { default as AdminShareLineList } from "./admin/AdminShareLineList";
 export { default as AdminShareLineDetail } from "./admin/AdminShareLineDetail";
 export { default as AdminShareMoneyList } from "./admin/AdminShareMoneyList";
 export { default as AdminShareMoneyDetail } from "./admin/AdminShareMoneyDetail";
-export { default as AdminTransferRequest } from "./admin/AdminTransferRequest";
+export { default as AdminChargeRequest } from "./admin/AdminChargeRequest";
 export { default as AdminPaymentRequest } from "./admin/AdminPaymentRequest";
 export { default as AdminTransferCancel } from "./admin/AdminTransferCancel";
 export { default as AdminTakebackRequest } from "./admin/AdminTakebackRequest";

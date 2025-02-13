@@ -1,11 +1,26 @@
 import { getData, postData } from './mainApi'
 
-export const requestPointRequest = async (requestPoint:requestPoint): Promise<requestPoint> => {
-    const response = await postData<requestPoint>('/charge', requestPoint);
+export const requestChargePointRequest = async (requestPoint:requestPoint): Promise<requestPoint> => {
+    const response = await postData<requestPoint>('/point/charge', requestPoint);
     return response.data as requestPoint;
 }
 
-export const refundPointRequest = async (refundPoint:refundPoint): Promise<refundPoint> => {
-    const response = await postData<refundPoint>('/refund', refundPoint);
+export const requestRefundPointRequest = async (refundPoint:refundPoint): Promise<refundPoint> => {
+    const response = await postData<refundPoint>('/point/refund', refundPoint);
     return response.data as refundPoint;
+}
+
+export const getPointHistoryRequestMe = async (url: string): Promise<pointHistory> => {
+    const response = await getData<pointHistory>(url);
+    return response.data as pointHistory;
+}
+
+export const getPointHistoryRequestAdmin = async (url:string): Promise<pointHistory> => {
+    const response = await getData<pointHistory>(url);
+    return response.data as pointHistory;
+}
+
+export const cancelChargeRefundRequest = async (chargeRefundID: string): Promise<void> => {
+    const response = await postData<void>('/point/cancel', chargeRefundID);
+    return response.data as void;
 }

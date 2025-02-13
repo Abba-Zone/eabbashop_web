@@ -11,7 +11,7 @@ const Header: React.FC = () => {
     const result = [];
     switch (pathname.pathname) {
       case "/login": case "/signup": case "/admin/login": case "/admin/signup":
-        result.push(<></>);
+        result.push(<div key={pathname.pathname}></div>);
         return result;
       default:
         if (pathname.pathname.substring(0, 6) === "/admin")

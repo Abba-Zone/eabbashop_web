@@ -11,7 +11,7 @@ import { Home, Login, Signup, Cart,
   AdminOrderDetail, AdminInvoiceList, AdminInvoiceDetail,
   AdminShipmentList, AdminShipmentDetail, AdminRegularOrderList,
   AdminRegularOrderDetail, AdminShareLineList, AdminShareLineDetail,
-  AdminShareMoneyList, AdminShareMoneyDetail, AdminTransferRequest,
+  AdminShareMoneyList, AdminShareMoneyDetail, AdminChargeRequest,
   AdminPaymentRequest, AdminTransferCancel, AdminTakebackRequest,
   AdminRefundRequest, AdminStoreList, AdminStoreDetail,
   AdminStoreManage, AdminNotice, AdminLetter, AdminDonation,
@@ -68,7 +68,7 @@ const RoutePath:React.FC = () => {
         <Route path="/admin/shareMoneyDetail/:id" element={<AdminShareMoneyDetail />} />
 
         {/* Request Management */}
-        <Route path="/admin/charge-point" element={<AdminTransferRequest />} />
+        <Route path="/admin/charge-point" element={<AdminChargeRequest />} />
         <Route path="/admin/refund-point" element={<AdminPaymentRequest />} />
         <Route path="/admin/cancle-transfer" element={<AdminTransferCancel />} />
         <Route path="/admin/change-referral" element={<AdminTakebackRequest />} />

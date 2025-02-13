@@ -2,7 +2,8 @@ import { login, signup, authEmail, checkAuthCode, checkRecommendEmail,
     getUserList, getMemberList, getMemberDetail, getMemberDetailMe, googleLogin, 
     googleLoginWithCode, kakaoLoginWithCode, findID, requestAdmin, requestAdminList, 
     requestAdminListAll, requestAdminResult, updateRole, changeRecommendEmail, 
-    requestAdminAuto, getSellerInfo, updateUserData, updatePassword, sendResetPasswordEmail
+    requestAdminAuto, getSellerInfo, updateUserData, updatePassword, sendResetPasswordEmail,
+    getLineList
 } from '../apis/memberApi'
 /*데이터 가공 */
 export const login_s = async (loginUser:emailAndPassword): Promise<loginSuccess> => {
@@ -99,4 +100,8 @@ export const updatePassword_s = async (email: string, newPassword: string): Prom
 
 export const sendResetPasswordEmail_s = async (email: string): Promise<boolean> => {
     return await sendResetPasswordEmail(email);
+};
+
+export const getLineList_s = async (): Promise<lineList> => {
+    return await getLineList();
 };
