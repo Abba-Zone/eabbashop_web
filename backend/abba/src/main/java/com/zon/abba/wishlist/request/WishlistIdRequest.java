@@ -13,4 +13,6 @@ import lombok.Setter;
 public class WishlistIdRequest {
     @JsonProperty("wishlistID")
     private String wishlistID;
+    @JsonProperty("productID")
+    private String productID;
 }
