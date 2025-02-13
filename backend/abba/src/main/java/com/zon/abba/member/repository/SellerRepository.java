@@ -73,7 +73,8 @@ public interface SellerRepository extends JpaRepository<Seller, String> {
             "       s.ZipCode AS zipCode, " +
             "       s.BaseAddress AS baseAddress, " +
             "       s.DetailAddress AS detailAddress, " +
-            "       s.CreatedDateTime AS createdDateTime " +
+            "       s.CreatedDateTime AS createdDateTime, " +
+            "       m.Email AS email " +
             "FROM Seller s " +
             "LEFT JOIN Members m ON s.MemberID = m.MemberID " +
             "WHERE s.SellerID = :sellerId",
