@@ -5,6 +5,7 @@ import com.zon.abba.common.response.ResponseBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.point.request.TransferIdRequest;
 import com.zon.abba.point.request.TransferRequest;
+import com.zon.abba.point.request.TransferStatusRequest;
 import com.zon.abba.point.service.TransferService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,15 @@ public class TransferController {
     public ResponseEntity<Object> requestCancelTransfer(RequestList request){
 
         ResponseListBody response = transferService.cancelTransferList(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/confirm")
+    @Operation(summary = "포인트 이체 취소 응답", description = "유저간 포인트 이체 취소 신청에 대해 응답할 수 있다.")
+    public ResponseEntity<Object> requestCancelTransfer(@RequestBody TransferStatusRequest request){
+
+        ResponseBody response = transferService.confirmTransfer(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

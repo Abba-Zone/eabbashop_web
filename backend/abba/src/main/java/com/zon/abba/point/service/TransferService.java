@@ -12,6 +12,7 @@ import com.zon.abba.point.mapping.TransferList;
 import com.zon.abba.point.repository.TransferRepository;
 import com.zon.abba.point.request.TransferIdRequest;
 import com.zon.abba.point.request.TransferRequest;
+import com.zon.abba.point.request.TransferStatusRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -97,5 +98,25 @@ public class TransferService {
                 .toList();
 
         return new ResponseListBody(pages.getTotalElements(), list);
+    }
+
+    @Transactional
+    public ResponseBody confirmTransfer(TransferStatusRequest request){
+        logger.info("포인트 이체 취소를 응답합니다.");
+        String memberId = jwtTokenProvider.getCurrentMemberId()
+                .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+        Transfer transfer = transferRepository.findById(request.getTransferID())
+                .orElseThrow(() -> new NoDataException("없는 이체 정보입니다."));
+
+        transfer.setStatus(request.getStatus());
+        transfer.setModifiedId(memberId);
+
+        // 이체 취소를 승인한다면 history에서 데이터를 찾아 교환
+        if (request.getStatus().equals("C")){
+            pointService.cancelTransfer(transfer, memberId);
+        }
+
+        return new ResponseBody("성공했습니다.");
     }
 }
