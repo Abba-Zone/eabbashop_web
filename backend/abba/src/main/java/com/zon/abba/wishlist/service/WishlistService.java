@@ -74,8 +74,16 @@ public class WishlistService {
         String memberId = jwtTokenProvider.getCurrentMemberId()
                 .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
 
-        Wishlist wishlist = wishlistRepository.findById(request.getWishlistID())
-                .orElseThrow(() -> new NoDataException("없는 위시리스트입니다."));
+        Wishlist wishlist = new  Wishlist();
+
+        if(request.getWishlistID() == null || request.getWishlistID().isEmpty()){
+            wishlist = wishlistRepository.findByProductId(request.getProductID())
+                    .orElseThrow(() -> new NoDataException("없는 위시리스트입니다."));
+        }
+        else{
+            wishlist = wishlistRepository.findById(request.getWishlistID())
+                    .orElseThrow(() -> new NoDataException("없는 위시리스트입니다."));
+        }
 
         wishlist.setDeleteYN("Y");
         wishlist.setModifiedId(memberId);

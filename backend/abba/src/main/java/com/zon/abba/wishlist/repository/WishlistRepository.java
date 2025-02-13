@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface WishlistRepository extends JpaRepository<Wishlist, String> {
@@ -33,4 +34,6 @@ public interface WishlistRepository extends JpaRepository<Wishlist, String> {
     List<WishListList> findWishListWithProductsByMemberId(@Param("memberId") String memberId);
 
     boolean existsByMemberIdAndProductId(String memberId, String productId);
+
+    Optional<Wishlist> findByProductId(String productId);
 }

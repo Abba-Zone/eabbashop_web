@@ -43,4 +43,5 @@ public class WishlistController {
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
 }
