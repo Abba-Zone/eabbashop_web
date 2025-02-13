@@ -85,10 +85,6 @@ export const updateRole_s = async (memberID:string, role:string): Promise<boolea
     return await updateRole(memberID, role);
 };
 
-export const getSellerInfo_s = async (sellerID:string): Promise<productSeller> => {
-    return await getSellerInfo(sellerID);
-};
-
 export const updateUserData_s = async (userInfo: userInfo): Promise<boolean> => {
     return await updateUserData(userInfo);
 };
