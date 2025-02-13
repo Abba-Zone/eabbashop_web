@@ -25,7 +25,7 @@ interface product{
     productName : string,
     sellerName : string,
     stock : number,
-    activeYN : string
+    showYN : string
 }
 
 interface registProduct{
@@ -73,7 +73,7 @@ interface productDetail extends Omit<product, 'sellerName'>{
     categories : category[],
     allowNation : string[],
     viewSite : string,
-    showYN : string
+    activeYN : string
 }
 
 interface productSeller extends seller{

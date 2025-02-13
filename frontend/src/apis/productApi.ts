@@ -12,18 +12,6 @@ export const getMainProductLists = async (nation:string, viewSite:string):Promis
         console.error('Error fetching product list:', error);
         throw error;
     }
-    /* make for test*/
-    const result :mainProductList = {
-        bestProducts:[],
-        newProducts:[],
-        randomProducts:[]
-    };
-    for(let i = 0 ; i < 15 ; i++){
-        result.bestProducts.push({productID : "aasg564olvizxhncb32", thumbnail : "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT4is8rP6vgN2j1gBkrHpjZepJvJisJcdS9c5qjIzkeMZusSlpdY0xIEplzTvQZtJQksvL5ljEvnrXDD1Hk_dTgSM4xis4RiDWx6H5Baz8", productName : `상품이름test`+i, realPrice : 14, AP : 5, AW : 3, AK : 5, averageScore:4.5, reviewCnt:50});
-        result.newProducts.push({productID : "aasg564olvizxhncb32", thumbnail : "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT4is8rP6vgN2j1gBkrHpjZepJvJisJcdS9c5qjIzkeMZusSlpdY0xIEplzTvQZtJQksvL5ljEvnrXDD1Hk_dTgSM4xis4RiDWx6H5Baz8", productName : `상품이름test`+i, realPrice : 14, AP : 5, AW : 3, AK : 5, averageScore:4.5, reviewCnt:50});
-        result.randomProducts.push({productID : "aasg564olvizxhncb32", thumbnail : "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT4is8rP6vgN2j1gBkrHpjZepJvJisJcdS9c5qjIzkeMZusSlpdY0xIEplzTvQZtJQksvL5ljEvnrXDD1Hk_dTgSM4xis4RiDWx6H5Baz8", productName : `상품이름test`+i, realPrice : 14, AP : 5, AW : 3, AK : 5, averageScore:4.5, reviewCnt:50});
-    }
-    return result;
 }
 
 export const getSearchProductList = async (params:searchParams):Promise<shopProductList> => {
@@ -36,16 +24,6 @@ export const getSearchProductList = async (params:searchParams):Promise<shopProd
         console.error('Error fetching product list:', error);
         throw error;
     }
-    /* make for test*/
-    const result :shopProductList = {
-        list:[],
-        totalCount:15,
-    };
-    for(let i = 0 ; i < 15 ; i++){
-        result.list.push({productID : "aasg564olvizxhncb32", thumbnail : "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT4is8rP6vgN2j1gBkrHpjZepJvJisJcdS9c5qjIzkeMZusSlpdY0xIEplzTvQZtJQksvL5ljEvnrXDD1Hk_dTgSM4xis4RiDWx6H5Baz8", productName : `상품이름test`+i, realPrice : 14, AP : 5, AW : 3, AK : 5, averageScore:4.5, reviewCnt:50});
-    }
-    console.log(result);
-    return result;
 }
 
 export const getProductList = async (pageNo:number, pageSize:number, filter:string[], filterValue:string[], sort:string, sortValue:string):Promise<productList> => {
@@ -62,6 +40,7 @@ export const getProductList = async (pageNo:number, pageSize:number, filter:stri
             ...filterValue
         ]
     }
+    console.log(data);
     try {
         const response = await postData<productList>(`/product/list/admin`, data);
         console.log(response.data);
@@ -70,18 +49,6 @@ export const getProductList = async (pageNo:number, pageSize:number, filter:stri
         console.error('Error fetching product list:', error);
         throw error;
     }
-
-    /* make for test*/
-    var result :productList = {
-        totalCount: 123412414,
-        list : [
-            {productID: "1dvxb32c45s7d87b49lkfdvb", productName : "물병",sellerName : "전 현태",	stock : 100, activeYN : "Y",},
-            {productID: "2dvxb32c45s7d87b49lkfdvb", productName : "물병",sellerName : "전 현태",	stock : 100, activeYN : "N",},
-            {productID: "3dvxb32c45s7d87b49lkfdvb", productName : "물병",sellerName : "전 현태",	stock : 100, activeYN : "N",},
-            {productID: "4dvxb32c45s7d87b49lkfdvb", productName : "물병",sellerName : "전 현태",	stock : 100, activeYN : "Y",}
-        ]
-    };
-    return result;
 }
 
 export const getProductDetail = async (productID:string):Promise<productDetail> => {
@@ -95,35 +62,6 @@ export const getProductDetail = async (productID:string):Promise<productDetail> 
         console.error('Error fetching product detail:', error);
         throw error;
     }
-
-    // getData<productDetailAndSeller>('/product/detail?productID='+ productID)
-    //     .then((data:APIResponse<productDetailAndSeller>) => {
-    //         return data.result;
-    //     }
-    // );
-    // return null as unknown as productDetailAndSeller;
-    
-    var result:productDetail= {
-        sellerId:"123",
-        categoryId:"1",
-        categoryName:"test_cate",
-        productID : "qwer1234",
-        productName : "물병",
-        thumbnail: "썸네일이미지주소",
-        taxFreePrice : 20.0,
-        spPrice : 5.0,
-        realPrice : 25.0,
-        stock: 10, 
-        description : "물을 오래 보관할 수 있음(이미지도 있음)",
-        summary : "물담는 거",
-        paybackRatio : 0.5,
-        categories : [{"ID":"qw12as", "name":"생필품"}, {"ID":"12qwas","name" :"치약"}],
-        allowNation : ["KOR", "USA"],
-        viewSite : "A",
-        showYN :"Y",
-        activeYN : "Y"
-    };
-    return result;
 }
 
 export const registerProduct = (registProduct:registProduct) => {
