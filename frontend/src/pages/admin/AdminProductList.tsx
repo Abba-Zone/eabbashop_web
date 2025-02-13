@@ -17,7 +17,7 @@ const AdminProductList: React.FC = () => {
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
     {selectName:t("AdminProduct:List.Filter01"), select:'name', selectType:'text', itemList:[]},
-    {selectName:t("AdminProduct:List.Filter02"), select:'seller', selectType:'text', itemList:[]},
+    {selectName:t("AdminProduct:List.Filter02"), select:'sellerID', selectType:'text', itemList:[]},
     {selectName:t("AdminProduct:List.Filter03"), select:'stock', selectType:'text', itemList:[]},
     {selectName:t("AdminProduct:List.Filter04"), select:'activeYN', selectType:'select', itemList:[t("AdminProduct:List.Option04.Attribute01"), t("AdminProduct:List.Option04.Attribute02")]},
   ];

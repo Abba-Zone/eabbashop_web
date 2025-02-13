@@ -1,4 +1,4 @@
-import { getData } from './mainApi'
+import { getData , postData} from './mainApi'
 export const getStoreList = async (pageNo:number, pageSize:number, filter:string, filterValue:string, sort:string, sortValue:string):Promise<storeList> => {
     /* real code*/
     try {
@@ -12,26 +12,18 @@ export const getStoreList = async (pageNo:number, pageSize:number, filter:string
     }
 }
 
-export const getStoreProductList = (storeID:string, pageNo:number, pageSize:number, filter:number, filterValue:string, sort:string, sortValue:string):productList => {
+export const getStoreProductList = async (pageNo:number, pageSize:number, filter:string, filterValue:string, sort:string, sortValue:string, sellerID:string):Promise<productList> => {
     /* real code*/
-    // getData<storeList>('/list?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&filter='+ filter + '&filterValue='+ filterValue + '&sort='+ sort+ '&sortValue='+ sortValue)
-    //     .then((data:APIResponse<storeList>) => {
-    //         return data.result;
-    //     }
-    // );
-    // return null as unknown as storeList;
-
-    /* make for test*/
-    var result :productList = {
-        totalCount: 123412414,
-        list : [
-            {productID: "1dvxb32c45s7d87b49lkfdvb", productName : "물병",sellerName : "전 현태",	stock : 100, activeYN : "Y",},
-            {productID: "2dvxb32c45s7d87b49lkfdvb", productName : "물병",sellerName : "전 현태",	stock : 100, activeYN : "N",},
-            {productID: "3dvxb32c45s7d87b49lkfdvb", productName : "물병",sellerName : "전 현태",	stock : 100, activeYN : "N",},
-            {productID: "4dvxb32c45s7d87b49lkfdvb", productName : "물병",sellerName : "전 현태",	stock : 100, activeYN : "Y",}
-        ]
-    };
-    return result;
+    try {
+        const response = await getData<productList>(
+            `/member/seller/list/product?pageNo=${pageNo}&pageSize=${pageSize}&sort=${sort}&sortValue=${sortValue}&filter=${filter}&filterValue=${filterValue}&sellerID=${sellerID}`,
+        );
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching seller list:', error);
+        throw error;
+    }
 }
 
 export const getStoreDetail = async(sellerID:string):Promise<storeInfo> => {
