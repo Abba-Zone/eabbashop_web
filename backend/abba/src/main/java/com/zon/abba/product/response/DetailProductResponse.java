@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DetailProductResponse {
-    @JsonProperty("productId")
+    @JsonProperty("productID")
     private String productId;
 
     @JsonProperty("categoryId")
