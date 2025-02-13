@@ -8,6 +8,7 @@ import com.zon.abba.common.response.ResponseDataBody;
 import com.zon.abba.common.response.ResponseListBody;
 import com.zon.abba.common.security.JwtTokenProvider;
 import com.zon.abba.member.entity.Member;
+import com.zon.abba.member.entity.Seller;
 import com.zon.abba.member.repository.MemberRepository;
 import com.zon.abba.member.repository.SellerRepository;
 import com.zon.abba.order.entity.OrderDetail;
@@ -172,14 +173,25 @@ public class ProductService {
         logger.info("상품 카테고리 정보를 가져옵니다.");
         Category category = categoryRepository.findByCategoryId(product.getCategoryId())
                 .orElseThrow(() -> new NoMemberException("없는 카테고리입니다."));
+        boolean iswish = false;
 
         if(jwtTokenProvider != null){
             String memberId = jwtTokenProvider.getCurrentMemberId()
                     .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
-            return new DetailProductResponse(product, category.getName(),wishlistRepository.existsByMemberIdAndProductId(memberId, productId));
+
+            iswish = wishlistRepository.existsByMemberIdAndProductId(memberId, productId);
+            //return new DetailProductResponse(product, category.getName(),iswish);
         }
 
-        return new DetailProductResponse(product, category.getName());
+        String sellerID = null;
+        if(sellerRepository.existsByMemberId(product.getSellerId())){
+            Seller seller = sellerRepository.findOneByMemberId(product.getSellerId())
+                    .orElseThrow(() -> new NoMemberException("없는 판매자입니다."));
+            sellerID = seller.getSellerId();
+            //return new DetailProductResponse(product, category.getName(), seller.getSellerId());
+        }
+
+        return new DetailProductResponse(product, category.getName(),iswish, sellerID);
     }
 
     @Transactional

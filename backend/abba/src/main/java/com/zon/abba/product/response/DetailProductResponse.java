@@ -17,14 +17,17 @@ public class DetailProductResponse {
     @JsonProperty("productID")
     private String productId;
 
-    @JsonProperty("categoryId")
+    @JsonProperty("categoryID")
     private String categoryId;
 
     @JsonProperty("categoryName")
     private String categoryName;
 
-    @JsonProperty("sellerId")
+    @JsonProperty("sellerID")
     private String sellerId;
+
+    @JsonProperty("realSellerID")
+    private String realSellerId;
 
     @JsonProperty("productName")
     private String productName;
@@ -55,6 +58,24 @@ public class DetailProductResponse {
 
     @JsonProperty("isWishList")
     private boolean isWishList;
+
+    public DetailProductResponse(Product product, String categoryName, String realSellerId) {
+        this.productId = product.getProductId();
+        this.categoryId = product.getCategoryId();
+        this.categoryName = categoryName;
+        this.sellerId = product.getSellerId();
+        this.productName = product.getName();
+        this.taxFreePrice = product.getTaxFreePrice();
+        this.spPrice = product.getSpPrice();
+        this.realPrice = product.getRealPrice();
+        this.stock = product.getStock();
+        this.thumbnail = product.getThumbnail();
+        this.summary = product.getSummary();
+        this.description = product.getDescription();
+        this.paybackRatio = product.getPaybackRatio();
+        this.isWishList = false;
+        this.realSellerId = realSellerId;
+    }
 
     public DetailProductResponse(Product product, String categoryName) {
         this.productId = product.getProductId();
@@ -88,5 +109,22 @@ public class DetailProductResponse {
         this.description = product.getDescription();
         this.paybackRatio = product.getPaybackRatio();
         this.isWishList = isWishList;
+    }
+    public DetailProductResponse(Product product, String categoryName, boolean isWishList, String realSellerId) {
+        this.productId = product.getProductId();
+        this.categoryId = product.getCategoryId();
+        this.categoryName = categoryName;
+        this.sellerId = product.getSellerId();
+        this.productName = product.getName();
+        this.taxFreePrice = product.getTaxFreePrice();
+        this.spPrice = product.getSpPrice();
+        this.realPrice = product.getRealPrice();
+        this.stock = product.getStock();
+        this.thumbnail = product.getThumbnail();
+        this.summary = product.getSummary();
+        this.description = product.getDescription();
+        this.paybackRatio = product.getPaybackRatio();
+        this.isWishList = isWishList;
+        this.realSellerId = realSellerId;
     }
 }
