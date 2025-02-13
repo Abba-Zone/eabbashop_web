@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -41,15 +42,15 @@ public interface ChargeRefundRepository extends JpaRepository<ChargeRefund, Stri
     FROM ChargeRefund c
     LEFT JOIN Wallet s_w ON c.SenderWalletID = s_w.WalletID
     LEFT JOIN Members s_m ON s_w.MemberID = s_m.MemberID
-
     LEFT JOIN Wallet r_w ON c.ReceiverWalletID = r_w.WalletID
     LEFT JOIN Members r_m ON r_w.MemberID = r_m.MemberID
-    
     WHERE c.DeleteYN = 'N'
     AND (c.SenderWalletID = :walletId OR c.ReceiverWalletID = :walletId)
     AND (:filter IS NULL 
-        OR (:filter = 'status' AND c.Status = :filterValue) 
-        OR (:filter = 'type' AND c.Type = :filterValue))
+        OR (:filter = 'status' AND c.Status IN (:filterValues)) 
+        OR (:filter = 'type' AND c.Type = :filterValue)
+        OR (:filter = 'createdDateTime' AND DATE(c.CreatedDateTime) BETWEEN STR_TO_DATE(:filterValue, '%Y-%m-%d') AND CURRENT_DATE())
+        )
     """,
             countQuery = """
     SELECT COUNT(*)
@@ -61,15 +62,18 @@ public interface ChargeRefundRepository extends JpaRepository<ChargeRefund, Stri
     WHERE c.DeleteYN = 'N'
     AND (c.SenderWalletID = :walletId OR c.ReceiverWalletID = :walletId)
     AND (:filter IS NULL 
-        OR (:filter = 'status' AND c.Status = :filterValue) 
-        OR (:filter = 'type' AND c.Type = :filterValue))
+        OR (:filter = 'status' AND c.Status IN (:filterValues)) 
+        OR (:filter = 'type' AND c.Type = :filterValue)
+        OR (:filter = 'createdDateTime' AND DATE(c.CreatedDateTime) BETWEEN STR_TO_DATE(:filterValue, '%Y-%m-%d') AND CURRENT_DATE())
+        )
     """,
-            nativeQuery = true
-    )
-    Page<ChargeRefundList> findByFilter(@Param("filter") String filter,
-                                        @Param("filterValue") String filterValue,
-                                        @Param("walletId") String walletId,
-                                        Pageable pageable);
+            nativeQuery = true)
+    Page<ChargeRefundList> findByFilter(
+            @Param("filter") String filter,
+            @Param("filterValues") List<String> filterValues,
+            @Param("filterValue") String filterValue,
+            @Param("walletId") String walletId,
+            Pageable pageable);
 
     @Query(value = """
     SELECT 

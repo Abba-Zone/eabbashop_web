@@ -32,6 +32,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -133,9 +135,14 @@ public class ChargeRefundService {
                                 Sort.Direction.ASC : Sort.Direction.DESC,
                         request.getSortValue())
         );
-
+        List<String> statuses = Collections.emptyList();
+        if (request.getFilter() != null && request.getFilter().equals("status")){
+            if(request.getFilterValue().equals("A")) statuses = Arrays.asList("A", "C", "E", "G");
+            else if(request.getFilterValue().equals("B")) statuses = Arrays.asList("B", "D", "F", "H");
+        }
         Page<ChargeRefundList> pages = chargeRefundRepository.findByFilter(
                 request.getFilter(),
+                statuses,
                 request.getFilterValue(),
                 wallet.getWalletId(),
                 pageable
