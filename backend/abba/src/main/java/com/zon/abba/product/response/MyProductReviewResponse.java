@@ -1,19 +1,23 @@
 package com.zon.abba.product.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.zon.abba.product.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductReviewResponse {
+public class MyProductReviewResponse {
+
+    @JsonProperty("productID")
+    private String productID;
+
+    @JsonProperty("productName")
+    private String productName;
+
     @JsonProperty("productReviewID")
     private String productReviewID;
 
@@ -28,4 +32,5 @@ public class ProductReviewResponse {
 
     @JsonProperty("score")
     private int score;
+
 }

@@ -24,10 +24,7 @@ import com.zon.abba.product.request.ProductListRequest;
 import com.zon.abba.product.request.ProductRegisterRequest;
 import com.zon.abba.product.request.ProductReviewModifyRequest;
 import com.zon.abba.product.request.ProductReviewRequest;
-import com.zon.abba.product.response.DetailProductResponse;
-import com.zon.abba.product.response.ProductListResponseAdmin;
-import com.zon.abba.product.response.ProductListResponseShop;
-import com.zon.abba.product.response.ProductReviewResponse;
+import com.zon.abba.product.response.*;
 import com.zon.abba.wishlist.repository.WishlistRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -179,7 +176,7 @@ public class ProductService {
             String memberId = jwtTokenProvider.getCurrentMemberId()
                     .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
 
-            iswish = wishlistRepository.existsByMemberIdAndProductId(memberId, productId);
+            iswish = wishlistRepository.existsByMemberIdAndProductIdAndDeleteYN(memberId, productId, "N");
             //return new DetailProductResponse(product, category.getName(),iswish);
         }
 
@@ -427,6 +424,67 @@ public class ProductService {
         }
 
         return new ResponseDataBody("상품평을 조회했습니다.", result);
+    }
+
+    @Transactional
+    public ResponseListBody ProductReviewList(String productID) {
+
+        if(productID.equals("my")){
+            List<MyProductReviewResponse> list = new ArrayList<>();
+
+            logger.info("유저 정보를 가져옵니다.");
+            String memberId = jwtTokenProvider.getCurrentMemberId()
+                    .orElseThrow(() -> new NoMemberException("없는 회원입니다."));
+
+            List<ProductReview> reivewList = productReviewRepository.findByMemberId(memberId);
+
+            if(reivewList == null || reivewList.isEmpty()){
+                throw new NoDataException("리뷰가 없는 회원입니다.");
+            }
+
+            for(ProductReview productReview : reivewList){
+                Product product = productRepository.findById(productReview.getProductId())
+                        .orElseThrow(() -> new NoDataException("없는 상품입니다."));
+                MyProductReviewResponse review = new MyProductReviewResponse();
+
+                review.setProductReviewID(productReview.getProductReviewId());
+                review.setReview(productReview.getComment());
+                review.setLike(productReview.getLikes());
+                review.setDislike(productReview.getDislikes());
+                review.setProductID(productReview.getProductId());
+                review.setProductName(product.getName());
+                review.setScore(productReview.getScore());
+
+                list.add(review);
+            }
+
+            return new ResponseListBody((long) list.size(), list);
+
+        }
+        else{
+            List<ProductReviewResponse> list = new ArrayList<>();
+
+            List<ProductReview> reivewList = productReviewRepository.findByProductId(productID);
+
+            if(reivewList == null || reivewList.isEmpty()){
+                throw new NoDataException("리뷰가 없는 상품입니다.");
+            }
+
+            for(ProductReview productReview : reivewList){
+                ProductReviewResponse review = new ProductReviewResponse();
+
+                review.setProductReviewID(productReview.getProductReviewId());
+                review.setReview(productReview.getComment());
+                review.setLike(productReview.getLikes());
+                review.setDislike(productReview.getDislikes());
+                review.setScore(productReview.getScore());
+
+                list.add(review);
+            }
+
+            return new ResponseListBody((long) list.size(), list);
+        }
+
     }
 
     @Transactional

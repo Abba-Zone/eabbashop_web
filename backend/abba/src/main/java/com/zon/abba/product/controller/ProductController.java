@@ -123,4 +123,19 @@ public class ProductController {
         ResponseDataBody response = productService.ProductReviewDetail(prodcutReviewID);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    // 상품평 조회
+    @GetMapping("/review/list/{productID}")
+    @Operation(summary = "상품평 조회", description = "상품평 조회")
+    public ResponseEntity<ResponseListBody> productReviewList(@PathVariable String productID) {
+        ResponseListBody response = productService.ProductReviewList(productID);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+    // 상품평 조회
+    @GetMapping("/review/list/my")
+    @Operation(summary = "상품평 조회", description = "상품평 조회")
+    public ResponseEntity<ResponseListBody> productReviewList() {
+        ResponseListBody response = productService.ProductReviewList("my");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 }
