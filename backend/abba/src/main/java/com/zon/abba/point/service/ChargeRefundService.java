@@ -65,13 +65,14 @@ public class ChargeRefundService {
                 .orElseThrow(() -> new NoDataException("없는 지갑 정보입니다."));
 
         // 추후 환율 변동기 가져오면 적용 - 완 -
-        BigDecimal point = exchangeRateService.convertToUSD(BigDecimal.valueOf(request.getAmount()), 0);
+        BigDecimal point = exchangeRateService.convertToUSD(request.getAmount(), request.getCode(), 0);
 
         ChargeRefund chargeRefund = ChargeRefund.builder()
                 .receiverWalletId(wallet.getWalletId())
                 .senderWalletId(parentWallet.getWalletId())
-                .amount(BigDecimal.valueOf(request.getAmount()))
+                .amount(request.getAmount())
                 .point(point)
+                .code(request.getCode())
                 .type(request.getPointType())
                 .status("A")
                 .createdId(memberId)
@@ -107,7 +108,8 @@ public class ChargeRefundService {
                 .senderWalletId(wallet.getWalletId())
                 .receiverWalletId(parentWallet.getWalletId())
                 .accountId(request.getAccountID())
-                .point(BigDecimal.valueOf(request.getPoint()))
+                .point(request.getPoint())
+                .code(request.getCode())
                 .type(request.getPointType())
                 .status("B")
                 .createdId(memberId)

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,7 +16,9 @@ public class ChargeRequest {
     @JsonProperty("pointType")
     private String pointType;
     @JsonProperty("amount")
-    private Integer amount;
+    private BigDecimal amount;
+    @JsonProperty("code")
+    private String code;
     @JsonProperty("parentID")
     private String parentID;
 }

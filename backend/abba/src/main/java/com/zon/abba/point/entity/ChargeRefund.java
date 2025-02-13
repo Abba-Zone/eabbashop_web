@@ -37,6 +37,9 @@ public class ChargeRefund {
     @Column(name = "Point", precision = 10, scale = 2, nullable = false)
     private BigDecimal point;
 
+    @Column(name = "Code", length = 3, nullable = false)
+    private String code;
+
     @Column(name = "Type", length = 10, nullable = false)
     private String type;
 

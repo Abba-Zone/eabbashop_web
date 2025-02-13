@@ -378,16 +378,12 @@ public class PointService {
         // 사용 금액을 계산한다.
         // 환급시에는 승인할 당시의 환율로 point가 계산된다.
         // 실제 고객의 통장에 들어갈 돈은 sellRate이다.
-        BigDecimal buyRate = exchangeRateService.convertToKRW(chargeRefund.getPoint(), 0);
-        BigDecimal sellRate = exchangeRateService.convertToKRW(chargeRefund.getPoint(), 1);
+        BigDecimal buyRate = exchangeRateService.convertToCurrency(chargeRefund.getPoint(), chargeRefund.getCode(), 0);
+        BigDecimal sellRate = exchangeRateService.convertToCurrency(chargeRefund.getPoint(), chargeRefund.getCode(),1);
 
         chargeRefund.setAmount(sellRate);
 
-        // 정산으로 들어가는 ak 크기는 살 때 환율 - 팔 때 환율
-        BigDecimal rate = buyRate.subtract(sellRate);
-        // ak를 다시 살 때 환율로 변환
-        BigDecimal akPoint = exchangeRateService.convertToUSD(rate, 0);
-        logger.info("받는 ak는 {}", akPoint);
+
 
         BigDecimal LP = BigDecimal.ZERO;
         BigDecimal AK = BigDecimal.ZERO;
@@ -405,11 +401,18 @@ public class PointService {
         savePointHistory(senderWallet, LP.negate(), AK.negate(), SP.negate(), "B", chargeRefund.getChargeRefundId(), receiverWallet.getMemberId());
         // 받는 사람은 양수로
         savePointHistory(receiverWallet, LP, AK, SP, "B", chargeRefund.getChargeRefundId(), receiverWallet.getMemberId());
-        // 내 지갑에 AK 추가
-        putWallet(senderWallet, BigDecimal.ZERO, akPoint, BigDecimal.ZERO, "A", receiverWallet.getMemberId());
-        savePointHistory(senderWallet, BigDecimal.ZERO, akPoint, BigDecimal.ZERO, "B", chargeRefund.getChargeRefundId(), receiverWallet.getMemberId());
-        // 라인에 수당 분배
-        distributeDirectAK(findParentForZone(senderWallet.getMemberId()), akPoint, chargeRefund.getChargeRefundId(), receiverWallet.getMemberId());
+
+        // 달러로 환전하면 AK 추가 지급
+        if(chargeRefund.getCode().equals("USD")){
+            // 정산으로 들어가는 ak 크기는 살 때 환율 - 팔 때 환율
+            BigDecimal akPoint = buyRate.subtract(sellRate);
+            logger.info("받는 ak는 {}", akPoint);
+            // 내 지갑에 AK 추가
+            putWallet(senderWallet, BigDecimal.ZERO, akPoint, BigDecimal.ZERO, "A", receiverWallet.getMemberId());
+            savePointHistory(senderWallet, BigDecimal.ZERO, akPoint, BigDecimal.ZERO, "B", chargeRefund.getChargeRefundId(), receiverWallet.getMemberId());
+            // 라인에 수당 분배
+            distributeDirectAK(findParentForZone(senderWallet.getMemberId()), akPoint, chargeRefund.getChargeRefundId(), receiverWallet.getMemberId());
+        }
     }
 
     @Transactional

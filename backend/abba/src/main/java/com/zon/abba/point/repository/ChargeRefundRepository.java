@@ -24,6 +24,7 @@ public interface ChargeRefundRepository extends JpaRepository<ChargeRefund, Stri
         c.AccountID AS accountId,
         c.Amount AS amount,
         c.Point AS point,
+        c.Code AS code,
         c.Type AS type,
         c.Status AS status,
         c.CreatedDateTime AS createdDateTime,
@@ -49,6 +50,7 @@ public interface ChargeRefundRepository extends JpaRepository<ChargeRefund, Stri
     AND (:filter IS NULL 
         OR (:filter = 'status' AND c.Status IN (:filterValues)) 
         OR (:filter = 'type' AND c.Type = :filterValue)
+        OR (:filter = 'code' AND c.Code = :filterValue)
         OR (:filter = 'createdDateTime' AND DATE(c.CreatedDateTime) BETWEEN STR_TO_DATE(:filterValue, '%Y-%m-%d') AND CURRENT_DATE())
         )
     """,
@@ -64,6 +66,7 @@ public interface ChargeRefundRepository extends JpaRepository<ChargeRefund, Stri
     AND (:filter IS NULL 
         OR (:filter = 'status' AND c.Status IN (:filterValues)) 
         OR (:filter = 'type' AND c.Type = :filterValue)
+        OR (:filter = 'code' AND c.Code = :filterValue)
         OR (:filter = 'createdDateTime' AND DATE(c.CreatedDateTime) BETWEEN STR_TO_DATE(:filterValue, '%Y-%m-%d') AND CURRENT_DATE())
         )
     """,
@@ -83,6 +86,7 @@ public interface ChargeRefundRepository extends JpaRepository<ChargeRefund, Stri
         c.AccountID AS accountId,
         c.Amount AS amount,
         c.Point AS point,
+        c.Code AS code,
         c.Type AS type,
         c.Status AS status,
         c.CreatedDateTime AS createdDateTime,
