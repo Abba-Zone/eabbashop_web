@@ -34,6 +34,7 @@ public interface WishlistRepository extends JpaRepository<Wishlist, String> {
     List<WishListList> findWishListWithProductsByMemberId(@Param("memberId") String memberId);
 
     boolean existsByMemberIdAndProductId(String memberId, String productId);
+    boolean existsByMemberIdAndProductIdAndDeleteYN(String memberId, String productId, String deleteYN);
 
     Optional<Wishlist> findByProductId(String productId);
 }
