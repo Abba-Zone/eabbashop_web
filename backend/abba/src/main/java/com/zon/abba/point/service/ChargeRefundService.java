@@ -149,6 +149,23 @@ public class ChargeRefundService {
         );
 
         List<ChargeRefundListDto> list = pages.stream()
+                .filter(cr -> {
+                    if (isAdmin) {
+                        // 관리자일 때: Sender -> (A, C, E, G), Receiver -> (B, D, F, H)
+                        return (cr.getSenderWalletId().equals(wallet.getWalletId()) &&
+                                List.of("A", "C", "E", "G").contains(cr.getStatus()))
+                                ||
+                                (cr.getReceiverWalletId().equals(wallet.getWalletId()) &&
+                                        List.of("B", "D", "F", "H").contains(cr.getStatus()));
+                    } else {
+                        // 관리자 아닐 때: Sender -> (B, D, F, H), Receiver -> (A, C, E, G)
+                        return (cr.getSenderWalletId().equals(wallet.getWalletId()) &&
+                                List.of("B", "D", "F", "H").contains(cr.getStatus()))
+                                ||
+                                (cr.getReceiverWalletId().equals(wallet.getWalletId()) &&
+                                        List.of("A", "C", "E", "G").contains(cr.getStatus()));
+                    }
+                })
                 .map(cr -> new ChargeRefundListDto(cr, isAdmin))
                 .toList();
 
