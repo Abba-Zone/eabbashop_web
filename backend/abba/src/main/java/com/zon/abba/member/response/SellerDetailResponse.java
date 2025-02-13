@@ -24,6 +24,8 @@ public class SellerDetailResponse {
     private String lastName;
     @JsonProperty("phone")
     private String phone;
+    @JsonProperty("email")
+    private String email;
     @JsonProperty("zipCode")
     private String zipCode;
     @JsonProperty("baseAddress")
@@ -43,5 +45,6 @@ public class SellerDetailResponse {
         this.baseAddress = sellerDetail.getBaseAddress();
         this.detailAddress = sellerDetail.getDetailAddress();
         this.createdDateTime = sellerDetail.getCreatedDateTime();
+        this.email = sellerDetail.getEmail();
     }
 }
