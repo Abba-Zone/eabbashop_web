@@ -141,3 +141,6 @@ export {default as HistoryDetailPoint} from "./shop/historyDetail/HistoryDetailP
 export {default as HistoryDetailOrder} from "./shop/historyDetail/HistoryDetailOrder";
 export {default as HistoryDetailCharge} from "./shop/historyDetail/HistoryDetailCharge";
 export {default as HistoryDetailTransfer} from "./shop/historyDetail/HistoryDetailTransfer";
+
+/*Shop MyPage WhishList*/
+export {default as MyWishlist} from "./shop/wishlist/MyWishlist";

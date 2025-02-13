@@ -73,7 +73,8 @@ interface productDetail extends Omit<product, 'sellerName'>{
     categories : category[],
     allowNation : string[],
     viewSite : string,
-    activeYN : string
+    activeYN : string,
+    isWishList:boolean
 }
 
 interface productSeller extends seller{
