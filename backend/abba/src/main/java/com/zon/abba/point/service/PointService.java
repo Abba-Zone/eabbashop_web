@@ -448,4 +448,37 @@ public class PointService {
                 transfer.getSenderId());
     }
 
+    @Transactional
+    public void cancelTransfer(Transfer transfer, String memberId){
+        logger.info("유저간 포인트를 교환내역을 취소합니다.");
+
+        // 주는 사람
+        Wallet senderWallet = walletRepository.findOneByMemberId(transfer.getReceiverId())
+                .orElseThrow(() -> new NoDataException("없는 출금 지갑 정보 입니다."));
+        // 받는 사람
+        Wallet receiverWallet = walletRepository.findOneByMemberId(transfer.getSenderId())
+                .orElseThrow(() -> new NoDataException("없는 입금 지갑 정보 입니다."));
+
+        // sender의 지갑에선 돈이 빠져 나간다.
+        putWallet(senderWallet, transfer.getLp(), transfer.getAk(), transfer.getSp(), "B", memberId);
+        //receiver의 지갑에선 돈이 들어간다.
+        putWallet(receiverWallet, transfer.getLp(), transfer.getAk(), transfer.getSp(), "A", memberId);
+        // 보내는 사람은 음수로
+        savePointHistory(senderWallet,
+                transfer.getLp().negate(),
+                transfer.getAk().negate(),
+                transfer.getSp().negate(),
+                "C",
+                transfer.getTransferId(),
+                memberId);
+        // 받는 사람은 양수로
+        savePointHistory(receiverWallet,
+                transfer.getLp(),
+                transfer.getAk(),
+                transfer.getSp(),
+                "C",
+                transfer.getTransferId(),
+                memberId);
+    }
+
 }
