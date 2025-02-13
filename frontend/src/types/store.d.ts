@@ -14,6 +14,7 @@ interface storeList{
 }
 
 interface storeInfo extends store{
+    email : string,
     zipCode : string,
     baseAddress : string,
     detailAddress : string

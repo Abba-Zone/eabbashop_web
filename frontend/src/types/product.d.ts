@@ -74,7 +74,8 @@ interface productDetail extends Omit<product, 'sellerName'>{
     allowNation : string[],
     viewSite : string,
     activeYN : string,
-    isWishList:boolean
+    isWishList:boolean,
+    realSellerID:string,
 }
 
 interface productSeller extends seller{
@@ -104,4 +105,9 @@ interface searchParams{
     orderByType: string,
     params : string[],
     values : string[],
+}
+interface registReview {
+    orderDetailID: string,
+    review: string,
+    score: number
 }

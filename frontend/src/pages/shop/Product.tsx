@@ -34,7 +34,7 @@ const Product:React.FC = () => {
       <ProductSaleButtons/>
       <ProductDescription content={productDetail.description}/>
       <ProductReviews/>
-      <SellerInfo SellerID={productDetail.sellerId}/>
+      <SellerInfo SellerID={productDetail.realSellerID}/>
     </div>
   );
 }

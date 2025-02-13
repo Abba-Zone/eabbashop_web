@@ -66,48 +66,34 @@ export const getProductDetail = async (productID:string):Promise<productDetail> 
 
 export const registerProduct = (registProduct:registProduct) => {
     /* real code*/
-    postData<reviewList>('/product/register', registProduct)
-        .then((data:any) => {
+    postData<{message:string}>('/product/register', registProduct)
+        .then(() => {
             // return data.result;
         }
     );
-    console.log("Test")
 }
 
 export const modifyProduct = (productInfo:modifyProduct) => {
     /* real code*/
-    postData<reviewList>('/product/update', productInfo)
-        .then((data:any) => {
+    postData<{message:string}>('/product/update', productInfo)
+        .then(() => {
             // return data.result;
         }
     );
 }
 
-export const getProductReviewList = (pageNo:number, pageSize:number, sort:number, productID:string):reviewList => {
+export const getProductReviewList = async (pageNo:number, pageSize:number, sort:number, productID:string):Promise<reviewList> => {
     /* real code*/
-    // getData<reviewList>('/review/list?' + 'pageNo='+ pageNo + '&pageSize='+ pageSize + '&orderby='+ sort + '&productID='+ productID)
-    //     .then((data:APIResponse<reviewList>) => {
-    //         return data.result;
-    //     }
-    // );
-    // return null as unknown as reviewList;
-
-    /* make for test*/
-    var result :reviewList = {
-        totalCount: 123,
-        list : [
-            {
-                comment : "<h2>이 제품을 먹었더니 머리가 났어요.</h2>",
-                createdDateTime : "2024-11-12 17:38:22",
-                dislike : 5,
-                like : 2,
-                name : "유 현태",
-                productReviewId : "qweqweq",
-                score : 5
-            }
-        ]
-    };
-    return result;
+    try {
+        const response = await getData<reviewList>(
+            `/product/review/${productID}`
+        );
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching product review list:', error);
+        throw error;
+    }
 }
 
 export const  reviewLikes = (productReviewID:string, type:number) : {like:number, dislike:number} =>{
@@ -120,6 +106,17 @@ export const  reviewLikes = (productReviewID:string, type:number) : {like:number
     /* make for test*/
     return{"like" : 123123123,"dislike" : 21312};
 }
+
+export const registProductReview = (registReviewInfo:registReview) => {
+    /* real code*/
+    postData<{message:string}>('/product/review/register', registReviewInfo)
+        .then((data:any) => {
+            // return data.result;
+        }
+    );
+}
+
+
 
 const buildQueryParams = (params: searchParams): string => {
     return "page=" + params.page.toString()

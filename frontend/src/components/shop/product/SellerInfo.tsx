@@ -1,18 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
-import { getSellerInfo_s } from "../../../services/member";
+import { getStoreDetail_s } from "../../../services/store";
 
 interface Props{
     SellerID:string,
 }
 const SellerInfo:React.FC<Props> = ({SellerID}) => {
-    const [productSellerInfo, setProductSellerInfo] = useState<productSeller | undefined>(undefined);
+    const [productSellerInfo, setProductSellerInfo] = useState<storeInfo | undefined>(undefined);
     const getSeller = useCallback (async () => {
         try {
-            const sellerInfo : productSeller = await getSellerInfo_s(SellerID);
-            if (sellerInfo.toString() === "없는 가게 입니다.")
-                setProductSellerInfo(undefined);
-            else
-                setProductSellerInfo(sellerInfo);
+            const sellerInfo : storeInfo = await getStoreDetail_s(SellerID);
+            setProductSellerInfo(sellerInfo);
         } catch (error) {
           console.error('Error fetching sellerInfo:', error);
         }
@@ -31,7 +28,7 @@ const SellerInfo:React.FC<Props> = ({SellerID}) => {
         <div>
             <h3>판매자 정보</h3>
             <table>
-                <tr><td>판매자</td><td>{productSellerInfo.host}</td><td>이메일</td><td>{productSellerInfo.email}</td><td>전화번호</td><td>{productSellerInfo.phone}</td></tr>
+                <tr><td>판매자</td><td>{productSellerInfo.lastName} + {productSellerInfo.firstName}</td><td>이메일</td><td>{productSellerInfo.email}</td><td>전화번호</td><td>{productSellerInfo.phone}</td></tr>
                 <tr><td>가게명</td> <td>{productSellerInfo.name}</td></tr>
                 <tr><td>가게주소</td><td><div>{productSellerInfo.zipCode}</div><div>{productSellerInfo.baseAddress}</div><div>{productSellerInfo.detailAddress}</div></td></tr>
             </table>
