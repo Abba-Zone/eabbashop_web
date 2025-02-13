@@ -79,4 +79,6 @@ public interface SellerRepository extends JpaRepository<Seller, String> {
             "WHERE s.SellerID = :sellerId",
             nativeQuery = true)
     Optional<SellerDetail> findSellerDetailById(@Param("sellerId") String sellerID);
+
+    boolean existsByMemberId(String memberID);
 }
