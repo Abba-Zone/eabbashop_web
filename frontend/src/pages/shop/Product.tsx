@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getProductDetail_s } from "../../services/product";
 import { ProductDescription, ProductInfo, ProductReviews, ProductSaleButtons, SellerInfo } from "../../components";
@@ -16,6 +16,10 @@ const Product:React.FC = () => {
       console.error('Error fetching productDetail:', error);
     }
   }, [params.id]);
+  const changeWishList = () => {
+    if(productDetail)
+      setProductDetail({...productDetail, isWishList:!productDetail.isWishList})
+  }
   useEffect(() => {
     getProductDetail(); // 비동기 함수 호출
   }, [getProductDetail]);
@@ -26,7 +30,7 @@ const Product:React.FC = () => {
   }
   return (
     <div>
-      <ProductInfo productInfo={productDetail}/>
+      <ProductInfo productInfo={productDetail} changeWishList={changeWishList}/>
       <ProductSaleButtons/>
       <ProductDescription content={productDetail.description}/>
       <ProductReviews/>

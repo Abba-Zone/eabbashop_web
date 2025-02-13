@@ -15,3 +15,19 @@ interface cartList{
     totalCount:number,
     list : cartInfo[]
 }
+
+interface wishlist{
+    wishlistID: string
+    name: string,
+    thumbnail: string,
+    AK: number,
+    LP: number,
+    SP: number,
+    realPrice: number,
+    productID: string,
+}
+
+interface wishlistList{
+    totalCount:number,
+    list : wishlist[]
+}

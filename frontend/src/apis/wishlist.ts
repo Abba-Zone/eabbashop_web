@@ -9,22 +9,22 @@ export const registToWishlist = (productID:string) => {
     );
 }
 
-export const getWishList = async ():Promise<shopProductList> => {
+export const getWishList = async ():Promise<wishlistList> => {
     /* real code*/
     try {
-        const response = await getData<shopProductList>(
+        const response = await getData<wishlistList>(
             '/wishlist/list'
         );
         return response.data;
     } catch (error) {
-        console.error('Error fetching board detail:', error);
+        console.error('Error fetching wishlist:', error);
         throw error;
     }
 }
 
-export const deleteToWishlist = (productID:string) => {
+export const deleteToWishlist = (wishlistID:string, productID:string) => {
     /* real code*/
-    postData<{message:string}>('/wishlist/delete', {productID : productID})
+    postData<{message:string}>('/wishlist/delete', {wishlistID:wishlistID, productID : productID})
         .then((data:any) => {
             console.log(data);
         }
