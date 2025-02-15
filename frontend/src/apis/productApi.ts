@@ -165,7 +165,6 @@ export const modifyProductReview = (modifyReviewInfo:modifyReview) => {
 }
 
 
-
 const buildQueryParams = (params: searchParams): string => {
     return "page=" + params.page.toString()
         + "&size=" + params.size.toString()

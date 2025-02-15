@@ -39,7 +39,7 @@ export const reviewLikes_s = async (productReviewID:string, type:number): Promis
 
 export const registProductReview_s = async(reivewInfo:registReview) => {
     return await registProductReview(reivewInfo);
-}
+};
 
 export const getMyReviewList_s = async (): Promise<reviewList> => {
     return await getMyReviewList();
@@ -51,4 +51,4 @@ export const deleteReview_s = async (productReviewID:string) => {
 
 export const modifyProductReview_s = async(reivewInfo:modifyReview) => {
     return await modifyProductReview(reivewInfo);
-}
+};
