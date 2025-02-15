@@ -89,9 +89,11 @@ interface reviewList{
 }
 
 interface review{
-    productReviewId : string,
+    productReviewID : string,
+    productName : string,
+    productID: string,
     score : number,
-    comment : string,
+    review : string,
     like : number,
     dislike : number,
     createdDateTime : string,

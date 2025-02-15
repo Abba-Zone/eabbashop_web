@@ -10,12 +10,12 @@ const ProductReviewCard:React.FC<Props> = ({review}) => {
   const [like, setLike] = useState<number>(review.like);
   const [dislike, setDislike] = useState<number>(review.dislike);
   const upLike = async () =>{
-    const result = await reviewLikes_s(review.productReviewId, 1);
+    const result = await reviewLikes_s(review.productReviewID, 1);
     setLike(result.like);
     setDislike(result.dislike);
   }
   const upDislike = async () =>{
-    const result = await reviewLikes_s(review.productReviewId, 2);
+    const result = await reviewLikes_s(review.productReviewID, 2);
     setLike(result.like);
     setDislike(result.dislike);
   }
@@ -25,7 +25,7 @@ const ProductReviewCard:React.FC<Props> = ({review}) => {
       <div><StarMark scores={review.score}></StarMark><span>{review.createdDateTime}</span></div>
       <div onClick={upLike}>좋아요{like}</div>
       <div onClick={upDislike}>싫어요{dislike}</div>
-      <ReviewViewer content={review.comment}></ReviewViewer>
+      <ReviewViewer content={review.review}></ReviewViewer>
     </div>
   );
 }

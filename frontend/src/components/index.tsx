@@ -144,3 +144,6 @@ export {default as HistoryDetailTransfer} from "./shop/historyDetail/HistoryDeta
 
 /*Shop MyPage WhishList*/
 export {default as MyWishlist} from "./shop/wishlist/MyWishlist";
+
+/*Shop MyPage ReviewList*/
+export {default as MyReviewList} from "./shop/review/MyReviewList";
