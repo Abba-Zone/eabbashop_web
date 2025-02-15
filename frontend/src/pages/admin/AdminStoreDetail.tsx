@@ -12,6 +12,7 @@ const AdminStoreDetail: React.FC = () => {
     try {
       if (params.id !== undefined){
         const storeDetail : storeInfo = await getStoreDetail_s(params.id);
+        console.log(storeDetail);
         setStoreInfo(storeDetail);
       }
     } catch (error) {

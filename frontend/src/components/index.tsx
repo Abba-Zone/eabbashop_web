@@ -62,6 +62,8 @@ export {default as AdminStoreListComponent} from "./admin/storeList/AdminStoreLi
 /* Store Detail */
 export {default as AdminStoreInfo} from "./admin/storeDetail/AdminStoreInfo";
 export {default as AdminStoreProcutListComponent} from "./admin/storeDetail/AdminStoreProcutListComponent";
+/* Store Support */
+export {default as AdminStoreSupportListComponent} from "./admin/storeSupport/AdminStoreSupportListComponent";
 /* ShareLine List */
 export {default as AdminShareLineListComponent} from "./admin/shareLineList/AdminShareLineListComponent";
 /* ShareMoney List */
@@ -132,3 +134,17 @@ export {default as AdminHistoryDetailOrder} from "./admin/historyDetail/AdminHis
 export {default as AdminHistoryDetailCharge} from "./admin/historyDetail/AdminHistoryDetailCharge";
 export {default as AdminHistoryDetailTransfer} from "./admin/historyDetail/AdminHistoryDetailTransfer";
 
+/*Shop MyPage Wallet*/
+export {default as MyHistoryList} from "./shop/transiction/MyHistoryList";
+
+/*Shop Wallet Detail*/
+export {default as HistoryDetailPoint} from "./shop/historyDetail/HistoryDetailPoint";
+export {default as HistoryDetailOrder} from "./shop/historyDetail/HistoryDetailOrder";
+export {default as HistoryDetailCharge} from "./shop/historyDetail/HistoryDetailCharge";
+export {default as HistoryDetailTransfer} from "./shop/historyDetail/HistoryDetailTransfer";
+
+/*Shop MyPage WhishList*/
+export {default as MyWishlist} from "./shop/wishlist/MyWishlist";
+
+/*Shop MyPage ReviewList*/
+export {default as MyReviewList} from "./shop/review/MyReviewList";

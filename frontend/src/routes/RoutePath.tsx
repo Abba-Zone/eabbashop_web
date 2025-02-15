@@ -19,8 +19,11 @@ import { Home, Login, Signup, Cart,
   AdminBoardDetail, AdminRefundDetail, GoogleLogin, SocialSignup, KakaoLogin,
   RegistAdmin, FindIDPW, AdminRegistAdmin, Mypage, ChangePW,
   AdminWalletMembersList, AdminChargeRequestDetail, AdminWalletDetail,
-  AdminChangeRequest, AdminChangeRequestDetail
+  AdminChangeRequest, AdminChangeRequestDetail,   AdminWalletMembersList,
+  AdminWalletDetail,
+  AdminStoreSupport
 } from '../pages';
+
 
 const RoutePath:React.FC = () => {
   const location = useLocation();
@@ -83,6 +86,7 @@ const RoutePath:React.FC = () => {
         <Route path="/admin/store-management" element={<AdminStoreList />} />
         <Route path="/admin/storedetail/:id" element={<AdminStoreDetail />} />
         <Route path="/admin/storemanage" element={<AdminStoreManage />} />
+        <Route path="/admin/store-support" element={<AdminStoreSupport />} />
 
         {/* Board Management */}
         <Route path="/admin/board/notice" element={<AdminNotice />} />

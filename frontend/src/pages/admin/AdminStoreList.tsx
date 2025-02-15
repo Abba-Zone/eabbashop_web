@@ -11,8 +11,8 @@ const AdminStoreList: React.FC = () => {
   const [lastPage, setLastPage] = useState<number>(1);
   const [filter, setFilter] = useState<number>(1);
   const [filterValue, setFilterValue] = useState<string>("");
-  const [sort, setSort] = useState<string>("createdDateTime");
-  const [sortValue, setSortValue] = useState<string>("DESC");
+  const [sort, setSort] = useState<string>("DESC");
+  const [sortValue, setSortValue] = useState<string>("createdDateTime");
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
     {selectName:t("AdminStore:List.Filter01"), select:'name', selectType:'text', itemList:[]},
@@ -23,7 +23,7 @@ const AdminStoreList: React.FC = () => {
 
   const getStoreList = useCallback (async () => {
     try {
-      const totalAndStoreList : storeList = await getStoreList_s(pageNo, pageSize, filter, filterValue, sort, sortValue);
+      const totalAndStoreList : storeList = await getStoreList_s(pageNo - 1, pageSize, selectList[filter].select, filterValue, sort, sortValue);
       setStores(totalAndStoreList.list);
       setLastPage(totalAndStoreList.totalCount === 0? 1:Math.floor((totalAndStoreList.totalCount - 1)/pageSize) + 1);
     } catch (error) {
@@ -35,14 +35,14 @@ const AdminStoreList: React.FC = () => {
       setPageNo(move);
   }
   const changeSort = (sortName:string) => {
-    if (sortName === sort){
-      if(sortValue ==='ASC')
-        setSortValue('DESC')
+    if (sortName === sortValue){
+      if(sort ==='ASC')
+        setSort('DESC')
       else
-      setSortValue('ASC')
+      setSort('ASC')
     } else {
-      setSort(sortName);
-      setSortValue('ASC');
+      setSortValue(sortName);
+      setSort('ASC');
     }
   }
   const changeFilter = (key:number, value:string) =>{
@@ -58,6 +58,13 @@ const AdminStoreList: React.FC = () => {
     <div>
       <h1>{t("AdminStore:List.Title")}</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
+      <select name="pageSize" value={pageSize} onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {setPageNo(1);setPageSize(Number(event.target.value))}}>
+        <option value={10}>10</option>
+        <option value={20}>20</option>
+        <option value={30}>30</option>
+        <option value={50}>50</option>
+        <option value={100}>100</option>
+      </select><span>개씩 보기</span>
       <AdminStoreListComponent stores={stores}  changeSort={changeSort}></AdminStoreListComponent>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
     </div>

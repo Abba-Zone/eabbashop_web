@@ -5,7 +5,6 @@ interface Props{
     order:shopOrder
 }
 const ShopOrderCard:React.FC<Props> = ({order}) => {
-  console.log(order)
     const navigate = useNavigate();
     const rendering = (): JSX.Element[] => {
         const result: JSX.Element[] = [];

@@ -25,7 +25,7 @@ interface product{
     productName : string,
     sellerName : string,
     stock : number,
-    activeYN : string
+    showYN : string
 }
 
 interface registProduct{
@@ -73,7 +73,9 @@ interface productDetail extends Omit<product, 'sellerName'>{
     categories : category[],
     allowNation : string[],
     viewSite : string,
-    showYN : string
+    activeYN : string,
+    isWishList:boolean,
+    realSellerID:string,
 }
 
 interface productSeller extends seller{
@@ -87,9 +89,11 @@ interface reviewList{
 }
 
 interface review{
-    productReviewId : string,
+    productReviewID : string,
+    productName : string,
+    productID: string,
     score : number,
-    comment : string,
+    review : string,
     like : number,
     dislike : number,
     createdDateTime : string,
@@ -103,4 +107,14 @@ interface searchParams{
     orderByType: string,
     params : string[],
     values : string[],
+}
+interface registReview {
+    orderDetailID: string,
+    review: string,
+    score: number
+}
+interface modifyReview {
+    productReviewID: string,
+    review: string,
+    score: number
 }

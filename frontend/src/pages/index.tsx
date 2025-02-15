@@ -38,6 +38,9 @@ export { default as MypageFinancial } from "./shop/Mypage/MypageFinancial";
 export { default as MypageProfile } from "./shop/Mypage/MypageProfile";
 export { default as MypageAccount } from "./shop/Mypage/MypageAccount";
 export { default as MypageRequest } from "./shop/Mypage/MypageRequest";
+export { default as MyPageTransactionDetail } from "./shop/Mypage/MyPageTransactionDetail";
+export { default as MyPageWishList } from "./shop/Mypage/MyPageWishList";
+
 
 // admin
 export { default as AdminLogin } from "./admin/AdminLogin";
@@ -72,6 +75,7 @@ export { default as AdminRefundRequest } from "./admin/AdminRefundRequest";
 export { default as AdminStoreList } from "./admin/AdminStoreList";
 export { default as AdminStoreDetail } from "./admin/AdminStoreDetail";
 export { default as AdminStoreManage } from "./admin/AdminStoreManage";
+export { default as AdminStoreSupport } from "./admin/AdminStoreSupport";
 export { default as AdminNotice } from "./admin/AdminNotice";
 export { default as AdminLetter } from "./admin/AdminLetter";
 export { default as AdminDonation } from "./admin/AdminDonation";

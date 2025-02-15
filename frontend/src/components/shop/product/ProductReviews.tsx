@@ -48,7 +48,6 @@ const ProductReviews:React.FC = () => {
     return (
     <div>
         <h2>상품평</h2>
-        <StarMark scores={3.5}/><span>{totalCount}</span>
         <div>
             <button onClick={() => changeSort(1)}>베스트순</button>
             <button onClick={() => changeSort(2)}>최신순</button>

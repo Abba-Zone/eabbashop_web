@@ -128,7 +128,7 @@ const Editor:React.FC<Props> = ({content, inputImageFile, inputVideoFile, setCon
         value={content}
         onChange={setContent}
         modules={modules}
-        style={{height: '600px', marginBottom: '10%'}}
+        style={{height: '600px', marginBottom: '100px'}}
         placeholder={t("AdminBoard:Regist.Attribute01")}
       />
   );

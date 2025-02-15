@@ -8,7 +8,7 @@ const AdminStoreInfo:React.FC<Props> = ({store}) => {
     return (
         <div>
             <h3>{store.name}</h3>
-            <div><div>{t("AdminStore:Detail.Item01.Attribute01")}</div><div>{store.host}</div></div>
+            <div><div>{t("AdminStore:Detail.Item01.Attribute01")}</div><div>{store.lastName} {store.firstName}</div></div>
             <div><div>{t("AdminStore:Detail.Item01.Attribute02")}</div><div>{store.phone}</div></div>
             <div><div>{t("AdminStore:Detail.Item01.Attribute03")}</div><div>{store.createdDateTime}</div></div>
             <div><div>{t("AdminStore:Detail.Item01.Attribute04")}</div><div>{store.zipCode}</div></div>

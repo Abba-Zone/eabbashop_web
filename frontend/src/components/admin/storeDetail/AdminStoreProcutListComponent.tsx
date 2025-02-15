@@ -14,8 +14,8 @@ const AdminStoreProcutListComponent: React.FC = () => {
   const [lastPage, setLastPage] = useState<number>(1);
   const [filter, setFilter] = useState<number>(1);
   const [filterValue, setFilterValue] = useState<string>("");
-  const [sort, setSort] = useState<string>("CreatedDateTime");
-  const [sortValue, setSortValue] = useState<string>("DESC");
+  const [sort, setSort] = useState<string>("DESC");
+  const [sortValue, setSortValue] = useState<string>("createdDateTime");
   const params = useParams<{id:string}>();
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
@@ -26,7 +26,8 @@ const AdminStoreProcutListComponent: React.FC = () => {
   const getStoreProductList = useCallback( async () => {
       try {
         if (params.id !== undefined){
-            const totalAndProductList : productList = await getStoreProductList_s(params.id, pageNo, pageSize, filter, filterValue, sort, sortValue);
+            const totalAndProductList : productList = await getStoreProductList_s(pageNo-1, pageSize, selectList[filter].select, filterValue, sort, sortValue, params.id);
+            console.log(totalAndProductList);
             setProducts(totalAndProductList.list);
             setLastPage(totalAndProductList.totalCount === 0? 1:Math.floor((totalAndProductList.totalCount - 1)/pageSize) + 1);
         }
@@ -39,14 +40,14 @@ const AdminStoreProcutListComponent: React.FC = () => {
         setPageNo(move);
   }
   const changeSort = (sortName:string) => {
-    if (sortName === sort){
-      if(sortValue ==='ASC')
-        setSortValue('DESC')
+    if (sortName === sortValue){
+      if(sort ==='ASC')
+        setSort('DESC')
       else
-      setSortValue('ASC')
+      setSort('ASC')
     } else {
-      setSort(sortName);
-      setSortValue('ASC');
+      setSortValue(sortName);
+      setSort('ASC');
     }
   }
   const changeFilter = (key:number, value:string) =>{
