@@ -6,7 +6,7 @@ import { Home, Login, Signup, Cart,
   CompleteCheckout, Post, PostDetail, 
   AdminLogin, AdminSignup, AdminFindInfo, AdminDashboard,
   AdminMemberList, AdminMemberDetail, AdminWalletHistory,
-  AdminProductList, AdminProductDetail, AdminProductReview,
+  AdminProductList, AdminProductDetail, AdminProductReview, AdminReviewList,
   AdminRegisterProduct, AdminCatalogue, AdminOrderList,
   AdminOrderDetail, AdminInvoiceList, AdminInvoiceDetail,
   AdminShipmentList, AdminShipmentDetail, AdminRegularOrderList,
@@ -20,7 +20,8 @@ import { Home, Login, Signup, Cart,
   RegistAdmin, FindIDPW, AdminRegistAdmin, Mypage, ChangePW,
   AdminWalletMembersList, AdminChargeRequestDetail,
   AdminChangeRequest, AdminChangeRequestDetail,
-  AdminWalletDetail,AdminStoreSupport
+  AdminWalletDetail,AdminStoreSupport,
+  AdminReviewDetail
 } from '../pages';
 
 
@@ -50,7 +51,9 @@ const RoutePath:React.FC = () => {
         {/* Product Management */}
         <Route path="/admin/product" element={<AdminProductList />} />
         <Route path="/admin/productdetail/:id" element={<AdminProductDetail />} />
-        <Route path="/admin/productdetail/:id/review" element={<AdminProductReview />} />
+        <Route path="/admin/product/review" element={<AdminProductReview />} />
+        <Route path="/admin/review/:id" element={<AdminReviewList />} />
+        <Route path="/admin/reviewdetail/:id" element={<AdminReviewDetail />} />
         <Route path="/admin/registproduct" element={<AdminRegisterProduct />} />
         <Route path="/admin/catalogue" element={<AdminCatalogue />} />
 

@@ -164,6 +164,20 @@ export const modifyProductReview = (modifyReviewInfo:modifyReview) => {
     );
 }
 
+export const getReviewDetail = async (reviewID:string):Promise<review> => {
+    /* real code*/
+    try {
+        const response = await getData<review>(
+            `/product/review/${reviewID}`
+        );
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching product review detail:', error);
+        throw error;
+    }
+}
+
 
 const buildQueryParams = (params: searchParams): string => {
     return "page=" + params.page.toString()

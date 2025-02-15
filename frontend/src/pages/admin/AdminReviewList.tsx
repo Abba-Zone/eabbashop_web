@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { AdminReviewProductList, BottomButton, SearchSet } from '../../components';
-import { getProductList_s } from '../../services/product';
+import { AdminReviewListComponent, BottomButton, SearchSet } from '../../components';
+import { getProductReviewList_s } from '../../services/product';
+import { useParams } from 'react-router-dom';
 
-const AdminProductReview: React.FC = () => {
-  const [products, setProducts] = useState<product[]>([]);
+const AdminReviewList: React.FC = () => {
+  const [reviews, setReviews] = useState<review[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
   const [lastPage, setLastPage] = useState<number>(1);
@@ -11,27 +12,25 @@ const AdminProductReview: React.FC = () => {
   const [filterValue, setFilterValue] = useState<string>("");
   const [sort, setSort] = useState<string>("createdDateTime");
   const [sortValue, setSortValue] = useState<string>("DESC");
+  const params = useParams<{id:string}>();
   const selectList: { select: string, selectName: string, selectType:string, itemList:string[]}[] = 
   [
-    {selectName:'상품명', select:'name', selectType:'text', itemList:[]},
-    {selectName:'판매자', select:'sellerID', selectType:'text', itemList:[]},
-    {selectName:'재고', select:'stock', selectType:'text', itemList:[]},
-    {selectName:'활성화', select:'activeYN', selectType:'select', itemList:['활성화', '비활성화']},
+    {selectName:'작성자', select:'name', selectType:'text', itemList:[]},
+    {selectName:'평점', select:'score', selectType:'select', itemList:['1', '2', '3', '4', '5']},
+    {selectName:'좋아요수', select:'like', selectType:'text', itemList:[]},
+    {selectName:'싫어요수', select:'dislike', selectType:'text', itemList:[]},
+    {selectName:'작성일', select:'createdDateTime', selectType:'date', itemList:[]},
   ];
-  const getProductList = useCallback( async () => {
+  const getReviewList = useCallback( async () => {
       try {
-        let filterArr = [];
-        let filterValueArr = [];
-        if (filter !== -1){
-          filterArr.push(selectList[filter].select);
-          filterValueArr.push(filterValue);
-        }
-        const totalAndProductList : productList = await getProductList_s(pageNo - 1, pageSize, filterArr, filterValueArr, sort, sortValue);
-        setProducts(totalAndProductList.list);
-        setLastPage(totalAndProductList.totalCount === 0? 1:Math.floor((totalAndProductList.totalCount - 1)/pageSize) + 1);
-      } catch (error) {
-        console.error('Error fetching product list:', error);
-      }
+          if (params.id !== undefined){
+              const totalAndReviews : reviewList = await getProductReviewList_s(pageNo, pageSize, 1, params.id);
+              setReviews(totalAndReviews.list);
+              setLastPage(totalAndReviews.totalCount === 0? 1:Math.floor((totalAndReviews.totalCount - 1)/pageSize) + 1);
+          }
+          } catch (error) {
+              console.error('Error fetching productReview list:', error);
+          }
   },[pageNo, pageSize, filter, filterValue, sort, sortValue]);
 
   const changePage = (move:number) =>{
@@ -61,8 +60,8 @@ const AdminProductReview: React.FC = () => {
   }
 
   useEffect(() => {
-    getProductList(); // 비동기 함수 호출
-    }, [getProductList]);
+    getReviewList(); // 비동기 함수 호출
+    }, [getReviewList]);
   return (
     <div>
       <h1>상품 리스트</h1>
@@ -74,10 +73,10 @@ const AdminProductReview: React.FC = () => {
         <option value={50}>50</option>
         <option value={100}>100</option>
       </select><span>개씩 보기</span>
-      <AdminReviewProductList products={products} changeSort={changeSort}/>
+      <AdminReviewListComponent reviews={reviews} changeSort={changeSort}/>
       <BottomButton lastPage={lastPage} nowPage={pageNo} changePage={changePage}></BottomButton>
     </div>
   );
 };
 
-export default AdminProductReview;
+export default AdminReviewList;
