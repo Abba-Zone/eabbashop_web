@@ -18,10 +18,9 @@ import { Home, Login, Signup, Cart,
   AdminSetting, AdminInquiryList, AdminInquiryDetail, 
   AdminBoardDetail, AdminRefundDetail, GoogleLogin, SocialSignup, KakaoLogin,
   RegistAdmin, FindIDPW, AdminRegistAdmin, Mypage, ChangePW,
-  AdminWalletMembersList, AdminChargeRequestDetail, AdminWalletDetail,
-  AdminChangeRequest, AdminChangeRequestDetail,   AdminWalletMembersList,
-  AdminWalletDetail,
-  AdminStoreSupport
+  AdminWalletMembersList, AdminChargeRequestDetail,
+  AdminChangeRequest, AdminChangeRequestDetail,
+  AdminWalletDetail,AdminStoreSupport
 } from '../pages';
 
 
