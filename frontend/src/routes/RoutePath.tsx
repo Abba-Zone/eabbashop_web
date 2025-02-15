@@ -11,16 +11,19 @@ import { Home, Login, Signup, Cart,
   AdminOrderDetail, AdminInvoiceList, AdminInvoiceDetail,
   AdminShipmentList, AdminShipmentDetail, AdminRegularOrderList,
   AdminRegularOrderDetail, AdminShareLineList, AdminShareLineDetail,
-  AdminShareMoneyList, AdminShareMoneyDetail, AdminTransferRequest,
+  AdminShareMoneyList, AdminShareMoneyDetail, AdminChargeRequest,
   AdminPaymentRequest, AdminTransferCancel, AdminTakebackRequest,
   AdminRefundRequest, AdminStoreList, AdminStoreDetail,
   AdminStoreManage, AdminNotice, AdminLetter, AdminDonation,
   AdminSetting, AdminInquiryList, AdminInquiryDetail, 
   AdminBoardDetail, AdminRefundDetail, GoogleLogin, SocialSignup, KakaoLogin,
   RegistAdmin, FindIDPW, AdminRegistAdmin, Mypage, ChangePW,
-  AdminWalletMembersList,
+  AdminWalletMembersList, AdminChargeRequestDetail, AdminWalletDetail,
+  AdminChangeRequest, AdminChangeRequestDetail,   AdminWalletMembersList,
   AdminWalletDetail,
-  AdminStoreSupport} from '../pages';
+  AdminStoreSupport
+} from '../pages';
+
 
 const RoutePath:React.FC = () => {
   const location = useLocation();
@@ -69,7 +72,10 @@ const RoutePath:React.FC = () => {
         <Route path="/admin/shareMoneyDetail/:id" element={<AdminShareMoneyDetail />} />
 
         {/* Request Management */}
-        <Route path="/admin/charge-point" element={<AdminTransferRequest />} />
+        <Route path="/admin/charge-point" element={<AdminChargeRequest />} />
+        <Route path="/admin/charge-request/detail" element={<AdminChargeRequestDetail />} />
+        <Route path="/admin/change-point" element={<AdminChangeRequest />} />
+        <Route path="/admin/change-request/detail" element={<AdminChangeRequestDetail />} />
         <Route path="/admin/refund-point" element={<AdminPaymentRequest />} />
         <Route path="/admin/cancle-transfer" element={<AdminTransferCancel />} />
         <Route path="/admin/change-referral" element={<AdminTakebackRequest />} />

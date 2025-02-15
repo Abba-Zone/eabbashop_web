@@ -1,27 +1,98 @@
 import React, { useState } from 'react';
-import { requestPoint_s, refundPoint_s } from '../../../services/point';
+
 interface PointRequestModalProps {
   isOpen: boolean;
+  isCharge: boolean;
   onClose: () => void;
   onSubmit: (data: any) => Promise<void>;
-  type: 'charge' | 'refund';
+  type: 'charge' | 'refund' | 'refundUSD';
   accounts: accountList;
+  lineList: lineList;
 }
 
-const MypageRegistModal: React.FC<PointRequestModalProps> = ({ isOpen, onClose, onSubmit, type, accounts }) => {
-  const [amount, setAmount] = useState<number>(0);
+const MypageRegistModal: React.FC<PointRequestModalProps> = ({ isOpen, isCharge, onClose, onSubmit, type, accounts, lineList }) => {
+  const [amount, setAmount] = useState<string>('');
   const [pointType, setPointType] = useState<string>('LP');
   const [paymentType, setPaymentType] = useState<string>('card');
+  const [parentID, setParentID] = useState<string>('');
   const [accountID, setAccountID] = useState<string>('');
+  const [selectedLineID, setSelectedLineID] = useState<string>('');
+  const [code] = useState<string>('KRW');
+  
+  const validLines = lineList.list.filter(line => 
+    line.depth >= 1 && 
+    line.referRole && 
+    line.referRole.trim() !== '' && 
+    line.firstName && 
+    line.lastName
+  );
+
+  const RoleForLine = (role: string) => {
+    if (role === 'A') {
+      return '일반';
+    } else if (role === 'B') {
+      return '판매점';
+    } else if (role === 'C') {
+      return '대리점';
+    } else if (role === 'D') {
+      return '지점';
+    } else if (role === 'E') {
+      return '관리자';
+    }
+  }
+  
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value === '' || /^\d*\.?\d*$/.test(value)) {
+      setAmount(value);
+    }
+    console.log("amount", amount);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await onSubmit({ 
-      amount,
+    
+    const requestDataforCharge = {
       pointType,
-      paymentType,
-      accountID: type === 'refund' ? accountID : undefined
-    });
+      amount: parseFloat(amount) || 0,
+      ...(type === 'charge' ? { 
+        paymentType,
+        lineID: selectedLineID 
+      } : { 
+        accountID 
+      }),
+      parentID: parentID,
+      code: code
+    };
+
+    const requestDataforRefund = {
+      pointType,
+      point: parseFloat(amount) || 0,
+      accountID: accountID,
+      lineID: selectedLineID,
+      code: code
+    };
+
+    if (isCharge) {
+      await onSubmit(requestDataforCharge);
+    } else {
+      await onSubmit(requestDataforRefund);
+    }
+    
+    onClose();
+  };
+
+  const getModalTitle = () => {
+    switch(type) {
+      case 'charge':
+        return '충전 신청';
+      case 'refund':
+        return '환급 신청';
+      case 'refundUSD':
+        return '환급 신청($)';
+      default:
+        return '';
+    }
   };
 
   if (!isOpen) return null;
@@ -45,8 +116,9 @@ const MypageRegistModal: React.FC<PointRequestModalProps> = ({ isOpen, onClose, 
         borderRadius: '8px',
         width: '300px'
       }}>
-        <h2>{type === 'charge' ? '충전 신청' : '환급 신청'}</h2>
+        <h2>{getModalTitle()}</h2>
         <form onSubmit={handleSubmit}>
+          <div style={{display: 'flex', justifyContent: 'space-between'}}>
           <div style={{ marginBottom: '15px' }}>
             <label>포인트 종류</label>
             <select
@@ -63,26 +135,64 @@ const MypageRegistModal: React.FC<PointRequestModalProps> = ({ isOpen, onClose, 
               <option value="ABZ">ABZ</option>
             </select>
           </div>
+          <div style={{ marginBottom: '15px' }}>
+            <label>금액</label>
+            <input
+              type="text"
+              value={amount}
+              onChange={handleAmountChange}
+              style={{
+                width: '100%',
+                padding: '8px',
+                marginTop: '5px'
+              }}
+              placeholder="0.00"
+              required
+              />
+            </div>
+          </div>
 
           {type === 'charge' && (
-            <div style={{ marginBottom: '15px' }}>
-              <label>결제 종류</label>
-              <select
-                value={paymentType}
-                onChange={(e) => setPaymentType(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '8px',
-                  marginTop: '5px'
-                }}
-              >
-                <option value="card">카드결제</option>
-                <option value="bank">계좌이체</option>
-              </select>
-            </div>
+            <>
+              <div style={{ marginBottom: '15px' }}>
+                <label>결제 종류</label>
+                <select
+                  value={paymentType}
+                  onChange={(e) => setPaymentType(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '8px',
+                    marginTop: '5px'
+                  }}
+                >
+                  <option value="card">카드결제</option>
+                  <option value="bank">계좌이체</option>
+                </select>
+              </div>
+              <div style={{ marginBottom: '15px' }}>
+                <label>라인 선택</label>
+                <select
+                  value={parentID}
+                  onChange={(e) => setParentID(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '8px',
+                    marginTop: '5px'
+                  }}
+                  required
+                >
+                  <option value="">라인을 선택하세요</option>
+                  {validLines.map((line) => (
+                    <option key={line.referID} value={line.referID}>
+                      {line.lastName} {line.firstName} ({RoleForLine(line.referRole)}) - {line.email || '이메일 없음'}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </>
           )}
 
-          {type === 'refund' && (
+          {(type === 'refund' || type === 'refundUSD') && (
             <div style={{ marginBottom: '15px' }}>
               <label>환급 계좌</label>
               <select
@@ -101,23 +211,26 @@ const MypageRegistModal: React.FC<PointRequestModalProps> = ({ isOpen, onClose, 
                   </option>
                 ))}
               </select>
+              <label>라인 선택</label>
+                <select
+                  value={selectedLineID}
+                  onChange={(e) => setSelectedLineID(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '8px',
+                    marginTop: '5px'
+                  }}
+                  required
+                >
+                  <option value="">라인을 선택하세요</option>
+                  {validLines.map((line) => (
+                    <option key={line.referID} value={line.referID}>
+                      {line.lastName} {line.firstName} ({RoleForLine(line.referRole)}) - {line.email || '이메일 없음'}
+                    </option>
+                  ))}
+                </select>
             </div>
           )}
-
-          <div style={{ marginBottom: '15px' }}>
-            <label>금액</label>
-            <input
-              type="number"
-              value={amount}
-              onChange={(e) => setAmount(Number(e.target.value))}
-              style={{
-                width: '100%',
-                padding: '8px',
-                marginTop: '5px'
-              }}
-              required
-            />
-          </div>
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
             <button type="submit">신청</button>

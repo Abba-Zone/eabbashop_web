@@ -138,3 +138,18 @@ interface userInfo {
 	phone : string,
 	email : string,
 }
+
+interface lineList {
+	totalCount : number,
+	list : lineInfo[]
+}
+
+interface lineInfo {
+	referredID: string,
+	referID: string,
+	referRole: string,
+	firstName: string,
+	lastName: string,
+	email: string,
+	depth: number
+}

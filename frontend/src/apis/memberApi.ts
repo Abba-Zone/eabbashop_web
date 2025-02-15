@@ -109,7 +109,6 @@ export const getMemberList = async (pageNo:number, pageSize:number, filter:strin
       const response = await getData<memberList>(
           `/member/list?pageNo=${pageNo}&pageSize=${pageSize}&sort=${sort}&sortValue=${sortValue}&filter=${filter}&filterValue=${filterValue}`
       );
-      console.log(response.data);
       return response.data;
   } catch (error) {
       console.error('Error fetching board list:', error);
@@ -205,7 +204,7 @@ export const kakaoLoginWithCode = async (code: string): Promise<loginSuccess | n
         console.log(response);
         if (response.status === 200) {
             updateAccessTokenAxios(response.data.accessToken, response.data.refreshToken);
-            updateUserInfo('', response.data.lastName, response.data.role);
+            updateUserInfo(' ', response.data.lastName, response.data.role);
             return response.data;
         } else if (response.status === 201) {
             alert('신규회원입니다.');
@@ -341,5 +340,16 @@ export const sendResetPasswordEmail = async (email: string): Promise<boolean> =>
   } catch (error) {
     console.error('Send reset password email error:', error);
     return false;
+  }
+}
+
+export const getLineList = async (): Promise<lineList> => {
+  try {
+    const response = await getData('/member/recommend/list/line');
+    console.log("getLineList", response);
+    return response.data as lineList;
+  } catch (error) {
+    console.error('Get line list error:', error);
+    return null as unknown as lineList;
   }
 }

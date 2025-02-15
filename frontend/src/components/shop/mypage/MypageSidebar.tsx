@@ -8,12 +8,12 @@ const MypageSidebar: React.FC = () => {
     const result = [];
     switch (pathname.pathname) {
       case "/login": case "/signup": case "/admin/login": case "/admin/signup":
-        result.push(<></>);
+        result.push(<div key={pathname.pathname}></div>);
         return result;
       default:
         if (pathname.pathname.substring(0, 7) === "/mypage")
           result.push(
-          <div className="mypage-sidebar-container">
+          <div key={pathname.pathname} className="mypage-sidebar-container">
             <h1><Link to="/mypage">대시보드</Link></h1>
             <h2>MY A-PAY</h2>
               <ul>

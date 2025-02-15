@@ -23,7 +23,7 @@ const requestAdminReject = async (Changerequestid: string, Status: string) => {
 
 const AdminRegistAdmin: React.FC = () => {
   const { t } = useTranslation();
-  const [adminList, setAdminList] = useState<requestAdminRegistList | null>(null);
+  const [adminList, setAdminList] = useState<requestAdminRegistList>({ list: [], totalCount: 0 });
   const [filteredData, setFilteredData] = useState<any[]>([]);
   const [currentPageData, setCurrentPageData] = useState<requestAdminRegist[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
@@ -32,12 +32,13 @@ const AdminRegistAdmin: React.FC = () => {
 
   const fetchAdminList = useCallback(async () => {
     try {
-      // const response = await requestAdminListAll_s(pageNo, pageSize, filter, filterValue);
       const response = await requestAdminListAll_s();
-      console.log(response);
-      setAdminList(response);
+      if (response) {
+        setAdminList(response);
+      }
     } catch (error) {
       console.error('Error fetching admin list:', error);
+      setAdminList({ list: [], totalCount: 0 });
     }
   }, []);
 
@@ -59,8 +60,8 @@ const AdminRegistAdmin: React.FC = () => {
   }, [fetchAdminList]);
 
   useEffect(() => {
-    if (adminList) {
-      const filtered = adminList.list.filter(admin => admin.status === '1' || admin.status === '3');
+    if (adminList && adminList.list) {
+      const filtered = adminList.list;
       setFilteredData(filtered);
       setLastPage(filtered.length === 0 ? 1 : Math.ceil(filtered.length / pageSize));
       setCurrentPageData(filtered.slice((pageNo - 1) * pageSize, pageNo * pageSize));
@@ -90,8 +91,12 @@ const AdminRegistAdmin: React.FC = () => {
               <td>{admin.created_time}</td>
               <td>{admin.status_value}</td>
               <td>
-                <button onClick={() => requestAdminApprove(admin.change_request_id, '2')}>승인</button> 
-                <button onClick={() => requestAdminReject(admin.change_request_id, '3')}>반려</button>
+                {admin.status === '1' || admin.status === '3' ? (
+                  <>
+                    <button onClick={() => requestAdminApprove(admin.change_request_id, '2')}>승인</button> 
+                    <button onClick={() => requestAdminReject(admin.change_request_id, '3')}>반려</button>
+                  </>
+                ) : <button disabled>완료</button> }
               </td>
             </tr>
           ))}

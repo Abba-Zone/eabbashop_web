@@ -8,7 +8,6 @@ const KakaoLogin:React.FC = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
-
   const isAdminPage = location.pathname.startsWith('/admin');
   const handleKakaoCallback = async (code: string) => {
     const loginResult = await kakaoLoginWithCode_s(code);
@@ -19,7 +18,7 @@ const KakaoLogin:React.FC = () => {
         window.location.href = previousPage; // 이전 페이지로 이동
       }
       window.dispatchEvent(new Event('user-info-updated'));
-    } else {
+    } else if (loginResult && isAdminPage){
       navigate("/admin");
     }
   };

@@ -1,0 +1,19 @@
+{
+    "List": {
+        "Title": "충전 요청",
+        "Filter01" : "요청자",
+        "Filter02" : "종류",
+        "Filter03" : "금액",
+        "Filter04" : "상태",
+        "Filter05" : "요청일",
+        "Option06" : {
+            "Attribute01" : "보류",
+            "Attribute02" : "완료"
+        },
+        "Button01":"수락",
+        "Button02":"거절",
+        "Button03":"승인 완료",
+        "Button04":"거절 완료",
+        "Button05":"취소됨"
+    }
+}
