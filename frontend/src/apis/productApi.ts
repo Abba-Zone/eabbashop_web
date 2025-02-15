@@ -155,6 +155,14 @@ export const deleteReview = async (productReviewID:string) => {
     }
 }
 
+export const modifyProductReview = (modifyReviewInfo:modifyReview) => {
+    /* real code*/
+    postData<{message:string}>('/product/review/modify', modifyReviewInfo)
+        .then((data:any) => {
+            // return data.result;
+        }
+    );
+}
 
 
 

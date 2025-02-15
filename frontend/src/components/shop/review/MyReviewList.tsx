@@ -4,16 +4,17 @@ import ListCard from './MyReviewListCard';
 
 interface Props{
     reviewList:review[],
-    deleteItem(itemID:string):void
+    deleteItem(itemID:string):void,
+    setReviewList(modifyList:review[]):void,
 }
 
-const MyReviewList:React.FC<Props> = ({reviewList, deleteItem}) => {
+const MyReviewList:React.FC<Props> = ({reviewList, deleteItem, setReviewList}) => {
     const [selectID, setSelectID] = useState<string>(null as unknown as string);
     const params = useParams<{type:string}>();
     const makeBoardList = useMemo(():JSX.Element[] => {
         const result = [];
         for(let i = 0 ; i < reviewList.length; i++){
-          result.push(<ListCard key={i} review={reviewList[i]} selectID={selectID} setSelectID={setSelectID} deleteItem={deleteItem}></ListCard>);
+          result.push(<ListCard key={i} review={reviewList[i]} selectID={selectID} setSelectID={setSelectID} deleteItem={deleteItem} setReviewList={setReviewList} reviewList={reviewList}></ListCard>);
         }
         return result;
     }, [reviewList, selectID]);

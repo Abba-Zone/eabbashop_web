@@ -113,3 +113,8 @@ interface registReview {
     review: string,
     score: number
 }
+interface modifyReview {
+    productReviewID: string,
+    review: string,
+    score: number
+}

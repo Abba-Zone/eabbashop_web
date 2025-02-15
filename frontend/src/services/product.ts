@@ -1,5 +1,5 @@
 import { getMainProductLists, getSearchProductList, getProductList, 
-    getProductDetail, getProductReviewList, registerProduct, modifyProduct, 
+    getProductDetail, getProductReviewList, registerProduct, modifyProduct, modifyProductReview,
     reviewLikes, reviewDislikes, registProductReview, getMyReviewList, deleteReview } from '../apis/productApi'
 
 export const getMainProductLists_s = async (nation:string, viewSite:string): Promise<mainProductList> => {
@@ -48,3 +48,7 @@ export const getMyReviewList_s = async (): Promise<reviewList> => {
 export const deleteReview_s = async (productReviewID:string) => {
     return await deleteReview(productReviewID);
 };
+
+export const modifyProductReview_s = async(reivewInfo:modifyReview) => {
+    return await modifyProductReview(reivewInfo);
+}

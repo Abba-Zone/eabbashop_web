@@ -21,7 +21,7 @@ const MyPageReview:React.FC = () => {
   return (
     <div>
       <h1>상품 리뷰</h1>
-      <MyReviewList reviewList={reviewList} deleteItem={deleteItem}/>
+      <MyReviewList reviewList={reviewList} deleteItem={deleteItem} setReviewList={setReviewList}/>
     </div>
   );
 }
