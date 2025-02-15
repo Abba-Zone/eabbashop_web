@@ -2,6 +2,9 @@ import { useTranslation } from "react-i18next";
 
 interface Props{
   request:pointHistoryInfo;
+  onRowClick: (chargeRefundId: string) => void;
+  onReject: (chargeRefundId: string, status:string) => void;
+  onApprove: (chargeRefundId: string, status:string) => void;
   }
   const statusChange = {
     A: '충전 신청',
@@ -27,28 +30,45 @@ interface Props{
       return false;
     }
   }
-  const AdminChargeListCard:React.FC<Props> = ({request}) => {
-    console.log("here", request);
+  const isAbleApprove = (status: string) => {
+    const chargeTypes = ['A', 'B'];
+    return chargeTypes.includes(status);
+  }
+  const AdminChargeListCard:React.FC<Props> = ({request, onRowClick, onReject, onApprove}) => {
     const { t } = useTranslation();
     const button = (): JSX.Element => {
-      if(request.status === '완료'){
+      if(isAbleApprove(request.status)){
         return(
-          <button>{t("AdminTransfer:List.Button02")}</button>
+          <div>
+            <button onClick={() => onApprove(request.chargeRefundID, request.status)}>{t("AdminChargeRequest:List.Button01")}</button>
+            <button onClick={() => onReject(request.chargeRefundID, request.status)}>{t("AdminChargeRequest:List.Button02")}</button>
+          </div>
         );
       }else{
         return(
-          <button>{t("AdminTransfer:List.Button01")}</button>
+          request.status === 'E' || request.status === 'F' ?
+          <div>
+            <button disabled>{t("AdminChargeRequest:List.Button03")}</button>
+          </div>
+          : request.status === 'G' || request.status === 'H' ?
+          <div>
+            <button disabled>{t("AdminChargeRequest:List.Button04")}</button>
+          </div>
+          :
+          <div>
+            <button disabled>{t("AdminChargeRequest:List.Button05")}</button>
+          </div>
         );
       }
         
     }
     return (
       <tr>
-        <td>선택</td>
-        <td>{renderName(request)}</td>
+        <td><input type="checkbox" name="select"/></td>
+        <td onClick={() => onRowClick(request.chargeRefundID)} style={{ cursor: 'pointer', color: '#2e508d' }}>{renderName(request)}</td>
         <td>{request.type}</td>
         <td>{isCharge(request) ? request.amount : request.point}</td>
-        <td>{statusChange[request.status as keyof typeof statusChange]}</td>
+        <td>{statusChange[request.status as keyof typeof statusChange]}</td>  
         <td>{dateFormat(request.createdDateTime)}</td>
         <td>{button()}</td>
       </tr>

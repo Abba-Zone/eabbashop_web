@@ -1,5 +1,6 @@
 import { requestChargePointRequest, requestRefundPointRequest, getPointHistoryRequestMe,
-    getPointHistoryRequestAdmin ,cancelChargeRefundRequest
+    getPointHistoryRequestAdmin ,cancelChargeRefundRequest, getChargeRequestDetail, 
+    changeChargeRequestStatus
 } from "../apis/point";
 
 export const requestChargePoint_s = async (requestPoint:requestPoint): Promise<requestPoint> => {
@@ -20,7 +21,6 @@ export const getPointHistoryRequestMe_s = async (pageNo: number, pageSize: numbe
     if (sort && sortValue) {
         url += `&sort=${sort}&sortValue=${sortValue}`;
     }
-    console.log("getPointHistoryRequestMe_s url = ", url);
     return await getPointHistoryRequestMe(url);
 };
 
@@ -33,10 +33,17 @@ export const getPointHistoryRequestAdmin_s = async (pageNo:number, pageSize:numb
     if (sort && sortValue) {
         url += `&sort=${sort}&sortValue=${sortValue}`;
     }
-    console.log("getPointHistoryRequestAdmin_s url = ", url);
     return await getPointHistoryRequestAdmin(url);
 };
 
 export const cancelChargeRefund_s = async (chargeRefundID: string): Promise<void> => {
     return await cancelChargeRefundRequest(chargeRefundID);
+};
+
+export const getChargeRequestDetail_s = async (chargeRefundID: string): Promise<pointHistory> => {
+    return await getChargeRequestDetail(chargeRefundID);
+};
+
+export const changeChargeRequestStatus_s = async (chargeRefundID: string, status: string): Promise<void> => {
+    return await changeChargeRequestStatus(chargeRefundID, status);
 };

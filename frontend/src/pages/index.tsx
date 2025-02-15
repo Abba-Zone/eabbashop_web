@@ -84,3 +84,6 @@ export { default as RegistAdmin } from "./regist/RegistAdmin";
 export { default as AdminRegistAdmin } from "./admin/AdminRegistAdmin";
 export { default as AdminWalletMembersList } from "./admin/AdminWalletMembersList";
 export { default as AdminWalletDetail } from "./admin/AdminWalletDetail";
+export { default as AdminChargeRequestDetail } from "./admin/AdminChargeRequestDetail";
+export { default as AdminChangeRequestDetail } from "./admin/AdminChangeRequestDetail";
+export { default as AdminChangeRequest } from "./admin/AdminChangeRequest";

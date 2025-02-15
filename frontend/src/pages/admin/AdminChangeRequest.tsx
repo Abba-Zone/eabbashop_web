@@ -4,7 +4,7 @@ import { getPointHistoryRequestAdmin_s, changeChargeRequestStatus_s } from '../.
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-const AdminChargeRequest: React.FC = () => {
+const AdminChangeRequest: React.FC = () => {
   const { t } = useTranslation('');
   const [requests, setRequests] = useState<pointHistoryInfo[]>([]);
   const [pageNo, setPageNo] = useState<number>(1);
@@ -36,15 +36,12 @@ const AdminChargeRequest: React.FC = () => {
       const filteredList = {
         ...totalAndTransferList,
         list: totalAndTransferList.list.filter(item => 
-          ['A', 'C', 'E', 'G'].includes(item.status)
+          ['B', 'D', 'F', 'H'].includes(item.status)
         )
       };
       
       setRequests(filteredList.list);
-      console.log("filteredList = ", filteredList);
-      setLastPage(filteredList.list.length === 0 ? 1 : Math.floor((filteredList.list.length - 1)/pageSize) + 1);
-      console.log("lastPage = ", lastPage);
-      
+      setLastPage(filteredList.totalCount === 0 ? 1 : Math.floor((filteredList.totalCount - 1)/pageSize) + 1);
     } catch (error) {
       console.error('Error fetching transfer list:', error);
     }
@@ -115,7 +112,7 @@ const AdminChargeRequest: React.FC = () => {
 
   return (
     <div>
-      <h1>{t("AdminChargeRequest:List.Title")}</h1>
+      <h1>환급 요청</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
       <AdminChargeListComponent 
         requests={requests} 
@@ -162,4 +159,4 @@ const AdminChargeRequest: React.FC = () => {
   );
 };
 
-export default AdminChargeRequest;
+export default AdminChangeRequest;

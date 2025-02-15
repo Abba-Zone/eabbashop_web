@@ -65,8 +65,8 @@ import AdminShareMoney_en from './en/AdminShareMoney.json';
 import AdminTransferCancel_ko from './ko/AdminTransferCancel.json';
 import AdminTransferCancel_en from './en/AdminTransferCancel.json';
 
-import AdminTransfer_ko from './ko/AdminTransfer.json';
-import AdminTransfer_en from './en/AdminTransfer.json';
+import AdminChargeRequest_ko from './ko/AdminChargeRequest.json';
+import AdminChargeRequest_en from './en/AdminChargeRequest.json';
 
 import AdminRegularOrder_ko from './ko/AdminRegularOrder.json';
 import AdminRegularOrder_en from './en/AdminRegularOrder.json';
@@ -89,7 +89,7 @@ const resources = {
     AdminShareLine: AdminShareLine_ko,
     AdminShareMoney: AdminShareMoney_ko,
     AdminTransferCancel: AdminTransferCancel_ko,
-    AdminTransfer: AdminTransfer_ko,
+    AdminChargeRequest: AdminChargeRequest_ko,
     AdminRegularOrder: AdminRegularOrder_ko,
     SignUp: SignUp_ko,
     Login: Login_ko
@@ -111,7 +111,7 @@ const resources = {
     AdminShareLine: AdminShareLine_en,
     AdminShareMoney: AdminShareMoney_en,
     AdminTransferCancel: AdminTransferCancel_en,
-    AdminTransfer: AdminTransfer_en,
+    AdminChargeRequest: AdminChargeRequest_en,
     AdminRegularOrder: AdminRegularOrder_en,
     SignUp: SignUp_en,
     Login: Login_en

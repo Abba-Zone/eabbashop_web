@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { requestChargePoint_s, requestRefundPoint_s } from '../../../services/point';
 
 interface PointRequestModalProps {
   isOpen: boolean;
+  isCharge: boolean;
   onClose: () => void;
   onSubmit: (data: any) => Promise<void>;
   type: 'charge' | 'refund' | 'refundUSD';
@@ -10,11 +10,11 @@ interface PointRequestModalProps {
   lineList: lineList;
 }
 
-const MypageRegistModal: React.FC<PointRequestModalProps> = ({ isOpen, onClose, onSubmit, type, accounts, lineList }) => {
+const MypageRegistModal: React.FC<PointRequestModalProps> = ({ isOpen, isCharge, onClose, onSubmit, type, accounts, lineList }) => {
   const [amount, setAmount] = useState<string>('');
   const [pointType, setPointType] = useState<string>('LP');
   const [paymentType, setPaymentType] = useState<string>('card');
-  const [parentID] = useState<string>('');
+  const [parentID, setParentID] = useState<string>('');
   const [accountID, setAccountID] = useState<string>('');
   const [selectedLineID, setSelectedLineID] = useState<string>('');
   const [code] = useState<string>('KRW');
@@ -46,14 +46,15 @@ const MypageRegistModal: React.FC<PointRequestModalProps> = ({ isOpen, onClose, 
     if (value === '' || /^\d*\.?\d*$/.test(value)) {
       setAmount(value);
     }
+    console.log("amount", amount);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const requestData = {
+    const requestDataforCharge = {
       pointType,
-      point: parseFloat(amount) || 0, // parseFloat로 변환하여 소수점 처리
+      amount: parseFloat(amount) || 0,
       ...(type === 'charge' ? { 
         paymentType,
         lineID: selectedLineID 
@@ -64,7 +65,20 @@ const MypageRegistModal: React.FC<PointRequestModalProps> = ({ isOpen, onClose, 
       code: code
     };
 
-    await onSubmit(requestData);
+    const requestDataforRefund = {
+      pointType,
+      point: parseFloat(amount) || 0,
+      accountID: accountID,
+      lineID: selectedLineID,
+      code: code
+    };
+
+    if (isCharge) {
+      await onSubmit(requestDataforCharge);
+    } else {
+      await onSubmit(requestDataforRefund);
+    }
+    
     onClose();
   };
 
@@ -104,6 +118,7 @@ const MypageRegistModal: React.FC<PointRequestModalProps> = ({ isOpen, onClose, 
       }}>
         <h2>{getModalTitle()}</h2>
         <form onSubmit={handleSubmit}>
+          <div style={{display: 'flex', justifyContent: 'space-between'}}>
           <div style={{ marginBottom: '15px' }}>
             <label>포인트 종류</label>
             <select
@@ -119,6 +134,22 @@ const MypageRegistModal: React.FC<PointRequestModalProps> = ({ isOpen, onClose, 
               <option value="AP">AP</option>
               <option value="ABZ">ABZ</option>
             </select>
+          </div>
+          <div style={{ marginBottom: '15px' }}>
+            <label>금액</label>
+            <input
+              type="text"
+              value={amount}
+              onChange={handleAmountChange}
+              style={{
+                width: '100%',
+                padding: '8px',
+                marginTop: '5px'
+              }}
+              placeholder="0.00"
+              required
+              />
+            </div>
           </div>
 
           {type === 'charge' && (
@@ -141,8 +172,8 @@ const MypageRegistModal: React.FC<PointRequestModalProps> = ({ isOpen, onClose, 
               <div style={{ marginBottom: '15px' }}>
                 <label>라인 선택</label>
                 <select
-                  value={selectedLineID}
-                  onChange={(e) => setSelectedLineID(e.target.value)}
+                  value={parentID}
+                  onChange={(e) => setParentID(e.target.value)}
                   style={{
                     width: '100%',
                     padding: '8px',
@@ -200,22 +231,6 @@ const MypageRegistModal: React.FC<PointRequestModalProps> = ({ isOpen, onClose, 
                 </select>
             </div>
           )}
-
-          <div style={{ marginBottom: '15px' }}>
-            <label>금액</label>
-            <input
-              type="text"
-              value={amount}
-              onChange={handleAmountChange}
-              style={{
-                width: '100%',
-                padding: '8px',
-                marginTop: '5px'
-              }}
-              placeholder="0.00"
-              required
-            />
-          </div>
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
             <button type="submit">신청</button>

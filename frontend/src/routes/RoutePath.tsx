@@ -18,8 +18,9 @@ import { Home, Login, Signup, Cart,
   AdminSetting, AdminInquiryList, AdminInquiryDetail, 
   AdminBoardDetail, AdminRefundDetail, GoogleLogin, SocialSignup, KakaoLogin,
   RegistAdmin, FindIDPW, AdminRegistAdmin, Mypage, ChangePW,
-  AdminWalletMembersList,
-  AdminWalletDetail} from '../pages';
+  AdminWalletMembersList, AdminChargeRequestDetail, AdminWalletDetail,
+  AdminChangeRequest, AdminChangeRequestDetail
+} from '../pages';
 
 const RoutePath:React.FC = () => {
   const location = useLocation();
@@ -69,6 +70,9 @@ const RoutePath:React.FC = () => {
 
         {/* Request Management */}
         <Route path="/admin/charge-point" element={<AdminChargeRequest />} />
+        <Route path="/admin/charge-request/detail" element={<AdminChargeRequestDetail />} />
+        <Route path="/admin/change-point" element={<AdminChangeRequest />} />
+        <Route path="/admin/change-request/detail" element={<AdminChangeRequestDetail />} />
         <Route path="/admin/refund-point" element={<AdminPaymentRequest />} />
         <Route path="/admin/cancle-transfer" element={<AdminTransferCancel />} />
         <Route path="/admin/change-referral" element={<AdminTakebackRequest />} />

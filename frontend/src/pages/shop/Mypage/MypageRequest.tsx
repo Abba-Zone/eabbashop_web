@@ -211,6 +211,7 @@ const MypageRequest:React.FC = () => {
         type={modalType}
         accounts={accounts}
         lineList={lineList}
+        isCharge={modalType === 'charge'}
       />
     </div>
   );
