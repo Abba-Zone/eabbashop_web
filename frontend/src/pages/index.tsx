@@ -53,6 +53,8 @@ export { default as AdminWalletHistory } from "./admin/AdminWalletHistory";
 export { default as AdminProductList } from "./admin/AdminProductList";
 export { default as AdminProductDetail } from "./admin/AdminProductDetail";
 export { default as AdminProductReview } from "./admin/AdminProductReview";
+export { default as AdminReviewList } from "./admin/AdminReviewList";
+export { default as AdminReviewDetail } from "./admin/AdminReviewDetail";
 export { default as AdminRegisterProduct } from "./admin/AdminRegisterProduct";
 export { default as AdminCatalogue } from "./admin/AdminCatalogue";
 export { default as AdminOrderList } from "./admin/AdminOrderList";
