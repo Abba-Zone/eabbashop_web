@@ -52,6 +52,13 @@ const RegistReviewModal:React.FC<Props> = ({orderDetail, clickModal}) => {
             setScore(newScore);
         }
     }
+    const registCancel = () => {
+        setImages([]);
+        setVideos([]);
+        setContent("");
+        setScore(5);
+        clickModal();
+    }
     return (
         <div style={{
             "margin": "20%",
@@ -63,7 +70,7 @@ const RegistReviewModal:React.FC<Props> = ({orderDetail, clickModal}) => {
         <>상품정보</>
         <ScoreViwer scores={score} clickScore={clickScore}></ScoreViwer> 
         <Editor inputImageFile={inputImageFile} inputVideoFile={inputVideoFile} content={content} setContent={setContent}></Editor>
-        <button onClick={clickModal}>취소</button>
+        <button onClick={registCancel}>취소</button>
         <button onClick={registReview}>작성</button>
       </div>
     );

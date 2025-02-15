@@ -1,4 +1,4 @@
-import { getData, postData } from './mainApi'
+import { getData, postData, deleteData } from './mainApi'
 
 export const getMainProductLists = async (nation:string, viewSite:string):Promise<mainProductList> => {
     /* real code*/
@@ -86,7 +86,7 @@ export const getProductReviewList = async (pageNo:number, pageSize:number, sort:
     /* real code*/
     try {
         const response = await getData<reviewList>(
-            `/product/review/${productID}`
+            `/product/review/list/${productID}`
         );
         console.log(response.data);
         return response.data;
@@ -96,13 +96,24 @@ export const getProductReviewList = async (pageNo:number, pageSize:number, sort:
     }
 }
 
-export const  reviewLikes = (productReviewID:string, type:number) : {like:number, dislike:number} =>{
+export const  reviewLikes = (productReviewID:string) : {like:number, dislike:number} =>{
     /* real code*/
-    // postData<{like:number, dislike:number}>('/review/like?', {productReviewID:productReviewID, type:type})
-    //     .then((data) => {
-    //         return data;
-    //     }
-    // );
+    postData<{like:number, dislike:string}>('/product/review/like/' + productReviewID)
+        .then((data) => {
+            return data;
+        }
+    );
+    /* make for test*/
+    return{"like" : 123123123,"dislike" : 21312};
+}
+
+export const  reviewDislikes = (productReviewID:string) : {like:number, dislike:number} =>{
+    /* real code*/
+    postData<{like:number, dislike:string}>('/product/review/dislike/' + productReviewID)
+        .then((data) => {
+            return data;
+        }
+    );
     /* make for test*/
     return{"like" : 123123123,"dislike" : 21312};
 }
@@ -116,6 +127,42 @@ export const registProductReview = (registReviewInfo:registReview) => {
     );
 }
 
+export const getMyReviewList = async ():Promise<reviewList> => {
+    /* real code*/
+    try {
+        const response = await getData<reviewList>(
+            `/product/review/list/my`
+        );
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching product review list:', error);
+        throw error;
+    }
+}
+
+export const deleteReview = async (productReviewID:string) => {
+    /* real code*/
+    try {
+        const response = await deleteData<{message:string}>(
+            `/product/review/delete/${productReviewID}`
+        );
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching product review list:', error);
+        throw error;
+    }
+}
+
+export const modifyProductReview = (modifyReviewInfo:modifyReview) => {
+    /* real code*/
+    postData<{message:string}>('/product/review/modify', modifyReviewInfo)
+        .then((data:any) => {
+            // return data.result;
+        }
+    );
+}
 
 
 const buildQueryParams = (params: searchParams): string => {
