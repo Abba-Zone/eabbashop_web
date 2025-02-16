@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface PointRequestModalProps {
   isOpen: boolean;
@@ -95,6 +95,27 @@ const MypageRegistModal: React.FC<PointRequestModalProps> = ({ isOpen, isCharge,
     }
   };
 
+  const handleClose = () => {
+    setAmount('');
+    setPointType('LP');
+    setPaymentType('card');
+    setParentID('');
+    setAccountID('');
+    setSelectedLineID('');
+    onClose();
+  };
+
+  useEffect(() => {
+    if (!isOpen) {
+      setAmount('');
+      setPointType('LP');
+      setPaymentType('card');
+      setParentID('');
+      setAccountID('');
+      setSelectedLineID('');
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
@@ -131,7 +152,7 @@ const MypageRegistModal: React.FC<PointRequestModalProps> = ({ isOpen, isCharge,
               }}
             >
               <option value="LP">AW</option>
-              <option value="AP">AP</option>
+              {/* <option value="AP">AP</option> */}
               <option value="ABZ">ABZ</option>
             </select>
           </div>
@@ -234,7 +255,7 @@ const MypageRegistModal: React.FC<PointRequestModalProps> = ({ isOpen, isCharge,
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
             <button type="submit">신청</button>
-            <button type="button" onClick={onClose}>취소</button>
+            <button type="button" onClick={handleClose}>취소</button>
           </div>
         </form>
       </div>

@@ -55,6 +55,8 @@ const MypageRequest:React.FC = () => {
         ''
       );
       setRequests(response);
+    console.log(response);
+
       setLastPage(response.totalCount === 0 ? 1 : Math.floor((response.totalCount - 1)/pageSize) + 1);
     } finally {
       setIsLoading(false);

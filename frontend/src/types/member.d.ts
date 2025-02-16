@@ -76,6 +76,7 @@ interface memberDetailInfo{
 	wallet : wallet,
 	addresses : addressAllInfo[],
 	seller : seller,
+	pinNumber : string,
 }
 
 interface updateInfo{
@@ -137,6 +138,7 @@ interface userInfo {
 	lastName : string,
 	phone : string,
 	email : string,
+	pinNumber : string,
 }
 
 interface lineList {

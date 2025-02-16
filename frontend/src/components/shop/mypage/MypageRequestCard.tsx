@@ -21,11 +21,12 @@ const renderName = (firstName: string, lastName: string, email: string) => {
 }
 
 const typeChanger = (type: string) => {
-  console.log("typeChanger type = ", type);
   if(type === 'LP')
     return 'AW';
-  else if(type === 'SP')
+  else if(type === 'AP')
     return 'AP';
+  else if(type === 'ABZ')
+    return 'ABZ';
   return '';
 }
 

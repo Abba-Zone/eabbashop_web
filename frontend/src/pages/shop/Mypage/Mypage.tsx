@@ -186,7 +186,6 @@ const Mypage: React.FC = () => {
             <Route path="request" element={<MypageRequest />} />
             <Route path="transactiondetail/:id" element={<MyPageTransactionDetail />} />
             <Route path="wishlist" element={<MyPageWishList />} />
-            
           </Routes>
         </div>
       </div>

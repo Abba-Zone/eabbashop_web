@@ -21,6 +21,7 @@ export const getWalletList = async(pageNo:number, pageSize:number, startDate:str
         const response = await getData<historyList>(
             `/wallet/list?pageNo=${pageNo}&pageSize=${pageSize}&startDate=${startDate}&endDate=${endDate}`
         );
+        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error('Error fetching wallet list:', error);
@@ -64,6 +65,21 @@ export const getAdminHistoryDetail = async(historyID:string):Promise<historyDeta
         return response.data;
     } catch (error) {
         console.error('Error fetching admin history detail:', error);
+        throw error;
+    }
+}
+
+export const requestCancel = async(transferID:string):Promise<historyDetailReciever> => {
+    try {
+        const response = await postData<historyDetailReciever>(
+            `/wallet/cancel`,
+            {
+                transferID: transferID
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching request cancel:', error);
         throw error;
     }
 }

@@ -23,18 +23,11 @@ interface Props{
   const renderName = (request:pointHistoryInfo):string => {
     return request.member.lastName + request.member.firstName;
   }
-  const isCharge = (request:pointHistoryInfo):boolean => {
-    if(request.status === 'A'){
-      return true;
-    }else{
-      return false;
-    }
-  }
   const isAbleApprove = (status: string) => {
     const chargeTypes = ['A', 'B'];
     return chargeTypes.includes(status);
   }
-  const AdminChargeListCard:React.FC<Props> = ({request, onRowClick, onReject, onApprove}) => {
+  const AdminChangeListCard:React.FC<Props> = ({request, onRowClick, onReject, onApprove}) => {
     const { t } = useTranslation();
     const button = (): JSX.Element => {
       if(isAbleApprove(request.status)){
@@ -67,7 +60,7 @@ interface Props{
         <td><input type="checkbox" name="select"/></td>
         <td onClick={() => onRowClick(request.chargeRefundID)} style={{ cursor: 'pointer', color: '#2e508d' }}>{renderName(request)}</td>
         <td>{request.type}</td>
-        <td>{request.amount}</td>
+        <td>{request.point}</td>
         <td>{statusChange[request.status as keyof typeof statusChange]}</td>  
         <td>{dateFormat(request.createdDateTime)}</td>
         <td>{button()}</td>
@@ -75,5 +68,5 @@ interface Props{
     );
 }
     
-export default AdminChargeListCard;
+export default AdminChangeListCard;
     

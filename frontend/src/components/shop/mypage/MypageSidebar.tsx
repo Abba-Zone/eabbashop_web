@@ -18,9 +18,7 @@ const MypageSidebar: React.FC = () => {
             <h2>MY A-PAY</h2>
               <ul>
                 <li><Link to="/mypage/request">요청하기(출금,환급,충전)</Link></li>
-                <li><Link to="/mypage/transactions">입출금내역</Link></li>
-                <li><Link to="/mypage/recharge">환전하기(to $)</Link></li>
-                <li><Link to="/mypage/withdraw">이체하기</Link></li>
+                <li><Link to="/mypage/transactions">내 지갑</Link></li>
                 <li><Link to="/mypage/auto-withdraw">자동이체</Link></li>
                 <li><Link to="/mypage/account">내 계좌</Link></li>
               </ul>

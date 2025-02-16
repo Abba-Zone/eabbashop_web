@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { BottomButton, SearchSet, AdminChargeListComponent } from '../../components';
+import { BottomButton, SearchSet, AdminChangeListComponent } from '../../components';
 import { getPointHistoryRequestAdmin_s, changeChargeRequestStatus_s } from '../../services/point';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -103,7 +103,7 @@ const AdminChangeRequest: React.FC = () => {
   };
 
   const handleRowClick = (chargeRefundId: string) => {
-    navigate(`/admin/charge-request/detail?chargeRefundId=${chargeRefundId}`);
+    navigate(`/admin/change-request/detail?chargeRefundId=${chargeRefundId}`);
   }
 
   useEffect(() => {
@@ -114,7 +114,7 @@ const AdminChangeRequest: React.FC = () => {
     <div>
       <h1>환급 요청</h1>
       <SearchSet selectList={selectList} searchClick={changeFilter}></SearchSet>
-      <AdminChargeListComponent 
+      <AdminChangeListComponent 
         requests={requests} 
         changeSort={changeSort}
         onRowClick={handleRowClick}

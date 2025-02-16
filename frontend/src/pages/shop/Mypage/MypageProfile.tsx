@@ -16,8 +16,11 @@ const MypageProfile:React.FC = () => {
   const [inputLastName, setInputLastName] = useState<string>('');
   const [inputPhone, setInputPhone] = useState<string>('');
   const [inputPassword, setInputPassword] = useState<string>('');
+  const [inputPin, setInputPin] = useState<string>('');
+  const [isChangePin, setIsChangePin] = useState<boolean>(false);
   const navigate = useNavigate();
   const Cookies = require('js-cookie');
+
   const handleAuthCodeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputAuthCode(event.target.value);
   }
@@ -40,16 +43,13 @@ const MypageProfile:React.FC = () => {
     setInputPhone(event.target.value);
   }
 
-  const handleInputPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputPassword(event.target.value);
-  }
-
   const changeFirstName = async () => {
     const updateUserInfo = {
       firstName : inputFirstName,
       lastName : memberDetail?.memberInfo.lastName || '',
       phone : memberDetail?.memberInfo.phone || '',
       email : memberDetail?.memberInfo.email || '',
+      pinNumber : memberDetail?.pinNumber || '',
     }
     const response = await updateUserData_s(updateUserInfo);
     if (response) {
@@ -66,6 +66,7 @@ const MypageProfile:React.FC = () => {
       lastName : inputLastName,
       phone : memberDetail?.memberInfo.phone || '',
       email : memberDetail?.memberInfo.email || '',
+      pinNumber : memberDetail?.pinNumber || '',
     }
     const response = await updateUserData_s(updateUserInfo);
     if (response) {
@@ -82,6 +83,7 @@ const MypageProfile:React.FC = () => {
       lastName : memberDetail?.memberInfo.lastName || '',
       phone : inputPhone,
       email : memberDetail?.memberInfo.email || '',
+      pinNumber : memberDetail?.pinNumber || '',
     }
     const response = await updateUserData_s(updateUserInfo);
     if (response) {
@@ -100,6 +102,10 @@ const MypageProfile:React.FC = () => {
     } else {
       alert('비밀번호 변경 이메일 발송 실패');
     }
+  }
+
+  const handleInputPin = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputPin(event.target.value);
   }
 
   useEffect(() => {
@@ -145,8 +151,24 @@ const MypageProfile:React.FC = () => {
     }
   }
 
+  const changePin = async () => {
+    const updateUserInfo = {
+      firstName : memberDetail?.memberInfo.firstName || '',
+      lastName : memberDetail?.memberInfo.lastName || '',
+      phone : memberDetail?.memberInfo.phone || '',
+      email : memberDetail?.memberInfo.email || '',
+      pinNumber : inputPin,
+    }
+    const response = await updateUserData_s(updateUserInfo);
+    if (response) {
+      alert('PIN 변경 완료');
+    }
+    setIsChangePin(false);
+    const updatedMemberDetail = await getMemberDetailMe_s();
+    setMemberDetail(updatedMemberDetail);
+  }
   return (
-    isOneSelf ?
+    !isOneSelf ?
     <div className="mypage-container">
       <header className="mypage-header">
         <h1>회원정보 수정</h1>
@@ -171,7 +193,7 @@ const MypageProfile:React.FC = () => {
             }
             <label>이름</label>
             {!isChangeLastName ? 
-              <div className="mypageprofile-form-control">{memberDetail?.memberInfo.lastName} <div className="mypageprofile-form-control-button" onClick={() => {setIsChangeLastName(true); setIsChangeFirstName(false); setIsChangePhone(false);}}>이름 변경</div></div>
+              <div className="mypageprofile-form-control">{memberDetail?.memberInfo.lastName} <div className="mypageprofile-form-control-button" onClick={() => {setIsChangeLastName(true); setIsChangeFirstName(false); setIsChangePhone(false); setIsChangePin(false);}}>이름 변경</div></div>
               : 
               <div className="mypageprofile-form-control">
                 <input type="text" placeholder={memberDetail?.memberInfo.lastName} onChange={handleInputLastName}/>
@@ -182,11 +204,22 @@ const MypageProfile:React.FC = () => {
           <div className="mypageprofile-form-group">
             <label>휴대폰 번호</label>
             {!isChangePhone ? 
-              <div className="mypageprofile-form-control">{memberDetail?.memberInfo.phone} <div className="mypageprofile-form-control-button" onClick={() => {setIsChangePhone(true); setIsChangeFirstName(false); setIsChangeLastName(false);}}>휴대폰 번호 변경</div></div>
+              <div className="mypageprofile-form-control">{memberDetail?.memberInfo.phone} <div className="mypageprofile-form-control-button" onClick={() => {setIsChangePhone(true); setIsChangeFirstName(false); setIsChangeLastName(false); setIsChangePin(false);}}>휴대폰 번호 변경</div></div>
               : 
               <div className="mypageprofile-form-control">
                 <input type="text" placeholder={memberDetail?.memberInfo.phone} onChange={handleInputPhone}/>
                 <div className="mypageprofile-form-control-button" onClick={changePhone}>확인</div>
+              </div>
+            }
+          </div>
+          <div className="mypageprofile-form-group">
+            <label>PIN</label>
+            {!isChangePin ? 
+              <div className="mypageprofile-form-control">{memberDetail?.pinNumber} <div className="mypageprofile-form-control-button" onClick={() => {setIsChangePin(true); setIsChangeFirstName(false); setIsChangeLastName(false); setIsChangePhone(false);}}>PIN 변경</div></div>
+              : 
+              <div className="mypageprofile-form-control">
+                <input type="text" placeholder={memberDetail?.pinNumber} onChange={handleInputPin}/>
+                <div className="mypageprofile-form-control-button" onClick={changePin}>확인</div>
               </div>
             }
           </div>

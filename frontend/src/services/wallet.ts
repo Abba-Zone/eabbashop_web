@@ -1,4 +1,4 @@
-import { getWalletAdminList, getAdminHistoryDetail, getHistoryDetail, getWalletList } from '../apis/wallet'
+import { getWalletAdminList, getAdminHistoryDetail, getHistoryDetail, getWalletList, requestCancel } from '../apis/wallet'
 
 export const getHistoryList_s = async (pageNo:number, pageSize:number, startDate:string, endDate:string, memberID:string):Promise<historyAdminList> => {
     return await getWalletAdminList(pageNo, pageSize, startDate, endDate, memberID);
@@ -14,4 +14,8 @@ export const getHistoryDetail_s = async (historyID:string):Promise<historyDetail
 
 export const getAdminHistoryDetail_s = async (historyID:string):Promise<historyDetailReciever> => {
     return await getAdminHistoryDetail(historyID);
+}
+
+export const requestCancel_s = async (transferID:string):Promise<historyDetailReciever> => {
+    return await requestCancel(transferID);
 }

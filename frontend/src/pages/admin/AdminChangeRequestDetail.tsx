@@ -7,6 +7,8 @@ const AdminChangeRequestDetail: React.FC = () => {
   const chargeRefundId = searchParams.get('chargeRefundId');
   const [chargeRequestDetail, setChargeRequestDetail] = useState<any>();
 
+  console.log("chargeRefundId = ", chargeRequestDetail);
+
   const statusChange = {
     A: '충전 신청',
     B: '환급 신청',
@@ -55,7 +57,7 @@ const AdminChangeRequestDetail: React.FC = () => {
       <div>신청 ID: {chargeRefundId}</div>
       <div>신청자: {renderName(chargeRequestDetail?.sender.firstName, chargeRequestDetail?.sender.lastName, chargeRequestDetail?.sender.email)}</div>
       <div>신청 포인트 종류: {chargeRequestDetail?.type}</div>
-      <div>신청 포인트 금액: {`${chargeRequestDetail?.point}`}</div>
+      <div>신청 포인트 금액: {chargeRequestDetail?.point}</div>
       <div>신청 포인트 상태: {statusChange[chargeRequestDetail?.status as keyof typeof statusChange]}</div>
       <div>신청 포인트 생성일: {formatDate()}</div>
     </div>

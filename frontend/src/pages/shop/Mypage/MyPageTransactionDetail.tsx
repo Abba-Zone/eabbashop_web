@@ -1,11 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getHistoryDetail_s } from "../../../services/wallet";
+import { getHistoryDetail_s , requestCancel_s } from "../../../services/wallet";
 import { HistoryDetailCharge, HistoryDetailOrder, HistoryDetailPoint, HistoryDetailTransfer } from "../../../components";
 
 const MyPageTransactionDetail:React.FC = () => {
   const [historyInfo, setHistory] = useState<historyDetail | undefined>(undefined);
   const params = useParams<{id:string}>();
+  const requestCancel = useCallback (async () => {
+    const reponse = await requestCancel_s(historyInfo?.TransferID || "");
+    console.log(reponse);
+  }, [historyInfo]);
+
   const getHistoryDetail = useCallback (async () => {
       try {
         if (params.id !== undefined){
@@ -27,6 +32,7 @@ const MyPageTransactionDetail:React.FC = () => {
   return (
     <div>
       <h1>내역 상세</h1>
+      {historyInfo.TransferID && <button onClick={requestCancel}>취소하기</button>}
       <HistoryDetailPoint history={historyInfo}></HistoryDetailPoint>
       <h3>내역 정보 보기</h3>
       {historyInfo.OrderDetailID && <HistoryDetailOrder history={historyInfo}></HistoryDetailOrder>}
